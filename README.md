@@ -21,6 +21,11 @@ cd lifelike
 
 make up
 ```
+Shell into appserver and run:
+```shell
+./bin/dev-db-setup
+flask seed
+```
 
 This will take a few minutes to complete, after which you can start using Lifelike by pointing your browser to [http://localhost:8080](http://localhost:8080).
 

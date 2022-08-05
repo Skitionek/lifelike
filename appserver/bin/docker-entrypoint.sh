@@ -11,7 +11,7 @@ if [ "$1" ]; then
 else
   if [ "$MIGRATE_DB" ]; then
     ## If $MIGRATE_DB is set, wait for PostgreSQL and run any required migrations.
-    while ! curl $POSTGRES_HOST:$POSTGRES_PORT 2>&1 | grep '52'; do
+    while [ -z curl $POSTGRES_HOST:$POSTGRES_PORT 2>&1 | grep '52']; do
       echo "Waiting for PostgreSQL to be available in $POSTGRES_HOST:$POSTGRES_PORT"
       sleep 5;
     done
