@@ -1,6 +1,19 @@
 # ![Lifelike](https://sbrg.github.io/lifelike-website/favicon.ico) Lifelike - afterhours
 Many times, I catch mayself thinking "I would do this that way...", "Wonder if I could do that better".
 Made this fork to experiment in my free time.
+
+My overambitious roadmap:
++ [ ] Zero-configuration to start developing
++ [ ] Provide alternative tab/panel implementation
++ [ ] Correct sqlachemy models
++ [ ] Reactive file indexing and annotating
++ [ ] Unified tooltips
++ [ ] Angular PDF.js integration
++ [ ] Drop jQuery dependency
++ [ ] Observable files (pararrel edits)
++ [ ] Add automated tests
++ [ ] Automated itegration/deployment
+
 -----------
 
 <img src="https://sbrg.github.io/lifelike-website/images/cfb_logo.png" alt="CFB" border="0" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
