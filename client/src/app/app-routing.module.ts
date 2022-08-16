@@ -23,23 +23,30 @@ import { BrowserComponent } from 'app/file-browser/components/browser/browser.co
 import { ContentSearchComponent } from 'app/search/components/content-search.component';
 import { ObjectNavigatorComponent } from 'app/file-navigator/components/object-navigator.component';
 import { ShortestPathComponent } from 'app/shortest-path/containers/shortest-path.component';
-import {EnrichmentTableViewerComponent} from 'app/enrichment/components/table/enrichment-table-viewer.component';
-import {EnrichmentVisualisationViewerComponent} from 'app/enrichment/components/visualisation/enrichment-visualisation-viewer.component';
+import { EnrichmentTableViewerComponent } from 'app/enrichment/components/table/enrichment-table-viewer.component';
+import {
+  EnrichmentVisualisationViewerComponent
+} from 'app/enrichment/components/visualisation/enrichment-visualisation-viewer.component';
 import { BiocViewComponent } from 'app/bioc-viewer/components/bioc-view.component';
 import { ObjectViewerComponent } from 'app/file-browser/components/object-viewer.component';
 import { SankeyViewComponent } from 'app/sankey-viewer/components/sankey-view.component';
 import { TraceViewComponent } from 'app/trace-viewer/components/trace-view.component';
 import { SankeyManyToManyViewComponent } from 'app/sankey-many-to-many-viewer/components/sankey-view.component';
+import { FileSystemComponent } from 'app/file-system/file-system.component';
 
 // TODO: Add an unprotected home page
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
+    redirectTo: 'login'
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginGuard],
     data: {
-      title: 'Dashboard',
-      fontAwesomeIcon: 'home',
+      title: 'Login',
+      fontAwesomeIcon: 'sign-in-alt',
     },
   },
   {
@@ -49,15 +56,6 @@ const routes: Routes = [
     data: {
       title: 'Dashboard',
       fontAwesomeIcon: 'home',
-    },
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [LoginGuard],
-    data: {
-      title: 'Login',
-      fontAwesomeIcon: 'sign-in-alt',
     },
   },
   {
@@ -109,49 +107,166 @@ const routes: Routes = [
     component: ShortestPathComponent,
   },
   {
-    path: 'projects/:project_name/enrichment-table/:file_id',
+    path: 'file-system/:hash_id',
     canActivate: [AuthGuard],
-    component: EnrichmentTableViewerComponent,
-    data: {
-      title: 'Enrichment Table',
-      fontAwesomeIcon: 'table',
-    },
-  },
-  {
-    path: 'projects/:project_name/enrichment-visualisation/:file_id',
-    canActivate: [AuthGuard],
-    component: EnrichmentVisualisationViewerComponent,
-    data: {
-      title: 'Statistical Enrichment',
-      fontAwesomeIcon: 'chart-bar',
-    },
-  },
-  {
-    path: 'projects/:project_name/sankey/:file_id',
-    canActivate: [AuthGuard],
-    component: SankeyViewComponent,
-    data: {
-      title: 'Sankey',
-      fontAwesomeIcon: 'fak fa-diagram-sankey-solid',
-    },
-  },
-  {
-    path: 'projects/:project_name/sankey-many-to-many/:file_id',
-    canActivate: [AuthGuard],
-    component: SankeyManyToManyViewComponent,
-    data: {
-      title: 'Sankey',
-      fontAwesomeIcon: 'fak fa-diagram-sankey-solid',
-    },
-  },
-  {
-    path: 'projects/:project_name/trace/:file_id/:trace_hash',
-    canActivate: [AuthGuard],
-    component: TraceViewComponent,
-    data: {
-      title: 'Trace details',
-      fontAwesomeIcon: 'fak fa-diagram-sankey-solid',
-    },
+    component: FileSystemComponent,
+    children: [
+      {
+        path: 'files/:file_id/enrichment-table',
+        canActivate: [AuthGuard],
+        component: EnrichmentTableViewerComponent,
+        data: {
+          title: 'Enrichment Table',
+          fontAwesomeIcon: 'table',
+        },
+      },
+      {
+        path: 'projects/:project_name/enrichment-visualisation/:file_id',
+        canActivate: [AuthGuard],
+        component: EnrichmentVisualisationViewerComponent,
+        data: {
+          title: 'Statistical Enrichment',
+          fontAwesomeIcon: 'chart-bar',
+        },
+      },
+      {
+        path: 'projects/:project_name/sankey/:file_id',
+        canActivate: [AuthGuard],
+        component: SankeyViewComponent,
+        data: {
+          title: 'Sankey',
+          fontAwesomeIcon: 'fak fa-diagram-sankey-solid',
+        },
+      },
+      {
+        path: 'projects/:project_name/sankey-many-to-many/:file_id',
+        canActivate: [AuthGuard],
+        component: SankeyManyToManyViewComponent,
+        data: {
+          title: 'Sankey',
+          fontAwesomeIcon: 'fak fa-diagram-sankey-solid',
+        },
+      },
+      {
+        path: 'projects/:project_name/trace/:file_id/:trace_hash',
+        canActivate: [AuthGuard],
+        component: TraceViewComponent,
+        data: {
+          title: 'Trace details',
+          fontAwesomeIcon: 'fak fa-diagram-sankey-solid',
+        },
+      },
+      {
+        path: 'projects/:project_name/files/:file_id',
+        component: FileViewComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'PDF Viewer',
+          fontAwesomeIcon: 'file-pdf',
+        },
+      },
+      {
+        path: 'projects/:project_name/bioc/:file_id',
+        component: BiocViewComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'BioC Viewer',
+          fontAwesomeIcon: 'file-alt',
+        },
+      },
+      {
+        path: 'projects/:project_name/maps/:hash_id',
+        canActivate: [AuthGuard],
+        component: MapViewComponent,
+        data: {
+          title: 'Map',
+          fontAwesomeIcon: 'project-diagram',
+        },
+      },
+      {
+        path: 'projects/:project_name/maps/:hash_id/edit',
+        component: MapEditorComponent,
+        canActivate: [AuthGuard],
+        canDeactivate: [UnloadConfirmationGuard],
+        data: {
+          title: 'Map Editor',
+          fontAwesomeIcon: 'project-diagram',
+        },
+      },
+      {
+        path: 'file-navigator/:project_name/:file_id',
+        component: ObjectNavigatorComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'File Navigator',
+          fontAwesomeIcon: 'fas fa-compass',
+        },
+      },
+      {
+        path: 'enrichment-visualisation/:project_name/:file_id',
+        component: EnrichmentVisualisationViewerComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Enrichment Visualisation',
+          fontAwesomeIcon: 'fas chart-bar',
+        },
+      },
+      {
+        path: 'projects/:project_name',
+        component: ObjectBrowserComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Projects',
+          fontAwesomeIcon: 'layer-group',
+        },
+      },
+      {
+        path: 'projects/:project_name/folders',
+        redirectTo: 'projects/:project_name',
+        pathMatch: 'full',
+      },
+      {
+        path: 'projects/:project_name/folders/:dir_id',
+        redirectTo: 'folders/:dir_id',
+        pathMatch: 'full',
+      },
+      {
+        path: 'folders/:dir_id',
+        component: ObjectBrowserComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Projects',
+          fontAwesomeIcon: 'layer-group',
+        },
+      },
+      {
+        path: 'files/:hash_id',
+        component: ObjectViewerComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'File',
+          fontAwesomeIcon: 'file',
+        },
+      },
+      {
+        path: 'projects',
+        component: BrowserComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'File Browser',
+          fontAwesomeIcon: 'layer-group',
+        },
+      },
+      {
+        path: 'community',
+        component: CommunityBrowserComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Community Content',
+          fontAwesomeIcon: 'globe',
+        },
+      },
+    ]
   },
   {
     path: 'kg-visualizer',
@@ -184,98 +299,6 @@ const routes: Routes = [
     canDeactivate: [UnloadConfirmationGuard],
   },
   {
-    path: 'community',
-    component: CommunityBrowserComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Community Content',
-      fontAwesomeIcon: 'globe',
-    },
-  },
-  {
-    path: 'projects',
-    component: BrowserComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'File Browser',
-      fontAwesomeIcon: 'layer-group',
-    },
-  },
-  {
-    path: 'projects/:project_name',
-    component: ObjectBrowserComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Projects',
-      fontAwesomeIcon: 'layer-group',
-    },
-  },
-  {
-    path: 'projects/:project_name/folders',
-    redirectTo: 'projects/:project_name',
-    pathMatch: 'full',
-  },
-  {
-    path: 'projects/:project_name/folders/:dir_id',
-    redirectTo: 'folders/:dir_id',
-    pathMatch: 'full',
-  },
-  {
-    path: 'folders/:dir_id',
-    component: ObjectBrowserComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Projects',
-      fontAwesomeIcon: 'layer-group',
-    },
-  },
-  {
-    path: 'files/:hash_id',
-    component: ObjectViewerComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'File',
-      fontAwesomeIcon: 'file',
-    },
-  },
-  {
-    path: 'projects/:project_name/files/:file_id',
-    component: FileViewComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'PDF Viewer',
-      fontAwesomeIcon: 'file-pdf',
-    },
-  },
-  {
-    path: 'projects/:project_name/bioc/:file_id',
-    component: BiocViewComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'BioC Viewer',
-      fontAwesomeIcon: 'file-alt',
-    },
-  },
-  {
-    path: 'projects/:project_name/maps/:hash_id',
-    canActivate: [AuthGuard],
-    component: MapViewComponent,
-    data: {
-      title: 'Map',
-      fontAwesomeIcon: 'project-diagram',
-    },
-  },
-  {
-    path: 'projects/:project_name/maps/:hash_id/edit',
-    component: MapEditorComponent,
-    canActivate: [AuthGuard],
-    canDeactivate: [UnloadConfirmationGuard],
-    data: {
-      title: 'Map Editor',
-      fontAwesomeIcon: 'project-diagram',
-    },
-  },
-  {
     path: 'kg-statistics',
     component: KgStatisticsComponent,
     canActivate: [AuthGuard],
@@ -283,33 +306,6 @@ const routes: Routes = [
       fontAwesomeIcon: 'fas fa-chart-bar',
     },
   },
-  {
-    path: 'file-navigator/:project_name/:file_id',
-    component: ObjectNavigatorComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'File Navigator',
-      fontAwesomeIcon: 'fas fa-compass',
-    },
-  },
-  {
-    path: 'enrichment-visualisation/:project_name/:file_id',
-    component: EnrichmentVisualisationViewerComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Enrichment Visualisation',
-      fontAwesomeIcon: 'fas chart-bar',
-    },
-  },
-  // Old links
-  {path: 'file-browser', redirectTo: 'projects', pathMatch: 'full'},
-  {path: 'pdf-viewer/:file_id', redirectTo: 'projects/beta-project/files/:file_id', pathMatch: 'full'},
-  {path: 'dt/map', redirectTo: 'projects', pathMatch: 'full'},
-  {path: 'dt/map/:hash_id', redirectTo: 'projects/beta-project/maps/maps/:hash_id', pathMatch: 'full'},
-  {path: 'dt/map/edit/:hash_id', redirectTo: 'projects/beta-project/maps/:hash_id/edit', pathMatch: 'full'},
-  {path: 'neo4j-upload', redirectTo: 'kg-visualizer/upload', pathMatch: 'full'},
-  {path: 'neo4j-visualizer', redirectTo: 'kg-visualizer', pathMatch: 'full'},
-  {path: 'search', redirectTo: 'search/graph', pathMatch: 'full'},
 ];
 
 @NgModule({

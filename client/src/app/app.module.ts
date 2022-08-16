@@ -34,6 +34,7 @@ import { SankeyViewerLibModule } from 'app/sankey-viewer/sankey-viewer-lib.modul
 import { TraceViewerLibModule } from 'app/trace-viewer/trace-viewer-lib.module';
 import { SankeyManyToManyViewerLibModule } from 'app/sankey-many-to-many-viewer/sankey-viewer-lib.module';
 import { FileTypesModule } from 'app/file-types/file-types.module';
+import { FileSystemComponent } from './file-system/file-system/file-system.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     AppVersionDialogComponent,
     DashboardComponent,
     KgStatisticsComponent,
+    FileSystemComponent,
   ],
   entryComponents: [
     AppVersionDialogComponent,
