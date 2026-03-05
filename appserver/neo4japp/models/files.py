@@ -201,6 +201,8 @@ class Files(RDBMSBase, FullTimestampMixin, RecyclableMixin, HashIdMixin):  # typ
     custom_annotations = db.Column(postgresql.JSONB, nullable=True, server_default='[]')
     enrichment_annotations = db.Column(postgresql.JSONB, nullable=True)
     excluded_annotations = db.Column(postgresql.JSONB, nullable=True, server_default='[]')
+    needs_reannotation = db.Column(db.Boolean, nullable=False, server_default='false',
+                                   default=False)
     fallback_organism_id = db.Column(
         db.Integer,
         # CAREFUL do not allow cascade ondelete
