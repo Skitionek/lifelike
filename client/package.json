@@ -60,7 +60,7 @@
     "jszip-utils": "^0.1.0",
     "keycharm": "^0.2.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.30.1",
     "ng2-charts": "^2.3.0",
     "ngrx-store-localstorage": "9.0.0",
     "pdfjs-dist": "2.9.359",
