@@ -1,0 +1,122 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  appserver-tests:
+    name: Appserver Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies
+        working-directory: appserver
+        run: pipenv install --dev --deploy
+
+      - name: Run unit tests
+        working-directory: appserver
+        run: pipenv run pytest tests/unit/ -v
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+
+  client-tests:
+    name: Client Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        working-directory: client
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        working-directory: client
+        run: yarn test
+
+  statistical-enrichment-tests:
+    name: Statistical Enrichment Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies
+        working-directory: statistical-enrichment
+        run: pipenv install --dev --deploy
+
+      - name: Run tests
+        working-directory: statistical-enrichment
+        run: pipenv run pytest tests/ -v
+
+  cache-invalidator-tests:
+    name: Cache Invalidator Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies
+        working-directory: cache-invalidator
+        run: pipenv install --dev --deploy
+
+      - name: Run tests
+        working-directory: cache-invalidator
+        run: pipenv run pytest tests/ -v
