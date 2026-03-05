@@ -600,6 +600,7 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
             'id': file.id,
             'annotations': annotations_json,
             'annotations_date': datetime.now(TIMEZONE),
+            'needs_reannotation': False,
         }
 
         if organism:
@@ -718,7 +719,8 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
             'id': file.id,
             'annotations': annotations_json,
             'annotations_date': datetime.now(TIMEZONE),
-            'enrichment_annotations': enrichment
+            'enrichment_annotations': enrichment,
+            'needs_reannotation': False,
         }
 
         if organism:
@@ -1081,6 +1083,25 @@ def get_pdf_to_annotate(file_id):
     return res
 
 
+class FilesNeedingReannotationView(MethodView):
+    decorators = [auth.login_required, requires_role('admin')]
+
+    def get(self):
+        """Return a list of file hash IDs that are flagged as needing re-annotation.
+
+        This endpoint is intended for background workers or scheduled tasks that
+        reactively process newly uploaded or updated files requiring annotation.
+        """
+        yield g.current_user
+
+        files = db.session.query(Files.hash_id).filter(
+            Files.needs_reannotation.is_(True),
+            Files.deletion_date.is_(None),
+        ).all()
+        hash_ids = [f.hash_id for f in files]
+        yield jsonify({'hash_ids': hash_ids, 'total': len(hash_ids)})
+
+
 bp.add_url_rule(
     '/global-list',
     view_func=GlobalAnnotationListView.as_view('global_annotations_list'))
@@ -1121,3 +1142,6 @@ filesystem_bp.add_url_rule(
     'annotations/refresh',
     # TODO: this can potentially become a generic annotations refresh
     view_func=RefreshEnrichmentAnnotationsView.as_view('refresh_annotations'))
+bp.add_url_rule(
+    '/needs-reannotation',
+    view_func=FilesNeedingReannotationView.as_view('files_needing_reannotation'))
