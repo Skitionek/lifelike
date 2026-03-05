@@ -12,6 +12,8 @@ jobs:
   appserver-tests:
     name: Appserver Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     services:
       postgres:
@@ -55,6 +57,8 @@ jobs:
   client-tests:
     name: Client Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -76,6 +80,8 @@ jobs:
   statistical-enrichment-tests:
     name: Statistical Enrichment Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -100,6 +106,8 @@ jobs:
   cache-invalidator-tests:
     name: Cache Invalidator Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
