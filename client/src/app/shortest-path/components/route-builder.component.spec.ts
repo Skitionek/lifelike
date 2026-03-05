@@ -1,6 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RootStoreModule } from 'app/root-store';
 import { SharedModule } from 'app/shared/shared.module';
@@ -11,15 +9,15 @@ describe('RouteBuilderComponent', () => {
   let component: RouteBuilderComponent;
   let fixture: ComponentFixture<RouteBuilderComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RootStoreModule,
         SharedModule
       ],
       declarations: [ RouteBuilderComponent ]
-    });
-  });
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RouteBuilderComponent);
