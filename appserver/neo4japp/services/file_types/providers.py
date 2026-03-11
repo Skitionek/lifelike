@@ -341,6 +341,11 @@ class PDFTypeProvider(BaseFileTypeProvider):
     def should_highlight_content_text_matches(self) -> bool:
         return True
 
+    def handle_content_update(self, file: Files):
+        file.annotations = None
+        file.annotations_date = None
+        file.needs_reannotation = True
+
 
 class BiocTypeProvider(BaseFileTypeProvider):
     MIME_TYPE = FILE_MIME_TYPE_BIOC
@@ -1303,6 +1308,7 @@ class EnrichmentTableTypeProvider(BaseFileTypeProvider):
 
     def handle_content_update(self, file: Files):
         file.enrichment_annotations = None
+        file.needs_reannotation = True
 
 
 def get_content_offsets(file):

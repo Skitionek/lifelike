@@ -66,7 +66,8 @@ from neo4japp.utils.collections import window
 from neo4japp.utils.http import make_cacheable_file_response
 from neo4japp.utils.network import read_url
 from neo4japp.utils.logger import UserEventLog
-from neo4japp.services.file_types.providers import BiocTypeProvider
+from neo4japp.services.file_types.providers import BiocTypeProvider, PDFTypeProvider, \
+    EnrichmentTableTypeProvider
 import os
 
 bp = Blueprint('filesystem', __name__, url_prefix='/filesystem')
@@ -789,6 +790,10 @@ class FileListView(FilesystemBaseView):
 
         if params.get('annotation_configs'):
             file.annotation_configs = params['annotation_configs']
+
+        # Mark newly created annotatable files as needing annotation
+        if file.mime_type in (PDFTypeProvider.MIME_TYPE, EnrichmentTableTypeProvider.MIME_TYPE):
+            file.needs_reannotation = True
 
         # ========================================
         # Commit and filename conflict resolution
