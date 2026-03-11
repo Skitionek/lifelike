@@ -838,11 +838,12 @@
         },
         "marshmallow": {
             "hashes": [
-                "sha256:04438610bc6dadbdddb22a4a55bcc7f6f8099e69580b2e67f5a681933a1f4400",
-                "sha256:4c05c1684e0e97fe779c62b91878f173b937fe097b356cd82f793464f5bc6138"
+                "sha256:013fa8a3c4c276c24d26d84ce934dc964e2aa794345a0f8c7e5a7191482c8a73",
+                "sha256:bbe2adb5a03e6e3571b573f42527c6fe926e17467833660bebd11593ab8dfd57"
             ],
-            "markers": "python_version >= '3'",
-            "version": "==3.14.1"
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==3.26.2"
         },
         "marshmallow-dataclass": {
             "hashes": [
@@ -949,6 +950,14 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==5.5.0"
+        },
+        "packaging": {
+            "hashes": [
+                "sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4",
+                "sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==26.0"
         },
         "pandas": {
             "hashes": [
