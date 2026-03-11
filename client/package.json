@@ -59,7 +59,7 @@
     "jszip": "^3.7.0",
     "jszip-utils": "^0.1.0",
     "keycharm": "^0.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.23",
     "moment": "^2.30.1",
     "ng2-charts": "^2.3.0",
     "ngrx-store-localstorage": "9.0.0",
