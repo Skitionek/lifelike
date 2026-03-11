@@ -76,6 +76,8 @@ jobs:
       - name: Run tests
         working-directory: client
         run: yarn test
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
 
   statistical-enrichment-tests:
     name: Statistical Enrichment Tests
