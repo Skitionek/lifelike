@@ -11,7 +11,7 @@ pytest = "==6.2.5"
 [packages]
 Flask = "==2.3.3"
 flask-caching = "==2.3.0"
-flask-marshmallow = "==1.3.0"
+flask-marshmallow = "==1.4.0"
 gunicorn = "==25.1.0"
 neo4j = "==6.1.0"
 pandas = "==2.3.3"
