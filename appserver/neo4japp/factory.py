@@ -9,7 +9,7 @@ from flask import Flask, current_app, g, has_request_context, jsonify, request
 from flask.logging import wsgi_errors_stream
 from flask_caching import Cache
 from flask_cors import CORS
-from marshmallow import ValidationError, missing
+from marshmallow import ValidationError
 from neo4j.exceptions import ServiceUnavailable
 from pythonjsonlogger import jsonlogger
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -52,8 +52,8 @@ cors = CORS()
 cache = Cache()
 
 
-@parser.location_handler('mixed_form_json')
-def load_mixed_form_json(request, name, field):
+@parser.location_loader('mixed_form_json')
+def load_mixed_form_json(request, schema):
     """
     Handle JSON that needs to be mixed with file uploads.
 
@@ -64,31 +64,21 @@ def load_mixed_form_json(request, name, field):
     that formats form data to be compatible here.
     """
 
-    # Memoize the JSON parsing - we don't have to do this in newer versions
-    # of webargs but we are stuck on this old version because of flask-apispec
     cache_field = '_mixed_form_json_cache'
 
     if hasattr(request, cache_field):
-        getter = getattr(request, cache_field)
-    else:
-        try:
-            data = json.loads(request.form['json$'])
-
-            def getter():
-                return data
-
-        except (KeyError, ValueError) as e:
-            exception = e
-
-            def getter():
-                raise exception
-
-        setattr(request, cache_field, getter)
+        return getattr(request, cache_field)
 
     try:
-        return getter()[name]
+        data = json.loads(request.form['json$'])
     except KeyError:
-        return missing
+        data = {}
+    except ValueError:
+        logging.getLogger(__name__).warning('Failed to parse mixed_form_json: invalid JSON in json$ field')
+        data = {}
+
+    setattr(request, cache_field, data)
+    return data
 
 
 def filter_to_sentry(event, hint):
