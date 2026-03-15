@@ -1,4 +1,4 @@
-ARG NODE_IMAGE_TAG=node:14
+ARG NODE_IMAGE_TAG=node:20
 
 # ==================================================================
 # Angular app dependencies by default used for local development
