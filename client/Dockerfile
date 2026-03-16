@@ -1,4 +1,4 @@
-ARG NODE_IMAGE_TAG=node:14
+ARG NODE_IMAGE_TAG=node:20
 
 # ==================================================================
 # Angular app dependencies by default used for local development
@@ -26,7 +26,7 @@ COPY e2e ./e2e
 COPY *.json browserslist ./
 
 ARG ANGULAR_CONFIG=production
-ENV NODE_OPTIONS=--max-old-space-size=4096
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 RUN yarn build --configuration=$ANGULAR_CONFIG --output-path=dist
 
 # When targeting this image stage, run angulat dev server

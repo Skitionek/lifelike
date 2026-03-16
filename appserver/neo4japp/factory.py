@@ -62,7 +62,12 @@ def load_mixed_form_json(request, schema):
     multipart/mixed, but support for that is too weak in our web server and in Angular, so
     this is a hacky way of achieving this dream. There is an associated function on the client
     that formats form data to be compatible here.
+
+    Falls back to regular JSON body parsing when the request content type is JSON.
     """
+
+    if request.is_json:
+        return request.get_json(silent=True) or {}
 
     cache_field = '_mixed_form_json_cache'
 

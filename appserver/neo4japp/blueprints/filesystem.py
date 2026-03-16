@@ -638,7 +638,7 @@ class FileHierarchyView(FilesystemBaseView):
 class FileListView(FilesystemBaseView):
     decorators = [auth.login_required]
 
-    @use_args(FileCreateRequestSchema, locations=['json', 'form', 'files', 'mixed_form_json'])
+    @use_args(FileCreateRequestSchema, location='mixed_form_json')
     def post(self, params):
         """Endpoint to create a new file or to clone a file into a new one."""
 
@@ -836,9 +836,9 @@ class FileListView(FilesystemBaseView):
         return self.get_file_response(file.hash_id, current_user)
 
     @use_args(lambda request: BulkFileRequestSchema(),
-              locations=['json', 'form', 'files', 'mixed_form_json'])
+              location='mixed_form_json')
     @use_args(lambda request: BulkFileUpdateRequestSchema(partial=True),
-              locations=['json', 'form', 'files', 'mixed_form_json'])
+              location='mixed_form_json')
     def patch(self, targets, params):
         """File update endpoint."""
 
@@ -1033,7 +1033,7 @@ class FileDetailView(FilesystemBaseView):
         return self.get_file_response(hash_id, current_user)
 
     @use_args(lambda request: FileUpdateRequestSchema(partial=True),
-              locations=['json', 'form', 'files', 'mixed_form_json'])
+              location='mixed_form_json')
     def patch(self, params: dict, hash_id: str):
         """Update a single file."""
         current_user = g.current_user
@@ -1189,7 +1189,7 @@ class FileBackupView(FilesystemBaseView):
     so that they don't lose their work."""
     decorators = [auth.login_required]
 
-    @use_args(FileBackupCreateRequestSchema, locations=['json', 'form', 'files', 'mixed_form_json'])
+    @use_args(FileBackupCreateRequestSchema, location='mixed_form_json')
     def put(self, params: dict, hash_id: str):
         """Endpoint to create a backup for a file for a user."""
         current_user = g.current_user

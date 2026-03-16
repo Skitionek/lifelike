@@ -26,7 +26,7 @@ class ViewBaseView(MethodView):
             .one()[0]
         return json.dumps(params)
 
-    @use_args(SankeyViewSchema, locations=['json'])
+    @use_args(SankeyViewSchema, location='json')
     def post(self, params: Dict):
         view = View()
         view_id = view.get_or_create(params).id
