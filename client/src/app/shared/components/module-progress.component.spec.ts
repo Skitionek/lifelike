@@ -31,10 +31,9 @@ describe('ModuleProgressComponent', () => {
 
     it('snapshot: should apply default host class binding', () => {
         const el: HTMLElement = fixture.nativeElement;
-        const parentEl = el.parentElement;
-        expect(parentEl.className).toContain('position-absolute');
-        expect(parentEl.className).toContain('w-100');
-        expect(parentEl.className).toContain('h-100');
+        expect(el.className).toContain('position-absolute');
+        expect(el.className).toContain('w-100');
+        expect(el.className).toContain('h-100');
     });
 
     it('snapshot: should render loading-indicator inside the progress wrapper', () => {
