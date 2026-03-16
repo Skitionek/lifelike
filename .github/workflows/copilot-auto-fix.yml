@@ -48,6 +48,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
-              body: `@github-copilot The QA pipeline **${workflowRun.name}** has failed on this PR. Please analyze the failure and suggest a fix.${jobsSection}\n\nWorkflow run: ${workflowRun.html_url}`
+              body: `@copilot The QA pipeline **${workflowRun.name}** has failed on this PR. Please analyze the failure and suggest a fix.${jobsSection}\n\nWorkflow run: ${workflowRun.html_url}`
             });
 
