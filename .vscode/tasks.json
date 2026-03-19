@@ -1,0 +1,174 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "uv sync: appserver",
+      "type": "shell",
+      "command": "${env:HOME}/.local/bin/uv",
+      "args": [
+        "sync",
+        "--project",
+        "appserver",
+        "--locked",
+        "--all-groups",
+        "--managed-python"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "uv sync: cache-invalidator",
+      "type": "shell",
+      "command": "${env:HOME}/.local/bin/uv",
+      "args": [
+        "sync",
+        "--project",
+        "cache-invalidator",
+        "--locked",
+        "--all-groups",
+        "--managed-python"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "uv sync: statistical-enrichment",
+      "type": "shell",
+      "command": "${env:HOME}/.local/bin/uv",
+      "args": [
+        "sync",
+        "--project",
+        "statistical-enrichment",
+        "--locked",
+        "--all-groups",
+        "--managed-python"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "test: appserver unit (uv)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "${env:HOME}/.local/bin/uv sync --project appserver --locked --all-groups --managed-python && cd appserver && POSTGRES_HOST=localhost POSTGRES_PORT=5432 POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres POSTGRES_DB=postgres ${env:HOME}/.local/bin/uv run --project . pytest tests/unit/ -v"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test"
+    },
+    {
+      "label": "test: cache-invalidator (uv)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "${env:HOME}/.local/bin/uv sync --project cache-invalidator --locked --all-groups --managed-python && cd cache-invalidator && ${env:HOME}/.local/bin/uv run --project . pytest tests/ -v"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test"
+    },
+    {
+      "label": "test: statistical-enrichment (uv)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "${env:HOME}/.local/bin/uv sync --project statistical-enrichment --locked --all-groups --managed-python && cd statistical-enrichment && ${env:HOME}/.local/bin/uv run --project . pytest tests/ -v"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test"
+    },
+    {
+      "label": "test: client",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "cd client && if command -v yarn >/dev/null 2>&1; then yarn test; elif command -v corepack >/dev/null 2>&1; then corepack yarn test; else npm test; fi"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test"
+    },
+    {
+      "label": "test: backend (uv)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "test: appserver unit (uv)",
+        "test: cache-invalidator (uv)",
+        "test: statistical-enrichment (uv)"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "test: all",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "test: backend (uv)",
+        "test: client"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "client: install-deps",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "if command -v yarn >/dev/null 2>&1; then yarn install --frozen-lockfile; elif command -v corepack >/dev/null 2>&1; then corepack yarn install --frozen-lockfile; else npm install; fi"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/client"
+      }
+    },
+    {
+      "label": "client: dev-start",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "if command -v yarn >/dev/null 2>&1; then yarn dev-start; elif command -v corepack >/dev/null 2>&1; then corepack yarn dev-start; else npm run dev-start; fi"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/client"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": [
+          {
+            "regexp": "(.*)",
+            "message": 1
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Compiled successfully\\.|Angular Live Development Server is listening"
+        }
+      }
+    },
+    {
+      "label": "client: install-and-dev-start",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "client: install-deps",
+        "client: dev-start"
+      ]
+    }
+  ]
+}
