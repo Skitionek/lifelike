@@ -17,7 +17,7 @@ neo4j = "==6.1.0"
 pandas = "==2.3.3"
 redis = "==7.3.0"
 scipy = "==1.15.3"
-statsmodels = "==0.14.1"
+statsmodels = "==0.14.6"
 webargs = "==8.7.1"
 elastic-apm = {extras = ["flask"], version = "*"}
 
