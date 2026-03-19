@@ -1,0 +1,9 @@
+ipython==7.30.1
+pytest==6.2.5
+pycodestyle==2.14.0
+mypy==1.19.1
+httpretty==1.1.4
+types-paramiko==2.8.5
+types-redis==4.0.4
+types-requests==2.32.4.20260107
+pytest-cov==6.3.0

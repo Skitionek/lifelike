@@ -17,21 +17,21 @@ updates:
     schedule:
       interval: weekly
     commit-message:
-      prefix: pipenv
+      prefix: uv
 
   - package-ecosystem: pip
     directory: /statistical-enrichment
     schedule:
       interval: weekly
     commit-message:
-      prefix: pipenv
+      prefix: uv
 
   - package-ecosystem: pip
     directory: /cache-invalidator
     schedule:
       interval: weekly
     commit-message:
-      prefix: pipenv
+      prefix: uv
 
   # Maintain dependencies for Node.js
   - package-ecosystem: npm

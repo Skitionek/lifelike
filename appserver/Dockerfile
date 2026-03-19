@@ -8,7 +8,7 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONFAULTHANDLER 1
 
-RUN pip install pipenv
+RUN pip install uv
 
 
 # ========================================
@@ -21,12 +21,14 @@ RUN apt-get update \
     && apt-get install -y liblmdb-dev python3-dev libxml2-dev libxslt-dev build-essential \
     && apt-get clean
 
-# Copy Pipfiles
-COPY Pipfile Pipfile.lock ./
+# Copy dependency files
+COPY requirements.txt requirements-dev.txt ./
 
 # Install Python dependencies
 ARG DEV
-RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy $(if [ "$DEV" ]; then echo --dev; fi)
+RUN uv venv /.venv \
+    && uv pip install --python /.venv/bin/python -r requirements.txt \
+    && if [ -n "$DEV" ]; then uv pip install --python /.venv/bin/python -r requirements-dev.txt; fi
 
 
 # ========================================

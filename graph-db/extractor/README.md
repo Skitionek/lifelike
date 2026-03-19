@@ -9,20 +9,21 @@ This README describes how to set up a develoment environment to run scripts to p
 
 ## Initial setup
 
-Development and deployment depends on the `Pipenv` tool to create a virtual environment with all dependencies found in the `Pipfile`. Optionally, you can use `virtualenv` separately to create a virtual environment (still need `Pipenv` to install the dependencies).
+Development and deployment uses `uv` to create a virtual environment and install dependencies.
 
-INSTALL: https://pipenv.pypa.io/en/latest/#install-pipenv-today
+INSTALL: https://docs.astral.sh/uv/getting-started/installation/
 
 ### Create virtual environment
-Create a virtual environment for the project and install dependencies from Pipfile (incl. dev dependencies):
+Create a virtual environment and install dependencies (including development dependencies):
 
 ```bash
-pipenv install --dev
+uv venv .venv
+uv pip install --python .venv/bin/python -r requirements.txt -r requirements-dev.txt
 ```
 
 ### Activate virtual environment
 ```bash
-pipenv shell
+source .venv/bin/activate
 ```
 
 Deactivate the shell using `exit`.

@@ -15,19 +15,20 @@ responding to expected HTTP requests done by the client.
 ### Requirements
 
 - Puyhon
-- Pipenv
+- uv
 
 Install Python dependencies:
 
 ```bash
 cd locust
-pipenv install
+uv venv .venv
+uv pip install --python .venv/bin/python -r requirements.txt
 ```
 
 ### Run locust interatively
 
 ```bash
-pipenv run locust
+uv run --python .venv/bin/python locust
 ```
 
 Then, navigate to <http://localhost:8089> in a browser.
@@ -42,7 +43,7 @@ export USER_PASSWORD="[replace]"
 export NUM_USERS=10  # Peak number of concurrent Locust users.
 export RUN_TIME=60s  # Stop after the specified amount of time, e.g. (300s, 20m, 3h, 1h30m, etc.).
 
-pipenv run locust \
+uv run --python .venv/bin/python locust \
   --headless \
   --host $BASE_URL \
   --users $NUM_USERS \
