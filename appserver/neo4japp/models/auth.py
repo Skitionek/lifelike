@@ -94,7 +94,7 @@ class AppUser(RDBMSBase, TimestampMixin, HashIdMixin):
         return super().to_dict(exclude=['password_hash'] + (exclude or []), **kwargs)
 
 
-class AppUserSchema(ma.ModelSchema):  # type: ignore
+class AppUserSchema(ma.SQLAlchemyAutoSchema):  # type: ignore
     class Meta:
         model = AppUser
 
@@ -146,6 +146,6 @@ class AccessControlPolicy(RDBMSBase):
         )
 
 
-class AccessControlPolicySchema(ma.ModelSchema):  # type: ignore
+class AccessControlPolicySchema(ma.SQLAlchemyAutoSchema):  # type: ignore
     class Meta:
         model = AccessControlPolicy
