@@ -21,7 +21,7 @@ from werkzeug.utils import find_modules, import_string
 
 from .constants import LogEventType
 from .database import close_neo4j_db, db, ma, migrate
-from .encoders import CustomJSONEncoder
+from .encoders import CustomJSONEncoder, CustomJSONProvider
 from .exceptions import ServerException
 from .schemas.common import ErrorResponseSchema
 from .utils.logger import ErrorLog
@@ -172,7 +172,8 @@ def create_app(name='neo4japp', config='config.Config'):
     # (uses SimpleCache: https://flask-caching.readthedocs.io/en/latest/#simplecache)
     cache.init_app(app, config=cache_config)
 
-    app.json_encoder = CustomJSONEncoder
+    app.json_provider_class = CustomJSONProvider
+    app.json = CustomJSONProvider(app)
 
     app.register_error_handler(ValidationError, partial(handle_validation_error, 400))
     app.register_error_handler(UnprocessableEntity, partial(handle_webargs_error, 400))

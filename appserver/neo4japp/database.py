@@ -11,6 +11,16 @@ from sqlalchemy import MetaData, Table, UniqueConstraint
 
 from neo4japp.utils.flask import scope_flask_app_ctx
 
+# Compatibility patch: flask-marshmallow 1.x expects app.extensions["sqlalchemy"].session
+# but flask-sqlalchemy 2.x stores a _SQLAlchemyState(connectors, db) instead of the
+# SQLAlchemy instance itself. Add a session property so init_app works correctly.
+try:
+    from flask_sqlalchemy import _SQLAlchemyState as _FsqlaState
+    if not hasattr(_FsqlaState, 'session'):
+        _FsqlaState.session = property(lambda self: self.db.session)
+except (ImportError, AttributeError):
+    pass
+
 
 def trunc_long_constraint_name(name: str) -> str:
     if (len(name) > 59):
