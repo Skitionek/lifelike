@@ -34,7 +34,7 @@ dependencies = [
   "intervaltree==3.1.0",
   "paramiko==3.4.0",
   "google-cloud-storage==1.43.0",
-  "fastjsonschema==2.15.2",
+  "fastjsonschema==2.21.2",
   "marshmallow-dataclass==8.5.3",
   "marshmallow-enum==1.5.1",
   "deepdiff==8.6.2",
