@@ -1,6 +1,98 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+const { execSync } = require('child_process');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+
+function findCachedPuppeteerChrome() {
+  const chromeCacheRoot = path.join(os.homedir(), '.cache', 'puppeteer', 'chrome');
+  if (!fs.existsSync(chromeCacheRoot)) {
+    return null;
+  }
+
+  try {
+    const platforms = fs
+      .readdirSync(chromeCacheRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+
+    for (const platform of platforms) {
+      const platformRoot = path.join(chromeCacheRoot, platform);
+      const versions = fs
+        .readdirSync(platformRoot, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+        .sort()
+        .reverse();
+
+      for (const version of versions) {
+        const binaryPath = path.join(platformRoot, version, 'chrome-linux64', 'chrome');
+        if (fs.existsSync(binaryPath)) {
+          return binaryPath;
+        }
+      }
+    }
+  } catch (_err) {
+    // Fall through to system browser detection.
+  }
+
+  return null;
+}
+
+function findBrowserBinary() {
+  const binaries = [
+    'chromium-browser',
+    'chromium',
+    'google-chrome-stable',
+    'google-chrome',
+    'chrome',
+  ];
+
+  for (const binary of binaries) {
+    try {
+      const path = execSync(`command -v ${binary}`, {
+        stdio: ['ignore', 'pipe', 'ignore'],
+      })
+        .toString()
+        .trim();
+
+      if (path) {
+        return { binary, path };
+      }
+    } catch (_err) {
+      // Keep searching until we find an installed browser binary.
+    }
+  }
+
+  return null;
+}
+
+let detectedBrowser = null;
+
+if (!process.env.CHROME_BIN) {
+  const cachedChrome = findCachedPuppeteerChrome();
+  if (cachedChrome) {
+    process.env.CHROME_BIN = cachedChrome;
+  }
+}
+
+detectedBrowser = findBrowserBinary();
+if (!process.env.CHROME_BIN && detectedBrowser) {
+  process.env.CHROME_BIN = detectedBrowser.path;
+}
+
+const isChromiumBinary =
+  (detectedBrowser && detectedBrowser.binary.startsWith('chromium')) ||
+  (process.env.CHROME_BIN && process.env.CHROME_BIN.toLowerCase().includes('chromium'));
+
+if (!process.env.CHROMIUM_BIN && process.env.CHROME_BIN && isChromiumBinary) {
+  process.env.CHROMIUM_BIN = process.env.CHROME_BIN;
+}
+
+const chromeLauncherBase = process.env.CHROMIUM_BIN ? 'ChromiumHeadless' : 'ChromeHeadless';
+
 module.exports = function (config) {
   config.set({
     // Adding "files:" to fix errors as explained at:
@@ -25,7 +117,7 @@ module.exports = function (config) {
     ],
     customLaunchers: {
       ChromeCustom: {
-        base: 'Chrome',
+        base: chromeLauncherBase,
         flags: [
           '--headless',
           '--no-sandbox',

@@ -94,7 +94,7 @@
       "command": "bash",
       "args": [
         "-lc",
-        "cd client && if command -v yarn >/dev/null 2>&1; then yarn test; elif command -v corepack >/dev/null 2>&1; then corepack yarn test; else npm test; fi"
+        "cd client && if command -v yarn >/dev/null 2>&1; then if [ \"${CODESPACES:-}\" = \"true\" ]; then yarn test:codespace; else yarn test; fi; elif command -v corepack >/dev/null 2>&1; then if [ \"${CODESPACES:-}\" = \"true\" ]; then corepack yarn test:codespace; else corepack yarn test; fi; else if [ \"${CODESPACES:-}\" = \"true\" ]; then npm run test:codespace; else npm test; fi; fi"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -148,13 +148,7 @@
       },
       "isBackground": true,
       "problemMatcher": {
-        "owner": "custom",
-        "pattern": [
-          {
-            "regexp": "(.*)",
-            "message": 1
-          }
-        ],
+        "base": "$tsc-watch",
         "background": {
           "activeOnStart": true,
           "beginsPattern": ".*",

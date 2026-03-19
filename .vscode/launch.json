@@ -160,7 +160,7 @@
       "name": "TypeScript: Client Karma Tests",
       "type": "node-terminal",
       "request": "launch",
-      "command": "cd ${workspaceFolder}/client && if command -v yarn >/dev/null 2>&1; then yarn test --watch=true --progress=false --browsers=Chrome; elif command -v corepack >/dev/null 2>&1; then corepack yarn test --watch=true --progress=false --browsers=Chrome; else npm run test -- --watch=true --progress=false --browsers=Chrome; fi"
+      "command": "cd ${workspaceFolder}/client && if command -v yarn >/dev/null 2>&1; then if [ \"${CODESPACES:-}\" = \"true\" ]; then yarn test:codespace:watch; else yarn test --watch=true --progress=false --browsers=ChromeCustom; fi; elif command -v corepack >/dev/null 2>&1; then if [ \"${CODESPACES:-}\" = \"true\" ]; then corepack yarn test:codespace:watch; else corepack yarn test --watch=true --progress=false --browsers=ChromeCustom; fi; else if [ \"${CODESPACES:-}\" = \"true\" ]; then npm run test:codespace:watch; else npm run test -- --watch=true --progress=false --browsers=ChromeCustom; fi; fi"
     }
   ],
   "compounds": [
