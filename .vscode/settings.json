@@ -1,0 +1,8 @@
+{
+    "makefile.configureOnOpen": false,
+    "python.testing.pytestArgs": [
+        "appserver"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

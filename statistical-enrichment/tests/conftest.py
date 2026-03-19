@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 
 # Only mock the modules that are not yet present (i.e. not really installed
 # in the test environment).  This keeps the real implementations in place
-# when the full dependency set is installed (e.g. inside a pipenv shell).
+# when the full dependency set is installed (e.g. inside a uv-managed venv).
 
 for _module in ("neo4j",):
     if _module not in sys.modules:

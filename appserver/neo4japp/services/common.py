@@ -95,7 +95,7 @@ class GraphConnection(DatabaseConnection):
     def exec_read_query(self, query: str):
         try:
             with self.begin() as session:
-                return session.read_transaction(lambda tx: list(tx.run(query)))
+                return session.execute_read(lambda tx: list(tx.run(query)))
         except BrokenPipeError:
             raise BrokenPipeError(
                 'The graph connection became stale while processing data. '
@@ -110,7 +110,7 @@ class GraphConnection(DatabaseConnection):
     def exec_write_query(self, query: str):
         try:
             with self.begin() as session:
-                return session.write_transaction(lambda tx: list(tx.run(query)))
+                return session.execute_write(lambda tx: list(tx.run(query)))
         except BrokenPipeError:
             raise BrokenPipeError(
                 'The graph connection became stale while processing data, '
@@ -125,7 +125,7 @@ class GraphConnection(DatabaseConnection):
     def exec_read_query_with_params(self, query: str, values: dict):
         try:
             with self.begin() as session:
-                return session.read_transaction(lambda tx: list(tx.run(query, **values)))
+                return session.execute_read(lambda tx: list(tx.run(query, **values)))
         except BrokenPipeError:
             raise BrokenPipeError(
                 'The graph connection became stale while processing data, '
@@ -140,7 +140,7 @@ class GraphConnection(DatabaseConnection):
     def exec_write_query_with_params(self, query: str, values: dict):
         try:
             with self.begin() as session:
-                return session.write_transaction(lambda tx: list(tx.run(query, **values)))
+                return session.execute_write(lambda tx: list(tx.run(query, **values)))
         except BrokenPipeError:
             raise BrokenPipeError(
                 'The graph connection became stale while processing data, '

@@ -80,7 +80,7 @@ class EnrichmentTableService(KgService):
         """ Match list of gene names to list of NCBI gene nodes with same name and has taxonomy
             ID of given organism. Input order is maintained in result.
         """
-        results = self.graph.read_transaction(self.match_ncbi_genes_query, gene_names, organism)
+        results = self.graph.execute_read(self.match_ncbi_genes_query, gene_names, organism)
 
         domain = self.session.query(DomainURLsMap).filter(
             DomainURLsMap.domain == 'NCBI_Gene').one_or_none()

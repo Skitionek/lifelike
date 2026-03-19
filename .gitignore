@@ -6,7 +6,6 @@
 *.launch
 .settings/
 *.sublime-workspace
-.vscode/
 
 # Common credential files
 **/credentials.json

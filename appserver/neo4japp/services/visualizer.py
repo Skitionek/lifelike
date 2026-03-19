@@ -99,7 +99,7 @@ class VisualizerService(KgService):
             return url
 
     def expand_graph(self, node_id: str, filter_labels: List[str]):
-        result = self.graph.read_transaction(self.get_expand_query, node_id, filter_labels)
+        result = self.graph.execute_read(self.get_expand_query, node_id, filter_labels)
 
         node_data = []
         edge_data = []
@@ -162,7 +162,7 @@ class VisualizerService(KgService):
         page: int,
         limit: int
     ):
-        return self.graph.read_transaction(
+        return self.graph.execute_read(
             self.get_snippets_from_edges_query,
             from_ids,
             to_ids,
@@ -178,7 +178,7 @@ class VisualizerService(KgService):
         page: int,
         limit: int
     ):
-        return self.graph.read_transaction(
+        return self.graph.execute_read(
             self.get_snippets_from_node_pair_query,
             node_1_id,
             node_2_id,
@@ -191,7 +191,7 @@ class VisualizerService(KgService):
         node_1_id: int,
         node_2_id: int,
     ):
-        return self.graph.read_transaction(
+        return self.graph.execute_read(
             self.get_snippet_count_from_node_pair_query,
             node_1_id,
             node_2_id
@@ -213,7 +213,7 @@ class VisualizerService(KgService):
         description = node_edge_pairs[0].edge.label  # Every edge should have the same label
         direction = Direction.FROM.value if len(from_ids) == 1 else Direction.TO.value
 
-        counts = self.graph.read_transaction(
+        counts = self.graph.execute_read(
             self.get_snippet_count_from_edges_query,
             from_ids,
             to_ids,
@@ -246,7 +246,7 @@ class VisualizerService(KgService):
         description = edge.label  # Every edge should have the same label
 
         data = self.get_snippets_from_edges(from_ids, to_ids, description, page, limit)
-        count_results = self.graph.read_transaction(
+        count_results = self.graph.execute_read(
             self.get_snippet_count_from_edges_query,
             from_ids,
             to_ids,
@@ -315,7 +315,7 @@ class VisualizerService(KgService):
         description = edges[0].label  # Every edge should have the same label
 
         data = self.get_snippets_from_edges(from_ids, to_ids, description, page, limit)
-        count_results = self.graph.read_transaction(
+        count_results = self.graph.execute_read(
             self.get_snippet_count_from_edges_query,
             from_ids,
             to_ids,
@@ -362,7 +362,7 @@ class VisualizerService(KgService):
         source_node: int,
         associated_nodes: List[int],
     ):
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_associated_type_snippet_count_query,
             source_node,
             associated_nodes
