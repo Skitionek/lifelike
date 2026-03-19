@@ -87,7 +87,7 @@ def graph(request, app) -> Session:
     graph = driver.session()
 
     # Ensure a clean graph state before every test
-    graph.write_transaction(lambda tx: tx.run('MATCH(n) DETACH DELETE n'))
+    graph.execute_write(lambda tx: tx.run('MATCH(n) DETACH DELETE n'))
 
     def teardown():
         graph.close()

@@ -197,7 +197,7 @@ class SearchService(GraphBaseDao):
                 MATCH (n)<-[:MAPPED_TO]-(m:LiteratureEntity)
             """
 
-        result = self.graph.read_transaction(
+        result = self.graph.execute_read(
             self.visualizer_search_query,
             term,
             organism,
@@ -211,7 +211,7 @@ class SearchService(GraphBaseDao):
         records = self._visualizer_search_result_formatter(result)
 
         total_results = len(
-            self.graph.read_transaction(
+            self.graph.execute_read(
                 self.visualizer_search_query,
                 term,
                 organism,
@@ -226,7 +226,7 @@ class SearchService(GraphBaseDao):
         return FTSResult(term, records, total_results, page, limit)
 
     def get_organism_with_tax_id(self, tax_id: str):
-        result = self.graph.read_transaction(self.get_organism_with_tax_id_query, tax_id)
+        result = self.graph.execute_read(self.get_organism_with_tax_id_query, tax_id)
         return result[0] if len(result) else None
 
     def get_organisms(self, term: str, limit: int) -> Dict[str, Any]:
@@ -241,7 +241,7 @@ class SearchService(GraphBaseDao):
 
         terms = query_term.split(' ')
         query_term = ' AND '.join(terms)
-        nodes = self.graph.read_transaction(self.get_organisms_query, query_term, limit)
+        nodes = self.graph.execute_read(self.get_organisms_query, query_term, limit)
 
         return {
             'limit': limit,
@@ -258,7 +258,7 @@ class SearchService(GraphBaseDao):
         page: int,
         limit: int
     ) -> List[dict]:
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_synonyms_query,
             search_term,
             organisms,
@@ -292,7 +292,7 @@ class SearchService(GraphBaseDao):
         organisms: List[str],
         types: List[str]
     ) -> List[dict]:
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_synonyms_count_query,
             search_term,
             organisms,

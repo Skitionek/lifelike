@@ -88,7 +88,7 @@ class ElasticConnection:
         super().__init__()
         self.elastic_client = Elasticsearch(
             hosts=[current_app.config['ELASTICSEARCH_URL']],
-            timeout=180
+            request_timeout=180
         )
 
 

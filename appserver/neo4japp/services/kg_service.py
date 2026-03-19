@@ -102,7 +102,7 @@ class KgService(HybridDBDao):
         split_data_query = data_query.split('&')
 
         if len(split_data_query) == 1 and split_data_query[0].find(',') == -1:
-            result = self.graph.read_transaction(
+            result = self.graph.execute_read(
                 lambda tx: list(
                     tx.run(
                         'MATCH (n) WHERE ID(n)=$node_id RETURN n AS node',
@@ -118,7 +118,7 @@ class KgService(HybridDBDao):
             return self._neo4j_objs_to_graph_objs(node, [])
         else:
             data = [x.split(',') for x in split_data_query]
-            result = self.graph.read_transaction(
+            result = self.graph.execute_read(
                 lambda tx: list(
                     tx.run(
                         """
@@ -145,7 +145,7 @@ class KgService(HybridDBDao):
 
     def get_uniprot_genes(self, ncbi_gene_ids: List[int]):
         start = time.time()
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_uniprot_genes_query,
             ncbi_gene_ids
         )
@@ -171,7 +171,7 @@ class KgService(HybridDBDao):
 
     def get_string_genes(self, ncbi_gene_ids: List[int]):
         start = time.time()
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_string_genes_query,
             ncbi_gene_ids
         )
@@ -193,7 +193,7 @@ class KgService(HybridDBDao):
         tax_id: str
     ):
         start = time.time()
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_biocyc_genes_query,
             ncbi_gene_ids
         )
@@ -212,7 +212,7 @@ class KgService(HybridDBDao):
 
     def get_go_genes(self, ncbi_gene_ids: List[int]):
         start = time.time()
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_go_genes_query,
             ncbi_gene_ids,
         )
@@ -230,7 +230,7 @@ class KgService(HybridDBDao):
 
     def get_regulon_genes(self, ncbi_gene_ids: List[int]):
         start = time.time()
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_regulon_genes_query,
             ncbi_gene_ids
         )
@@ -248,7 +248,7 @@ class KgService(HybridDBDao):
 
     def get_kegg_genes(self, ncbi_gene_ids: List[int]):
         start = time.time()
-        results = self.graph.read_transaction(
+        results = self.graph.execute_read(
             self.get_kegg_genes_query,
             ncbi_gene_ids
         )
