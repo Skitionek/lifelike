@@ -9,7 +9,7 @@ dependencies = [
   "gunicorn==25.2.0",
   "neo4j==6.1.0",
   "pandas==2.3.3",
-  "redis==7.3.0",
+  "redis==7.4.0",
   "scipy==1.15.3",
   "statsmodels==0.14.6",
   "webargs==8.7.1",
