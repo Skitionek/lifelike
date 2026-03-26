@@ -8759,12 +8759,13 @@ ng2-charts@^2.3.0:
     lodash-es "^4.17.15"
     tslib "^2.0.0"
 
-ngrx-store-localstorage@9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-9.0.0.tgz#0d3652758065cc037507565bf05e7294aa1bc48c"
-  integrity sha512-F69yiNruZe9jgXcPykfbyKFuM/1JzL+wsBUM+TTfMDXIoaFO7xwuZF9yLG8zbvdglibtJ0OG2M8fy3oadWuV4A==
+ngrx-store-localstorage@11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-11.0.0.tgz#408b357041b68ffdf43f2274b03111f54e9d09e7"
+  integrity sha512-/bLA9/0orlEffBGH4Nqp5XwdgFX9XkpBD5p2ZwRYPPYAHi+bs4yFdKl6c4RvKsS9IOGHXiO5mm2vLaK+n7mvTw==
   dependencies:
     deepmerge "^3.2.0"
+    tslib "^2.0.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
