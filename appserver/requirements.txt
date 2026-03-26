@@ -8,7 +8,7 @@ flask-httpauth==4.8.0
 flask-migrate==2.5.3
 flask-sqlalchemy==2.5.1
 gunicorn==22.0.0
-marshmallow-sqlalchemy==0.22.3
+marshmallow-sqlalchemy==1.4.2
 openpyxl==3.0.9
 pyjwt==2.12.0
 psycopg2-binary==2.9.11
