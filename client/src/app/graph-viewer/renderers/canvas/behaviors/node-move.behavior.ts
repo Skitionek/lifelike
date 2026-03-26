@@ -26,7 +26,7 @@ export class MovableNode extends AbstractCanvasBehavior {
   }
 
   dragStart(event: DragBehaviorEvent): BehaviorResult {
-    const [mouseX, mouseY] = d3.mouse(this.graphView.canvas);
+    const [mouseX, mouseY] = d3.pointer(event.event, this.graphView.canvas);
     const transform = this.graphView.transform;
     const entity = event.entity;
 
@@ -44,7 +44,7 @@ export class MovableNode extends AbstractCanvasBehavior {
 
   drag(event: DragBehaviorEvent): BehaviorResult {
     // TODO: cache
-    const [mouseX, mouseY] = d3.mouse(this.graphView.canvas);
+    const [mouseX, mouseY] = d3.pointer(event.event, this.graphView.canvas);
     const transform = this.graphView.transform;
 
     if (this.target) {

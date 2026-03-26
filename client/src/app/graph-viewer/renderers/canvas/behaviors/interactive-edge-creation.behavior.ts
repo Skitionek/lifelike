@@ -120,7 +120,7 @@ class ActiveEdgeCreationHelper extends AbstractCanvasBehavior {
 
   drag(event: DragBehaviorEvent): BehaviorResult {
     // TODO: Cache
-    const [mouseX, mouseY] = d3.mouse(this.graphView.canvas);
+    const [mouseX, mouseY] = d3.pointer(event.event, this.graphView.canvas);
     const graphX = this.graphView.transform.invertX(mouseX);
     const graphY = this.graphView.transform.invertY(mouseY);
 

@@ -1,4 +1,3 @@
-// @ts-ignore
 import * as d3 from 'd3';
 
 import {
@@ -26,7 +25,7 @@ export abstract class AbstractNodeHandleBehavior<T extends Handle> extends Abstr
 
   dragStart(event: DragBehaviorEvent): BehaviorResult {
     const transform = this.graphView.transform;
-    const [mouseX, mouseY] = d3.mouse(this.graphView.canvas);
+    const [mouseX, mouseY] = d3.pointer(event.event, this.graphView.canvas);
     const graphX = transform.invertX(mouseX);
     const graphY = transform.invertY(mouseY);
     const subject = event.entity;
@@ -44,7 +43,7 @@ export abstract class AbstractNodeHandleBehavior<T extends Handle> extends Abstr
   drag(event: DragBehaviorEvent): BehaviorResult {
     if (this.handle) {
       const transform = this.graphView.transform;
-      const [mouseX, mouseY] = d3.mouse(this.graphView.canvas);
+      const [mouseX, mouseY] = d3.pointer(event.event, this.graphView.canvas);
       const graphX = transform.invertX(mouseX);
       const graphY = transform.invertY(mouseY);
       this.activeDrag(event.event, graphX, graphY);
