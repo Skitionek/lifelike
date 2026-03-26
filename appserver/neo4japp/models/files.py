@@ -62,7 +62,7 @@ class FileContent(RDBMSBase):
     __tablename__ = 'files_content'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     raw_file = db.Column(db.LargeBinary, nullable=False)
-    checksum_sha256 = db.Column(db.Binary(32), nullable=False, index=True, unique=True)
+    checksum_sha256 = db.Column(db.LargeBinary(32), nullable=False, index=True, unique=True)
     creation_date = db.Column(db.DateTime, nullable=False, default=db.func.now())
 
     @property

@@ -1,6 +1,9 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
+// Bootstrap 5 removed $input-btn-line-height-sm; define it using the equivalent variable
+$input-btn-line-height-sm: $line-height-sm;
+
 $white: #fff;
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
