@@ -16,7 +16,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   KNOWN_HTTP_ERROR_CODES = [0, 401];
 
   handleError(error: Error | HttpErrorResponse) {
-    console.error('Lifelike encountered an error', error);
+    console.error('Lifelike Afterhours encountered an error', error);
 
     const errorHandlerService = this.injector.get(ErrorHandlerService);
     try {
@@ -24,7 +24,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         errorHandlerService.logError(error, {label: 'Uncaught exception', expected: false});
       }
     } catch (e) {
-      console.error('Failed to log Lifelike error', e);
+      console.error('Failed to log Lifelike Afterhours error', e);
     }
   }
 }

@@ -120,7 +120,7 @@ t_file_content = sa.Table(
     sa.MetaData(),
     sa.Column('id', sa.Integer(), primary_key=True),
     sa.Column('raw_file'),
-    sa.Column('checksum_sha256', sa.Binary(32)),
+    sa.Column('checksum_sha256', sa.LargeBinary(32)),
     sa.Column('creation_date'),
 )
 

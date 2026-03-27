@@ -50,7 +50,7 @@ def drop_view_property():
             'files_content',
             column('id', sa.Integer),
             column('raw_file', sa.LargeBinary),
-            column('checksum_sha256', sa.Binary)
+            column('checksum_sha256', sa.LargeBinary)
     )
 
     files = conn.execution_options(stream_results=True).execute(sa.select([

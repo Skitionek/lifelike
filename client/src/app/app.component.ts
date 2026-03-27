@@ -57,7 +57,11 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const child = this.activatedRoute.firstChild;
-        titleService.setTitle(child.snapshot.data.title ? `Lifelike: ${child.snapshot.data.title}` : 'Lifelike');
+        titleService.setTitle(
+          child.snapshot.data.title
+            ? `Lifelike Afterhours: ${child.snapshot.data.title}`
+            : 'Lifelike Afterhours'
+        );
         this.isStandaloneFileOpen = this.standAloneFileUrlRegex.test(event.url);
         const urlParts = event.url.split('#', 2);
         this.mainUrl = urlParts[0];

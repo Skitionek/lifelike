@@ -42,7 +42,7 @@ t_files_content = table(
         'files_content',
         column('id', sa.Integer),
         column('raw_file', sa.LargeBinary),
-        column('checksum_sha256', sa.Binary)
+        column('checksum_sha256', sa.LargeBinary)
 )
 
 

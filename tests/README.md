@@ -1,6 +1,6 @@
-# Lifelike testing tools
+# Lifelike Afterhours testing tools
 
-This directory contains various types of test for ensuring perfomance and correctness of the Lifelike application.
+This directory contains various types of test for ensuring perfomance and correctness of the Lifelike Afterhours application.
 
 - Broser performance testing
 - Server stress testing

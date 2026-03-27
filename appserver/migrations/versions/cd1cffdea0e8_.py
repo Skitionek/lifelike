@@ -22,7 +22,7 @@ t_files_content = sa.Table(
     sa.MetaData(),
     sa.Column('id', sa.Integer(), primary_key=True, autoincrement=True),
     sa.Column('raw_file', sa.LargeBinary, nullable=True),
-    sa.Column('checksum_sha256', sa.Binary(32), nullable=False, index=True, unique=True),
+    sa.Column('checksum_sha256', sa.LargeBinary(32), nullable=False, index=True, unique=True),
     sa.Column('creation_date', sa.DateTime, nullable=False, default=sa.func.now()),
 )
 
@@ -40,7 +40,7 @@ def upgrade():
     op.create_table('files_content',
                     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
                     sa.Column('raw_file', sa.LargeBinary(), nullable=False),
-                    sa.Column('checksum_sha256', sa.Binary(), nullable=False),
+                    sa.Column('checksum_sha256', sa.LargeBinary(), nullable=False),
                     sa.Column('creation_date', sa.DateTime(), nullable=False),
                     sa.PrimaryKeyConstraint('id', name=op.f('pk_files_content'))
                     )
