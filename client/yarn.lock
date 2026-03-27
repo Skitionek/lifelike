@@ -2061,10 +2061,10 @@
   dependencies:
     "@types/color-convert" "*"
 
-"@types/d3-array@*":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@types/d3-array/-/d3-array-3.2.2.tgz#e02151464d02d4a1b44646d0fcdb93faf88fde8c"
-  integrity sha512-hOLWVbm7uRza0BYXpIIW5pxfrKe0W+D5lrFiAEYR+pb6w3N2SwSMaJbXdUfSEv+dT4MfHBLtn5js0LAWaO6otw==
+"@types/d3-array@*", "@types/d3-array@2.12.3":
+  version "2.12.3"
+  resolved "https://registry.yarnpkg.com/@types/d3-array/-/d3-array-2.12.3.tgz#8d16d51fb04ad5a5a8ebe14eb8263a579f1efdd1"
+  integrity sha512-hN879HLPTVqZV3FQEXy7ptt083UXwguNbnxdTGzVW4y4KjX5uyNKljrQixZcSJfLyFirbpUokxpXtvR+N5+KIg==
 
 "@types/d3-axis@*":
   version "3.0.6"
@@ -2308,10 +2308,10 @@
   dependencies:
     "@types/sizzle" "*"
 
-"@types/jqueryui@1.12.24":
-  version "1.12.24"
-  resolved "https://registry.yarnpkg.com/@types/jqueryui/-/jqueryui-1.12.24.tgz#e78e862b0da13b9adb4f25ff8a00d7175c85860a"
-  integrity sha512-E2sGULwzMhg4kAeOV+gYcXjg988RuPkviWCt09jLe6GGK9sHM7dTqS8H7JMuUWoZQBucIBzBAgM5o/ezKUFkeg==
+"@types/jqueryui@1.12.16":
+  version "1.12.16"
+  resolved "https://registry.yarnpkg.com/@types/jqueryui/-/jqueryui-1.12.16.tgz#9e319f7db39490db950cba77fe83887e0ad3e1d9"
+  integrity sha512-6huAQDpNlso9ayaUT9amBOA3kj02OCeUWs+UvDmbaJmwkHSg/HLsQOoap/D5uveN9ePwl72N45Bl+Frp5xyG1Q==
   dependencies:
     "@types/jquery" "*"
 

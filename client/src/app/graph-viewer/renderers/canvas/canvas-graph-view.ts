@@ -158,6 +158,14 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
   private trackedSubscriptions: Subscription[] = [];
 
   /**
+   * The last d3/DOM event received from an interactive handler (click, drag,
+   * zoom, mousemove, …).  Kept as instance state so helper methods like
+   * {@link getLocationAtMouse} can access it without requiring every caller
+   * to pass the event explicitly (mirrors the role of the removed d3.event).
+   */
+  private currentEvent: MouseEvent | d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject> | d3.D3ZoomEvent<HTMLCanvasElement, any> | null = null;
+
+  /**
    * The subscription that handles the resizes.
    */
   protected canvasResizePendingSubscription: Subscription | undefined;
@@ -180,20 +188,22 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     this.canvas.height = Math.max(1, this.canvas.clientHeight);
 
     this.zoom = d3.zoom()
-      .on('zoom', this.canvasZoomed.bind(this))
+      .on('zoom', (event) => { this.currentEvent = event; this.canvasZoomed(event); })
       .on('end', this.canvasZoomEnded.bind(this));
 
     // We use rxjs to limit the number of mousemove events
     const canvasMouseMoveSubject = new Subject<any>();
 
     d3.select(this.canvas)
-      .on('click', this.canvasClicked.bind(this))
-      .on('dblclick', this.canvasDoubleClicked.bind(this))
+      .on('click', (event: MouseEvent) => this.canvasClicked(event))
+      .on('dblclick', (event: MouseEvent) => this.canvasDoubleClicked(event))
       .on('mousedown', this.canvasMouseDown.bind(this))
-      .on('mousemove', () => {
+      .on('mousemove', (event: MouseEvent) => {
+        this.currentEvent = event;
         canvasMouseMoveSubject.next();
       })
-      .on('dragover', () => {
+      .on('dragover', (event: MouseEvent) => {
+        this.currentEvent = event;
         canvasMouseMoveSubject.next();
       })
       .on('focus', this.canvasFocused.bind(this))
@@ -202,10 +212,11 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
       .on('mouseup', this.canvasMouseUp.bind(this))
       .call(d3.drag()
         .container(this.canvas)
-        .filter(() => !d3.event.button)
-        .subject((): CanvasSubject => {
+        .filter((event: MouseEvent) => !event.button)
+        .subject((event): CanvasSubject => {
+          this.currentEvent = event;
           if (this.behaviors.call('shouldDrag', {
-            event: d3.event.sourceEvent,
+            event: event.sourceEvent,
           })) {
             return {
               entity: null,
@@ -219,9 +230,9 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
           }
           return null;
         })
-        .on('start', this.canvasDragStarted.bind(this))
-        .on('drag', this.canvasDragged.bind(this))
-        .on('end', this.canvasDragEnded.bind(this)))
+        .on('start', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => { this.currentEvent = event; this.canvasDragStarted(event); })
+        .on('drag', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => { this.currentEvent = event; this.canvasDragged(event); })
+        .on('end', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => { this.currentEvent = event; this.canvasDragEnded(event); }))
       .call(this.zoom)
       .on('dblclick.zoom', null);
 
@@ -468,7 +479,7 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
   }
 
   getLocationAtMouse(): [number, number] {
-    const [mouseX, mouseY] = d3.mouse(this.canvas);
+    const [mouseX, mouseY] = d3.pointer(this.currentEvent, this.canvas);
     const x = this.transform.invertX(mouseX);
     const y = this.transform.invertY(mouseY);
     return [x, y];
@@ -1055,16 +1066,16 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     }
   }
 
-  canvasClicked() {
+  canvasClicked(event: MouseEvent) {
     const behaviorEvent = {
-      event: d3.event,
+      event,
     };
     this.behaviors.apply(behavior => behavior.click(behaviorEvent));
   }
 
-  canvasDoubleClicked() {
+  canvasDoubleClicked(event: MouseEvent) {
     const behaviorEvent = {
-      event: d3.event,
+      event,
     };
     this.behaviors.apply(behavior => behavior.doubleClick(behaviorEvent));
   }
@@ -1074,7 +1085,7 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
   }
 
   canvasMouseMoved() {
-    const [mouseX, mouseY] = d3.mouse(this.canvas);
+    const [mouseX, mouseY] = d3.pointer(this.currentEvent, this.canvas);
     const graphX = this.transform.invertX(mouseX);
     const graphY = this.transform.invertY(mouseY);
     const entityAtMouse = this.getEntityAtPosition(graphX, graphY);
@@ -1082,7 +1093,7 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     this.hoverPosition = {x: graphX, y: graphY};
 
     const behaviorEvent = {
-      event: d3.event,
+      event: this.currentEvent as MouseEvent,
     };
     this.behaviors.apply(behavior => behavior.mouseMove(behaviorEvent));
 
@@ -1144,14 +1155,14 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     this.behaviors.apply(behavior => behavior.paste(behaviorEvent));
   }
 
-  canvasDragStarted(): void {
-    const [mouseX, mouseY] = d3.mouse(this.canvas);
+  canvasDragStarted(event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>): void {
+    const [mouseX, mouseY] = d3.pointer(event, this.canvas);
     this.dragStartPosition = {x: mouseX, y: mouseY};
     this.dragStarted = false;
 
-    const subject: CanvasSubject = d3.event.subject;
+    const subject: CanvasSubject = event.subject;
     const behaviorEvent: DragBehaviorEvent = {
-      event: d3.event.sourceEvent,
+      event: event.sourceEvent,
       entity: subject.entity,
     };
 
@@ -1168,8 +1179,8 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     this.requestRender();
   }
 
-  canvasDragged(): void {
-    const [mouseX, mouseY] = d3.mouse(this.canvas);
+  canvasDragged(event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>): void {
+    const [mouseX, mouseY] = d3.pointer(event, this.canvas);
     let dragStarted = this.dragStarted;
 
     if (!dragStarted) {
@@ -1180,9 +1191,9 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
 
     if (dragStarted) {
       try {
-        const subject: CanvasSubject = d3.event.subject;
+        const subject: CanvasSubject = event.subject;
         const behaviorEvent: DragBehaviorEvent = {
-          event: d3.event.sourceEvent,
+          event: event.sourceEvent,
           entity: subject.entity,
         };
 
@@ -1203,10 +1214,10 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     }
   }
 
-  canvasDragEnded(): void {
-    const subject: CanvasSubject = d3.event.subject;
+  canvasDragEnded(event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>): void {
+    const subject: CanvasSubject = event.subject;
     const behaviorEvent: DragBehaviorEvent = {
-      event: d3.event.sourceEvent,
+      event: event.sourceEvent,
       entity: subject.entity,
     };
 
@@ -1217,9 +1228,9 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     this.requestRender();
   }
 
-  canvasZoomed(): void {
-    const [mouseX, mouseY] = d3.mouse(this.canvas);
-    this.d3Transform = d3.event.transform;
+  canvasZoomed(event: d3.D3ZoomEvent<HTMLCanvasElement, any>): void {
+    const [mouseX, mouseY] = d3.pointer(event, this.canvas);
+    this.d3Transform = event.transform;
     this.panningOrZooming = true;
     this.touchPosition = {
       position: {

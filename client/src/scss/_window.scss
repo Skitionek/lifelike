@@ -41,16 +41,16 @@
   padding: 0;
   line-height: 1;
   background: transparent;
-  color: $close-color;
+  color: $btn-close-color;
 
   // Override <a>'s hover style
-  @include hover() {
-    color: $close-color;
+  &:hover {
+    color: $btn-close-color;
     text-decoration: none;
   }
 
   &:not(:disabled):not(.disabled) {
-    @include hover-focus() {
+    &:hover, &:focus {
       opacity: .75;
     }
   }

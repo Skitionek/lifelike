@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json yarn.lock ./
-ARG YARN_INSTALL_OPTS
+ARG YARN_INSTALL_OPTS=--ignore-engines
 RUN yarn install ${YARN_INSTALL_OPTS}
 
 ENV ENVIRONMENT_CONFIG development

@@ -15,7 +15,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { zoom as d3_zoom, zoomIdentity as d3_zoomIdentity } from 'd3-zoom';
-import { select as d3_select, ValueFn as d3_ValueFn, Selection as d3_Selection, event as d3_event } from 'd3-selection';
+import { select as d3_select, ValueFn as d3_ValueFn, Selection as d3_Selection } from 'd3-selection';
 import { drag as d3_drag } from 'd3-drag';
 import { compact, isObject } from 'lodash-es';
 
@@ -212,10 +212,10 @@ export class SankeyComponent implements AfterViewInit, OnDestroy, OnChanges {
     // attach zoom behaviour
     const {g, zoom} = this;
     const zoomContainer = d3_select(g.nativeElement);
-    zoom.on('zoom', _ => zoomContainer.attr('transform', d3_event.transform));
+    zoom.on('zoom', (event) => zoomContainer.attr('transform', event.transform));
 
-    this.sankeySelection.on('click', () => {
-      const e = d3_event;
+    this.sankeySelection.on('click', (event) => {
+      const e = event;
       if (!e.target.__data__) {
         this.backgroundClicked.emit();
         // events are consumed by d3_zoom recall mouse down/up on document to close possible popups
@@ -334,10 +334,10 @@ export class SankeyComponent implements AfterViewInit, OnDestroy, OnChanges {
             dy = 0;
             d3_select(this).raise();
           })
-          .on('drag', function(d) {
-            dx += d3_event.dx;
-            dy += d3_event.dy;
-            dragmove(this, d);
+          .on('drag', function(event, d) {
+            dx += event.dx;
+            dy += event.dy;
+            dragmove(this, event, d);
           })
           .on('end', function(d) {
             // d3v5 does not include implementation for this
@@ -435,7 +435,7 @@ export class SankeyComponent implements AfterViewInit, OnDestroy, OnChanges {
   }
 
   // the function for moving the nodes
-  dragmove(element, d) {
+  dragmove(element, event, d) {
     const {
       id,
       linkPath
@@ -444,10 +444,10 @@ export class SankeyComponent implements AfterViewInit, OnDestroy, OnChanges {
     const nodeWidth = d._x1 - d._x0;
     const nodeHeight = d._y1 - d._y0;
     const newPosition = {
-      _x0: d._x0 + d3_event.dx,
-      _x1: d._x0 + d3_event.dx + nodeWidth,
-      _y0: d._y0 + d3_event.dy,
-      _y1: d._y0 + d3_event.dy + nodeHeight
+      _x0: d._x0 + event.dx,
+      _x1: d._x0 + event.dx + nodeWidth,
+      _y0: d._y0 + event.dy,
+      _y1: d._y0 + event.dy + nodeHeight
     };
     Object.assign(d, newPosition);
     d3_select(element)
