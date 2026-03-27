@@ -1093,7 +1093,7 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
     this.hoverPosition = {x: graphX, y: graphY};
 
     const behaviorEvent = {
-      event: this.currentEvent,
+      event: this.currentEvent as MouseEvent,
     };
     this.behaviors.apply(behavior => behavior.mouseMove(behaviorEvent));
 
