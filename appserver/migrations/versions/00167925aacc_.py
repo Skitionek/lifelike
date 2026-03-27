@@ -51,7 +51,7 @@ def data_upgrades():
         'files_content',
         column('id', sa.Integer),
         column('raw_file', sa.String),
-        column('checksum_sha256', sa.Binary)
+        column('checksum_sha256', sa.LargeBinary)
     )
 
     enrichment_files_content = session.execute(sa.select([

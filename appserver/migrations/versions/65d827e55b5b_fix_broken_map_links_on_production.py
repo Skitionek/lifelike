@@ -59,7 +59,7 @@ def data_upgrades():
             'files_content',
             column('id', sa.Integer),
             column('raw_file', sa.LargeBinary),
-            column('checksum_sha256', sa.Binary)
+            column('checksum_sha256', sa.LargeBinary)
     )
 
     HASH_CONVERSION_MAP = {
