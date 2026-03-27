@@ -67,9 +67,6 @@ router-outlet + * {
   }
 }
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-
 // Workaround for https://github.com/FortAwesome/Font-Awesome/issues/17469
 .fa.fa-spinner.fa-spin {
   transform-origin: 50% 0.445em;
