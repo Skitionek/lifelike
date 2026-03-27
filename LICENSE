@@ -1,3 +1,28 @@
+Lifelike Fork License and Upstream Notice
+=========================================
+
+This repository contains a mix of:
+
+1. Upstream Lifelike code originating from the Novo Nordisk Foundation Center
+	for Biosustainability.
+2. Fork-specific modifications and additions.
+
+Fork-specific modifications and additions in this repository are CLOSED SOURCE
+and PROPRIETARY unless a file explicitly state otherwise.
+
+No permission is granted to use, copy, modify, merge, publish, distribute,
+sublicense, or sell fork-specific modifications and additions without prior
+written permission from the copyright holder.
+
+Copyright (c) 2024 Skitionek. All rights reserved.
+
+
+Upstream License Notice (Original Lifelike Portions)
+----------------------------------------------------
+
+The following notice applies to upstream Lifelike portions that were originally
+distributed under the modified MIT terms.
+
 MIT License (Modified for attribution)
 
 Copyright (c) 2022 Novo Nordisk Foundation Center for Biosustainability
@@ -20,8 +45,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-It must include the following content on all end-user GUI elements, such as page footers:
+It must include the following content on all end-user GUI elements, such as
+page footers:
 
  - Textual legend: "This project uses code provided by Lifelike.bio"
  - Embeded Lifelike logo image taken from: <https://github.com/SBRG/lifelike-website/raw/main/lifelike.png>
  - Link to Lifelike public GitHub repository: <https://github.com/SBRG/lifelike>
+
+
+Contact
+-------
+
+For licensing inquiries or to discuss potential license changes, open an issue
+at:
+https://github.com/Skitionek/lifelike/issues

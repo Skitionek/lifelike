@@ -1,6 +1,6 @@
-# Getting Started with Lifelike using Docker
+# Getting Started with Lifelike Afterhours using Docker
 
-Docker is an easy way to get started with Lifelike.
+Docker is an easy way to get started with Lifelike Afterhours.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ Docker is an easy way to get started with Lifelike.
 
 In order to build and bring up all required containers, run the following command after cloning this repository:
 
-Once it's running, you can access the Lifelike UI at [http://localhost:8080](http://localhost:8080) in your browser.
+Once it's running, you can access the Lifelike Afterhours UI at [http://localhost:8080](http://localhost:8080) in your browser.
 Default username / password is: `admin@example.com` / `password`
 
 ```shell
@@ -36,7 +36,7 @@ This may take a while if running for the first time.
  ⠿ Container lifelike-appserver-1               Started
  ⠿ Container lifelike-frontend-1                Started
 
-To access Lifelike, point your browser at: http://localhost:8080
+To access Lifelike Afterhours, point your browser at: http://localhost:8080
 ```
 
 ## Architecture diagram

@@ -51,7 +51,7 @@
           </a>
           <div ngbDropdownMenu aria-labelledby="account-dropdown" class="dropdown-menu">
             <a class="dropdown-item" (click)="buildInfo()" placement="right">
-              Lifelike Info
+              Lifelike Afterhours Info
             </a>
             <a class="dropdown-item" *ngIf="(userRoles$ | async)?.includes('admin')" [routerLink]="['/admin']"
                placement="right">
