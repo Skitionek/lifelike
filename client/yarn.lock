@@ -2400,10 +2400,10 @@
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
   integrity sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==
 
-"@types/vis@^4.21.19":
-  version "4.21.22"
-  resolved "https://registry.yarnpkg.com/@types/vis/-/vis-4.21.22.tgz#0f15b8825cf4df7a02e66c96516b1d774e241847"
-  integrity sha512-6RW+5yc0kOmZSfPjn7Kjjda7q96rtgvjNk9AFV52B1GA382oEYuP0p8yX00d2xbVWQbmmm+Uhinj9cRqW90NiA==
+"@types/vis@^4.21.27":
+  version "4.21.27"
+  resolved "https://registry.yarnpkg.com/@types/vis/-/vis-4.21.27.tgz#06769b796177bd394b309a8f4136433b803820ca"
+  integrity sha512-Ma/W/XgSXu9ltuJfKRqS27CVcYNxf+sM8M76F82zWSyB/s/gT+Vw2f8LZhWN+GSnDQ1XahdBKhTtGZi4IK3pzA==
   dependencies:
     moment ">=2.13.0"
 
