@@ -95,7 +95,7 @@
     "@types/pdfjs-dist": "^2.1.6",
     "@types/vis": "^4.21.19",
     "babel-loader": "^8.2.1",
-    "codelyzer": "^5.1.2",
+    "codelyzer": "^6.0.2",
     "jasmine-core": "~3.4.0",
     "jasmine-marbles": "^0.8.4",
     "jasmine-spec-reporter": "~7.0.0",
