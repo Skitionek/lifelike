@@ -214,8 +214,8 @@ export class PdfViewerComponent
   private lastLoaded: PDFSource;
   private internalLatestScrolledPage: number;
 
-  private resizeTimeout: NodeJS.Timer;
-  private pageScrollTimeout: NodeJS.Timer;
+  private resizeTimeout: ReturnType<typeof setTimeout>;
+  private pageScrollTimeout: ReturnType<typeof setTimeout>;
   private isInitialized = false;
   private loadingTask: PDFDocumentLoadingTask;
 
