@@ -52,7 +52,7 @@ click==8.3.1
     # via flask
 colorama==0.4.6 ; sys_platform == 'win32'
     # via click
-cryptography==46.0.6
+cryptography==46.0.7
     # via
     #   azure-storage-blob
     #   azure-storage-common
