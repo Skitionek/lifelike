@@ -87,7 +87,7 @@
     "@types/color": "^3.0.6",
     "@types/d3": "^7.4.3",
     "@types/jasmine": "^3.5.2",
-    "@types/jasminewd2": "~2.0.3",
+    "@types/jasminewd2": "~2.0.13",
     "@types/jquery": "^3.3.33",
     "@types/jqueryui": "1.12.21",
     "@types/lodash-es": "^4.17.12",
