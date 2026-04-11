@@ -10634,6 +10634,11 @@ rollup@2.1.0:
   optionalDependencies:
     fsevents "~2.1.2"
 
+route-with-dynamic-outlets@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/route-with-dynamic-outlets/-/route-with-dynamic-outlets-1.0.0.tgz#4292630eb2e91c078c7f090cf79fb9727f03f21b"
+  integrity sha512-APaVBiC37MuGE9o/iQVouMn2aXlvwRSCkAvPHZ5PncwxeSdeS5kZZJ8gzu3mh9H6trgDXOPnLZLj9IuGGTi7EQ==
+
 run-async@^2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"
