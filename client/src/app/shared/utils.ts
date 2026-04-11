@@ -219,7 +219,7 @@ export function ignore404Errors<T>(): UnaryFunction<Observable<T>, Observable<T>
         return from([null]);
       }
     }
-    return throwError(error);
+    return throwError(() => error);
   }));
 }
 

@@ -23,11 +23,6 @@ const components = [
 ];
 
 @NgModule({
-  entryComponents: [
-    UserCreateDialogComponent,
-    UserUpdateDialogComponent,
-    MissingRolesDialogComponent,
-  ],
   imports: [
     SharedModule,
   ],

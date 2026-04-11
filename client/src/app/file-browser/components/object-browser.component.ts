@@ -72,7 +72,7 @@ export class ObjectBrowserComponent implements OnInit, OnDestroy {
           if (list.results.length) {
             this.load(list.results.items[0].root.hashId);
           } else {
-            this.object$ = throwError(new HttpErrorResponse({
+            this.object$ = throwError(() => new HttpErrorResponse({
               status: 404,
             }));
           }

@@ -20,11 +20,6 @@ import { EnrichmentTablePreviewComponent } from './components/table/enrichment-t
     SharedModule,
     FileBrowserModule,
   ],
-  entryComponents: [
-    EnrichmentTableEditDialogComponent,
-    EnrichmentTableOrderDialogComponent,
-    EnrichmentTablePreviewComponent,
-  ],
   exports: [
     EnrichmentTablePreviewComponent,
   ],

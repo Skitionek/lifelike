@@ -77,23 +77,6 @@ import { BrowserRecentListComponent } from './components/browser/browser-recent-
   imports: [
     SharedModule,
   ],
-  entryComponents: [
-    ObjectDeleteDialogComponent,
-    ProjectEditDialogComponent,
-    ObjectDeletionResultDialogComponent,
-    ObjectSelectionDialogComponent,
-    ObjectEditDialogComponent,
-    ObjectVersionHistoryDialogComponent,
-    ObjectPreviewComponent,
-    ObjectExportDialogComponent,
-    ObjectListComponent,
-    ObjectTileDeckComponent,
-    DirectoryPreviewComponent,
-    ProjectCollaboratorsDialogComponent,
-    FileAnnotationHistoryDialogComponent,
-    ObjectAnnotationHistoryComponent,
-    ObjectReannotateResultsDialogComponent,
-  ],
   exports: [
     ObjectInfoComponent,
     ObjectTypeLabelComponent,

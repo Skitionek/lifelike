@@ -151,7 +151,7 @@ export class AdminSettingsComponent {
             },
             (err) => {
               progressDialogRef.close();
-              return throwError(err);
+              return throwError(() => err);
             }
           );
     }

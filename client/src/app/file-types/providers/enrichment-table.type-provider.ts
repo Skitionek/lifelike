@@ -2,7 +2,7 @@ import { ComponentFactory, ComponentFactoryResolver, Injectable, Injector } from
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize, map, mergeMap, take, tap } from 'rxjs/operators';
-import { BehaviorSubject, from, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, from, Observable, of } from 'rxjs';
 
 import { EnrichmentDocument } from 'app/enrichment/models/enrichment-document';
 import { EnrichmentTableService } from 'app/enrichment/services/enrichment-table.service';
@@ -99,7 +99,7 @@ export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {
 
             const document = value.document;
 
-            return document.refreshData().pipe(
+            return firstValueFrom(document.refreshData().pipe(
               mergeMap(newDocument => newDocument.save()),
               tap(() => progressDialogRef.close()),
               mergeMap(blob =>
@@ -112,7 +112,7 @@ export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {
                     synonym: document.organism,
                     tax_id: document.taxID}}))),
               finalize(() => progressDialogRef.close()),
-            ).toPromise();
+            ));
           });
         },
       },
@@ -127,7 +127,7 @@ export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {
       })),
     });
 
-    return this.filesystemService.getContent(target.hashId).pipe(
+    return firstValueFrom(this.filesystemService.getContent(target.hashId).pipe(
       mergeMap((blob: Blob) => new EnrichmentDocument(this.worksheetViewerService).loadResult(blob, target.hashId)),
       tap(() => progressDialogRef.close()),
       mergeMap(document => {
@@ -146,7 +146,7 @@ export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {
           // old files can have outdated or corrupted data/schema
           // so instead of refreshing, update and save
           // this will trigger recreating the enrichment JSON
-          return value.document.updateParameters().pipe(
+          return firstValueFrom(value.document.updateParameters().pipe(
             mergeMap(newBlob => this.filesystemService.save([target.hashId], {
               contentValue: newBlob,
               ...value.request,
@@ -158,7 +158,7 @@ export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {
             // Errors are lost below with the catch() so we need to handle errors here too
             this.errorHandler.create(),
             finalize(() => progressDialog2Ref.close()),
-          ).toPromise();
+          ));
         };
 
         return from(dialogRef.result.catch(() => {
@@ -168,7 +168,7 @@ export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {
       take(1),
       this.errorHandler.create(),
       finalize(() => progressDialogRef.close()),
-    ).toPromise();
+    ));
   }
 
   getSearchTypes(): SearchType[] {

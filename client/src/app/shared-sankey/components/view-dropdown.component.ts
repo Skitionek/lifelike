@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { transform, pick, omitBy, isNil, mapValues, defer, omit } from 'lodash-es';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { SankeyControllerService } from 'app/sankey-viewer/services/sankey-controller.service';
@@ -135,7 +136,7 @@ export class SankeyViewDropdownComponent implements OnChanges {
   }
 
   createView(viewName): Promise<any> {
-    return this.sankeyController.sankeySize$.pipe(
+    return firstValueFrom(this.sankeyController.sankeySize$.pipe(
       first(),
       map(size => {
         const renderedData = this.sankeyController.dataToRender.value;
@@ -149,7 +150,7 @@ export class SankeyViewDropdownComponent implements OnChanges {
         this.sankeyController.state.viewName = viewName;
         this.viewDataChanged.emit();
       })
-    ).toPromise();
+    ));
   }
 
   changeViewBaseIfNeeded(base, params?): Promise<boolean> | void {

@@ -235,7 +235,7 @@ export class FilesystemService {
 
       // If it's any other type of error, we need to propagate it so
       // the calling code can handle it through its normal error handling
-      return throwError(e);
+      return throwError(() => e);
     }));
   }
 
@@ -356,11 +356,11 @@ export class FilesystemService {
         if (e instanceof HttpErrorResponse) {
           if (e.status === 409) {
             const otherLocks = e.error.results.map(itemData => new ObjectLock().update(itemData));
-            return throwError(new LockError(otherLocks));
+            return throwError(() => new LockError(otherLocks));
           }
         }
 
-        return throwError(e);
+        return throwError(() => e);
       }),
     );
   }

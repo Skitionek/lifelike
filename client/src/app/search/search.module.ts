@@ -38,11 +38,6 @@ const components = [
     DrawingToolModule,
     FileBrowserModule
   ],
-  entryComponents: [
-    AdvancedSearchDialogComponent,
-    RejectedOptionsDialogComponent,
-    SynonymSearchComponent
-  ],
   declarations: components,
   providers: [
     GraphSearchService,

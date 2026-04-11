@@ -44,9 +44,6 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     DashboardComponent,
     KgStatisticsComponent,
   ],
-  entryComponents: [
-    AppVersionDialogComponent,
-  ],
   imports: [
     BrowserModule,
     PdfViewerLibModule,

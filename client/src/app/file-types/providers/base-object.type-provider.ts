@@ -1,6 +1,6 @@
 import { ComponentRef, Injectable, InjectionToken, Injector, NgZone } from '@angular/core';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -132,7 +132,7 @@ export class AbstractObjectTypeProviderHelper {
         title: 'Working...',
         progressObservable,
       });
-      return this.filesystemService.save([target.hashId], value.request, {
+      return firstValueFrom(this.filesystemService.save([target.hashId], value.request, {
         [target.hashId]: target,
       })
         .pipe(
@@ -140,8 +140,7 @@ export class AbstractObjectTypeProviderHelper {
           finalize(() => progressDialogRef.close()),
           this.errorHandler.createFormErrorHandler(dialogRef.componentInstance.form),
           this.errorHandler.create({label: 'Edit object'}),
-        )
-        .toPromise();
+        ));
     });
     return dialogRef.result;
   }
