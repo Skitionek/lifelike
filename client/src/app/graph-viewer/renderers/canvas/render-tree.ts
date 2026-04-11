@@ -8,7 +8,7 @@ export class PlacedObjectRenderTree<T = any> implements PlacedObjectRenderer, Re
 
   private readonly children: Map<T, PlacedObject> = new Map();
   private renderQueue: Map<PlacedObject, boolean> = new Map();
-  private readonly renderStart$ = new Subject<any>();
+  private readonly renderStart$ = new Subject<void>();
   readonly renderRequest$: Observable<[PlacedObject, boolean][]> = this.renderStart$.pipe(
     debounceTime(100),
     map(() => {

@@ -30,7 +30,7 @@ export abstract class GenericFlatTreeComponent<T> implements OnDestroy {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
     this._initDataSource();
 
-    this.flatNodesChangedListener = this.dataSource._flattenedData.subscribe((flatNodes) => {
+    this.flatNodesChangedListener = (this.dataSource as any)._flattenedData.subscribe((flatNodes) => {
       this.flatNodes = flatNodes;
     });
   }

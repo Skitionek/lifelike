@@ -62,8 +62,8 @@ export function readBlobAsBuffer(blob: Blob): Observable<ArrayBuffer> {
 export function openDownloadForBlob(blob: Blob, filename: string): void {
   // IE doesn't allow using a blob object directly as link href
   // instead it is necessary to use msSaveOrOpenBlob
-  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(blob);
+  if (window.navigator && (window.navigator as any).msSaveOrOpenBlob) {
+    (window.navigator as any).msSaveOrOpenBlob(blob);
     return;
   }
 

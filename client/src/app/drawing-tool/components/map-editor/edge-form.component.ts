@@ -114,7 +114,7 @@ export class EdgeFormComponent implements AfterViewInit {
   }
 
   doDelete(): void {
-    this.delete.next();
+    this.delete.emit();
   }
 
   /**

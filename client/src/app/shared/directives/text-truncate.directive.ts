@@ -4,7 +4,6 @@ import {
   Renderer2,
   Input,
   Injector,
-  ComponentFactoryResolver,
   ViewContainerRef,
   NgZone,
   ChangeDetectorRef,
@@ -16,6 +15,7 @@ import {
 } from '@angular/core';
 
 import { NgbTooltip, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbRTL } from '@ng-bootstrap/ng-bootstrap/util/rtl';
 import { Subscription } from 'rxjs';
 
 import { createResizeObservable } from '../rxjs/resize-observable';
@@ -31,9 +31,9 @@ import { createResizeObservable } from '../rxjs/resize-observable';
 export class TextTruncateDirective extends NgbTooltip implements OnInit, OnDestroy, AfterContentChecked {
   constructor(
     protected _elementRef: ElementRef<HTMLElement>,
+    protected _rtl: NgbRTL,
     protected _renderer: Renderer2,
     protected injector: Injector,
-    protected componentFactoryResolver: ComponentFactoryResolver,
     protected viewContainerRef: ViewContainerRef,
     protected config: NgbTooltipConfig,
     protected _ngZone: NgZone,
@@ -42,9 +42,9 @@ export class TextTruncateDirective extends NgbTooltip implements OnInit, OnDestr
   ) {
     super(
       _elementRef,
+      _rtl,
       _renderer,
       injector,
-      componentFactoryResolver,
       viewContainerRef,
       config,
       _ngZone,
