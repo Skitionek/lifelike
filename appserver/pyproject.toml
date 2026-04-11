@@ -33,7 +33,7 @@ dependencies = [
   "python-json-logger==4.0.0",
   "intervaltree==3.2.1",
   "paramiko==3.4.0",
-  "google-cloud-storage==1.43.0",
+  "google-cloud-storage==3.10.1",
   "fastjsonschema==2.21.2",
   "marshmallow-dataclass==8.7.1",
   "marshmallow-enum==1.5.1",
