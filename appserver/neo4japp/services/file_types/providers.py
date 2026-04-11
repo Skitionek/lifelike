@@ -20,7 +20,7 @@ from graphviz import escape
 from flask import current_app
 
 from pdfminer import high_level
-from bioc.biocjson import BioCJsonIterWriter, fromJSON as biocFromJSON, toJSON as biocToJSON
+from bioc.biocjson import fromJSON as biocFromJSON, toJSON as biocToJSON
 from jsonlines import Reader as BioCJsonIterReader, Writer as BioCJsonIterWriter
 import os
 import bioc
@@ -373,7 +373,7 @@ class BiocTypeProvider(BaseFileTypeProvider):
     def validate_content(self, buffer: BufferedIOBase):
         with BioCJsonIterReader(buffer) as reader:
             for obj in reader:
-                passage = biocFromJSON(obj, level=bioc.DOCUMENT)
+                passage = biocFromJSON(obj, bioctype='BioCDocument')
 
     def extract_doi(self, buffer: BufferedIOBase) -> Optional[str]:
         data = buffer.read()
