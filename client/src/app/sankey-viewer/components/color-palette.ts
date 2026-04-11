@@ -36,7 +36,7 @@ export const predefinedColorPaletteGenerator = (
   if (isDevMode() && palette && palette.length < size) {
     this?.warningController?.warn(`Predefined palette has not enough colors.`, palette, size);
   }
-  return i => palette[i % palette.length];
+  return i => palette![i % palette!.length];
 };
 
 export const colorPaletteGenerator = (
