@@ -480,7 +480,7 @@ export class WorkspaceManager {
           : this.router.serializeUrl(extras.parentAddress);
         let parentTab: Tab | undefined;
         for (const t of leftPane.tabs) {
-          if (t.url && t.url.match(parentUrlStr)) {
+          if (t.url && t.url === parentUrlStr) {
             leftPane.activeTab = t;
             parentTab = t;
             break;
