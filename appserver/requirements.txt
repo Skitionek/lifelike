@@ -170,7 +170,7 @@ marshmallow==3.26.2
     #   marshmallow-enum
     #   marshmallow-sqlalchemy
     #   webargs
-marshmallow-dataclass==8.5.3
+marshmallow-dataclass==8.7.1
     # via lifelike-appserver
 marshmallow-enum==1.5.1
     # via lifelike-appserver
