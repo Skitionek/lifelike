@@ -77,9 +77,11 @@
                    class="flex-fill overflow-hidden position-absolute workspace-tab-content-inner-container"
                    [class.workspace-hidden-tab-content]="pane.activeTab !== tab"
                    appDataTransferData [uriData]="[{title: tab.title, uri: tab.absoluteUrl}]">
-                <app-workspace-outlet [name]="pane.id" [container]="tab.container"
-                                      (outletFocus)="setFocus(pane)"
-                                      [active]="pane.activeTab === tab"></app-workspace-outlet>
+                <router-outlet
+                  [name]="tab.outletName"
+                  (activate)="onComponentActivate(tab.outletName, $event); setFocus(pane)"
+                  (deactivate)="onComponentDeactivate(tab.outletName)">
+                </router-outlet>
               </div>
               <ng-container *ngIf="!pane.tabs.length">
                 <div class="w-100 h-100 d-flex align-items-center">

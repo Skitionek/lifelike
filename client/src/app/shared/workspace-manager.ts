@@ -1,19 +1,8 @@
+import { Injectable } from '@angular/core';
 import {
-  ComponentFactory,
-  ComponentFactoryResolver,
-  ComponentRef,
-  Injectable,
-  Injector,
-  StaticProvider,
-  Type,
-  ViewContainerRef,
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
+  ActivationEnd,
   NavigationExtras,
   Router,
-  RoutesRecognized,
   UrlTree,
 } from '@angular/router';
 import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -34,115 +23,21 @@ export interface TabDefaults {
   fontAwesomeIcon: string;
 }
 
-
 /**
- * Manages the lifecycle of a dynamically instantiated component.
- */
-export class Container<T> {
-  private createdComponentRef: ComponentRef<T> = null;
-  private viewContainerRef: ViewContainerRef;
-
-  constructor(private readonly tab: Tab,
-              private readonly injector: Injector,
-              private componentFactoryResolver: ComponentFactoryResolver,
-              readonly component: Type<T>) {
-  }
-
-  get attached(): boolean {
-    return this.viewContainerRef != null;
-  }
-
-  /**
-   * Create the component if necessary and attach it to the given ref. If
-   * this component has already been attached to a ref, then an error
-   * will be raised.
-   * @param viewContainerRef the ref
-   */
-  attach(viewContainerRef: ViewContainerRef) {
-    if (this.viewContainerRef) {
-      throw new Error('already attached to a ViewContainerRef');
-    }
-    this.viewContainerRef = viewContainerRef;
-    viewContainerRef.insert(this.componentRef.hostView);
-  }
-
-  /**
-   * Detach the component from the associated ref, if there
-   * is one.
-   */
-  detach() {
-    if (this.viewContainerRef) {
-      this.viewContainerRef.detach(0);
-      this.viewContainerRef = null;
-    }
-  }
-
-  /**
-   * Get a component ref if one has already been created.
-   */
-  get lazyComponentRef(): ComponentRef<T> | undefined {
-    return this.createdComponentRef;
-  }
-
-  /**
-   * Get a component ref, creating it if necessary.
-   */
-  get componentRef(): ComponentRef<T> {
-    if (!this.createdComponentRef) {
-      const factory: ComponentFactory<T> = this.componentFactoryResolver.resolveComponentFactory(this.component);
-      this.createdComponentRef = factory.create(this.injector);
-      const instance = this.createdComponentRef.instance as ModuleAwareComponent;
-      const subscriptions: Subscription[] = [];
-      if (instance.modulePropertiesChange) {
-        subscriptions.push(instance.modulePropertiesChange.subscribe(properties => {
-          this.tab.queuePropertyChange(properties);
-        }));
-      }
-      this.createdComponentRef.onDestroy(() => {
-        this.createdComponentRef = null;
-        this.viewContainerRef = null;
-        for (const subscription of subscriptions) {
-          subscription.unsubscribe();
-        }
-      });
-    }
-    return this.createdComponentRef;
-  }
-
-  /**
-   * Destroy the created component ref if it has been created.
-   */
-  destroy() {
-    this.detach();
-    if (this.createdComponentRef) {
-      this.createdComponentRef.destroy();
-      this.createdComponentRef = null;
-      this.viewContainerRef = null;
-    }
-  }
-}
-
-/**
- * Represents a tab with a title and possibly a component inside.
+ * Represents a tab with a title. Content is rendered by the Angular router
+ * outlet identified by {@link outletName}.
  */
 export class Tab {
-  workspaceManager: WorkspaceManager;
+  /** Named outlet used by the Angular router to render this tab's content. */
+  outletName: string;
   url: string;
   defaultsSet = false;
   title = 'New Tab';
   fontAwesomeIcon: string = null;
   badge: string = null;
   loading = false;
-  component: Type<any>;
-  providers: StaticProvider[] = [];
-  container: Container<any>;
 
   pendingProperties: ModuleProperties | undefined;
-
-  constructor(private readonly injector: Injector,
-              private readonly componentFactoryResolver: ComponentFactoryResolver) {
-    this.workspaceManager = this.injector.get<WorkspaceManager>(WorkspaceManager);
-  }
 
   get absoluteUrl(): string {
     return new URL(this.url.replace(/^\/+/, '/'), new URL(window.location.href)).href;
@@ -152,74 +47,20 @@ export class Tab {
     this.pendingProperties = cloneDeep(properties);
   }
 
-  applyPendingChanges() {
+  /**
+   * Apply any queued property changes. Returns true when there were pending
+   * changes so callers can decide whether to persist state.
+   */
+  applyPendingChanges(): boolean {
     if (this.pendingProperties) {
       this.title = this.pendingProperties.title;
       this.fontAwesomeIcon = this.pendingProperties.fontAwesomeIcon;
       this.badge = this.pendingProperties.badge;
       this.loading = !!this.pendingProperties.loading;
       this.pendingProperties = null;
-      this.workspaceManager.save();
+      return true;
     }
-  }
-
-  /**
-   * Load the given component into this tab at some point in the future.
-   * @param component the component
-   * @param providers optional providers for the injector
-   */
-  replaceComponent(component: Type<any>, providers: StaticProvider[] = []) {
-    this.destroy();
-
-    this.container = new Container<any>(
-      this,
-      Injector.create({
-        parent: this.injector,
-        providers,
-      }),
-      this.componentFactoryResolver,
-      component,
-    );
-  }
-
-  /**
-   * Attach the tab's component to the given ref if there is a component. If
-   * this component has already been attached to a ref, then an error
-   * will be raised.
-   * @param viewContainerRef the ref
-   */
-  attach(viewContainerRef: ViewContainerRef) {
-    if (this.container) {
-      this.container.attach(viewContainerRef);
-    }
-  }
-
-  /**
-   * Detach this tab from its view ref, if any.
-   */
-  detach() {
-    if (this.container) {
-      this.container.detach();
-    }
-  }
-
-  /**
-   * Destroy the component if it has been existed and clear the
-   * component on this tab.
-   */
-  destroy() {
-    if (this.container) {
-      this.container.destroy();
-      this.container = null;
-    }
-  }
-
-  /**
-   * Get the underlying component, if it has been created.
-   */
-  getComponent(): any | undefined {
-    const componentRef = this.container ? this.container.lazyComponentRef : null;
-    return componentRef ? componentRef.instance : null;
+    return false;
   }
 }
 
@@ -246,14 +87,20 @@ export class Pane {
    */
   readonly activeTabHistory: Set<Tab> = new Set();
 
-  constructor(readonly id: string,
-              private readonly injector: Injector) {
+  /** Monotonically increasing counter used to generate unique outlet names. */
+  private outletCounter = 0;
+
+  constructor(readonly id: string) {
   }
 
-  applyPendingChanges() {
+  applyPendingChanges(): boolean {
+    let changed = false;
     for (const tab of this.tabs) {
-      tab.applyPendingChanges();
+      if (tab.applyPendingChanges()) {
+        changed = true;
+      }
     }
+    return changed;
   }
 
   /**
@@ -297,10 +144,8 @@ export class Pane {
    * Create a new tab and add it to this pane.
    */
   createTab(): Tab {
-    const tab = new Tab(
-      this.injector,
-      this.injector.get<ComponentFactoryResolver>(ComponentFactoryResolver as any),
-    );
+    const tab = new Tab();
+    tab.outletName = `${this.id}-${this.outletCounter++}`;
     this.tabs.push(tab);
     this.activeTab = tab;
     return tab;
@@ -337,7 +182,6 @@ export class Pane {
    * @param tab the tab that was moved
    */
   handleTabMoveFrom(tab: Tab) {
-    tab.detach();
     this.activeTabHistory.delete(tab);
   }
 
@@ -365,9 +209,6 @@ export class Pane {
 export class PaneManager {
   panes: Pane[] = [];
 
-  constructor(private readonly injector: Injector) {
-  }
-
   /**
    * Create a new pane.
    * @param id the pane ID that must be unique
@@ -378,7 +219,7 @@ export class PaneManager {
         throw new Error(`pane ${existingPane.id} already created`);
       }
     }
-    const pane = new Pane(id, this.injector);
+    const pane = new Pane(id);
     this.panes.push(pane);
     return pane;
   }
@@ -454,10 +295,14 @@ export class PaneManager {
     }
   }
 
-  applyPendingChanges() {
+  applyPendingChanges(): boolean {
+    let changed = false;
     for (const pane of this.panes) {
-      pane.applyPendingChanges();
+      if (pane.applyPendingChanges()) {
+        changed = true;
+      }
     }
+    return changed;
   }
 }
 
@@ -468,80 +313,117 @@ export class WorkspaceManager {
   panes: PaneManager;
   readonly workspaceUrl = '/workspaces/local';
   focusedPane: Pane | undefined;
-  private interceptNextRoute = false;
   panes$ = new BehaviorSubject<Pane[]>([]);
   private loaded = false;
 
-  constructor(private readonly router: Router,
-              private readonly injector: Injector,
+  /** Maps outlet name → active component instance (set via router outlet activate events). */
+  private readonly activeComponents = new Map<string, any>();
+  /** Maps outlet name → subscription for modulePropertiesChange. */
+  private readonly componentSubscriptions = new Map<string, Subscription>();
+
+  constructor(readonly router: Router,
               private readonly sessionService: WorkspaceSessionService) {
-    this.panes = new PaneManager(injector);
-    this.hookRouter();
+    this.panes = new PaneManager();
+    this.subscribeToActivationEnd();
     this.emitEvents();
   }
 
   isWithinWorkspace() {
-    return this.router.url === this.workspaceUrl;
+    return this.router.url.startsWith(this.workspaceUrl);
   }
 
-  private hookRouter() {
-    // Intercept changing routes and redirect to our workspace
+  /**
+   * Listen for route ActivationEnd events to populate tab titles from route
+   * data when no explicit defaults have been provided.
+   */
+  private subscribeToActivationEnd() {
     this.router.events
-      .pipe(filter(event => event instanceof RoutesRecognized))
-      .subscribe((event: RoutesRecognized) => {
-        // Flag set to true if this route navigation was started by [appLink]
-        if (this.interceptNextRoute) {
-          this.interceptNextRoute = false;
-
-          if (this.router.url !== this.workspaceUrl) {
-            // If we're currently not in the workspace view, then navigate to
-            // to the route in full size
-            // TODO: Do we have to handle the 'extras' argument from navigateByUrl()?
-            this.router.navigateByUrl(event.url);
+      .pipe(filter(event => event instanceof ActivationEnd))
+      .subscribe((event: ActivationEnd) => {
+        const outletName = event.snapshot.outlet;
+        const tab = this.findTabByOutletName(outletName);
+        if (tab && event.snapshot.component) {
+          if (!tab.defaultsSet) {
+            tab.title = event.snapshot.data.title || tab.title;
+            tab.fontAwesomeIcon = event.snapshot.data.fontAwesomeIcon || tab.fontAwesomeIcon;
           } else {
-            // TODO: Support nested routes
-            const routeSnapshot: ActivatedRouteSnapshot = this.getDeepestChild(event.state.root);
-
-            const pane = this.focusedPane || this.panes.getFirstOrCreate();
-            const tab = pane.getActiveTabOrCreate();
-
-            // We are using undocumented API to create an ActivatedRoute that carries the parameters
-            // from the URL -- this part is a little hacky
-            // @ts-ignore
-            const activatedRoute = new ActivatedRoute(new BehaviorSubject(routeSnapshot.url),
-              new BehaviorSubject(routeSnapshot.params), new BehaviorSubject(routeSnapshot.queryParams),
-              new BehaviorSubject(routeSnapshot.fragment), new BehaviorSubject(routeSnapshot.data),
-              routeSnapshot.outlet, routeSnapshot.component, routeSnapshot);
-            activatedRoute.snapshot = routeSnapshot;
-
-            if (!tab.defaultsSet) {
-              // Only change if we didn't have a tab loaded already in case of defaults
-              tab.title = routeSnapshot.data.title || 'Module';
-              tab.fontAwesomeIcon = routeSnapshot.data.fontAwesomeIcon || null;
-            } else {
-              tab.defaultsSet = false;
-            }
-            tab.url = '/' +
-              routeSnapshot.pathFromRoot.map(child => child.url.map(segment => segment.toString()).join('/')).join('/') +
-              (routeSnapshot.queryParams ? `?${getQueryString(routeSnapshot.queryParams)}` : '') +
-              (routeSnapshot.fragment ? `#${routeSnapshot.fragment}` : '');
-            // TODO: Component may be a string
-            tab.replaceComponent(routeSnapshot.component as Type<any>, [{
-              // Provide our custom ActivatedRoute with the params
-              provide: ActivatedRoute,
-              useValue: activatedRoute,
-            }]);
-
-            this.save();
-
-            // Since we are intercepting routing, make sure we don't leave the workspace
-            this.router.navigateByUrl(this.workspaceUrl, {replaceUrl: true});
-
-            // Update everything
-            this.emitEvents();
+            tab.defaultsSet = false;
           }
+          this.emitEvents();
         }
       });
+  }
+
+  /**
+   * Build the full workspace URL encoding all open tabs as named outlets.
+   * Produces something like `/workspaces/local(left-0:projects/foo//left-1:search/graph)`.
+   */
+  buildWorkspaceUrl(): string {
+    const outletParts: string[] = [];
+    for (const {tab} of this.panes.allTabs()) {
+      if (tab.url) {
+        // Strip query string and fragment – Angular named outlets carry path only
+        const path = tab.url.split('?')[0].split('#')[0].replace(/^\/+/, '');
+        if (path) {
+          outletParts.push(`${tab.outletName}:${path}`);
+        }
+      }
+    }
+    if (outletParts.length === 0) {
+      return this.workspaceUrl;
+    }
+    return `${this.workspaceUrl}(${outletParts.join('//')})`;
+  }
+
+  /**
+   * Find the tab whose outlet name matches the given value.
+   */
+  findTabByOutletName(outletName: string): Tab | undefined {
+    for (const {tab} of this.panes.allTabs()) {
+      if (tab.outletName === outletName) {
+        return tab;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * Register the component that has just been activated in a named router
+   * outlet. Subscribes to the component's modulePropertiesChange if present.
+   */
+  registerComponent(outletName: string, component: any) {
+    this.activeComponents.set(outletName, component);
+    if (this.componentSubscriptions.has(outletName)) {
+      this.componentSubscriptions.get(outletName).unsubscribe();
+      this.componentSubscriptions.delete(outletName);
+    }
+    if (component && (component as ModuleAwareComponent).modulePropertiesChange) {
+      const tab = this.findTabByOutletName(outletName);
+      if (tab) {
+        const sub = (component as ModuleAwareComponent).modulePropertiesChange.subscribe(
+          (props: ModuleProperties) => tab.queuePropertyChange(props)
+        );
+        this.componentSubscriptions.set(outletName, sub);
+      }
+    }
+  }
+
+  /**
+   * Unregister the component that has been deactivated in a named router outlet.
+   */
+  unregisterComponent(outletName: string) {
+    this.activeComponents.delete(outletName);
+    if (this.componentSubscriptions.has(outletName)) {
+      this.componentSubscriptions.get(outletName).unsubscribe();
+      this.componentSubscriptions.delete(outletName);
+    }
+  }
+
+  /**
+   * Return the component currently active in the given tab's router outlet.
+   */
+  getComponentForTab(tab: Tab): any {
+    return this.activeComponents.get(tab.outletName);
   }
 
   moveTab(from: Pane, fromIndex: number, to: Pane, toIndex: number) {
@@ -571,16 +453,51 @@ export class WorkspaceManager {
       tab.fontAwesomeIcon = tabDefaults.fontAwesomeIcon;
       tab.defaultsSet = true;
     }
-    return this.navigateByUrl({url, extras});
+    const urlStr = typeof url === 'string' ? url : this.router.serializeUrl(url);
+    tab.url = urlStr;
+    return this.router.navigateByUrl(this.buildWorkspaceUrl());
   }
 
   navigateByUrl(navigationData: NavigationData): Promise<boolean> {
     let extras = navigationData.extras || {};
+    const urlStr = typeof navigationData.url === 'string'
+      ? navigationData.url
+      : this.router.serializeUrl(navigationData.url as UrlTree);
 
     const withinWorkspace = this.isWithinWorkspace();
 
-    if (withinWorkspace) {
+    if (withinWorkspace || extras.forceWorkbench) {
       let targetPane = this.focusedPane || this.panes.getFirstOrCreate();
+
+      // Handle forceWorkbench + openParentFirst: open parent in left, child in right
+      if (!withinWorkspace && extras.forceWorkbench && extras.openParentFirst && extras.parentAddress) {
+        const leftPane = this.panes.getOrCreate('left');
+        const rightPane = this.panes.getOrCreate('right');
+
+        // Check for existing parent tab in left pane
+        const parentUrlStr = typeof extras.parentAddress === 'string'
+          ? extras.parentAddress
+          : this.router.serializeUrl(extras.parentAddress);
+        let parentTab: Tab | undefined;
+        for (const t of leftPane.tabs) {
+          if (t.url && t.url.match(parentUrlStr)) {
+            leftPane.activeTab = t;
+            parentTab = t;
+            break;
+          }
+        }
+        if (!parentTab) {
+          parentTab = leftPane.createTab();
+          parentTab.url = parentUrlStr;
+        }
+
+        const childTab = rightPane.createTab();
+        childTab.url = urlStr;
+        this.focusedPane = rightPane;
+        this.save();
+        this.emitEvents();
+        return this.router.navigateByUrl(this.buildWorkspaceUrl());
+      }
 
       if (extras.newTab) {
         if (extras.sideBySide) {
@@ -614,16 +531,17 @@ export class WorkspaceManager {
           let foundTab = false;
 
           for (const tab of targetPane.tabs) {
-            if (tab.url.match(extras.matchExistingTab)) {
+            if (tab.url && tab.url.match(extras.matchExistingTab)) {
               targetPane.activeTab = tab;
               foundTab = true;
 
               // This mechanism allows us to update an existing tab in a one-way data coupling
               if (extras.shouldReplaceTab != null) {
-                const component = tab.getComponent();
+                const component = this.getComponentForTab(tab);
                 if (component != null) {
                   if (!extras.shouldReplaceTab(component)) {
-                    return;
+                    this.emitEvents();
+                    return Promise.resolve(true);
                   }
                 }
               }
@@ -633,44 +551,24 @@ export class WorkspaceManager {
           }
 
           if (!foundTab) {
-            targetPane.createTab();
+            const newTab = targetPane.createTab();
+            newTab.url = urlStr;
           }
         } else {
-          targetPane.createTab();
+          const newTab = targetPane.createTab();
+          newTab.url = urlStr;
         }
 
         this.focusedPane = targetPane;
+      } else {
+        // Navigate in the current active tab
+        const tab = targetPane.getActiveTabOrCreate();
+        tab.url = urlStr;
       }
 
-      this.interceptNextRoute = true;
-    }
-
-    if (!withinWorkspace && extras.forceWorkbench) {
-        return this.router.navigateByUrl(this.workspaceUrl).then(() => {
-          return new Promise((accept, reject) => {
-            const navigationArray = [];
-            // If the works only together with parent (like statistical enrichment and enrichment table)
-            // then force the workbench, open the parent on the left and 'child' on the right
-            if (extras.openParentFirst && extras.parentAddress) {
-              // If opening parent on the left, make sure that child will open on the right
-              const parentExtras = {
-                ...extras,
-                openParentFirst: false,
-                preferPane: 'left',
-                matchExistingTab: extras.parentAddress.toString(),
-                shouldReplaceTab: true
-              };
-              extras = {
-                ...extras,
-                openParentFirst: false,
-                preferPane: 'right'
-              };
-              navigationArray.push({url: extras.parentAddress, extras: parentExtras});
-            }
-            navigationArray.push({url: navigationData.url, extras});
-            this.navigateByUrls(navigationArray).then(accept, reject);
-          });
-        });
+      this.save();
+      this.emitEvents();
+      return this.router.navigateByUrl(this.buildWorkspaceUrl());
     } else {
       return this.router.navigateByUrl(navigationData.url, extras);
     }
@@ -686,7 +584,6 @@ export class WorkspaceManager {
         }, 10);
       });
     });
-
   }
 
   navigate(commands: any[], extras: NavigationExtras & WorkspaceNavigationExtras = {skipLocationChange: false}): Promise<boolean> {
@@ -706,45 +603,54 @@ export class WorkspaceManager {
 
   load() {
     const parent = this;
-    const tasks = [];
 
-    if (this.sessionService.load(new class implements WorkspaceSessionLoader {
+    this.panes.clear();
+
+    const hasSession = this.sessionService.load(new class implements WorkspaceSessionLoader {
       createPane(id: string, options): void {
-        tasks.push(() => {
-          const pane = parent.panes.create(id);
-          pane.size = options.size;
-        });
+        const pane = parent.panes.create(id);
+        pane.size = options.size;
       }
 
       loadTab(id: string, data: TabData): void {
-        tasks.push(() => {
-          parent.openTabByUrl(id, data.url, null, {
-            title: data.title,
-            fontAwesomeIcon: data.fontAwesomeIcon,
-          });
-        });
+        const pane = parent.panes.get(id);
+        if (!pane) {
+          return;
+        }
+        const tab = pane.createTab();
+        tab.url = data.url;
+        tab.title = data.title || 'New Tab';
+        tab.fontAwesomeIcon = data.fontAwesomeIcon || null;
+        tab.defaultsSet = true;
       }
 
       setPaneActiveTabHistory(id: string, indices: number[]): void {
-        tasks.push(() => {
-          const pane = parent.panes.get(id);
-          const activeTabHistory = pane.activeTabHistory;
-          activeTabHistory.clear();
-          indices.forEach(index => {
-            activeTabHistory.add(pane.tabs[index]);
-          });
+        const pane = parent.panes.get(id);
+        if (!pane) {
+          return;
+        }
+        pane.activeTabHistory.clear();
+        indices.forEach(index => {
+          if (pane.tabs[index]) {
+            pane.activeTabHistory.add(pane.tabs[index]);
+          }
         });
       }
-    }())) {
-      this.panes.clear();
-      tasks.reduce((previousTask, task) => {
-        return previousTask.then(task);
-      }, Promise.resolve());
-    } else {
+    }());
+
+    if (!hasSession) {
       const leftPane = this.panes.create('left');
       this.panes.create('right');
-      this.openTabByUrl(leftPane, '/projects');
+      const tab = leftPane.createTab();
+      tab.url = '/projects';
+      tab.title = 'File Browser';
+      tab.fontAwesomeIcon = 'layer-group';
+      tab.defaultsSet = true;
     }
+
+    this.router.navigateByUrl(this.buildWorkspaceUrl()).then(() => {
+      this.emitEvents();
+    });
   }
 
   save() {
@@ -761,24 +667,19 @@ export class WorkspaceManager {
   }
 
   shouldConfirmTabUnload(tab: Tab) {
-    const component = tab.getComponent();
+    const component = this.getComponentForTab(tab);
     return !!(component && component.shouldConfirmUnload && component.shouldConfirmUnload());
   }
 
   applyPendingChanges() {
-    this.panes.applyPendingChanges();
+    if (this.panes.applyPendingChanges()) {
+      this.save();
+      this.emitEvents();
+    }
   }
 
   private buildPanesSnapshot(): Pane[] {
     return this.panes.panes;
-  }
-
-  private getDeepestChild(snapshot: ActivatedRouteSnapshot) {
-    if (snapshot.children.length) {
-      return this.getDeepestChild(snapshot.children[0]);
-    } else {
-      return snapshot;
-    }
   }
 }
 
@@ -799,8 +700,4 @@ export interface WorkspaceNavigationExtras {
 export interface NavigationData {
   url: string | UrlTree;
   extras?: NavigationExtras & WorkspaceNavigationExtras;
-}
-
-function getQueryString(params: { [key: string]: string }) {
-  return Object.entries(params).map(([key, value]) => encodeURIComponent(key) + '=' + encodeURIComponent(value)).join('&');
 }
