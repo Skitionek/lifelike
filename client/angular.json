@@ -22,7 +22,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -46,20 +46,17 @@
               "node_modules/jquery-ui-dist/jquery-ui.min.js",
               "node_modules/qtip2/dist/jquery.qtip.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            ]
           },
           "configurations": {
-            "dev": {
+            "production": {
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -73,16 +70,14 @@
                 }
               ]
             },
-            "production": {
+            "development": {
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -110,14 +105,8 @@
             "production": {
               "browserTarget": "client:build:production"
             },
-            "staging": {
-              "browserTarget": "client:build:production,staging"
-            },
-            "qa": {
-              "browserTarget": "client:build:production,qa"
-            },
-            "demo": {
-              "browserTarget": "client:build:production,demo"
+            "development": {
+              "browserTarget": "client:build:development"
             }
           }
         },
@@ -144,41 +133,6 @@
               "src/styles.scss"
             ],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json",
-              "tsconfig.worker.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "client:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "client:serve:production"
-            },
-            "staging": {
-              "devServerTarget": "client:serve:production,staging"
-            },
-            "qa": {
-              "devServerTarget": "client:serve:production,qa"
-            },
-            "demo": {
-              "devServerTarget": "client:serve:production,demo"
-            }
           }
         }
       }
