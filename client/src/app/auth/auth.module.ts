@@ -31,6 +31,5 @@ const components = [
         LoginGuard,
     ],
     exports: components,
-    exports: components,
 })
 export class AuthModule {}
