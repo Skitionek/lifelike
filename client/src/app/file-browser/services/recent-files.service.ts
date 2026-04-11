@@ -11,6 +11,7 @@ import { FilesystemObject } from '../models/filesystem-object';
 import { FilesystemService } from './filesystem.service';
 import { FilesystemObjectData } from '../schema';
 
+@Injectable()
 export class RecentFileHashesService implements OnDestroy {
   static readonly RECENT_KEY = 'lifelike_workspace_recentList';
   private readonly storage = localStorage;
