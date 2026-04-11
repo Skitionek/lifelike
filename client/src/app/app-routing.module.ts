@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { createRouteWithDynamicOutlets } from 'app/shared/route-with-dynamic-outlets';
 
 import { AdminPanelComponent } from 'app/admin/components/admin-panel.component';
 import { VisualizationComponent } from 'app/visualization/containers/visualization/visualization.component';
@@ -174,15 +175,17 @@ const routes: Routes = [
       },
     ],
   },
-  {
+  createRouteWithDynamicOutlets({
     path: 'workspaces/:space_id',
     component: WorkspaceComponent,
     canActivate: [AuthGuard],
-    data: {
-      title: 'Workbench',
-    },
     canDeactivate: [UnloadConfirmationGuard],
-  },
+    data: { title: 'Workbench' },
+    dynamicOutletFactory: (segments, group, route, outlet) => ({
+      path: '**',
+      children: [],
+    }),
+  }),
   {
     path: 'community',
     component: CommunityBrowserComponent,
