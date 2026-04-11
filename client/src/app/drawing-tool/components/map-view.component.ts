@@ -25,6 +25,7 @@ import { MapComponent } from './map.component';
 import { MapImageProviderService } from '../services/map-image-provider.service';
 
 @Component({
+  standalone: false,
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: [

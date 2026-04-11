@@ -43,7 +43,6 @@ import { TraceDetailsComponent } from './components/trace-details.component';
     FileBrowserModule,
     RouterModule.forRoot([])
   ],
-  entryComponents: []
 })
 export class TraceViewerLibModule {
 }

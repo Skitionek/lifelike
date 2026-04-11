@@ -11,6 +11,7 @@ import {
 } from 'app/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-organism-autocomplete',
   templateUrl: './organism-autocomplete.component.html',
   styleUrls: ['./organism-autocomplete.component.scss']

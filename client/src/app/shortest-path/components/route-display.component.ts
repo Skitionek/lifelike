@@ -11,6 +11,7 @@ export enum DisplayType {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-route-display',
   templateUrl: './route-display.component.html',
   styleUrls: ['./route-display.component.scss']

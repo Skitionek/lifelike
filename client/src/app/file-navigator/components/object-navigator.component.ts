@@ -17,6 +17,7 @@ import { MimeTypes } from 'app/shared/constants';
 
 
 @Component({
+  standalone: false,
   selector: 'app-object-navigator',
   templateUrl: './object-navigator.component.html',
 })

@@ -11,6 +11,7 @@ import { Progress } from 'app/interfaces/common-dialog.interface';
  * A dialog to indicate the progress of a process.
  */
 @Component({
+  standalone: false,
   selector: 'app-progress-dialog',
   templateUrl: './progress-dialog.component.html',
 })

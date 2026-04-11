@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { EnrichmentDocument } from '../../models/enrichment-document';
 
 @Component({
+  standalone: false,
   selector: 'app-enrichment-table-preview',
   templateUrl: './enrichment-table-preview.component.html',
 })

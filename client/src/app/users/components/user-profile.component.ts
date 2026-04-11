@@ -22,6 +22,7 @@ import { AccountService } from '../services/account.service';
 
 
 @Component({
+  standalone: false,
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

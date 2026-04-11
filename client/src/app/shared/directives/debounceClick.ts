@@ -12,6 +12,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { map, debounceTime } from 'rxjs/operators';
 
 @Directive({
+  standalone: false,
     selector: '[appVisClickDebounce]',
 })
 export class DebounceClickDirective implements OnInit, OnDestroy {

@@ -4,6 +4,7 @@ import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { WorkspaceManager } from 'app/shared/workspace-manager';
 
 @Component({
+  standalone: false,
   selector: 'app-object-path',
   templateUrl: './object-path.component.html',
 })

@@ -29,8 +29,8 @@ import { openModal } from 'app/shared/utils/modals';
 import { IS_MAC } from 'app/shared/utils/platform';
 import { InternalSearchService } from 'app/shared/services/internal-search.service';
 
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
-import { PDFDocumentProxy } from 'pdfjs-dist/types/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
+import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 import { AddedAnnotationExclusion, Annotation, Location, Meta, Rect, RemovedAnnotationExclusion, } from './annotation-type';
 import { AnnotationEditDialogComponent } from './components/annotation-edit-dialog.component';
 import { AnnotationExcludeDialogComponent } from './components/annotation-exclude-dialog.component';
@@ -42,6 +42,7 @@ import { AnnotationToolbarComponent } from './components/annotation-toolbar.comp
 declare var jQuery: any;
 
 @Component({
+  standalone: false,
   // tslint:disable-next-line:component-selector
   selector: 'lib-pdf-viewer-lib',
   templateUrl: './pdf-viewer-lib.component.html',

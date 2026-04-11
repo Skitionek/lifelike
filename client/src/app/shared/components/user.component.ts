@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { AppUser } from 'app/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-user',
   template: `
     <ng-container *ngIf="user; else noUser">

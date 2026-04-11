@@ -4,6 +4,7 @@ import { AbstractControl } from '@angular/forms';
 import { getTopParent } from '../../utils/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-form-input-feedback',
   templateUrl: './form-input-feedback.component.html',
 })

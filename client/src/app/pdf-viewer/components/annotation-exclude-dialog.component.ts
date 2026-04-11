@@ -8,6 +8,7 @@ import { MessageDialog } from 'app/shared/services/message-dialog.service';
 import { AnnotationType } from 'app/shared/constants';
 
 @Component({
+  standalone: false,
   selector: 'app-annotation-exclude-dialog',
   templateUrl: './annotation-exclude-dialog.component.html',
 })

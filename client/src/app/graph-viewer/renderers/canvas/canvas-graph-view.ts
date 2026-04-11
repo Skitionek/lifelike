@@ -192,7 +192,7 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
       .on('end', this.canvasZoomEnded.bind(this));
 
     // We use rxjs to limit the number of mousemove events
-    const canvasMouseMoveSubject = new Subject<any>();
+    const canvasMouseMoveSubject = new Subject<void>();
 
     d3.select(this.canvas)
       .on('click', (event: MouseEvent) => this.canvasClicked(event))

@@ -8,6 +8,7 @@ import { DEFAULT_CLUSTER_ROWS } from 'app/shared/constants';
 import { uuidv4 } from 'app/shared/utils';
 
 @Component({
+  standalone: false,
   selector: 'app-visualization-settings',
   templateUrl: './visualization-settings.component.html',
   styleUrls: ['./visualization-settings.component.scss']

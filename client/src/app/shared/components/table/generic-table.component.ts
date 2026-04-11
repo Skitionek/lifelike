@@ -14,6 +14,7 @@ import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { HighlightTextService } from '../../services/highlight-text.service';
 
 @Component({
+  standalone: false,
   selector: 'app-generic-table',
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],

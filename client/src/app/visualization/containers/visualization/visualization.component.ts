@@ -33,6 +33,7 @@ import { GraphSearchParameters } from 'app/search/graph-search';
 import { VisualizationService } from '../../services/visualization.service';
 
 @Component({
+  standalone: false,
   selector: 'app-visualization',
   templateUrl: './visualization.component.html',
 })

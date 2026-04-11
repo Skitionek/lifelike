@@ -5,6 +5,7 @@ import { Directive, EventEmitter, HostBinding, HostListener, Output } from '@ang
  * pressing the enter key or by clicking on it.
  */
 @Directive({
+  standalone: false,
   selector: '[appTabSelectable]',
 })
 export class TabSelectableDirective {

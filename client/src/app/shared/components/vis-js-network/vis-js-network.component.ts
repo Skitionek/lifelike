@@ -16,6 +16,7 @@ import { FindOptions, compileFind, tokenizeQuery } from '../../utils/find';
 
 
 @Component({
+  standalone: false,
   selector: 'app-vis-js-network',
   templateUrl: './vis-js-network.component.html',
   styleUrls: ['./vis-js-network.component.scss']

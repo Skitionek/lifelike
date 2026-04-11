@@ -1,11 +1,12 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
-import * as $ from 'jquery';
+import $ from 'jquery';
 import 'jqueryui';
 import { isNil } from 'lodash-es';
 
 
 @Directive({
+  standalone: false,
   selector: '[appResizable]'
 })
 export class ResizableDirective  implements OnInit {

@@ -6,6 +6,7 @@ import { MetaDataService } from 'app/shared/services/metadata.service';
 import { BuildInfo } from 'app/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
 })

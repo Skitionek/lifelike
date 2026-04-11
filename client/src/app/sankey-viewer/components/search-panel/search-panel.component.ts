@@ -5,6 +5,7 @@ import { combineLatest } from 'rxjs';
 import { SankeySearchService } from '../../services/search.service';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-search-panel',
   templateUrl: './search-panel.component.html',
   styleUrls: ['./search-panel.component.scss'],

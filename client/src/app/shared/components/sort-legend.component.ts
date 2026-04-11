@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-sort-legend',
   templateUrl: './sort-legend.component.html',
 })

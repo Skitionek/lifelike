@@ -6,6 +6,7 @@ import { MessageDialog } from '../../services/message-dialog.service';
 import { CommonDialogComponent } from './common-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
 })

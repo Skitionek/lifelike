@@ -16,6 +16,7 @@ import { EnrichmentTableService } from 'app/enrichment/services/enrichment-table
 import { EnrichmentDocument } from 'app/enrichment/models/enrichment-document';
 
 @Component({
+  standalone: false,
     selector: 'app-admin-settings-view',
     templateUrl: 'admin-settings.component.html',
 })

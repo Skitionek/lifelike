@@ -13,6 +13,7 @@ import { ContentSearchOptions } from '../content-search';
 import { SearchType } from '../shared';
 
 @Component({
+  standalone: false,
   selector: 'app-advanced-search-dialog',
   templateUrl: './advanced-search-dialog.component.html',
   styleUrls: ['./advanced-search-dialog.component.scss']

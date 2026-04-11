@@ -21,6 +21,7 @@ import { AuthActions } from '../store';
 import { ResetPasswordDialogComponent } from './reset-password-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'app-login',
   templateUrl: './login.component.html',
 })

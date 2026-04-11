@@ -7,6 +7,7 @@ import { MessageDialog } from 'app/shared/services/message-dialog.service';
 import { DirectoryObject } from 'app/interfaces/projects.interface';
 
 @Component({
+  standalone: false,
   selector: 'app-deletion-result-dialog',
   templateUrl: './object-deletion-result-dialog.component.html',
 })

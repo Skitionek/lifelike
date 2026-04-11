@@ -26,6 +26,7 @@ import {
 } from 'app/file-browser/providers/filesystem-object-data.provider';
 
 @Directive({
+  standalone: false,
   selector: '[appFSObjectTarget]',
 })
 export class FilesystemObjectTargetDirective {

@@ -5,6 +5,7 @@ import { SankeyLink } from 'app/shared-sankey/interfaces';
 import { SankeyDetailsComponent } from './details.component';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-link-details',
   templateUrl: './link-details.component.html'
 })

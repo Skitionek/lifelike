@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 
 import { SharedModule } from 'app/shared/shared.module';
 
@@ -16,7 +16,7 @@ const components = [
   imports: [
     CommonModule,
     SharedModule,
-    NgChartsModule
+    BaseChartDirective
   ],
   exports: components,
 })

@@ -19,6 +19,7 @@ import { AppVersionDialogComponent } from 'app/app-version-dialog.component';
  * Root of the application that creates the left menu and the content section.
  */
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

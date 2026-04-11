@@ -13,6 +13,7 @@ import { Hyperlink } from 'app/drawing-tool/services/interfaces';
 import { Annotation } from '../annotation-type';
 
 @Component({
+  standalone: false,
   selector: 'app-annotation-panel',
   templateUrl: './annotation-edit-dialog.component.html',
   // needed to make links inside *ngFor to work and be clickable

@@ -15,6 +15,7 @@ import { ProjectList } from '../../models/project-list';
 import { ProjectImpl } from '../../models/filesystem-object';
 
 @Component({
+  standalone: false,
   selector: 'app-browser-project-list',
   templateUrl: './browser-project-list.component.html',
 })

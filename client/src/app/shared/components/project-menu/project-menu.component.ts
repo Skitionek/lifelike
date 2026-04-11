@@ -4,6 +4,7 @@ import { ProjectImpl } from 'app/file-browser/models/filesystem-object';
 import { ProjectActions } from 'app/file-browser/services/project-actions';
 
 @Component({
+  standalone: false,
   selector: 'app-project-menu',
   templateUrl: './project-menu.component.html',
 })

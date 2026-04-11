@@ -13,6 +13,7 @@ import { UserCreationRequest } from 'app/interfaces';
 import { MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from 'app/shared/constants';
 
 @Component({
+  standalone: false,
   selector: 'app-user-create-dialog',
   templateUrl: 'user-create-dialog.component.html',
 })

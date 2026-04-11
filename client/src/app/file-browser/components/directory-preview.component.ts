@@ -5,6 +5,7 @@ import { CollectionModel } from 'app/shared/utils/collection-model';
 import { FilesystemObject } from '../models/filesystem-object';
 
 @Component({
+  standalone: false,
   selector: 'app-directory-preview',
   templateUrl: './directory-preview.component.html',
 })

@@ -8,6 +8,7 @@ import { annotationTypesMap } from 'app/shared/annotation-styles';
 import { networkEdgeSmoothers } from 'app/shared/components/vis-js-network/vis-js-network.constants';
 
 @Component({
+  standalone: false,
   selector: 'app-trace-details',
   templateUrl: './trace-details.component.html',
   styleUrls: ['./trace-details.component.scss'],

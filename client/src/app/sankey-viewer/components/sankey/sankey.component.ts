@@ -29,6 +29,7 @@ import { SankeyLayoutService } from './sankey-layout.service';
 
 
 @Component({
+  standalone: false,
   selector: 'app-sankey',
   templateUrl: './sankey.component.svg',
   styleUrls: ['./sankey.component.scss'],

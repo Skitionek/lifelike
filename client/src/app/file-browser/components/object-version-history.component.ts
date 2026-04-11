@@ -11,6 +11,7 @@ import { ObjectVersion, ObjectVersionHistory } from '../models/object-version';
 import { FilesystemService } from '../services/filesystem.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-version-history',
   templateUrl: './object-version-history.component.html',
   styleUrls: [

@@ -56,6 +56,7 @@ import { VisualizationService } from 'app/visualization/services/visualization.s
 
 
 @Component({
+  standalone: false,
     selector: 'app-visualization-canvas',
     templateUrl: './visualization-canvas.component.html',
     styleUrls: ['./visualization-canvas.component.scss'],

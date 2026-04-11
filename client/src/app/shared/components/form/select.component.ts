@@ -12,6 +12,7 @@ declare type PlacementArray = Placement | Array<Placement> | string;
 let nextId = 0;
 
 @Component({
+  standalone: false,
   selector: 'app-select',
   templateUrl: './select.component.html',
 })

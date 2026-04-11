@@ -6,6 +6,7 @@ import { GenericDataProvider } from 'app/shared/providers/data-transfer-data/gen
 import { FilesystemObject } from '../models/filesystem-object';
 
 @Component({
+  standalone: false,
   selector: 'app-object-info',
   templateUrl: './object-info.component.html',
 })

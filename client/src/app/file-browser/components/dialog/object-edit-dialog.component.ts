@@ -22,6 +22,7 @@ import { AnnotationConfigurations, ObjectContentSource, ObjectCreateRequest } fr
 import { ObjectSelectionDialogComponent } from './object-selection-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'app-object-edit-dialog',
   templateUrl: './object-edit-dialog.component.html',
 })

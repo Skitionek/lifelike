@@ -4,6 +4,7 @@ import { ProjectImpl } from 'app/file-browser/models/filesystem-object';
 import { hslToRgb } from 'app/shared/utils/colors';
 
 @Component({
+  standalone: false,
   selector: 'app-project-icon',
   templateUrl: './project-icon.component.html',
   styleUrls: [

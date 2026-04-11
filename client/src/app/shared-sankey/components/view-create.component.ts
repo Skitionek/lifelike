@@ -8,6 +8,7 @@ import { ObjectEditDialogValue } from 'app/file-browser/components/dialog/object
 import { MessageDialog } from 'app/shared/services/message-dialog.service';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-view-confirm',
   templateUrl: './view-create.component.html'
 })

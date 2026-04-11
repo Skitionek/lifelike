@@ -22,6 +22,7 @@ import { ProjectsService } from '../../services/projects.service';
 import { MultiCollaboratorUpdateRequest } from '../../schema';
 
 @Component({
+  standalone: false,
   selector: 'app-project-collaborators-dialog',
   templateUrl: './project-collaborators-dialog.component.html',
 })

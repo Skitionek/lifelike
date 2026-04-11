@@ -11,6 +11,7 @@ import { getLink } from '../utils/records';
 import { getGraphQueryParams } from '../utils/search';
 
 @Component({
+  standalone: false,
   selector: 'app-search-record-node',
   templateUrl: 'search-record-node.component.html',
   styleUrls: ['./search-record-node.component.scss'],

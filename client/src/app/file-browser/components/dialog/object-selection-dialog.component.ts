@@ -10,6 +10,7 @@ import { FilesystemObject, ProjectImpl } from '../../models/filesystem-object';
 import { ObjectSelectService } from '../../services/object-select.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-selection-dialog',
   templateUrl: './object-selection-dialog.component.html',
   providers: [ObjectSelectService],

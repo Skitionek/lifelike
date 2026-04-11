@@ -5,6 +5,7 @@ import { SankeyLinkDetailsComponent } from 'app/sankey-viewer/components/details
 import { SankeyManyToManyLink } from '../interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-many-to-many-link-details',
   templateUrl: './link-details.component.html',
   styleUrls: ['./link-details.component.scss']

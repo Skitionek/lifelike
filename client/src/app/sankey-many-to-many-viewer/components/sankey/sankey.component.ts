@@ -12,6 +12,7 @@ import { SankeyManyToManyLink, SankeyManyToManyNode } from '../interfaces';
 
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-many-to-many',
   templateUrl: './sankey.component.svg',
   styleUrls: ['./sankey.component.scss'],

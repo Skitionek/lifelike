@@ -31,7 +31,6 @@ const components = [
   ],
   declarations: components,
   providers: [AccountService],
-  entryComponents: [TermsOfServiceDialogComponent, ChangePasswordDialogComponent],
   exports: components,
 })
 export class UserModule {

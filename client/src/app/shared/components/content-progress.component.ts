@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { TaskStatus } from '../rxjs/background-task';
 
 @Component({
+  standalone: false,
   selector: 'app-content-progress',
   templateUrl: './content-progress.component.html',
 })

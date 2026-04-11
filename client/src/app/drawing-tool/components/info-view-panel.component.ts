@@ -6,6 +6,7 @@ import { SearchType } from 'app/search/shared';
 import { GraphEntity, GraphEntityType, UniversalGraphEdge, UniversalGraphNode } from '../services/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-info-view-panel',
   templateUrl: './info-view-panel.component.html',
 })

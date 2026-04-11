@@ -23,6 +23,7 @@ import { DropdownController, FitOptions } from '../../utils/dom/dropdown-control
 import { MouseNavigableDirective } from '../../directives/mouse-navigable.directive';
 
 @Component({
+  standalone: false,
   selector: 'app-select-input',
   templateUrl: './select-input.component.html',
   styleUrls: [

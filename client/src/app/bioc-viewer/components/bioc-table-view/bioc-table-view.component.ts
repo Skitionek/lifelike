@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-bioc-table-view',
   templateUrl: './bioc-table-view.component.html',
   styleUrls: ['./bioc-table-view.component.scss']

@@ -9,6 +9,7 @@ import { FilesystemService } from '../services/filesystem.service';
 import { FilesystemObject } from '../models/filesystem-object';
 
 @Component({
+  standalone: false,
   selector: 'app-object-annotation-history',
   templateUrl: './object-annotation-history.component.html',
 })

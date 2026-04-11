@@ -17,6 +17,7 @@ class GeneRow {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-clustergram',
   templateUrl: './clustergram.component.html',
   styleUrls: ['./clustergram.component.scss']

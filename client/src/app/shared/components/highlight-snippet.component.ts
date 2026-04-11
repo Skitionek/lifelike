@@ -4,6 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { hexToRGBA } from 'app/shared/utils';
 
 @Component({
+  standalone: false,
   selector: 'app-highlight-snippet',
   templateUrl: './highlight-snippet.component.html',
   styleUrls: ['./highlight-snippet.component.scss']

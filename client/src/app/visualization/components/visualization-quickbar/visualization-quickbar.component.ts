@@ -6,6 +6,7 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
+  standalone: false,
     selector: 'app-visualization-quickbar',
     templateUrl: './visualization-quickbar.component.html',
     styleUrls: ['./visualization-quickbar.component.scss'],

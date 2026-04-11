@@ -8,6 +8,7 @@ import { SearchableRequestOptions } from 'app/shared/schemas/common';
 import { ContentSearchOptions } from '../content-search';
 
 @Component({
+  standalone: false,
   selector: 'app-content-search-form',
   templateUrl: './content-search-form.component.html',
 })

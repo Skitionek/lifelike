@@ -5,6 +5,7 @@ import { WordCloudAnnotationFilterEntity } from 'app/interfaces/annotation-filte
 import { AnnotationFilterComponent } from '../annotation-filter/annotation-filter.component';
 
 @Component({
+  standalone: false,
   selector: 'app-word-cloud-annotation-filter',
   templateUrl: './word-cloud-annotation-filter.component.html',
   styleUrls: ['./word-cloud-annotation-filter.component.scss']

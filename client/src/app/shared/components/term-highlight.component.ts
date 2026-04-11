@@ -5,6 +5,7 @@ import { escape, escapeRegExp, isNil } from 'lodash-es';
 import { FindOptions } from 'app/shared/utils/find';
 
 @Component({
+  standalone: false,
   selector: 'app-term-highlight',
   templateUrl: 'term-highlight.component.html',
 })

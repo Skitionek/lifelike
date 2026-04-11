@@ -1,5 +1,5 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Input, OnDestroy } from '@angular/core';
+import { Directive, Input, OnDestroy } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 import { isNil } from 'lodash-es';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 
 import {TreeNode, FlatNode} from 'app/shared/schemas/common';
 
+@Directive()
 export abstract class GenericFlatTreeComponent<T> implements OnDestroy {
   protected _treeData: TreeNode<T>[] = [];
   @Input() set treeData(treeData: TreeNode<T>[]) {
@@ -30,7 +31,7 @@ export abstract class GenericFlatTreeComponent<T> implements OnDestroy {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
     this._initDataSource();
 
-    this.flatNodesChangedListener = this.dataSource._flattenedData.subscribe((flatNodes) => {
+    this.flatNodesChangedListener = (this.dataSource as any)._flattenedData.subscribe((flatNodes) => {
       this.flatNodes = flatNodes;
     });
   }

@@ -13,6 +13,7 @@ import { PALETTE_COLORS } from '../../services/palette';
 import { InfoPanel } from '../../models/info-panel';
 
 @Component({
+  standalone: false,
   selector: 'app-edge-form',
   templateUrl: './edge-form.component.html',
 })
@@ -44,7 +45,7 @@ export class EdgeFormComponent implements AfterViewInit {
     originalData: RecursivePartial<UniversalGraphEdge>,
     updatedData: RecursivePartial<UniversalGraphEdge>
   }>();
-  @Output() delete = new EventEmitter<object>();
+  @Output() delete = new EventEmitter<void>();
   @Output() sourceOpen = new EventEmitter<string>();
 
   constructor(protected readonly workspaceManager: WorkspaceManager) {
@@ -114,7 +115,7 @@ export class EdgeFormComponent implements AfterViewInit {
   }
 
   doDelete(): void {
-    this.delete.next();
+    this.delete.emit();
   }
 
   /**

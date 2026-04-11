@@ -17,6 +17,7 @@ import { SortingAlgorithm, fileTypeSortingAlgorithms } from '../sorting/sorting-
 import { WordCloudAnnotationFilterEntityWithLayout } from '../interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-word-cloud',
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss'],

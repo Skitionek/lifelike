@@ -10,6 +10,7 @@ import {
 } from '../services/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-map-restore-dialog',
   templateUrl: './map-restore-dialog.component.html',
 })

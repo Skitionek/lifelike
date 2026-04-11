@@ -3,6 +3,7 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {PDFResult} from 'app/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-file-records',
   templateUrl: './file-records.component.html',
   styleUrls: ['./file-records.component.scss'],

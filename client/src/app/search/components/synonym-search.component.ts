@@ -12,6 +12,7 @@ import { ContentSearchService } from '../services/content-search.service';
 import { SynonymData } from '../shared';
 
 @Component({
+  standalone: false,
   selector: 'app-synonym-search',
   templateUrl: './synonym-search.component.html',
   styleUrls: ['./synonym-search.component.scss']

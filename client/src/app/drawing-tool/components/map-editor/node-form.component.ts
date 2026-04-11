@@ -15,6 +15,7 @@ import { PALETTE_COLORS } from '../../services/palette';
 import { InfoPanel } from '../../models/info-panel';
 
 @Component({
+  standalone: false,
   selector: 'app-node-form',
   styleUrls: ['./node-form.component.scss'],
   templateUrl: './node-form.component.html',
@@ -43,7 +44,7 @@ export class NodeFormComponent implements AfterViewInit {
     originalData: RecursivePartial<UniversalGraphNode>,
     updatedData: RecursivePartial<UniversalGraphNode>,
   }>();
-  @Output() delete = new EventEmitter<object>();
+  @Output() delete = new EventEmitter<void>();
   @Output() sourceOpen = new EventEmitter<string>();
 
   previousLabel: string;
@@ -218,7 +219,7 @@ export class NodeFormComponent implements AfterViewInit {
    * Delete the current node.
    */
   doDelete(): void {
-    this.delete.next();
+    this.delete.emit();
   }
 
   /**

@@ -22,6 +22,7 @@ import { getObjectLabel } from '../utils/objects';
 import { FilesystemService } from '../services/filesystem.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-list',
   templateUrl: './object-list.component.html',
 })

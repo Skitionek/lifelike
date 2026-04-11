@@ -7,6 +7,7 @@ import { CommonFormDialogComponent } from 'app/shared/components/dialog/common-f
 import { MessageDialog } from 'app/shared/services/message-dialog.service';
 
 @Component({
+  standalone: false,
   selector: 'app-reset-password-dialog',
   templateUrl: './reset-password-dialog.component.html'
 })

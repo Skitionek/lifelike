@@ -143,12 +143,6 @@ const components = [
 ];
 
 @NgModule({
-  entryComponents: [
-    MessageDialogComponent,
-    ProgressDialogComponent,
-    CopyLinkDialogComponent,
-    LinksPanelComponent,
-  ],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -158,7 +152,7 @@ const components = [
     ReactiveFormsModule,
     RouterModule,
     SharedDirectivesModule,
-    AngularSplitModule.forRoot(),
+    AngularSplitModule,
     DragDropModule,
     EffectsModule.forFeature([SharedNgrxEffects]),
     TextFieldModule,

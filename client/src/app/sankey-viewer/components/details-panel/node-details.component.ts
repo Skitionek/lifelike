@@ -5,6 +5,7 @@ import { SankeyNode } from 'app/shared-sankey/interfaces';
 import { SankeyDetailsComponent } from './details.component';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-node-details',
   templateUrl: './node-details.component.html'
 })

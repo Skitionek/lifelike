@@ -10,6 +10,7 @@ import { FilesystemObject } from '../../models/filesystem-object';
 import {AnnotationGenerationResultData } from '../../schema';
 
 @Component({
+  standalone: false,
   selector: 'app-object-reannotate-results-dialog',
   templateUrl: './object-reannotate-results-dialog.component.html',
 })

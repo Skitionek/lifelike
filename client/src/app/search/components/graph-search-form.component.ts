@@ -9,6 +9,7 @@ import { MessageType } from 'app/interfaces/message-dialog.interface';
 import { GraphSearchParameters } from '../graph-search';
 
 @Component({
+  standalone: false,
   selector: 'app-graph-search-form',
   templateUrl: './graph-search-form.component.html',
 })
@@ -21,8 +22,8 @@ export class GraphSearchFormComponent {
 
   form = new FormGroup({
     query: new FormControl('', Validators.required),
-    domains: new FormControl(''),
-    entities: new FormControl(''),
+    domains: new FormControl<any>(''),
+    entities: new FormControl<any>(''),
     organism: new FormControl(null),
   });
 
@@ -59,7 +60,7 @@ export class GraphSearchFormComponent {
 
   submit() {
     if (!this.form.invalid) {
-      this.search.emit({...this.form.value});
+      this.search.emit({...this.form.value} as any);
     } else {
       this.form.markAsDirty();
 

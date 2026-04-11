@@ -11,6 +11,7 @@ import { GraphEntity, GraphEntityType } from '../../services/interfaces';
 import { InfoPanel } from '../../models/info-panel';
 
 @Component({
+  standalone: false,
   selector: 'app-info-panel',
   templateUrl: './info-panel.component.html',
 })

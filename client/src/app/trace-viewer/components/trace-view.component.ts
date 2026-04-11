@@ -20,6 +20,7 @@ import { getTraceDetailsGraph } from './traceDetails';
 import { TraceNode } from './interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-viewer',
   templateUrl: './trace-view.component.html',
   styleUrls: ['./trace-view.component.scss'],

@@ -5,6 +5,7 @@ import { ChecklistFlatTreeComponent } from 'app/shared/components/checklist-flat
 import { FlatNode } from 'app/shared/schemas/common';
 
 @Component({
+  standalone: false,
   selector: 'app-hierarchy-search-tree',
   templateUrl: './hierarchy-search-tree.component.html',
   styleUrls: ['./hierarchy-search-tree.component.scss']

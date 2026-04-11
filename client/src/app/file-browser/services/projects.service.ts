@@ -24,7 +24,6 @@ import {
   ProjectData,
   ProjectSearchRequest,
 } from '../schema';
-import { encode } from 'punycode';
 import { Collaborator } from '../models/collaborator';
 
 @Injectable()
@@ -79,7 +78,7 @@ export class ProjectsService {
 
   get(hashId: string): Observable<ProjectImpl> {
     return this.http.get<SingleResult<ProjectData>>(
-      `/api/projects/projects/${encode(hashId)}`,
+      `/api/projects/projects/${encodeURIComponent(hashId)}`,
       this.apiService.getHttpOptions(true),
     ).pipe(
       map(data => new ProjectImpl().update(data.result)),

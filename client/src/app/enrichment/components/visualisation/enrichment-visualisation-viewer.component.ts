@@ -12,6 +12,7 @@ import { EnrichmentService } from '../../services/enrichment.service';
 
 
 @Component({
+  standalone: false,
   selector: 'app-enrichment-visualisation-viewer',
   templateUrl: './enrichment-visualisation-viewer.component.html',
   styleUrls: ['./enrichment-visualisation-viewer.component.scss'],

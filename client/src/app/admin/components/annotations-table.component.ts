@@ -24,6 +24,7 @@ import { FilesystemObjectActions } from 'app/file-browser/services/filesystem-ob
 import { FilesystemService } from 'app/file-browser/services/filesystem.service';
 
 @Component({
+  standalone: false,
     selector: 'app-annotations-table',
     templateUrl: './annotations-table.component.html',
 })

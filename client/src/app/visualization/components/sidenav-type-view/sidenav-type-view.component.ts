@@ -15,6 +15,7 @@ import { VisualizationService } from 'app/visualization/services/visualization.s
 
 
 @Component({
+  standalone: false,
     selector: 'app-sidenav-type-view',
     templateUrl: './sidenav-type-view.component.html',
     styleUrls: ['./sidenav-type-view.component.scss']

@@ -8,6 +8,7 @@ import { MessageType } from 'app/interfaces/message-dialog.interface';
 import { MessageArguments, MessageDialog } from '../../services/message-dialog.service';
 
 @Component({
+  standalone: false,
   selector: 'app-share-dialog',
   templateUrl: './copy-link-dialog.component.html',
 })

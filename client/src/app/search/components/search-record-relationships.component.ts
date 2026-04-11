@@ -12,6 +12,7 @@ import { getLink } from '../utils/records';
 import { GraphSearchParameters } from '../graph-search';
 
 @Component({
+  standalone: false,
   selector: 'app-search-record-relationships',
   templateUrl: './search-record-relationships.component.html',
   styleUrls: ['./search-record-relationships.component.scss'],

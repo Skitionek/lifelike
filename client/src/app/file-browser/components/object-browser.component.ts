@@ -23,6 +23,7 @@ import { getObjectLabel } from '../utils/objects';
 import { ProjectsService } from '../services/projects.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-browser',
   templateUrl: './object-browser.component.html',
 })

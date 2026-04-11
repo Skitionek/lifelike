@@ -45,6 +45,7 @@ import {
 
 
 @Component({
+  standalone: false,
   selector: 'app-content-search',
   templateUrl: './content-search.component.html',
   styleUrls: ['./content-search.component.scss'],

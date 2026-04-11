@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { hexToRGBA } from '../utils';
 
 @Component({
+  standalone: false,
   selector: 'app-result-control',
   templateUrl: './result-control.component.html',
 })

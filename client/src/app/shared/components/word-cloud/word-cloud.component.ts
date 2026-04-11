@@ -81,6 +81,7 @@ const createResizeObserver = (callback, container) => {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-word-cloud',
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss'],

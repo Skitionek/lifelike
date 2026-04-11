@@ -25,6 +25,7 @@ import { Exporter, ObjectTypeProvider } from 'app/file-types/providers/base-obje
 import { ObjectTypeService } from 'app/file-types/services/object-type.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-menu',
   templateUrl: './object-menu.component.html',
 })
@@ -37,7 +38,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
   @Input() showRestore = false;
   @Input() showDelete = false;
   @Input() showTools = true;
-  @Output() refreshRequest = new EventEmitter<string>();
+  @Output() refreshRequest = new EventEmitter<void>();
   @Output() objectOpen = new EventEmitter<FilesystemObject>();
   @Output() objectRefresh = new EventEmitter<FilesystemObject>();
   @Output() objectRestore = new EventEmitter<ObjectVersion>();
@@ -95,7 +96,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
       this.snackBar.open(`Copied ${getObjectLabel(target)} to ${getObjectLabel(clone)}.`, 'Close', {
         duration: 5000,
       });
-      this.refreshRequest.next();
+      this.refreshRequest.emit();
     }, () => {
     });
   }
@@ -107,7 +108,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
         'Close', {
           duration: 5000,
         });
-      this.refreshRequest.next();
+      this.refreshRequest.emit();
     }, () => {
     });
   }
@@ -117,7 +118,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
       this.snackBar.open(`Deleted ${getObjectLabel(targets)}.`, 'Close', {
         duration: 5000,
       });
-      this.refreshRequest.next();
+      this.refreshRequest.emit();
     }, () => {
     });
   }
@@ -127,8 +128,8 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
       this.snackBar.open(`${getObjectLabel(targets)} re-annotated.`, 'Close', {
         duration: 5000,
       });
-      this.refreshRequest.next();
-      this.objectRefresh.next();
+      this.refreshRequest.emit();
+      this.objectRefresh.emit();
     }, () => {
     });
   }

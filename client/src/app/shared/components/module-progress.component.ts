@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-module-progress',
   templateUrl: './module-progress.component.html',
   styleUrls: ['./module-progress.component.scss']

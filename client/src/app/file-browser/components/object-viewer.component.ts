@@ -14,6 +14,7 @@ import { FilesystemObject } from '../models/filesystem-object';
 import { getObjectLabel } from '../utils/objects';
 
 @Component({
+  standalone: false,
   selector: 'app-object-viewer',
   templateUrl: 'object-viewer.component.html',
 })

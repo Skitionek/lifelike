@@ -15,6 +15,7 @@ import { CopyLinkDialogComponent } from 'app/shared/components/dialog/copy-link-
 import { ViewService } from 'app/file-browser/services/view.service';
 
 @Component({
+  standalone: false,
   selector: 'app-workspace',
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.scss'],

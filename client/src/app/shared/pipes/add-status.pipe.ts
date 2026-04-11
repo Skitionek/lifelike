@@ -4,6 +4,7 @@ import { concat, Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 
 @Pipe({
+  standalone: false,
   name: 'addStatus',
 })
 export class AddStatusPipe implements PipeTransform {

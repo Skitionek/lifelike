@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { OrganismAutocomplete } from 'app/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-organism',
   template: `
     <ng-container *ngIf="organism; else noOrganism">

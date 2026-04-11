@@ -7,6 +7,7 @@ import { SankeyControllerService, customisedMultiValueAccessorId } from '../../s
 
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-advanced-panel',
   templateUrl: './advanced-panel.component.html',
   styleUrls: ['./advanced-panel.component.scss'],

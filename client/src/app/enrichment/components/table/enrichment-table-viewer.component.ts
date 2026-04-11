@@ -45,6 +45,7 @@ interface AnnotationData {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-enrichment-table-viewer',
   templateUrl: './enrichment-table-viewer.component.html',
   styleUrls: ['./enrichment-table-viewer.component.scss'],

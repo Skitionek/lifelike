@@ -10,6 +10,7 @@ import { SankeyControllerService } from '../../services/sankey-controller.servic
 
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-details',
   template: ''
 })

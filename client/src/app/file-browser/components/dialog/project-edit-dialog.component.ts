@@ -11,6 +11,7 @@ import { ProjectImpl } from '../../models/filesystem-object';
 import { ProjectCreateRequest } from '../../schema';
 
 @Component({
+  standalone: false,
   selector: 'app-project-edit-dialog',
   templateUrl: './project-edit-dialog.component.html',
 })

@@ -28,6 +28,7 @@ import { viewBaseToNameMapping } from '../constants';
 import { SankeyLink, SankeyNode } from '../pure_interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-view-dropdown',
   templateUrl: 'view-dropdown.component.html',
   styleUrls: ['./view-dropdown.component.scss']

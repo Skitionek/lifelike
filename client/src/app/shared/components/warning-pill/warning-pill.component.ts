@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WarningControllerService } from 'app/shared/services/warning-controller.service';
 
 @Component({
+  standalone: false,
   selector: 'app-warning-pill',
   templateUrl: './warning-pill.component.html'
 })

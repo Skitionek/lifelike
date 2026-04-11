@@ -4,6 +4,7 @@ import { SortingAlgorithm } from './sorting-algorithms';
 
 
 @Component({
+  standalone: false,
   selector: 'app-sorting-algorithms',
   templateUrl: './sorting-algorithms.component.html',
   styleUrls: ['./sorting-algorithms.component.scss'],

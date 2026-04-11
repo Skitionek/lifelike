@@ -5,6 +5,7 @@ import { SEARCH_LINKS } from 'app/shared/links';
 import { Annotation } from '../bioc.format';
 
 @Component({
+  standalone: false,
   selector: 'app-bioc-annotated-text',
   templateUrl: './annotated-text.component.html',
   encapsulation: ViewEncapsulation.None,

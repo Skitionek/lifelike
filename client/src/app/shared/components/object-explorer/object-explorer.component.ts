@@ -10,6 +10,7 @@ interface TreeNode {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-object-explorer',
   templateUrl: './object-explorer.component.html'
 })

@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { isNil, isString } from 'lodash-es';
 
 @Pipe({
+  standalone: false,
   name: 'truncate'
 })
 export class TruncatePipe implements PipeTransform {

@@ -8,6 +8,7 @@ import { VirtualElement, Instance, createPopper, Options } from '@popperjs/core'
 import { uuidv4 } from '../utils';
 
 @Component({
+  standalone: false,
   selector: 'app-tooltip',
   template: '<div id="tooltip">I am a Tooltip</div>',
   styles: [],
@@ -47,7 +48,10 @@ export class TooltipComponent implements AfterViewInit, OnDestroy {
             right: x,
             bottom: y,
             left: x,
-        });
+            x,
+            y,
+            toJSON: () => {}
+        } as DOMRect);
     }
 
     setupPopper() {

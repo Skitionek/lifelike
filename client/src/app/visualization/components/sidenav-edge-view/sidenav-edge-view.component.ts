@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SidenavEdgeEntity, NewEdgeSnippetsPageRequest } from 'app/interfaces';
 
 @Component({
+  standalone: false,
     selector: 'app-sidenav-edge-view',
     templateUrl: './sidenav-edge-view.component.html',
     styleUrls: ['./sidenav-edge-view.component.scss']

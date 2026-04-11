@@ -11,6 +11,7 @@ import { FilesystemObject } from '../../models/filesystem-object';
  * @see FilesystemObjectActions#openFileAnnotationHistoryDialog
  */
 @Component({
+  standalone: false,
   selector: 'app-object-annotation-history-dialog',
   templateUrl: './file-annotation-history-dialog.component.html',
 })

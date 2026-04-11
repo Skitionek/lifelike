@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { WarningControllerService } from 'app/shared/services/warning-controller.service';
 
 @Component({
+  standalone: false,
   selector: 'app-warning-list',
   templateUrl: 'warning-list.component.html'
 })

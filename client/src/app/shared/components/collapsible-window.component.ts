@@ -1,6 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-collapsible-window',
   templateUrl: './collapsible-window-component.html',
   encapsulation: ViewEncapsulation.None

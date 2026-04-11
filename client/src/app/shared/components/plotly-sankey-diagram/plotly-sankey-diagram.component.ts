@@ -7,6 +7,7 @@ import { uuidv4 } from 'app/shared/utils';
 declare const Plotly: any;
 
 @Component({
+  standalone: false,
   selector: 'app-plotly-sankey-diagram',
   templateUrl: './plotly-sankey-diagram.component.html',
   styleUrls: ['./plotly-sankey-diagram.component.scss']

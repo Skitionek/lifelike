@@ -19,8 +19,8 @@ import {
  */
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf';
 import * as viewerx from 'pdfjs-dist/legacy/web/pdf_viewer';
-import { PDFDocumentProxy, PDFPageProxy, DocumentInitParameters, PDFDocumentLoadingTask } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { PDFDocumentProxy, PDFPageProxy, DocumentInitParameters, PDFDocumentLoadingTask } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { PDFProgressData, PDFViewerParams, PDFSource } from './interfaces';
 import { createEventBus } from '../utils/event-bus-utils';
 import { FindState, RenderTextMode } from '../utils/constants';
@@ -45,6 +45,7 @@ Object.freeze(DEFAULT_DOCUMENT_INIT_PARAMETERS);
 
 
 @Component({
+  standalone: false,
   selector: 'app-pdf-viewer-lib',
   template: `
       <div #pdfViewerContainer class="ng2-pdf-viewer-container">

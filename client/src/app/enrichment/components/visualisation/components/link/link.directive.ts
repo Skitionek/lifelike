@@ -33,6 +33,7 @@ export function triggerSearchOnShouldReplaceTab(text) {
  * enrichment table.
  */
 @Directive({
+  standalone: false,
   selector: ':not(a):not(area)[appSELink]'
 })
 export class SELinkDirective extends LinkWithoutHrefDirective {
@@ -47,7 +48,18 @@ export class SELinkDirective extends LinkWithoutHrefDirective {
     );
   }
 
-  @Input() appSELink;
+  private _appSELink: any;
+
+  @Input()
+  set appSELink(v: any) {
+    this._appSELink = v;
+    this.fragment = `text=${v}`;
+  }
+
+  get appSELink() {
+    return this._appSELink;
+  }
+
   sideBySide = true;
   newTab = true;
 
@@ -56,10 +68,5 @@ export class SELinkDirective extends LinkWithoutHrefDirective {
     return triggerSearchOnShouldReplaceTab(this.appSELink);
   }
 
-  appLink;
   matchExistingTab;
-
-  get fragment() {
-    return `text=${this.appSELink}`;
-  }
 }

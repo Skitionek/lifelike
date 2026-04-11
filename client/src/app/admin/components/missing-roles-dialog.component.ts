@@ -14,6 +14,7 @@ import { AccountService } from 'app/users/services/account.service';
 
 
 @Component({
+  standalone: false,
   selector: 'app-missing-roles-dialog',
   templateUrl: './missing-roles-dialog.component.html'
 })

@@ -7,6 +7,7 @@ import { UniversalGraphNode, UniversalGraphNodeTemplate } from '../../services/i
 import { createNodeDragImage } from '../../utils/drag';
 
 @Component({
+  standalone: false,
   selector: 'app-palette',
   templateUrl: './palette.component.html',
   styleUrls: ['./palette.component.scss'],

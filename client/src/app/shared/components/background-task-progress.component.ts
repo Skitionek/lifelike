@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TaskStatus } from '../rxjs/background-task';
 
 @Component({
+  standalone: false,
   selector: 'app-background-task-progress',
   templateUrl: './background-task-progress.component.html',
 })

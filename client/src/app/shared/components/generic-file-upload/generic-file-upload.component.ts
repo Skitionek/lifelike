@@ -3,6 +3,7 @@ import { Component, Output, EventEmitter, Input, OnInit, ViewChild, ElementRef, 
 import { Subject, Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
     selector: 'app-generic-file-upload',
     templateUrl: './generic-file-upload.component.html',
     styleUrls: ['./generic-file-upload.component.scss']

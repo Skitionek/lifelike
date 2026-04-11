@@ -8,6 +8,7 @@ import { CommonFormDialogComponent } from 'app/shared/components/dialog/common-f
 import { MessageDialog } from 'app/shared/services/message-dialog.service';
 
 @Component({
+  standalone: false,
   selector: 'app-enrichment-table-order-dialog',
   templateUrl: './enrichment-table-order-dialog.component.html',
   styleUrls: ['./enrichment-table-order-dialog.component.scss'],

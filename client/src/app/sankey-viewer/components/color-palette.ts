@@ -33,8 +33,8 @@ export const predefinedColorPaletteGenerator = (
     palette = christianColors
   } = {}
 ) => {
-  if (isDevMode() && palette.length < size) {
-    this.warningController.warn(`Predefined palette has not enough colors.`, palette, size);
+  if (isDevMode() && palette && palette.length < size) {
+    this?.warningController?.warn(`Predefined palette has not enough colors.`, palette, size);
   }
   return i => palette[i % palette.length];
 };

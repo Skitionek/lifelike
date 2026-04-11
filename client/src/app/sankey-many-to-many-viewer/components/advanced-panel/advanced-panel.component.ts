@@ -7,6 +7,7 @@ import { SankeyManyToManyState, SankeyManyToManyOptions } from '../interfaces';
 
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-advanced-panel',
   templateUrl: './advanced-panel.component.html',
   styleUrls: ['./advanced-panel.component.scss'],

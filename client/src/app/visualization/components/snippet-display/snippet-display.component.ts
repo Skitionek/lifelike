@@ -16,6 +16,7 @@ import { getPubtatorSearchUrl, SNIPPET_PAGE_LIMIT, SNIPPET_RESULT_LIMIT } from '
 import { GenericDataProvider } from 'app/shared/providers/data-transfer-data/generic-data.provider';
 
 @Component({
+  standalone: false,
     selector: 'app-snippet-display',
     templateUrl: './snippet-display.component.html',
     styleUrls: ['./snippet-display.component.scss']

@@ -8,6 +8,7 @@ import { FilesystemObjectList } from '../../models/filesystem-object-list';
 import { FilesystemService } from '../../services/filesystem.service';
 
 @Component({
+  standalone: false,
   selector: 'app-browser-community-list',
   templateUrl: './browser-community-list.component.html',
 })

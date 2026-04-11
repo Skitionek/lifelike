@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { SankeySearchService } from '../../services/search.service';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-search-control',
   templateUrl: './search-control.component.html'
 })

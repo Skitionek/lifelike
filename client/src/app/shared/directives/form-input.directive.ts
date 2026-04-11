@@ -13,6 +13,7 @@ import { getTopParent } from '../utils/forms';
  * Implements shared properties of an input.
  */
 @Directive({
+  standalone: false,
   selector: '[appFormInput]',
 })
 export class FormInputDirective implements AfterContentChecked {

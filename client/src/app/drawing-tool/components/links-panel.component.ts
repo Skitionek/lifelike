@@ -20,6 +20,7 @@ import { Hyperlink, Source } from '../services/interfaces';
 import { LinkEditDialogComponent } from './map-editor/dialog/link-edit-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'app-links-panel',
   templateUrl: './links-panel.component.html',
   styleUrls: [

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 
 @Component({
+  standalone: false,
   selector: 'app-module-header',
   templateUrl: './module-header.component.html'
 })

@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-search-control',
   templateUrl: './search-control.component.html',
   providers: [{
@@ -23,8 +24,8 @@ export class SearchControlComponent implements ControlValueAccessor {
   @Input() searching = false;
   @Output() previous = new EventEmitter<number>();
   @Output() next = new EventEmitter<number>();
-  @Output() enterPress = new EventEmitter();
-  @Output() valueClear = new EventEmitter();
+  @Output() enterPress = new EventEmitter<void>();
+  @Output() valueClear = new EventEmitter<void>();
 
   @ViewChild('searchInput', {static: false}) searchElement: ElementRef;
 
@@ -90,9 +91,9 @@ export class SearchControlComponent implements ControlValueAccessor {
   inputKeyUp(event: KeyboardEvent) {
     const newValue = this.searchElement.nativeElement.value;
     if (event.key === 'Enter') {
-      this.enterPress.next();
+      this.enterPress.emit();
       if (newValue === this.value) {
-        this.next.next();
+        this.next.next(0);
       } else {
         this.setValue(newValue);
       }

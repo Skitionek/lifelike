@@ -21,6 +21,7 @@ import { DropdownController } from '../utils/dom/dropdown-controller';
  * Directive that marks the body of a context menu.
  */
 @Directive({
+  standalone: false,
   selector: '[appContextMenuBody]',
 })
 export class ContextMenuBodyDirective {
@@ -43,6 +44,7 @@ export class ContextMenuBodyDirective {
  * The context menu.
  */
 @Directive({
+  standalone: false,
   selector: '[appContextMenu]',
 })
 export class ContextMenuDirective implements AfterViewInit, OnDestroy {

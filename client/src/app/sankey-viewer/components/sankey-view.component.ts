@@ -31,6 +31,7 @@ import { SearchEntity } from '../services/search-match';
 
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-viewer',
   templateUrl: './sankey-view.component.html',
   styleUrls: ['./sankey-view.component.scss'],

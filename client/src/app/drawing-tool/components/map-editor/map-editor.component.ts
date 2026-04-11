@@ -41,6 +41,7 @@ import { GRAPH_ENTITY_TOKEN } from '../../providers/graph-entity-data.provider';
 import { extractGraphEntityActions } from '../../utils/data';
 
 @Component({
+  standalone: false,
   selector: 'app-drawing-tool',
   templateUrl: './map-editor.component.html',
   styleUrls: [

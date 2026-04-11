@@ -8,6 +8,7 @@ import { State } from 'app/root-store';
 import { AppUser } from 'app/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-user-settings',
   templateUrl: './user-settings.component.html',
 })

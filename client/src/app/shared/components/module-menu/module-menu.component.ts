@@ -20,6 +20,7 @@ import { ModuleAwareComponent } from '../../modules';
  * app-object-menu in module context
  */
 @Component({
+  standalone: false,
   selector: 'app-module-menu',
   templateUrl: '../object-menu/object-menu.component.html',
 })

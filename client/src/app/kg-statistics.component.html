@@ -38,13 +38,10 @@
           <div class="card-body">
             <div class="chart-container">
               <canvas baseChart
-                      [datasets]="chartDataAllDomains"
-                      [labels]="chartLabelsDomains"
-                      [colors]="chartColorsDomains"
+                      [data]="allDomainsChartData"
                       [options]="chartOptions"
-                      [plugins]="chartPlugins"
                       [legend]="false"
-                      chartType="horizontalBar">
+                      type="bar">
               </canvas>
             </div>
           </div>
@@ -59,13 +56,10 @@
               <div class="card-body">
                 <div class="chart-container">
                   <canvas baseChart
-                          [datasets]="data.value"
-                          [labels]="chartLabelsEntitiesByDomain[data.key]"
-                          [options]="chartOptions"
-                          [plugins]="chartPlugins"
-                          [colors]="chartColorsEntitiesByDomain[data.key]"
+                          [data]="entitiesByDomainChartData[data.key]"
+                          [options]="barChartOptions"
                           [legend]="false"
-                          chartType="bar">
+                          type="bar">
                   </canvas>
                 </div>
               </div>

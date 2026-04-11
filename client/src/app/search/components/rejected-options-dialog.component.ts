@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
+  standalone: false,
   selector: 'app-rejected-options-dialog',
   templateUrl: './rejected-options-dialog.component.html',
   styleUrls: ['./rejected-options-dialog.component.scss']

@@ -11,3 +11,27 @@ declare function require(module: string): any;
 declare namespace require {
   function context(directory: string, useSubdirectories?: boolean, regExp?: RegExp): any;
 }
+
+// pdfjs-dist legacy paths
+declare module 'pdfjs-dist/legacy/build/pdf' {
+  export * from 'pdfjs-dist';
+  export const LinkTarget: {
+    NONE: number;
+    SELF: number;
+    BLANK: number;
+    PARENT: number;
+    TOP: number;
+  };
+  const pdfjsLib: any;
+  export default pdfjsLib;
+}
+declare module 'pdfjs-dist/legacy/web/pdf_viewer' {
+  export const PDFViewer: any;
+  export const PDFPageView: any;
+  export const EventBus: any;
+  export const PDFLinkService: any;
+  export const TextLayerBuilder: any;
+  export const NullL10n: any;
+  export const DefaultTextLayerFactory: any;
+  export const GenericL10n: any;
+}

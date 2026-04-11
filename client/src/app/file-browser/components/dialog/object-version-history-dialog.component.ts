@@ -10,6 +10,7 @@ import { FilesystemObject } from '../../models/filesystem-object';
 import { ObjectVersion } from '../../models/object-version';
 
 @Component({
+  standalone: false,
   selector: 'app-object-version-history-dialog',
   templateUrl: './object-version-history-dialog.component.html',
 })

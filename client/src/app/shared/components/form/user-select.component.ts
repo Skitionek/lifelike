@@ -11,6 +11,7 @@ import { AccountsService } from '../../services/accounts.service';
 import { ErrorHandler } from '../../services/error-handler.service';
 
 @Component({
+  standalone: false,
   selector: 'app-user-select',
   templateUrl: './user-select.component.html',
   providers: [{

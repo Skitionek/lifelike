@@ -9,6 +9,7 @@ import { parseURLToDomainName } from '../utils/browser';
 import { getDTCompatibleLabel } from '../utils/drawing-tool';
 
 @Component({
+  standalone: false,
   selector: 'app-node-relationship',
   templateUrl: 'node-relationship-display.component.html',
   styleUrls: ['./node-relationship-display.component.scss'],

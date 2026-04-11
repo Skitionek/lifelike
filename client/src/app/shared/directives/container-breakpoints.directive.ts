@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Directive({
+  standalone: false,
   selector: '[appContainerBreakpoints]',
 })
 export class ContainerBreakpointsDirective implements OnInit, OnDestroy {

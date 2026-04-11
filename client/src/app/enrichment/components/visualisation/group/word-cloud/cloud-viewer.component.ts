@@ -11,6 +11,7 @@ import { WorkspaceManager } from 'app/shared/workspace-manager';
 import { paramsToEnrichmentTableLink, triggerSearchOnShouldReplaceTab } from '../../components/link/link.directive';
 
 @Component({
+  standalone: false,
   selector: 'app-cloud-viewer',
   templateUrl: './cloud-viewer.component.html'
 })

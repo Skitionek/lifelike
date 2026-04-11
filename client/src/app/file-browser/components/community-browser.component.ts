@@ -16,6 +16,7 @@ import { FilesystemObjectList } from '../models/filesystem-object-list';
 import { FilesystemService } from '../services/filesystem.service';
 
 @Component({
+  standalone: false,
   selector: 'app-community-browser',
   templateUrl: './community-browser.component.html',
 })

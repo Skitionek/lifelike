@@ -8,6 +8,7 @@ import { ShortestPathService } from '../services/shortest-path.service';
 import { DisplayType } from './route-display.component';
 
 @Component({
+  standalone: false,
   selector: 'app-route-builder',
   templateUrl: './route-builder.component.html',
   styleUrls: ['./route-builder.component.scss']

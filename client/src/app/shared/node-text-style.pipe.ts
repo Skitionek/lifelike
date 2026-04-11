@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 
 @Pipe({
+  standalone: false,
   name: 'nodeTextStyle'
 })
 export class NodeTextStylePipe implements PipeTransform {

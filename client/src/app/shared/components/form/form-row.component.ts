@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-form-row',
   templateUrl: './form-row.component.html',
 })

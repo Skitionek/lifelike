@@ -14,6 +14,7 @@ import * as UserActions from '../store/actions';
 import { UserEffects } from '../store/effects';
 
 @Component({
+  standalone: false,
   selector: 'app-change-password-dialog',
   templateUrl: './change-password-dialog.component.html'
 })

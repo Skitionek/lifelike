@@ -20,6 +20,7 @@ import { MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from 'app/shared/constants';
 import * as UserActions from '../store/actions';
 
 @Component({
+  standalone: false,
   selector: 'app-user-security',
   templateUrl: './user-security.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

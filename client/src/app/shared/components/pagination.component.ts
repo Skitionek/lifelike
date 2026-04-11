@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginatedRequestOptions } from '../schemas/common';
 
 @Component({
+  standalone: false,
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
 })

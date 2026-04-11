@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-annotation-config-table',
   templateUrl: './annotation-config-table.component.html',
   styleUrls: ['./annotation-config-table.component.scss']

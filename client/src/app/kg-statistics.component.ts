@@ -3,8 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
-import { ChartOptions, ChartDataSets } from 'chart.js';
-import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 
 import { BackgroundTask } from 'app/shared/rxjs/background-task';
 
@@ -47,69 +46,64 @@ const DOMAIN_COLORS = [
 ];
 
 @Component({
+  standalone: false,
   selector: 'app-kg-statistics',
   templateUrl: './kg-statistics.component.html',
   styleUrls: ['./kg-statistics.component.scss']
 })
 export class KgStatisticsComponent {
   loadTask: BackgroundTask<void, StatisticsDataResponse>;
-  chartDataAllDomains: ChartDataSets[] = [];
-  chartDataEntitiesByDomain: {
-    [domain: string]: ChartDataSets[];
-  } = {};
-  chartLabelsDomains: string[] = [];
-  chartLabelsEntitiesByDomain: {
-    [domain: string]: string[];
-  } = {};
-  chartColorsEntitiesByDomain: {
-    [domain: string]: {
-      backgroundColor: string[]
-    }[];
-  } = {};
-  chartColorsDomains: {
-    backgroundColor: string[];
-  }[] = [];
-  chartOptions: ChartOptions = {
+
+  allDomainsChartData: ChartData<'bar'>;
+  entitiesByDomainChartData: { [domain: string]: ChartData<'bar'> } = {};
+
+  chartOptions: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
+    indexAxis: 'y',
     scales: {
-      yAxes: [{
+      y: {
         ticks: {
-          beginAtZero: true,
-          callback: (value, index, values) => this.addThousandSeparator(value.toString())
+          callback: (value) => this.addThousandSeparator(value.toString())
         },
-      }],
-      xAxes: [{
+      },
+      x: {
+        beginAtZero: true,
         ticks: {
-          beginAtZero: true,
-          callback: (value, index, values) => this.addThousandSeparator(value.toString())
+          callback: (value) => this.addThousandSeparator(value.toString())
         }
-      }]
+      }
     },
     plugins: {
       datalabels: {
-        formatter: (value, context) => this.addThousandSeparator(value.toString()),
+        formatter: (value) => this.addThousandSeparator(value.toString()),
         anchor: 'end',
         offset: 0,
         align: 'end',
         font: {
           size: 14
         }
+      },
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => this.addThousandSeparator(tooltipItem.formattedValue)
+        }
       }
-    },
+    } as any,
     layout: {
       padding: {
         top: 25,
         right: 50
       }
     },
-    tooltips: {
-      callbacks: {
-        label: (tooltipItem, data) => this.addThousandSeparator(tooltipItem.value)
-      }
-    }
   };
-  chartPlugins = [pluginDataLabels];
+
+  barChartOptions: ChartOptions<'bar'> = {
+    ...this.chartOptions,
+    indexAxis: 'x',
+  };
+
   totalCount: any = 0;
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
@@ -129,9 +123,8 @@ export class KgStatisticsComponent {
     this.loadTask.update();
   }
 
-  private _getChartDataEntitiesByDomain(statisticsData) {
-    // assign color to each entity
-    const entityToColor = {};
+  private _getChartDataEntitiesByDomain(statisticsData: StatisticsDataResponse) {
+    const entityToColor: { [entity: string]: string } = {};
     let i = 0;
     for (const domainData of Object.values(statisticsData)) {
       Object.keys(domainData).forEach(entity => {
@@ -142,36 +135,38 @@ export class KgStatisticsComponent {
       });
     }
 
-    this.chartDataEntitiesByDomain = {};
-    this.chartLabelsEntitiesByDomain = {};
-    this.chartColorsEntitiesByDomain = {};
+    this.entitiesByDomainChartData = {};
     for (const [domain, domainData] of Object.entries(statisticsData)) {
-      this.chartLabelsEntitiesByDomain[domain] = [];
-      const dataset = { data: [], maxBarThickness: 50 };
-      const colors = { backgroundColor: [] };
+      const labels: string[] = [];
+      const data: number[] = [];
+      const backgroundColor: string[] = [];
       for (const [entity, count] of Object.entries(domainData)) {
-        dataset.data.push(count);
-        colors.backgroundColor.push(entityToColor[entity]);
-        this.chartLabelsEntitiesByDomain[domain].push(entity);
+        labels.push(entity);
+        data.push(count);
+        backgroundColor.push(entityToColor[entity]);
       }
-      this.chartColorsEntitiesByDomain[domain] = [ colors ];
-      this.chartDataEntitiesByDomain[domain] = [ dataset ];
+      this.entitiesByDomainChartData[domain] = {
+        labels,
+        datasets: [{ data, backgroundColor, maxBarThickness: 50 }]
+      };
     }
   }
 
-  private _getChartDataAllDomains(statisticsData) {
-    this.chartColorsDomains = [{ backgroundColor: DOMAIN_COLORS }];
-    const data = [];
-    this.chartLabelsDomains = [];
+  private _getChartDataAllDomains(statisticsData: StatisticsDataResponse) {
+    const labels: string[] = [];
+    const data: number[] = [];
     for (const [domain, domainData] of Object.entries(statisticsData)) {
+      labels.push(domain);
       data.push(Object.values(domainData).reduce((a, b) => a + b, 0));
-      this.chartLabelsDomains.push(domain);
     }
-    this.chartDataAllDomains = [{ data }];
+    this.allDomainsChartData = {
+      labels,
+      datasets: [{ data, backgroundColor: DOMAIN_COLORS }]
+    };
     this.totalCount = data.reduce((a, b) => a + b, 0);
   }
 
-  addThousandSeparator(value) {
+  addThousandSeparator(value: string) {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 

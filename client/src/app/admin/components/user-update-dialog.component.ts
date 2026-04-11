@@ -12,6 +12,7 @@ import { CommonFormDialogComponent } from 'app/shared/components/dialog/common-f
 import { AppUser, UserUpdateRequest } from 'app/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-user-update-dialog',
   templateUrl: './user-update-dialog.component.html',
 })

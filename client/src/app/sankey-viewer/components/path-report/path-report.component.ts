@@ -6,6 +6,7 @@ import { groupBy, values } from 'lodash-es';
 import { SankeyPathReport } from 'app/shared-sankey/interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-path-report',
   templateUrl: './path-report.component.html',
   styleUrls: ['./path-report.component.scss'],

@@ -19,6 +19,7 @@ import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { HighlightTextService } from '../services/highlight-text.service';
 
 @Component({
+  standalone: false,
   selector: 'app-highlight-text',
   templateUrl: './highlight-text.component.html',
   styleUrls: [

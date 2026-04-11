@@ -22,6 +22,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { map, debounceTime } from 'rxjs/operators';
 
 @Directive({
+  standalone: false,
     selector: '[appVisDebounce]',
 })
 export class DebounceInputDirective implements OnInit, OnDestroy {

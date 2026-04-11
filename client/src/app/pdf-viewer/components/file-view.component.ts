@@ -56,6 +56,7 @@ class EntityTypeEntry {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-pdf-viewer',
   templateUrl: './file-view.component.html',
   styleUrls: ['./file-view.component.scss'],

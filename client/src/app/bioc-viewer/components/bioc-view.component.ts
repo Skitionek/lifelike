@@ -25,6 +25,7 @@ import { FilesystemObjectActions } from 'app/file-browser/services/filesystem-ob
 
 
 @Component({
+  standalone: false,
   selector: 'app-bioc-viewer',
   templateUrl: './bioc-view.component.html',
   styleUrls: ['./bioc-view.component.scss'],

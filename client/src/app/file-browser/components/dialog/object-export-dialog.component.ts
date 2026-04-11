@@ -14,6 +14,7 @@ import { MimeTypes } from 'app/shared/constants';
 import { FilesystemObject } from '../../models/filesystem-object';
 
 @Component({
+  standalone: false,
   selector: 'app-object-export-dialog',
   templateUrl: './object-export-dialog.component.html',
 })

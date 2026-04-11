@@ -152,12 +152,12 @@ export abstract class GraphView<BT extends Behavior> implements GraphActionRecei
   /**
    * Stream of events when history changes in any way.
    */
-  historyChanges$ = new Subject<any>();
+  historyChanges$ = new Subject<void>();
 
   /**
    * Stream of events when a graph entity needs to be focused.
    */
-  editorPanelFocus$ = new Subject<any>();
+  editorPanelFocus$ = new Subject<void>();
 
   /**
    * Defines how close to the node we have to click to terminate the node search early.
@@ -1000,15 +1000,13 @@ export abstract class GraphView<BT extends Behavior> implements GraphActionRecei
         color: '#740CAA',
         leaves: [],
         // groups: [],
-        padding: 10,
-      },
+      } as GraphLayoutGroup,
       {
         name: 'Things',
         color: '#0CAA70',
         leaves: [],
         // groups: [],
-        padding: 10,
-      },
+      } as GraphLayoutGroup,
     ];
 
     for (const node of layoutNodes) {

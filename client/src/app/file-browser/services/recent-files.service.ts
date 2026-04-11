@@ -11,6 +11,7 @@ import { FilesystemObject } from '../models/filesystem-object';
 import { FilesystemService } from './filesystem.service';
 import { FilesystemObjectData } from '../schema';
 
+@Injectable({providedIn: 'root'})
 export class RecentFileHashesService implements OnDestroy {
   static readonly RECENT_KEY = 'lifelike_workspace_recentList';
   private readonly storage = localStorage;
@@ -77,7 +78,7 @@ export class RecentFileHashesService implements OnDestroy {
       if (strValue) {
         const value = JSON.parse(strValue);
         if (Array.isArray(value)) {
-          return value.filter(v => typeof v === 'string' || v instanceof String);
+          return value.filter((v): v is string => typeof v === 'string' || v instanceof String).map(String);
         } else {
           this.errorHandler.logError(new Error(`Recent files list has been corrupted - refreshing`));
         }

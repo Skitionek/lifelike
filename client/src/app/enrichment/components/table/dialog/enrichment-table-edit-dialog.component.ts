@@ -11,6 +11,7 @@ import { ErrorHandler } from 'app/shared/services/error-handler.service';
 import { ProgressDialog } from 'app/shared/services/progress-dialog.service';
 
 @Component({
+  standalone: false,
   selector: 'app-enrichment-table-edit-dialog',
   templateUrl: './enrichment-table-edit-dialog.component.html',
 })

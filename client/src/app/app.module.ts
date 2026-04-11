@@ -1,7 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 
-import { NgChartsModule } from 'ng2-charts';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { RootStoreModule } from 'app/root-store';
@@ -55,7 +55,6 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     UserModule,
     RootStoreModule,
     SearchModule,
-    NgChartsModule,
     DrawingToolModule,
     SankeyViewerLibModule,
     SankeyManyToManyViewerLibModule,
@@ -72,6 +71,7 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     Title,
     WorkspaceManager,
     UnloadConfirmationGuard,
+    provideCharts(withDefaultRegisterables()),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,

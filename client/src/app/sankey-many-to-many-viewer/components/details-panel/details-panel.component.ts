@@ -5,6 +5,7 @@ import { SankeyDetailsPanelComponent } from 'app/sankey-viewer/components/detail
 import { SankeyManyToManySelection } from '../interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-many-to-many-details-panel',
   templateUrl: './details-panel.component.html',
   styleUrls: ['./details-panel.component.scss'],

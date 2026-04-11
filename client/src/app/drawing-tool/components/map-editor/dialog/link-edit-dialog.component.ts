@@ -10,6 +10,7 @@ import { potentiallyInternalUrl } from 'app/shared/validators';
 import { toValidLink } from 'app/shared/utils/browser';
 
 @Component({
+  standalone: false,
   selector: 'app-link-edit-dialog',
   templateUrl: './link-edit-dialog.component.html',
 })

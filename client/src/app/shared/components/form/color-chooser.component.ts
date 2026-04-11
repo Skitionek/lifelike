@@ -10,6 +10,7 @@ declare type Placement =
 declare type PlacementArray = Placement | Array<Placement> | string;
 
 @Component({
+  standalone: false,
   selector: 'app-color-chooser-component',
   templateUrl: './color-chooser.component.html',
   styleUrls: [

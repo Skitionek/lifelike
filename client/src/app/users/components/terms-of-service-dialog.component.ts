@@ -6,6 +6,7 @@ import { CommonDialogComponent } from 'app/shared/components/dialog/common-dialo
 import { MessageDialog } from 'app/shared/services/message-dialog.service';
 
 @Component({
+  standalone: false,
   selector: 'app-terms-of-service-dialog',
   templateUrl: './terms-of-service-dialog.component.html',
 })

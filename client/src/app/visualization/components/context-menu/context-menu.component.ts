@@ -27,6 +27,7 @@ import { ContextMenuControlService } from '../../services/context-menu-control.s
 
 
 @Component({
+  standalone: false,
     selector: 'app-context-menu',
     templateUrl: './context-menu.component.html',
     styleUrls: ['./context-menu.component.scss'],

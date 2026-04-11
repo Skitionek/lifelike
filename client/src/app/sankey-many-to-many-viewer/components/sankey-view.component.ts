@@ -15,6 +15,7 @@ import { SankeyManyToManyControllerService } from '../services/sankey-controller
 import { SankeyManyToManySelection, SankeyManyToManyState } from './interfaces';
 
 @Component({
+  standalone: false,
   selector: 'app-sankey-viewer',
   templateUrl: './sankey-view.component.html',
   styleUrls: [

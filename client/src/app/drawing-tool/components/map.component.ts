@@ -39,6 +39,7 @@ import { GraphEntity, UniversalGraph } from '../services/interfaces';
 import { MapImageProviderService } from '../services/map-image-provider.service';
 
 @Component({
+  standalone: false,
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: [

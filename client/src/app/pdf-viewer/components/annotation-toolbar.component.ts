@@ -10,6 +10,7 @@ import { AnnotationEditDialogComponent } from './annotation-edit-dialog.componen
 import { Rect } from '../annotation-type';
 
 @Component({
+  standalone: false,
   selector: 'app-annotation-toolbar',
   styleUrls: ['./annotation-toolbar.component.scss'],
   templateUrl: './annotation-toolbar.component.html',

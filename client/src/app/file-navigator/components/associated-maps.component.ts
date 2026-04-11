@@ -15,6 +15,7 @@ import { ObjectTypeService } from 'app/file-types/services/object-type.service';
 import { MimeTypes } from 'app/shared/constants';
 
 @Component({
+  standalone: false,
   selector: 'app-associated-maps',
   templateUrl: './associated-maps.component.html',
 })

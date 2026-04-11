@@ -1,4 +1,4 @@
-import { OnDestroy, OnInit } from '@angular/core';
+import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { CollectionModel } from '../../utils/collection-model';
 import { WorkspaceManager } from '../../workspace-manager';
 import { ResultList, ResultQuery } from '../../schemas/common';
 
+@Directive()
 export abstract class ResultListComponent<O, R, RL extends ResultList<R> = ResultList<R>> implements OnInit, OnDestroy {
   public loadTask: BackgroundTask<O, RL> = new BackgroundTask(params => this.getResults(params));
 

@@ -20,6 +20,7 @@ import { FilesystemObject } from '../models/filesystem-object';
 import { FilesystemService } from '../services/filesystem.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-preview',
   templateUrl: './object-preview.component.html',
 })
@@ -60,6 +61,7 @@ export class ObjectPreviewComponent implements OnChanges {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-object-preview-outlet',
   template: `
     <ng-container #child></ng-container>

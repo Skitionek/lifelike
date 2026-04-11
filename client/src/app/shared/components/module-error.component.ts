@@ -8,6 +8,7 @@ import { UserError } from '../exceptions';
 import { ErrorHandler } from '../services/error-handler.service';
 
 @Component({
+  standalone: false,
   selector: 'app-module-error',
   templateUrl: './module-error.component.html',
   styleUrls: [

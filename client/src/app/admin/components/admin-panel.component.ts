@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
  * The administration panel.
  */
 @Component({
+  standalone: false,
   selector: 'app-admin-panel',
   templateUrl: 'admin-panel.component.html',
 })

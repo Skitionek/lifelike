@@ -7,6 +7,7 @@ import { Hyperlink } from 'app/drawing-tool/services/interfaces';
 import { SEARCH_LINKS } from '../links';
 
 @Component({
+  standalone: false,
   selector: 'app-quick-search',
   templateUrl: './quick-search.component.html',
 })

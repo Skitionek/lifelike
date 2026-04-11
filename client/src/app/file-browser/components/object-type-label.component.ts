@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { FilesystemObject } from '../models/filesystem-object';
 
 @Component({
+  standalone: false,
   selector: 'app-file-type-label',
   templateUrl: './object-type-label.component.html',
 })

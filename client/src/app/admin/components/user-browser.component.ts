@@ -23,6 +23,7 @@ import { MissingRolesDialogComponent } from './missing-roles-dialog.component';
 
 
 @Component({
+  standalone: false,
   selector: 'app-users-view',
   templateUrl: 'user-browser.component.html',
 })

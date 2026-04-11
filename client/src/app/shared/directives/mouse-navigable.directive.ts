@@ -14,6 +14,7 @@ import {
  * Directive that marks a mouse-navigable item.
  */
 @Directive({
+  standalone: false,
   selector: '[appMouseNavigableItem]',
 })
 export class MouseNavigableItemDirective {
@@ -38,6 +39,7 @@ export class MouseNavigableItemDirective {
  * The container.
  */
 @Directive({
+  standalone: false,
   selector: '[appMouseNavigable]',
 })
 export class MouseNavigableDirective implements AfterViewInit, OnDestroy {

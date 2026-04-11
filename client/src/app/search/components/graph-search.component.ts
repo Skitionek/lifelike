@@ -15,6 +15,7 @@ import { createGraphSearchParamsFromQuery, getGraphQueryParams, GraphQueryParame
 import { GraphSearchParameters } from '../graph-search';
 
 @Component({
+  standalone: false,
   selector: 'app-graph-search',
   templateUrl: './graph-search.component.html',
 })

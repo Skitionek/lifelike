@@ -9,6 +9,7 @@ import { EnrichWithGOTermsResult } from 'app/enrichment/services/enrichment-visu
 
 
 @Component({
+  standalone: false,
   selector: 'app-table-complete',
   templateUrl: './table-complete.component.html',
   styleUrls: ['./table-complete.component.scss'],
