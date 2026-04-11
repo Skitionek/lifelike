@@ -1,7 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { RootStoreModule } from 'app/root-store';
@@ -18,7 +18,6 @@ import { VisualizationModule } from 'app/visualization/visualization.module';
 import { DrawingToolModule } from 'app/drawing-tool/drawing-tool.module';
 import { FileBrowserModule } from 'app/file-browser/file-browser.module';
 import { WorkspaceComponent } from 'app/workspace.component';
-import { WorkspaceOutletComponent } from 'app/workspace-outlet.component';
 import { WorkspaceManager } from 'app/shared/workspace-manager';
 import { UnloadConfirmationGuard } from 'app/shared/guards/UnloadConfirmation.guard';
 import { DashboardComponent } from 'app/dashboard.component';
@@ -39,13 +38,9 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
   declarations: [
     AppComponent,
     WorkspaceComponent,
-    WorkspaceOutletComponent,
     AppVersionDialogComponent,
     DashboardComponent,
     KgStatisticsComponent,
-  ],
-  entryComponents: [
-    AppVersionDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,10 +53,9 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     FileBrowserModule,
     VisualizationModule,
     UserModule,
-    // ngrx
     RootStoreModule,
     SearchModule,
-    ChartsModule,
+    NgChartsModule,
     DrawingToolModule,
     SankeyViewerLibModule,
     SankeyManyToManyViewerLibModule,
@@ -81,10 +75,8 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
-    }
+    },
   ],
-  exports: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

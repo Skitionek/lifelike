@@ -1,23 +1,18 @@
 import {
-  AfterContentChecked,
-  AfterViewInit,
   Component,
-  ElementRef,
   HostListener,
-  OnChanges,
-  ViewChild,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable, switchMap } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
-import { Observable } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { OutletsMap } from 'app/shared/route-with-dynamic-outlets';
 import { Pane, Tab, WorkspaceManager } from 'app/shared/workspace-manager';
 import { CopyLinkDialogComponent } from 'app/shared/components/dialog/copy-link-dialog.component';
 import { ViewService } from 'app/file-browser/services/view.service';
-
-import { SplitComponent } from 'angular-split';
 
 @Component({
   selector: 'app-workspace',
@@ -25,27 +20,25 @@ import { SplitComponent } from 'angular-split';
   styleUrls: ['./workspace.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterContentChecked {
-  @ViewChild('container', {static: true, read: ElementRef}) container: ElementRef;
-  @ViewChild('splitComponent', {static: false}) splitComponent: SplitComponent;
+export class WorkspaceComponent implements OnInit {
+  outlets$: Observable<string[]>;
   panes$: Observable<Pane[]>;
 
-  constructor(protected readonly workspaceManager: WorkspaceManager,
-              protected readonly modalService: NgbModal,
-              protected readonly viewService: ViewService) {
+  constructor(
+    protected readonly activatedRoute: ActivatedRoute,
+    protected readonly workspaceManager: WorkspaceManager,
+    protected readonly router: Router,
+    protected readonly modalService: NgbModal,
+    protected readonly viewService: ViewService,
+  ) {}
+
+  ngOnInit() {
+    this.outlets$ = this.activatedRoute.data.pipe(
+      switchMap(({ outlets$ }) => outlets$ as Observable<OutletsMap>),
+      map(outlets => Object.keys(outlets ?? {})),
+    );
     this.panes$ = this.workspaceManager.panes$;
-  }
-
-  ngAfterViewInit() {
     this.workspaceManager.initialLoad();
-  }
-
-  ngOnChanges() {
-    this.workspaceManager.save();
-  }
-
-  ngAfterContentChecked() {
-    this.workspaceManager.applyPendingChanges();
   }
 
   tabDropped(event: CdkDragDrop<Pane>) {
@@ -61,38 +54,27 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
   duplicateTab(pane: Pane, tab: Tab) {
     this.workspaceManager.navigateByUrl({
       url: tab.url,
-      extras: {newTab: true}
+      extras: { newTab: true },
     });
   }
 
   copyLinkToTab(pane: Pane, tab: Tab) {
     const modalRef = this.modalService.open(CopyLinkDialogComponent);
     modalRef.componentInstance.url = 'Generating link...';
-    const urlSubscription = this.viewService.getShareableLink(tab.getComponent(), tab.url).subscribe(({href}) => {
+    const urlSubscription = this.viewService.getShareableLink(null, tab.url).subscribe(({ href }) => {
       modalRef.componentInstance.url = href;
     });
-    // todo: use hidden after update of ng-bootstrap >= 8.0.0
-    // https://ng-bootstrap.github.io/#/components/modal/api#NgbModalRef
     modalRef.result.then(
       () => urlSubscription.unsubscribe(),
-      () => urlSubscription.unsubscribe()
+      () => urlSubscription.unsubscribe(),
     );
     return modalRef.result;
   }
 
   closeTab(pane: Pane, tab: Tab) {
-    const performClose = () => {
-      pane.deleteTab(tab);
-      this.workspaceManager.save();
-      this.workspaceManager.emitEvents();
-    };
-    if (this.workspaceManager.shouldConfirmTabUnload(tab)) {
-      if (confirm('Close tab? Changes you made may not be saved.')) {
-        performClose();
-      }
-    } else {
-      performClose();
-    }
+    pane.deleteTab(tab);
+    this.workspaceManager.save();
+    this.workspaceManager.emitEvents();
   }
 
   closeOtherTabs(pane: Pane, tab: Tab) {
@@ -104,20 +86,11 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
   }
 
   closeTabs(pane: Pane, targetTabs: Tab[]) {
-    let canClose = true;
     for (const targetTab of targetTabs) {
-      if (this.workspaceManager.shouldConfirmTabUnload(targetTab)) {
-        canClose = !!confirm('Close tabs? Changes you made may not be saved.');
-        break;
-      }
+      pane.deleteTab(targetTab);
     }
-    if (canClose) {
-      for (const targetTab of targetTabs) {
-        pane.deleteTab(targetTab);
-      }
-      this.workspaceManager.save();
-      this.workspaceManager.emitEvents();
-    }
+    this.workspaceManager.save();
+    this.workspaceManager.emitEvents();
   }
 
   clearWorkbench() {
@@ -126,7 +99,7 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
     }
   }
 
-  handleTabClick(e, pane: Pane, tab: Tab) {
+  handleTabClick(e: MouseEvent, pane: Pane, tab: Tab) {
     if (e && (e.which === 2 || e.button === 4)) {
       this.closeTab(pane, tab);
     } else {
@@ -135,7 +108,7 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
     e.preventDefault();
   }
 
-  splitterDragEnded(result) {
+  splitterDragEnded(result: { sizes: number[] }) {
     result.sizes.forEach((size, index) => {
       this.workspaceManager.panes.panes[index].size = size;
     });
@@ -145,6 +118,10 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
   setActiveTab(pane: Pane, tab: Tab) {
     pane.activeTab = tab;
     this.workspaceManager.save();
+    if (tab.url) {
+      const segments = tab.url.replace(/^\//, '').split('/');
+      this.router.navigate([{ outlets: { [pane.id]: segments } }]);
+    }
   }
 
   setFocus(pane: Pane) {
@@ -158,11 +135,13 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
   addPane() {
     this.workspaceManager.panes.getOrCreate('right');
     this.workspaceManager.save();
+    this.workspaceManager.emitEvents();
   }
 
   closeRightPane() {
     this.workspaceManager.panes.delete(this.workspaceManager.panes.get('right'));
     this.workspaceManager.save();
+    this.workspaceManager.emitEvents();
   }
 
   shouldConfirmUnload(): boolean {
@@ -170,13 +149,12 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
     if (result) {
       result.pane.activeTab = result.tab;
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   @HostListener('window:beforeunload', ['$event'])
-  handleBeforeUnload(event) {
+  handleBeforeUnload(event: BeforeUnloadEvent) {
     if (this.shouldConfirmUnload()) {
       event.returnValue = 'Leave page? Changes you made may not be saved';
     }
@@ -190,10 +168,5 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
     } else {
       return 'fa fa-' + s;
     }
-  }
-}
-
-class PlacedPane {
-  constructor(readonly pane: Pane, readonly width: number) {
   }
 }
