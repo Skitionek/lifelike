@@ -78,7 +78,7 @@
                    [class.workspace-hidden-tab-content]="pane.activeTab !== tab"
                    appDataTransferData [uriData]="[{title: tab.title, uri: tab.absoluteUrl}]">
                 <router-outlet
-                  [name]="tab.outletName"
+                  [attr.name]="tab.outletName"
                   (activate)="onComponentActivate(tab.outletName, $event); setFocus(pane)"
                   (deactivate)="onComponentDeactivate(tab.outletName)">
                 </router-outlet>
