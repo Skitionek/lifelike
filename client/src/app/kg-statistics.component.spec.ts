@@ -1,10 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { configureTestSuite } from 'ng-bullet';
 
 import { KgStatisticsComponent } from './kg-statistics.component';
 
@@ -12,7 +10,7 @@ describe('KgStatisticsComponent', () => {
     let component: KgStatisticsComponent;
     let httpMock: HttpTestingController;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [KgStatisticsComponent],
             imports: [
@@ -21,13 +19,13 @@ describe('KgStatisticsComponent', () => {
                 MatSnackBarModule,
                 BrowserAnimationsModule,
             ],
-        });
-    });
+        }).compileComponents();
+    }));
 
     beforeEach(() => {
         const fixture = TestBed.createComponent(KgStatisticsComponent);
         component = fixture.componentInstance;
-        httpMock = TestBed.get(HttpTestingController);
+        httpMock = TestBed.inject(HttpTestingController);
     });
 
     afterEach(() => {

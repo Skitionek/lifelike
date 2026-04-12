@@ -17,7 +17,7 @@ export class AuthenticationService implements OnDestroy {
   constructor(private http: HttpClient) { }
 
   ngOnDestroy() {
-    this.refreshSubscription.unsubscribe();
+    this.refreshSubscription?.unsubscribe();
   }
 
   getAuthHeader(): string | void {
