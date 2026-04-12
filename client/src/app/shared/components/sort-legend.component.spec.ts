@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { SortLegendComponent } from './sort-legend.component';
 
@@ -8,11 +7,12 @@ describe('SortLegendComponent', () => {
     let component: SortLegendComponent;
     let fixture: ComponentFixture<SortLegendComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [SortLegendComponent],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(SortLegendComponent);

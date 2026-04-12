@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 
 import { LoadingIndicatorComponent } from './loading-indicator.component';
@@ -10,14 +9,15 @@ describe('ModuleProgressComponent', () => {
     let component: ModuleProgressComponent;
     let fixture: ComponentFixture<ModuleProgressComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [
                 ModuleProgressComponent,
                 MockComponents(LoadingIndicatorComponent),
             ],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ModuleProgressComponent);

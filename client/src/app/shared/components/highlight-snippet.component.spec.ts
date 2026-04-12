@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { HighlightSnippetComponent } from './highlight-snippet.component';
 
@@ -16,14 +15,14 @@ describe('HighlightSnippetComponent', () => {
     let mockEntry2Type: string;
     let mockLegend: Map<string, string[]>;
 
-    configureTestSuite( () => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ HighlightSnippetComponent ],
             imports: [
                 BrowserAnimationsModule
             ]
-        });
-    });
+        }).compileComponents();
+    }));
 
     beforeEach(() => {
         // Reset mock data before each test

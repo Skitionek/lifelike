@@ -1,20 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { ClipboardService } from './clipboard.service';
 
 describe('ClipboardService', () => {
     let service: ClipboardService;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [ ClipboardService ]
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
-        service = TestBed.get(ClipboardService);
+        service = TestBed.inject(ClipboardService);
     });
 
     it('should be created', () => {

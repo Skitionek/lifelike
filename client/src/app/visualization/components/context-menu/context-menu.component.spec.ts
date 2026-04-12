@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed, fakeAsync, flush } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 import { IdType } from 'vis-network';
 
 import { Direction, VisNode } from 'app/interfaces';
@@ -22,7 +21,7 @@ describe('ContextMenuComponent', () => {
     let mockSelectedNodeEdgeLabelData: Map<string, Direction[]>;
     let mockSelectedClusterNodeData: VisNode[];
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 RootStoreModule,
@@ -31,8 +30,9 @@ describe('ContextMenuComponent', () => {
             ],
             declarations: [ ContextMenuComponent ],
             providers: [ContextMenuControlService],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         // Reset mock data before every test so changes don't carry over between tests
@@ -60,7 +60,7 @@ describe('ContextMenuComponent', () => {
 
         fixture = TestBed.createComponent(ContextMenuComponent);
         component = fixture.componentInstance;
-        contextMenuControlService = TestBed.get<ContextMenuControlService>(ContextMenuControlService);
+        contextMenuControlService = TestBed.inject(ContextMenuControlService);
 
         component.selectedNodeIds = [];
         component.selectedEdgeIds = [];
@@ -74,6 +74,10 @@ describe('ContextMenuComponent', () => {
         };
 
         fixture.detectChanges();
+    });
+
+    afterEach(() => {
+        try { jasmine.clock().uninstall(); } catch (_) {}
     });
 
     it('should create', () => {

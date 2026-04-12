@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { RootStoreModule } from 'app/root-store';
 
@@ -10,14 +9,15 @@ describe('RouteSearchComponent', () => {
   let component: RouteSearchComponent;
   let fixture: ComponentFixture<RouteSearchComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RootStoreModule
       ],
       declarations: [ RouteSearchComponent ]
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RouteSearchComponent);

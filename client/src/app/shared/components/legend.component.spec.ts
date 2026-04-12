@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 
 import { LegendComponent } from './legend.component';
@@ -11,7 +10,7 @@ describe('LegendComponent', () => {
     let component: LegendComponent;
     let fixture: ComponentFixture<LegendComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [
               LegendComponent,
@@ -22,8 +21,9 @@ describe('LegendComponent', () => {
             imports: [
                 BrowserAnimationsModule
             ]
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LegendComponent);

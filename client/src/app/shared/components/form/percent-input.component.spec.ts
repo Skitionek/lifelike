@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { PercentInputComponent } from './percent-input.component';
 
@@ -10,12 +9,13 @@ describe('PercentInputComponent', () => {
     let component: PercentInputComponent;
     let fixture: ComponentFixture<PercentInputComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [PercentInputComponent],
             imports: [CommonModule, FormsModule],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(PercentInputComponent);

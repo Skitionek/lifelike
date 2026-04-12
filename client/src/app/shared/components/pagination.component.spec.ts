@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 
-import { configureTestSuite } from 'ng-bullet';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PaginationComponent } from './pagination.component';
@@ -11,12 +10,13 @@ describe('PaginationComponent', () => {
     let component: PaginationComponent;
     let fixture: ComponentFixture<PaginationComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [PaginationComponent],
             imports: [CommonModule, NgbModule],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(PaginationComponent);

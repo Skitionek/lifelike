@@ -1,10 +1,9 @@
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponent } from 'ng-mocks';
 
 import { FilesystemService } from 'app/file-browser/services/filesystem.service';
@@ -19,7 +18,7 @@ describe('AdvancedSearchDialogComponent', () => {
   let component: AdvancedSearchDialogComponent;
   let fixture: ComponentFixture<AdvancedSearchDialogComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RootStoreModule,
@@ -36,8 +35,9 @@ describe('AdvancedSearchDialogComponent', () => {
         FilesystemService,
         NgbActiveModal,
       ]
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AdvancedSearchDialogComponent);

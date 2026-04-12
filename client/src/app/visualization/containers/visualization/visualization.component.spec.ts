@@ -1,9 +1,8 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 import { of } from 'rxjs';
 import { DataSet } from 'vis-data';
@@ -42,7 +41,7 @@ describe('VisualizationComponent', () => {
     let mockNewEdgeSnippetsPageRequest: NewEdgeSnippetsPageRequest;
     let mockNewClusterSnippetsPageRequest: NewClusterSnippetsPageRequest;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 RootStoreModule,
@@ -58,8 +57,9 @@ describe('VisualizationComponent', () => {
                 ),
             ],
             providers: [VisualizationService],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         // Mock Neo4j data

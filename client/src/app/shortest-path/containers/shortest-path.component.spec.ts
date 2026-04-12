@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 
 import { RootStoreModule } from 'app/root-store';
@@ -14,7 +13,7 @@ describe('ShortestPathComponent', () => {
   let component: ShortestPathComponent;
   let fixture: ComponentFixture<ShortestPathComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RootStoreModule,
@@ -27,8 +26,9 @@ describe('ShortestPathComponent', () => {
           RouteDisplayComponent,
       ),
       ]
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShortestPathComponent);

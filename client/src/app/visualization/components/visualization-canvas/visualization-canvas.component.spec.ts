@@ -1,7 +1,6 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 import { of } from 'rxjs';
 import { DataSet } from 'vis-data';
@@ -114,7 +113,7 @@ describe('VisualizationCanvasComponent', () => {
         } as DuplicateVisEdge;
     }
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,
@@ -130,7 +129,6 @@ describe('VisualizationCanvasComponent', () => {
                     SidenavNodeViewComponent,
                     SidenavTypeViewComponent,
                     SnippetDisplayComponent,
-                    VisualizationCanvasComponent,
                     VisualizationQuickbarComponent,
                     VisualizationSettingsComponent,
                 ),
@@ -139,8 +137,9 @@ describe('VisualizationCanvasComponent', () => {
                 ContextMenuControlService,
                 VisualizationService,
             ],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         // Mock Inputs

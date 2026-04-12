@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { TooltipComponent } from './tooltip.component';
 
@@ -9,14 +8,15 @@ describe('TooltipComponent', () => {
     let component: TooltipComponent;
     let fixture: ComponentFixture<TooltipComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ TooltipComponent ],
             imports: [
                 BrowserAnimationsModule
             ]
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(TooltipComponent);

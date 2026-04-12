@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 import { Subject } from 'rxjs';
 
 import { RootStoreModule } from 'app/root-store';
@@ -13,7 +12,7 @@ describe('HierarchySearchTreeComponent', () => {
   let component: HierarchySearchTreeComponent;
   let fixture: ComponentFixture<HierarchySearchTreeComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RootStoreModule,
@@ -22,8 +21,9 @@ describe('HierarchySearchTreeComponent', () => {
       ],
       declarations: [ HierarchySearchTreeComponent ],
       providers: []
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HierarchySearchTreeComponent);

@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppComponent } from 'app/app.component';
 import { RootStoreModule } from 'app/root-store';
@@ -12,7 +11,7 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let instance: AppComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -23,8 +22,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);

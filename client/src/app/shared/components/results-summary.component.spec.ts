@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { ResultsSummaryComponent } from './results-summary.component';
 
@@ -9,12 +8,13 @@ describe('ResultsSummaryComponent', () => {
     let component: ResultsSummaryComponent;
     let fixture: ComponentFixture<ResultsSummaryComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ResultsSummaryComponent],
             imports: [CommonModule],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ResultsSummaryComponent);
