@@ -8083,10 +8083,10 @@ ng-bullet@^1.0.3:
   dependencies:
     tslib "^1.9.0"
 
-ng-mocks@^9.0.0:
-  version "9.6.4"
-  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-9.6.4.tgz#ebb0d4ee6e06886f831ed130d6984b9d851e1ae0"
-  integrity sha512-hyhTVoy4RUi3bufOmxnx1VMIN5c1fnJFnN94mPv8+e1jjwdVQlX0CXkLnkgFJWfL1XV/Eogj19OzqBhyrmF4fw==
+ng-mocks@^14.0.0:
+  version "14.15.2"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-14.15.2.tgz#32c724ac22ef5a640549e58935d27629b3b95227"
+  integrity sha512-3nI4qAzJMHnThkOKtPKcw88I7Q6psmOav41OSqOqELqa/6UTWCu1LfPtAYI0BMn1hjQ8VMXtMKXpgT1ajTnBRg==
 
 ng2-charts@^4.0.0:
   version "4.1.1"
