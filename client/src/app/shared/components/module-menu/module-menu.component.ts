@@ -43,7 +43,7 @@ export class ModuleMenuComponent extends ObjectMenuComponent implements AfterVie
     if (focusedPane) {
       const {activeTab} = focusedPane;
       url = activeTab.url;
-      componentInstance = activeTab.getComponent();
+      componentInstance = this.workspaceManager.getComponentForTab(activeTab);
     } else {
       // in case of primary outlet
       url = this.router.url;

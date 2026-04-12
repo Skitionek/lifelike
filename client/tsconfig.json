@@ -20,7 +20,10 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "route-with-dynamic-outlets": ["../node_modules/route-with-dynamic-outlets/lib/src"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
