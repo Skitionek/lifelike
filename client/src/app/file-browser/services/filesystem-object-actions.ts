@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, forkJoin, from, merge, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, forkJoin, from, merge, of } from 'rxjs';
 import { finalize, map, mergeMap, take } from 'rxjs/operators';
 import { clone } from 'lodash-es';
 
@@ -73,7 +73,7 @@ export class FilesystemObjectActions {
     dialogRef.componentInstance.accept = (value: ObjectExportDialogValue) => {
       const progressDialogRef = this.createProgressDialog('Generating export...');
       try {
-        return value.exporter.export(value.exportLinked).pipe(
+        return firstValueFrom(value.exporter.export(value.exportLinked).pipe(
           take(1), // Must do this due to RxJs<->Promise<->etc. tomfoolery
           finalize(() => progressDialogRef.close()),
           map((file: File) => {
@@ -81,7 +81,7 @@ export class FilesystemObjectActions {
             return true;
           }),
           this.errorHandler.create({label: 'Export object'}),
-        ).toPromise();
+        ));
       } catch (e) {
         progressDialogRef.close();
         throw e;
@@ -97,7 +97,7 @@ export class FilesystemObjectActions {
       }
       return of(false);
     };
-    return from(dialogRef.result.catch(() => false)).toPromise();
+    return firstValueFrom(from(dialogRef.result.catch(() => false)));
   }
 
   /**
@@ -149,15 +149,14 @@ export class FilesystemObjectActions {
 
       const progressDialogRef = this.createProgressDialog(`Moving  ${getObjectLabel(targets)}...`);
 
-      return this.filesystemService.save(targets.map(target => target.hashId), {
+      return firstValueFrom(this.filesystemService.save(targets.map(target => target.hashId), {
         parentHashId: destination.hashId,
       }, Object.assign({}, ...targets.map(target => ({[target.hashId]: target}))))
         .pipe(
           finalize(() => progressDialogRef.close()),
           this.errorHandler.createFormErrorHandler(dialogRef.componentInstance.form),
           this.errorHandler.create({label: 'Move object'}),
-        )
-        .toPromise()
+        ))
         .then(() => ({
           destination,
         }));
@@ -170,10 +169,10 @@ export class FilesystemObjectActions {
    * @param target the file to edit
    */
   openEditDialog(target: FilesystemObject): Promise<any> {
-    return this.objectTypeService.get(target).pipe(
+    return firstValueFrom(this.objectTypeService.get(target).pipe(
       mergeMap(typeProvider => from(typeProvider.openEditDialog(target))),
       take(1),
-    ).toPromise();
+    ));
   }
 
   openDeleteDialog(targets: FilesystemObject[]): Promise<any> {
@@ -181,12 +180,11 @@ export class FilesystemObjectActions {
     dialogRef.componentInstance.objects = targets;
     dialogRef.componentInstance.accept = (() => {
       const progressDialogRef = this.createProgressDialog(`Deleting ${getObjectLabel(targets)}...`);
-      return this.filesystemService.delete(targets.map(target => target.hashId))
+      return firstValueFrom(this.filesystemService.delete(targets.map(target => target.hashId))
         .pipe(
           finalize(() => progressDialogRef.close()),
           this.errorHandler.create({label: 'Delete object'}),
-        )
-        .toPromise();
+        ));
     });
     return dialogRef.result;
   }
@@ -240,7 +238,7 @@ export class FilesystemObjectActions {
       });
 
     const results: ResultMapping<AnnotationGenerationResultData>[] = [];
-    return forkJoin(annotationRequests).pipe(
+    return firstValueFrom(forkJoin(annotationRequests).pipe(
       mergeMap(res => merge(res)),
       map(result => results.push(result)),
       finalize(() => {
@@ -256,6 +254,6 @@ export class FilesystemObjectActions {
         }
       }),
       this.errorHandler.create({label: 'Re-annotate object'}),
-    ).toPromise();
+    ));
   }
 }

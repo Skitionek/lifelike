@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 import { of } from 'rxjs';
 
 import { DashboardComponent } from './dashboard.component';
@@ -21,7 +20,7 @@ describe('DashboardComponent', () => {
         appVersion: '1.0.0',
     };
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         metaDataServiceSpy = jasmine.createSpyObj('MetaDataService', ['getBuildInfo']);
         metaDataServiceSpy.getBuildInfo.and.returnValue(of(mockBuildInfo));
 
@@ -31,8 +30,8 @@ describe('DashboardComponent', () => {
             providers: [
                 { provide: MetaDataService, useValue: metaDataServiceSpy },
             ],
-        });
-    });
+        }).compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(DashboardComponent);

@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { CollapsibleWindowComponent } from './collapsible-window.component';
 import { SharedDirectivesModule } from '../directives/shareddirectives.module';
@@ -10,12 +9,13 @@ describe('CollapsibleWindowComponent', () => {
     let component: CollapsibleWindowComponent;
     let fixture: ComponentFixture<CollapsibleWindowComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [CollapsibleWindowComponent],
             imports: [CommonModule, SharedDirectivesModule],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(CollapsibleWindowComponent);

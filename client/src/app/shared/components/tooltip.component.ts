@@ -47,6 +47,9 @@ export class TooltipComponent implements AfterViewInit, OnDestroy {
             right: x,
             bottom: y,
             left: x,
+            x,
+            y,
+            toJSON() { return {}; },
         });
     }
 

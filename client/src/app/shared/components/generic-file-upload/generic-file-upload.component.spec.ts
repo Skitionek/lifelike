@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 import { Subject } from 'rxjs';
 
 import { GenericFileUploadComponent } from './generic-file-upload.component';
@@ -9,11 +8,12 @@ describe('GenericFileUploadComponent', () => {
     let component: GenericFileUploadComponent;
     let fixture: ComponentFixture<GenericFileUploadComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ GenericFileUploadComponent ]
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(GenericFileUploadComponent);

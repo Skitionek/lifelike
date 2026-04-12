@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { BehaviorSubject, Observable, iif, of, merge } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, iif, of, merge } from 'rxjs';
 import { filter, finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -129,7 +129,7 @@ export class ObjectCreationService {
       }
     }
     dialogRef.componentInstance.accept = ((value: ObjectEditDialogValue) => {
-      return this.executePutWithProgressDialog({
+      return firstValueFrom(this.executePutWithProgressDialog({
         ...value.request,
         ...(options.request || {}),
         // NOTE: Due to the cast to ObjectCreateRequest, we do not guarantee,
@@ -139,7 +139,7 @@ export class ObjectCreationService {
       } as ObjectCreateRequest, {
         annotationConfigs: value.annotationConfigs,
         organism: value.organism,
-      }).toPromise();
+      }));
     });
     return dialogRef.result;
   }

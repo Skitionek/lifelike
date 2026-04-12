@@ -38,11 +38,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               },
             },
           }));
-          return throwError(res);
+          return throwError(() => res);
         } else if (statusCode >= 400) {
-          return throwError(res);
+          return throwError(() => res);
         }
-        return throwError(res);
+        return throwError(() => res);
       }),
     );
   }

@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
-import { ChartOptions, ChartDataSets } from 'chart.js';
+import { ChartOptions, ChartDataset } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 import { BackgroundTask } from 'app/shared/rxjs/background-task';
@@ -53,9 +53,9 @@ const DOMAIN_COLORS = [
 })
 export class KgStatisticsComponent {
   loadTask: BackgroundTask<void, StatisticsDataResponse>;
-  chartDataAllDomains: ChartDataSets[] = [];
+  chartDataAllDomains: ChartDataset[] = [];
   chartDataEntitiesByDomain: {
-    [domain: string]: ChartDataSets[];
+    [domain: string]: ChartDataset[];
   } = {};
   chartLabelsDomains: string[] = [];
   chartLabelsEntitiesByDomain: {
@@ -69,22 +69,22 @@ export class KgStatisticsComponent {
   chartColorsDomains: {
     backgroundColor: string[];
   }[] = [];
-  chartOptions: ChartOptions = {
+  chartOptions: ChartOptions = ({
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      yAxes: [{
+      y: {
+        beginAtZero: true,
         ticks: {
-          beginAtZero: true,
           callback: (value, index, values) => this.addThousandSeparator(value.toString())
         },
-      }],
-      xAxes: [{
+      },
+      x: {
+        beginAtZero: true,
         ticks: {
-          beginAtZero: true,
           callback: (value, index, values) => this.addThousandSeparator(value.toString())
         }
-      }]
+      }
     },
     plugins: {
       datalabels: {
@@ -95,6 +95,11 @@ export class KgStatisticsComponent {
         font: {
           size: 14
         }
+      },
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => this.addThousandSeparator(tooltipItem.formattedValue)
+        }
       }
     },
     layout: {
@@ -103,12 +108,7 @@ export class KgStatisticsComponent {
         right: 50
       }
     },
-    tooltips: {
-      callbacks: {
-        label: (tooltipItem, data) => this.addThousandSeparator(tooltipItem.value)
-      }
-    }
-  };
+  } as any) as ChartOptions;
   chartPlugins = [pluginDataLabels];
   totalCount: any = 0;
 

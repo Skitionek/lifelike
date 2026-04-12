@@ -31,6 +31,5 @@ const components = [
         LoginGuard,
     ],
     exports: components,
-    entryComponents: [ResetPasswordDialogComponent]
 })
 export class AuthModule {}

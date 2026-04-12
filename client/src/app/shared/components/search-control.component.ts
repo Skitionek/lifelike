@@ -90,9 +90,9 @@ export class SearchControlComponent implements ControlValueAccessor {
   inputKeyUp(event: KeyboardEvent) {
     const newValue = this.searchElement.nativeElement.value;
     if (event.key === 'Enter') {
-      this.enterPress.next();
+      this.enterPress.emit();
       if (newValue === this.value) {
-        this.next.next();
+        this.next.emit();
       } else {
         this.setValue(newValue);
       }

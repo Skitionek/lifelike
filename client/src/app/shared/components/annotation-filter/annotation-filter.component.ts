@@ -25,7 +25,7 @@ export class AnnotationFilterComponent<T extends AnnotationFilterEntity> impleme
   _sortingAlgorithm: SortingAlgorithm;
   _annotationData: T[];
 
-  outputSubject: Subject<boolean>;
+  outputSubject: Subject<void>;
   outputSubjectSub: Subscription;
 
   wordVisibilityMap: Map<string, boolean>;
@@ -89,7 +89,7 @@ export class AnnotationFilterComponent<T extends AnnotationFilterEntity> impleme
   }
 
   constructor() {
-    this.outputSubject = new Subject<boolean>();
+    this.outputSubject = new Subject<void>();
 
     this.wordVisibilityMap = new Map<string, boolean>();
     this.typeVisibilityMap = new Map<string, boolean>();

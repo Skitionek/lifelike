@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { OrganismAutocomplete } from 'app/interfaces';
 import { KG_VIZ_DOMAINS, KG_VIZ_FILTER_TYPES } from 'app/shared/constants';
@@ -21,8 +21,8 @@ export class GraphSearchFormComponent {
 
   form = new FormGroup({
     query: new FormControl('', Validators.required),
-    domains: new FormControl(''),
-    entities: new FormControl(''),
+    domains: new UntypedFormControl([]),
+    entities: new UntypedFormControl([]),
     organism: new FormControl(null),
   });
 
@@ -59,7 +59,7 @@ export class GraphSearchFormComponent {
 
   submit() {
     if (!this.form.invalid) {
-      this.search.emit({...this.form.value});
+      this.search.emit({...this.form.value} as any);
     } else {
       this.form.markAsDirty();
 

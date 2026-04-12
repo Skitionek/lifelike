@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 
 import { CollapsibleWindowComponent } from '../collapsible-window.component';
@@ -13,7 +12,7 @@ describe('VisJsNetworkComponent', () => {
   let component: VisJsNetworkComponent;
   let fixture: ComponentFixture<VisJsNetworkComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         // This import is for the ngModel input of the app-search-control-component
@@ -27,8 +26,9 @@ describe('VisJsNetworkComponent', () => {
           CollapsibleWindowComponent,
         ),
       ]
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VisJsNetworkComponent);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { MessageDialog } from 'app/shared/services/message-dialog.service';
@@ -46,13 +46,13 @@ export class ProjectActions {
     dialogRef.componentInstance.project = project;
     dialogRef.componentInstance.accept = ((value: ProjectEditDialogValue) => {
       const progressDialogRef = this.createProgressDialog('Creating project...');
-      return this.projectService.create({
+      return firstValueFrom(this.projectService.create({
         ...value.request,
         ...(options.request || {}),
       }).pipe(
         finalize(() => progressDialogRef.close()),
         this.errorHandler.create({label: 'Create project'}),
-      ).toPromise();
+      ));
     });
     return dialogRef.result;
   }
@@ -66,14 +66,13 @@ export class ProjectActions {
     dialogRef.componentInstance.project = project;
     dialogRef.componentInstance.accept = ((value: ProjectEditDialogValue) => {
       const progressDialogRef = this.createProgressDialog(`Saving changes to '${project.name}'...`);
-      return this.projectService.save([project.hashId], value.request, {
+      return firstValueFrom(this.projectService.save([project.hashId], value.request, {
         [project.hashId]: project,
       })
         .pipe(
           finalize(() => progressDialogRef.close()),
           this.errorHandler.create({label: 'Edit project'}),
-        )
-        .toPromise();
+        ));
     });
     return dialogRef.result;
   }

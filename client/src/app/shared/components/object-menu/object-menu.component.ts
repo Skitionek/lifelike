@@ -95,7 +95,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
       this.snackBar.open(`Copied ${getObjectLabel(target)} to ${getObjectLabel(clone)}.`, 'Close', {
         duration: 5000,
       });
-      this.refreshRequest.next();
+      this.refreshRequest.emit();
     }, () => {
     });
   }
@@ -107,7 +107,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
         'Close', {
           duration: 5000,
         });
-      this.refreshRequest.next();
+      this.refreshRequest.emit();
     }, () => {
     });
   }
@@ -117,7 +117,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
       this.snackBar.open(`Deleted ${getObjectLabel(targets)}.`, 'Close', {
         duration: 5000,
       });
-      this.refreshRequest.next();
+      this.refreshRequest.emit();
     }, () => {
     });
   }
@@ -127,8 +127,8 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
       this.snackBar.open(`${getObjectLabel(targets)} re-annotated.`, 'Close', {
         duration: 5000,
       });
-      this.refreshRequest.next();
-      this.objectRefresh.next();
+      this.refreshRequest.emit();
+      this.objectRefresh.emit();
     }, () => {
     });
   }

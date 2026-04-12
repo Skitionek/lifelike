@@ -218,7 +218,7 @@ export class NodeFormComponent implements AfterViewInit {
    * Delete the current node.
    */
   doDelete(): void {
-    this.delete.next();
+    this.delete.emit();
   }
 
   /**

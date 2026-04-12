@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 
 import { PlotlySankeyDiagramComponent } from 'app/shared/components/plotly-sankey-diagram/plotly-sankey-diagram.component';
@@ -12,7 +11,7 @@ describe('RouteDisplayComponent', () => {
   let component: RouteDisplayComponent;
   let fixture: ComponentFixture<RouteDisplayComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         RouteDisplayComponent,
@@ -21,8 +20,9 @@ describe('RouteDisplayComponent', () => {
           VisJsNetworkComponent
         )
       ]
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RouteDisplayComponent);

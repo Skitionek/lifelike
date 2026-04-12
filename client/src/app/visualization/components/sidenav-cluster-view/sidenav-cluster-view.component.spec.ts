@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponents } from 'ng-mocks';
 
 import { SharedModule } from 'app/shared/shared.module';
@@ -14,7 +13,7 @@ describe('SidenavClusterViewComponent', () => {
     let component: SidenavClusterViewComponent;
     let fixture: ComponentFixture<SidenavClusterViewComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,
@@ -27,8 +26,9 @@ describe('SidenavClusterViewComponent', () => {
                     SnippetDisplayComponent,
                 ),
             ]
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(SidenavClusterViewComponent);

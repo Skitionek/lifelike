@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { ChartOptions, ChartType, ChartPoint } from 'chart.js';
+import { ChartOptions, ChartType, Point } from 'chart.js';
 
 import { EnrichWithGOTermsResult } from 'app/enrichment/services/enrichment-visualisation.service';
 
@@ -21,53 +21,50 @@ const mapSingularOfTootipItems = func => {
   styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent implements OnChanges {
-  public options: ChartOptions = {
+  public options: ChartOptions = ({
     responsive: true,
     maintainAspectRatio: false,
+    indexAxis: 'y',
     scales: {
-      xAxes: [
-        {
-          ticks: {
-            suggestedMin: 0,
-            stepSize: 1,
-            // callback: value => value
-          },
-          gridLines: {
-            drawOnChartArea: false
-          },
-          offset: true,
-          type: 'logarithmic',
-          scaleLabel: {
-            display: true,
-            labelString: '-log(q-value)'
-          }
+      x: {
+        ticks: {
+          stepSize: 1,
+        },
+        grid: {
+          drawOnChartArea: false
+        },
+        offset: true,
+        type: 'logarithmic',
+        title: {
+          display: true,
+          text: '-log(q-value)'
         }
-      ],
+      },
     },
     plugins: {
       // Change options for ALL labels of THIS CHART
       datalabels: {
         display: false
+      },
+      tooltip: {
+        enabled: true,
+        mode: 'y',
+        intersect: false,
+        callbacks: {
+          title: mapSingularOfTootipItems(({gene}) => gene),
+          label: mapTootipItem(d => `q-value: ${d['q-value'].toExponential(2)}`)
+        }
       }
     },
-    tooltips: {
-      enabled: true,
-      mode: 'y',
-      intersect: false,
-      callbacks: {
-        title: mapSingularOfTootipItems(({gene}) => gene),
-        label: mapTootipItem(d => `q-value: ${d['q-value'].toExponential(2)}`)
-      }
-    }
-  };
-  public chartType: ChartType = 'horizontalBar';
+  } as any) as ChartOptions;
+  public chartType: ChartType = 'bar';
   legend = false;
 
   @Input() showMore: boolean;
   @Input() data: EnrichWithGOTermsResult[];
   @Input() show: boolean;
 
-  slicedData: (EnrichWithGOTermsResult & ChartPoint)[];
+  slicedData: (EnrichWithGOTermsResult & Point)[];
   labels: string[];
 
   ngOnChanges({show, data, showMore}: SimpleChanges) {

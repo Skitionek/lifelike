@@ -3,8 +3,9 @@ import {
   ElementRef,
   Renderer2,
   Input,
+  Inject,
+  Injectable,
   Injector,
-  ComponentFactoryResolver,
   ViewContainerRef,
   NgZone,
   ChangeDetectorRef,
@@ -14,6 +15,7 @@ import {
   AfterContentChecked,
   HostListener
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import { NgbTooltip, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -21,7 +23,22 @@ import { Subscription } from 'rxjs';
 import { createResizeObservable } from '../rxjs/resize-observable';
 
 /**
- * Show tooltip only if text offloads
+ * Local re-implementation of NgbRTL whose internal path is no longer accessible
+ * through @ng-bootstrap/ng-bootstrap v13's package exports field.
+ */
+@Injectable({ providedIn: 'root' })
+class NgbRTLCompat {
+  private readonly _element: HTMLElement;
+  constructor(@Inject(DOCUMENT) document: Document) {
+    this._element = document.documentElement;
+  }
+  isRTL(): boolean {
+    return (this._element.getAttribute('dir') || '').toLowerCase() === 'rtl';
+  }
+}
+
+/**
+ * Show tooltip only if text is truncated (overflows its container).
  */
 @Directive({
   // tslint:disable-next-line:directive-selector
@@ -31,9 +48,9 @@ import { createResizeObservable } from '../rxjs/resize-observable';
 export class TextTruncateDirective extends NgbTooltip implements OnInit, OnDestroy, AfterContentChecked {
   constructor(
     protected _elementRef: ElementRef<HTMLElement>,
+    protected _rtl: NgbRTLCompat,
     protected _renderer: Renderer2,
     protected injector: Injector,
-    protected componentFactoryResolver: ComponentFactoryResolver,
     protected viewContainerRef: ViewContainerRef,
     protected config: NgbTooltipConfig,
     protected _ngZone: NgZone,
@@ -42,9 +59,9 @@ export class TextTruncateDirective extends NgbTooltip implements OnInit, OnDestr
   ) {
     super(
       _elementRef,
+      _rtl as any, // NgbRTL is not in ng-bootstrap v13 public API; NgbRTLCompat satisfies the same interface
       _renderer,
       injector,
-      componentFactoryResolver,
       viewContainerRef,
       config,
       _ngZone,

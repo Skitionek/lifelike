@@ -40,11 +40,10 @@
               <canvas baseChart
                       [datasets]="chartDataAllDomains"
                       [labels]="chartLabelsDomains"
-                      [colors]="chartColorsDomains"
                       [options]="chartOptions"
                       [plugins]="chartPlugins"
                       [legend]="false"
-                      chartType="horizontalBar">
+                      type="bar">
               </canvas>
             </div>
           </div>
@@ -63,9 +62,8 @@
                           [labels]="chartLabelsEntitiesByDomain[data.key]"
                           [options]="chartOptions"
                           [plugins]="chartPlugins"
-                          [colors]="chartColorsEntitiesByDomain[data.key]"
                           [legend]="false"
-                          chartType="bar">
+                          type="bar">
                   </canvas>
                 </div>
               </div>

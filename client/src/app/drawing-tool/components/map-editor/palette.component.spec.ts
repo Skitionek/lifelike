@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { RootStoreModule } from 'app/root-store';
 
@@ -11,14 +10,15 @@ describe('PaletteComponent', () => {
     let component: PaletteComponent;
     let fixture: ComponentFixture<PaletteComponent>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
               DrawingToolModule,
               RootStoreModule
             ]
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(PaletteComponent);

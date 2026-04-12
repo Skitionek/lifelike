@@ -312,7 +312,7 @@ export class MapEditorComponent extends MapViewComponent<UniversalGraph | undefi
           if (!(error instanceof LockError)) {
             this.errorHandler.showError(error);
           }
-          return throwError(error);
+          return throwError(() => error);
         }),
       ).subscribe(locks => {
         this.lockAcquired = true;

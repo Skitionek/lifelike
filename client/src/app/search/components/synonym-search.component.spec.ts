@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { configureTestSuite } from 'ng-bullet';
 
 import { RootStoreModule } from 'app/root-store';
 import { SharedModule } from 'app/shared/shared.module';
@@ -14,7 +13,7 @@ describe('SynonymSearchComponent', () => {
   let component: SynonymSearchComponent;
   let fixture: ComponentFixture<SynonymSearchComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RootStoreModule,
@@ -26,8 +25,9 @@ describe('SynonymSearchComponent', () => {
         ContentSearchService,
         NgbActiveModal,
       ]
-    });
-  });
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SynonymSearchComponent);

@@ -56,9 +56,11 @@ export class SELinkDirective extends LinkWithoutHrefDirective {
     return triggerSearchOnShouldReplaceTab(this.appSELink);
   }
 
+  // @ts-ignore
   appLink;
   matchExistingTab;
 
+  // @ts-ignore
   get fragment() {
     return `text=${this.appSELink}`;
   }

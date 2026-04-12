@@ -143,12 +143,6 @@ const components = [
 ];
 
 @NgModule({
-  entryComponents: [
-    MessageDialogComponent,
-    ProgressDialogComponent,
-    CopyLinkDialogComponent,
-    LinksPanelComponent,
-  ],
   imports: [
     CommonModule,
     HttpClientModule,

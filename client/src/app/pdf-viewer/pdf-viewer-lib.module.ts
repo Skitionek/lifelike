@@ -51,11 +51,6 @@ import { AnnotationToolbarComponent } from './components/annotation-toolbar.comp
     FileBrowserModule,
     RouterModule.forRoot([]),
   ],
-  entryComponents: [
-    FileViewComponent,
-    AnnotationEditDialogComponent,
-    AnnotationExcludeDialogComponent,
-  ],
   exports: [
     PdfViewerLibComponent,
     FileViewComponent,

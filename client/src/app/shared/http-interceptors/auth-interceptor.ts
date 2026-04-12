@@ -67,7 +67,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                         config: { duration: 10000 },
                     }}));
                     this.router.navigate(['/login']);
-                    return throwError(err);
+                    return throwError(() => err);
                 })
             );
         } else {
@@ -87,7 +87,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                 if (error instanceof HttpErrorResponse && error.status === 401 && !(req.url.endsWith('/refresh'))) {
                     return this.handleResponseError(req, next);
                 } else {
-                    return throwError(error);
+                    return throwError(() => error);
                 }
             })
         );

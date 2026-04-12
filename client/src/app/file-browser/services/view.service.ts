@@ -28,14 +28,13 @@ export class ViewService {
    * @param params arbitrary JSON parsable object
    */
   create(params: object): Observable<string> {
-    return this.http.post<string>(
+    return this.http.post(
       `/api/view/`, params,
       {
         ...this.apiService.getHttpOptions(true),
-        // @ts-ignore
-        responseType: 'text'
+        responseType: 'text' as const
       }
-    );
+    ) as Observable<string>;
   }
 
   getShareableLink(componentInstance: ModuleAwareComponent, url: string): Observable<URL> {

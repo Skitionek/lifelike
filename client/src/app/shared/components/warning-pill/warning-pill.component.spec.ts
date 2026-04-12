@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 
-import { configureTestSuite } from 'ng-bullet';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { MockComponents } from 'ng-mocks';
@@ -15,7 +14,7 @@ describe('WarningPillComponent', () => {
     let fixture: ComponentFixture<WarningPillComponent>;
     let warningControllerSpy: jasmine.SpyObj<WarningControllerService>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         warningControllerSpy = jasmine.createSpyObj('WarningControllerService', [], {
             warnings: new BehaviorSubject([]),
         });
@@ -29,8 +28,9 @@ describe('WarningPillComponent', () => {
             providers: [
                 { provide: WarningControllerService, useValue: warningControllerSpy },
             ],
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(WarningPillComponent);

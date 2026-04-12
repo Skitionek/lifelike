@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
 
 import { SidenavNodeEntity } from 'app/interfaces';
 import { RootStoreModule } from 'app/root-store';
@@ -16,7 +15,7 @@ describe('SidenavNodeViewComponent', () => {
     let mockNodeEntity: SidenavNodeEntity;
     let mockLegend: Map<string, string[]>;
 
-    configureTestSuite(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,
@@ -24,8 +23,9 @@ describe('SidenavNodeViewComponent', () => {
                 BrowserAnimationsModule
             ],
             declarations: [ SidenavNodeViewComponent ]
-        });
-    });
+        })
+    .compileComponents();
+    }));
 
     beforeEach(() => {
         // Reset mock data before every test so changes don't carry over between tests

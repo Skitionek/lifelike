@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ChartsModule, ThemeService } from 'ng2-charts';
+import { NgChartsModule, ThemeService } from 'ng2-charts';
 
 import { SharedModule } from 'app/shared/shared.module';
 
@@ -16,7 +16,7 @@ const components = [
   imports: [
     CommonModule,
     SharedModule,
-    ChartsModule
+    NgChartsModule
   ],
   exports: components,
   providers: [ThemeService]

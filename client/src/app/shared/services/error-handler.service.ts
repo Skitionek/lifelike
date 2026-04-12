@@ -177,7 +177,7 @@ export class ErrorHandler {
       } else {
         this.showError(error, logInfo);
       }
-      return throwError(error);
+      return throwError(() => error);
     }));
   }
 
@@ -210,7 +210,7 @@ export class ErrorHandler {
         }
       });
 
-      return throwError(error);
+      return throwError(() => error);
     }));
   }
 }

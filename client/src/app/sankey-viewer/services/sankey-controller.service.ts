@@ -328,7 +328,7 @@ export class SankeyControllerService {
         const traceNodes = this.getNetworkTraceNodes(traceLinks, nodes).map(n => ({...n}));
         // @ts-ignore
         const layout = new SankeyLayoutService();
-        layout.computeNodeLinks({links: traceLinks, nodes: traceNodes});
+        layout.computeNodeLinks({links: traceLinks, nodes: traceNodes} as any);
         const source = traceNodes.find(n => n._id === String(trace.source));
         const target = traceNodes.find(n => n._id === String(trace.target));
 

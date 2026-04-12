@@ -182,8 +182,8 @@ export function downloader(blobData: any, mimeType: string, saveAs: string) {
   const newBlob = new Blob([blobData], {type: mimeType});
   // IE doesn't allow using a blob object directly as link href
   // instead it is necessary to use msSaveOrOpenBlob
-  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(newBlob);
+  if (window.navigator && (window.navigator as any).msSaveOrOpenBlob) {
+    (window.navigator as any).msSaveOrOpenBlob(newBlob);
     return;
   }
   // For other browsers:
@@ -219,7 +219,7 @@ export function ignore404Errors<T>(): UnaryFunction<Observable<T>, Observable<T>
         return from([null]);
       }
     }
-    return throwError(error);
+    return throwError(() => error);
   }));
 }
 

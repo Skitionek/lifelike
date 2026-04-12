@@ -1,7 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { RootStoreModule } from 'app/root-store';
@@ -42,9 +42,6 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     DashboardComponent,
     KgStatisticsComponent,
   ],
-  entryComponents: [
-    AppVersionDialogComponent,
-  ],
   imports: [
     BrowserModule,
     PdfViewerLibModule,
@@ -59,7 +56,7 @@ import { FileTypesModule } from 'app/file-types/file-types.module';
     // ngrx
     RootStoreModule,
     SearchModule,
-    ChartsModule,
+    NgChartsModule,
     DrawingToolModule,
     SankeyViewerLibModule,
     SankeyManyToManyViewerLibModule,

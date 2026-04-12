@@ -32,13 +32,6 @@ import { MapImageProviderService } from './services/map-image-provider.service';
     InfoViewPanelComponent,
     LinkEditDialogComponent,
   ],
-  entryComponents: [
-    ConfirmDialogComponent,
-    MapRestoreDialogComponent,
-    MapComponent,
-    InfoViewPanelComponent,
-    LinkEditDialogComponent,
-  ],
   imports: [
     SharedModule,
     FileBrowserModule,
