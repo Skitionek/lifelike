@@ -90,6 +90,8 @@ export class BackgroundTask<T, R> {
   private delayedRunningStartTime: number | undefined;
   private delayedRunningTimer: any;
   private delayedRunningClearTimer: any;
+  private runTimer: any = null;
+  private destroyed = false;
 
   readonly reducer: (newData: T, existingData: T) => T = ((newData, existingData) => {
     if (existingData == null || newData == null) {
@@ -185,6 +187,9 @@ export class BackgroundTask<T, R> {
   }
 
   private startRun() {
+    if (this.destroyed) {
+      return;
+    }
     const pendingValue = this.futureValue;
 
     this.state = TaskState.Running;
@@ -203,7 +208,7 @@ export class BackgroundTask<T, R> {
         if (this.futureRunQueued) {
           this.pendingValue = this.futureValue;
           this.state = TaskState.Delaying;
-          setTimeout(this.startRun.bind(this), this.delay);
+          this.runTimer = setTimeout(this.startRun.bind(this), this.delay);
         } else {
           this.state = TaskState.Idle;
         }
@@ -231,7 +236,7 @@ export class BackgroundTask<T, R> {
           this.retryCount++;
           this.state = TaskState.Retrying;
           this.nextStatus();
-          setTimeout(this.startRun.bind(this), delay);
+          this.runTimer = setTimeout(this.startRun.bind(this), delay);
         } else {
           this.state = TaskState.RetryLimitExceeded;
           this.errors$.next(error);
@@ -256,7 +261,7 @@ export class BackgroundTask<T, R> {
       case TaskState.Idle:
         this.state = TaskState.Delaying;
         this.pendingValue = this.futureValue;
-        setTimeout(this.startRun.bind(this), !this.started ? this.initialDelay : this.delay);
+        this.runTimer = setTimeout(this.startRun.bind(this), !this.started ? this.initialDelay : this.delay);
         this.started = true;
         this.nextStatus();
         break;
@@ -269,5 +274,14 @@ export class BackgroundTask<T, R> {
       default:
         throw new Error('invalid state');
     }
+  }
+
+  destroy(): void {
+    this.destroyed = true;
+    if (this.runTimer != null) {
+      clearTimeout(this.runTimer);
+      this.runTimer = null;
+    }
+    this.clearDelayedRunning();
   }
 }

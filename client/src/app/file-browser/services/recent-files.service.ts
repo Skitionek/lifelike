@@ -183,4 +183,9 @@ export class RecentFilesService extends RecentFileHashesService {
     this.fileObjects.delete(hashId);
     this.deleteFromHashes(hashId);
   }
+
+  ngOnDestroy() {
+    this.loadTask.destroy();
+    super.ngOnDestroy();
+  }
 }
