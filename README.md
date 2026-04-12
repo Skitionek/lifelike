@@ -3,16 +3,16 @@ Many times, I catch mayself thinking "I would do this that way...", "Wonder if I
 Made this fork to experiment in my free time.
 
 My overambitious roadmap:
-+ [ ] Zero-configuration to start developing
-+ [ ] Provide alternative tab/panel implementation
++ [x] Zero-configuration to start developing
++ [x] Provide alternative tab/panel implementation
 + [ ] Correct sqlachemy models
 + [ ] Reactive file indexing and annotating
 + [ ] Unified tooltips
 + [ ] Angular PDF.js integration
 + [ ] Drop jQuery dependency
 + [ ] Observable files (pararrel edits)
-+ [ ] Add automated tests
-+ [ ] Automated itegration/deployment
++ [x] Add automated tests
++ [x] Automated itegration/deployment
 
 -----------
 
@@ -150,5 +150,9 @@ Lifelike Afterhours is a distributed system comprised of the following component
 ## License
 
 Lifelike Afterhours licensing and upstream notice are described in [LICENSE](LICENSE).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a history of changes made in this fork.
 
 ![Lifelike](appserver/assets/lifelike.png)
