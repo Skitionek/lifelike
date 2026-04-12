@@ -1,0 +1,58 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+
+import { configureTestSuite } from 'ng-bullet';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject } from 'rxjs';
+import { MockComponents } from 'ng-mocks';
+
+import { WarningPillComponent } from './warning-pill.component';
+import { WarningListComponent } from '../warning-list/warning-list.component';
+import { WarningControllerService } from 'app/shared/services/warning-controller.service';
+
+describe('WarningPillComponent', () => {
+    let component: WarningPillComponent;
+    let fixture: ComponentFixture<WarningPillComponent>;
+    let warningControllerSpy: jasmine.SpyObj<WarningControllerService>;
+
+    configureTestSuite(() => {
+        warningControllerSpy = jasmine.createSpyObj('WarningControllerService', [], {
+            warnings: new BehaviorSubject([]),
+        });
+
+        TestBed.configureTestingModule({
+            declarations: [
+                WarningPillComponent,
+                MockComponents(WarningListComponent),
+            ],
+            imports: [CommonModule, NgbModule],
+            providers: [
+                { provide: WarningControllerService, useValue: warningControllerSpy },
+            ],
+        });
+    });
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(WarningPillComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('should not render the badge when there are no warnings', () => {
+        (warningControllerSpy.warnings as BehaviorSubject<any[]>).next([]);
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement;
+        expect(el.querySelector('.badge-warning')).toBeNull();
+    });
+
+    it('should render the badge when there are warnings', () => {
+        (warningControllerSpy.warnings as BehaviorSubject<any[]>).next(['warning one']);
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement;
+        expect(el.querySelector('.badge-warning')).not.toBeNull();
+    });
+});
