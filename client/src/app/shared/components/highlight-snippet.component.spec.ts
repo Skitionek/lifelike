@@ -21,7 +21,8 @@ describe('HighlightSnippetComponent', () => {
             imports: [
                 BrowserAnimationsModule
             ]
-        }).compileComponents();
+        })
+        .compileComponents();
     }));
 
     beforeEach(() => {
