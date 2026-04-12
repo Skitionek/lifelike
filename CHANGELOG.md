@@ -17,6 +17,7 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ### Changed
 - Migrated PDF viewer to pdfjs-dist v4 API: removed `TextLayerBuilder.disableTextLayer`/`enhanceTextSelection` (controlled via `textLayerMode` option), moved `LinkTarget` import from core lib to viewer bundle, updated `EventBus` constructor (no argument), updated all type-import paths to `pdfjs-dist/types/src/`
+- Added `@angular-builders/custom-webpack` with `experiments.topLevelAwait: true` to handle pdfjs-dist v4 ES module bundles that use top-level await
 
 ## [2026-04-12]
 
