@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { createRouteWithDynamicOutlets } from 'route-with-dynamic-outlets';
 
 import { AdminPanelComponent } from 'app/admin/components/admin-panel.component';
 import { VisualizationComponent } from 'app/visualization/containers/visualization/visualization.component';
@@ -31,42 +32,11 @@ import { SankeyViewComponent } from 'app/sankey-viewer/components/sankey-view.co
 import { TraceViewComponent } from 'app/trace-viewer/components/trace-view.component';
 import { SankeyManyToManyViewComponent } from 'app/sankey-many-to-many-viewer/components/sankey-view.component';
 
-// TODO: Add an unprotected home page
-const routes: Routes = [
-  {
-    path: '',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Dashboard',
-      fontAwesomeIcon: 'home',
-    },
-  },
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Dashboard',
-      fontAwesomeIcon: 'home',
-    },
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [LoginGuard],
-    data: {
-      title: 'Login',
-      fontAwesomeIcon: 'sign-in-alt',
-    },
-  },
-  {
-    path: 'terms-of-service',
-    component: TermsOfServiceComponent,
-    data: {
-      title: 'Terms of Service',
-    },
-  },
+/**
+ * Routes that can appear as tab content within the workspace. These are also
+ * registered at the application root so they remain accessible via direct URL.
+ */
+const WORKSPACE_CONTENT_ROUTES: Routes = [
   {
     path: 'admin',
     component: AdminPanelComponent,
@@ -173,15 +143,6 @@ const routes: Routes = [
         },
       },
     ],
-  },
-  {
-    path: 'workspaces/:space_id',
-    component: WorkspaceComponent,
-    canActivate: [AuthGuard],
-    data: {
-      title: 'Workbench',
-    },
-    canDeactivate: [UnloadConfirmationGuard],
   },
   {
     path: 'community',
@@ -301,6 +262,63 @@ const routes: Routes = [
       fontAwesomeIcon: 'fas chart-bar',
     },
   },
+];
+
+// TODO: Add an unprotected home page
+const routes: Routes = [
+  {
+    path: '',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Dashboard',
+      fontAwesomeIcon: 'home',
+    },
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Dashboard',
+      fontAwesomeIcon: 'home',
+    },
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginGuard],
+    data: {
+      title: 'Login',
+      fontAwesomeIcon: 'sign-in-alt',
+    },
+  },
+  {
+    path: 'terms-of-service',
+    component: TermsOfServiceComponent,
+    data: {
+      title: 'Terms of Service',
+    },
+  },
+  // Workspace route: uses createRouteWithDynamicOutlets so each tab is rendered
+  // as a named Angular router outlet. The dynamicOutletFactory returns a route
+  // with WORKSPACE_CONTENT_ROUTES as children, allowing any workspace-accessible
+  // path to be rendered inside a named outlet.
+  createRouteWithDynamicOutlets({
+    path: 'workspaces/:space_id',
+    component: WorkspaceComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Workbench',
+    },
+    canDeactivate: [UnloadConfirmationGuard],
+    dynamicOutletFactory: () => ({
+      path: '',
+      children: WORKSPACE_CONTENT_ROUTES,
+    }),
+  }),
+  // Content routes also available at root level for direct (non-workspace) navigation
+  ...WORKSPACE_CONTENT_ROUTES,
   // Old links
   {path: 'file-browser', redirectTo: 'projects', pathMatch: 'full'},
   {path: 'pdf-viewer/:file_id', redirectTo: 'projects/beta-project/files/:file_id', pathMatch: 'full'},

@@ -48,6 +48,21 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
     this.workspaceManager.applyPendingChanges();
   }
 
+  /**
+   * Called by the router outlet (activate) event. Registers the component with
+   * the workspace manager so titles, badges and unload guards work correctly.
+   */
+  onComponentActivate(outletName: string, component: any) {
+    this.workspaceManager.registerComponent(outletName, component);
+  }
+
+  /**
+   * Called by the router outlet (deactivate) event.
+   */
+  onComponentDeactivate(outletName: string) {
+    this.workspaceManager.unregisterComponent(outletName);
+  }
+
   tabDropped(event: CdkDragDrop<Pane>) {
     const to = event.container.data;
     const from = event.previousContainer.data;
@@ -66,9 +81,10 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
   }
 
   copyLinkToTab(pane: Pane, tab: Tab) {
+    const component = this.workspaceManager.getComponentForTab(tab);
     const modalRef = this.modalService.open(CopyLinkDialogComponent);
     modalRef.componentInstance.url = 'Generating link...';
-    const urlSubscription = this.viewService.getShareableLink(tab.getComponent(), tab.url).subscribe(({href}) => {
+    const urlSubscription = this.viewService.getShareableLink(component, tab.url).subscribe(({href}) => {
       modalRef.componentInstance.url = href;
     });
     // todo: use hidden after update of ng-bootstrap >= 8.0.0
@@ -84,7 +100,9 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
     const performClose = () => {
       pane.deleteTab(tab);
       this.workspaceManager.save();
-      this.workspaceManager.emitEvents();
+      this.workspaceManager.router.navigateByUrl(this.workspaceManager.buildWorkspaceUrl()).then(() => {
+        this.workspaceManager.emitEvents();
+      });
     };
     if (this.workspaceManager.shouldConfirmTabUnload(tab)) {
       if (confirm('Close tab? Changes you made may not be saved.')) {
@@ -116,7 +134,9 @@ export class WorkspaceComponent implements AfterViewInit, OnChanges, AfterConten
         pane.deleteTab(targetTab);
       }
       this.workspaceManager.save();
-      this.workspaceManager.emitEvents();
+      this.workspaceManager.router.navigateByUrl(this.workspaceManager.buildWorkspaceUrl()).then(() => {
+        this.workspaceManager.emitEvents();
+      });
     }
   }
 
