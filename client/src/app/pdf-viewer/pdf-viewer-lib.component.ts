@@ -29,8 +29,8 @@ import { openModal } from 'app/shared/utils/modals';
 import { IS_MAC } from 'app/shared/utils/platform';
 import { InternalSearchService } from 'app/shared/services/internal-search.service';
 
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
-import { PDFDocumentProxy } from 'pdfjs-dist/types/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
+import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 import { AddedAnnotationExclusion, Annotation, Location, Meta, Rect, RemovedAnnotationExclusion, } from './annotation-type';
 import { AnnotationEditDialogComponent } from './components/annotation-edit-dialog.component';
 import { AnnotationExcludeDialogComponent } from './components/annotation-exclude-dialog.component';
@@ -969,7 +969,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
    * Set custom path to pdf worker
    */
   setCustomWorkerPath() {
-    (window as any).pdfWorkerSrc = '/lib/pdfjs-dist/legacy/build/pdf.worker.js';
+    (window as any).pdfWorkerSrc = '/lib/pdfjs-dist/legacy/build/pdf.worker.mjs';
   }
 
   incrementPage(amount: number) {

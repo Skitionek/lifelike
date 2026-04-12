@@ -12,6 +12,12 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ## [Unreleased]
 
+### Security
+- Upgrade `pdfjs-dist` 2.9.359 → 4.2.67 to fix arbitrary JavaScript execution on malicious PDF open (CVE-2024-4367, affects ≤ 4.1.392)
+
+### Changed
+- Migrated PDF viewer to pdfjs-dist v4 API: removed `TextLayerBuilder.disableTextLayer`/`enhanceTextSelection` (controlled via `textLayerMode` option), moved `LinkTarget` import from core lib to viewer bundle, updated `EventBus` constructor (no argument), updated all type-import paths to `pdfjs-dist/types/src/`
+
 ## [2026-04-12]
 
 ### Added
