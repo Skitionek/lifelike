@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, Route, UrlMatcher, UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { RouterModule, Routes } from '@angular/router';
+import { createRouteWithDynamicOutlets } from 'route-with-dynamic-outlets';
 
 import { AdminPanelComponent } from 'app/admin/components/admin-panel.component';
 import { VisualizationComponent } from 'app/visualization/containers/visualization/visualization.component';
@@ -31,97 +31,6 @@ import { ObjectViewerComponent } from 'app/file-browser/components/object-viewer
 import { SankeyViewComponent } from 'app/sankey-viewer/components/sankey-view.component';
 import { TraceViewComponent } from 'app/trace-viewer/components/trace-view.component';
 import { SankeyManyToManyViewComponent } from 'app/sankey-many-to-many-viewer/components/sankey-view.component';
-
-/**
- * Inline re-implementation of `createRouteWithDynamicOutlets` from the
- * `route-with-dynamic-outlets` package, without the lodash dependency.
- * The package pulls in the full lodash bundle (533 kB unminified) which pushes
- * the production bundle over the 30 MB budget.
- */
-type DynamicOutletFactory = (
-  segments: UrlSegment[],
-  group: UrlSegmentGroup,
-  route: Route,
-  outlet: string
-) => Route;
-
-interface DynamicOutletsRouteConfig extends Omit<Route, 'matcher'> {
-  path?: string;
-  matcher?: UrlMatcher;
-  dynamicOutletFactory: DynamicOutletFactory;
-}
-
-/** Replicates Angular's internal defaultUrlMatcher (not exported in Angular 9). */
-function defaultUrlMatcher(segments: UrlSegment[], group: UrlSegmentGroup, route: Route): UrlMatchResult | null {
-  const parts = (route.path ?? '').split('/');
-  if (parts.length > segments.length) { return null; }
-  if (route.pathMatch === 'full' && (group.hasChildren() || parts.length < segments.length)) {
-    return null;
-  }
-  const posParams: {[key: string]: UrlSegment} = {};
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i];
-    const segment = segments[i];
-    if (part.startsWith(':')) {
-      posParams[part.substring(1)] = segment;
-    } else if (part !== segment.path) {
-      return null;
-    }
-  }
-  return {consumed: segments.slice(0, parts.length), posParams};
-}
-
-function updateRoutes(
-  existingRoutes: Route[],
-  neededOutlets: string[],
-  factory: (outlet: string) => Route,
-): void {
-  const existingOutlets = existingRoutes
-    .map(r => r.outlet)
-    .filter(o => o != null);
-  const toRemove = existingOutlets.filter(o => !neededOutlets.includes(o));
-  const toAdd = neededOutlets.filter(o => !existingOutlets.includes(o));
-  toRemove.forEach(outlet => {
-    const idx = existingRoutes.findIndex(r => r.outlet === outlet);
-    if (idx !== -1) { existingRoutes.splice(idx, 1); }
-  });
-  toAdd.forEach(outlet => {
-    existingRoutes.push({...factory(outlet), outlet});
-  });
-}
-
-function updateOutlets(route: Route, outlets: {[key: string]: UrlSegmentGroup}): void {
-  const data = route.data as {outlets$?: BehaviorSubject<{[key: string]: UrlSegmentGroup}>};
-  if (data?.outlets$) {
-    if (JSON.stringify(data.outlets$.value) !== JSON.stringify(outlets)) {
-      data.outlets$.next(outlets);
-    }
-  } else {
-    (route as {data: object}).data = {...route.data, outlets$: new BehaviorSubject(outlets)};
-  }
-}
-
-function createRouteWithDynamicOutlets(config: DynamicOutletsRouteConfig): Route {
-  const {path, matcher = defaultUrlMatcher, dynamicOutletFactory, ...rest} = config;
-  const routePath: Pick<Route, 'path'> = {path};
-  return {
-    ...rest,
-    matcher: (segments: UrlSegment[], group: UrlSegmentGroup, route: Route): UrlMatchResult | null => {
-      const matchResult = matcher(segments, group, {...route, ...routePath});
-      if (matchResult) {
-        const outlets = group?.children ?? {};
-        updateOutlets(route, outlets);
-        route.children = route.children ?? [];
-        updateRoutes(
-          route.children,
-          Object.keys(outlets),
-          (outlet) => dynamicOutletFactory(segments, group, route, outlet),
-        );
-      }
-      return matchResult;
-    },
-  };
-}
 
 /**
  * Routes that can appear as tab content within the workspace. These are also
