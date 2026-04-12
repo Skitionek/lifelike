@@ -90,7 +90,7 @@ describe('PDFViewerComponent', () => {
 
     it('should check default url', () => {
       // current pdf.js build contains optional chaining which is not supported by typescript
-      const PDFJS = require('pdfjs-dist/legacy/build/pdf');
+      const PDFJS = require('pdfjs-dist');
 
       expect((pdfViewer as any).internalCMapsUrl).toBe(
         `https://unpkg.com/pdfjs-dist@${(PDFJS as any).version}/cmaps/`

@@ -13,14 +13,10 @@ import {
   NgZone
 } from '@angular/core';
 
-/**
- * current pdf.js build contains optional chaining
- * which is not supported by typescript
- */
-import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf';
+import * as pdfjsLib from 'pdfjs-dist';
 import * as viewerx from 'pdfjs-dist/legacy/web/pdf_viewer';
-import { PDFDocumentProxy, PDFPageProxy, DocumentInitParameters, PDFDocumentLoadingTask } from 'pdfjs-dist/types/display/api';
-import { PageViewport } from 'pdfjs-dist/types/display/display_utils';
+import { PDFDocumentProxy, PDFPageProxy, DocumentInitParameters, PDFDocumentLoadingTask } from 'pdfjs-dist/types/src/display/api';
+import { PageViewport } from 'pdfjs-dist/types/src/display/display_utils';
 import { PDFProgressData, PDFViewerParams, PDFSource } from './interfaces';
 import { createEventBus } from '../utils/event-bus-utils';
 import { FindState, RenderTextMode } from '../utils/constants';
@@ -240,15 +236,15 @@ export class PdfViewerComponent
   static getLinkTarget(type: string) {
     switch (type) {
       case 'blank':
-        return PDFJS.LinkTarget.BLANK;
+        return pdfjsViewer.LinkTarget.BLANK;
       case 'none':
-        return PDFJS.LinkTarget.NONE;
+        return pdfjsViewer.LinkTarget.NONE;
       case 'self':
-        return PDFJS.LinkTarget.SELF;
+        return pdfjsViewer.LinkTarget.SELF;
       case 'parent':
-        return PDFJS.LinkTarget.PARENT;
+        return pdfjsViewer.LinkTarget.PARENT;
       case 'top':
-        return PDFJS.LinkTarget.TOP;
+        return pdfjsViewer.LinkTarget.TOP;
     }
 
     return null;
@@ -407,9 +403,6 @@ export class PdfViewerComponent
   }
 
   private setupMultiPageViewer() {
-    pdfjsViewer.TextLayerBuilder.disableTextLayer = this.internalRenderText ?
-      this.internalRenderTextMode : RenderTextMode.DISABLED;
-
     this.setExternalLinkTarget(this.internalExternalLinkTarget);
 
     const eventBus = createEventBus(pdfjsViewer);
@@ -464,7 +457,7 @@ export class PdfViewerComponent
 
     this.pdfMultiPageLinkService = new pdfjsViewer.PDFLinkService({
       eventBus,
-      externalLinkTarget: PDFJS.LinkTarget.BLANK
+      externalLinkTarget: pdfjsViewer.LinkTarget.BLANK
     });
     this.pdfMultiPageFindController = new pdfjsViewer.PDFFindController({
       linkService: this.pdfMultiPageLinkService,
@@ -489,8 +482,6 @@ export class PdfViewerComponent
   }
 
   private setupSinglePageViewer() {
-    pdfjsViewer.TextLayerBuilder.enhanceTextSelection = !this.internalRenderText;
-
     this.setExternalLinkTarget(this.internalExternalLinkTarget);
 
     const eventBus = createEventBus(pdfjsViewer);
@@ -523,7 +514,7 @@ export class PdfViewerComponent
 
     this.pdfSinglePageLinkService = new pdfjsViewer.PDFLinkService({
       eventBus,
-      externalLinkTarget: PDFJS.LinkTarget.BLANK
+      externalLinkTarget: pdfjsViewer.LinkTarget.BLANK
     });
     this.pdfSinglePageFindController = new pdfjsViewer.PDFFindController({
       linkService: this.pdfSinglePageLinkService,
