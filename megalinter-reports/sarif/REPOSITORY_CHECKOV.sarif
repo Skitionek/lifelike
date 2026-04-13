@@ -1,0 +1,535 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "properties": {
+        "megalinter": {
+          "docUrl": "https://megalinter.io/8.8.0/descriptors/repository_checkov",
+          "linterKey": "REPOSITORY_CHECKOV",
+          "linterVersion": "3.2.413"
+        }
+      },
+      "results": [
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "docker/elasticsearch.Dockerfile"
+                },
+                "region": {
+                  "endLine": 11,
+                  "snippet": {
+                    "text": "ARG ELASTICSEARCH_VERSION=7.16.3\nFROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}\n\nLABEL org.opencontainers.image.source https://github.com/SBRG/lifelike\nLABEL org.opencontainers.image.description Custom Elasticsearch image for Lifelike\n\n# Install ingest-attachment plugin\nRUN elasticsearch-plugin install --batch ingest-attachment\n\n# Set default configuration environment variables\nENV http.max_content_length=200mb"
+                  },
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure that a user for the container has been created"
+          },
+          "ruleId": "CKV_DOCKER_3",
+          "ruleIndex": 0
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "graph-db/migrator/Dockerfile"
+                },
+                "region": {
+                  "endLine": 30,
+                  "snippet": {
+                    "text": "ADD --chown=liquibase:liquibase https://github.com/neo4j-contrib/neo4j-jdbc/releases/download/${NEO4J_JDBC_VERSION}/neo4j-jdbc-driver-${NEO4J_JDBC_VERSION}.jar lib/\n"
+                  },
+                  "startLine": 30
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure that COPY is used instead of ADD in Dockerfiles"
+          },
+          "ruleId": "CKV_DOCKER_4",
+          "ruleIndex": 1
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "graph-db/migrator/Dockerfile"
+                },
+                "region": {
+                  "endLine": 56,
+                  "snippet": {
+                    "text": "ADD --chown=liquibase:liquibase https://raw.githubusercontent.com/vishnubob/wait-for-it/81b1373f17855a4dc21156cfe1694c31d7d1792e/wait-for-it.sh /wait-for-it.sh\n"
+                  },
+                  "startLine": 56
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure that COPY is used instead of ADD in Dockerfiles"
+          },
+          "ruleId": "CKV_DOCKER_4",
+          "ruleIndex": 1
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "graph-db/migrator/Dockerfile"
+                },
+                "region": {
+                  "endLine": 63,
+                  "snippet": {
+                    "text": "ARG LIQUIBASE_IMAGE_TAG=4.7.1\n\n# ========================================\n# Maven build stage\n# ========================================\nFROM maven:3.8-jdk-11 as build\n\n# Install dependencies\nCOPY pom.xml ./\nRUN mvn -B dependency:go-offline\n\n# Copy code and build JAR\nCOPY src ./src\nRUN mvn -B clean package -DskipTests\n\n\n# ========================================\n# Liquibase runtime stage\n# ========================================\nFROM liquibase/liquibase:$LIQUIBASE_IMAGE_TAG\nLABEL org.opencontainers.image.source https://github.com/SBRG/lifelike\n\nARG LIQUIBASE_NEO4J_VERSION=4.7.1.3\nARG NEO4J_JDBC_VERSION=4.0.5\n\n# Install liquibase-neo4j extension\nRUN lpm update && lpm add --global liquibase-neo4j@$LIQUIBASE_NEO4J_VERSION\n\n# Download Neo4j JDBC driver\nADD --chown=liquibase:liquibase https://github.com/neo4j-contrib/neo4j-jdbc/releases/download/${NEO4J_JDBC_VERSION}/neo4j-jdbc-driver-${NEO4J_JDBC_VERSION}.jar lib/\n\n# Copy JAR from build stage\nCOPY --from=build --chown=liquibase:liquibase /target/graphdb-migrator-*.jar ./lib\n\n# Neo4j database configuration\nENV NEO4J_HOST=\nENV NEO4J_USERNAME=neo4j\nENV NEO4J_PASSWORD=neo4j\nENV NEO4J_DATABASE=neo4j\n\n# Master changelog file. e.g. lifelike-graph/changelog-master.xml\nENV CHANGELOG_FILE=\n\n# Remote storage configuration\nENV STORAGE_TYPE=azure\nENV AZURE_ACCOUNT_STORAGE_NAME=\nENV AZURE_ACCOUNT_STORAGE_KEY=\n\n# Storage files prefix (stage or prod)\nENV DATAFILES_PREFIX=stage\n\n# Liquibase configuration\nENV LOG_LEVEL=info\n\n# Add wait-for-it command\nADD --chown=liquibase:liquibase https://raw.githubusercontent.com/vishnubob/wait-for-it/81b1373f17855a4dc21156cfe1694c31d7d1792e/wait-for-it.sh /wait-for-it.sh\nRUN chmod +x /wait-for-it.sh\n\n# Override parent image entrypoint\nCOPY --chown=liquibase:liquibase docker-entrypoint.sh ./\nRUN chmod +x docker-entrypoint.sh\n\nCMD [\"update\"]"
+                  },
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure that a user for the container has been created"
+          },
+          "ruleId": "CKV_DOCKER_3",
+          "ruleIndex": 0
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/Dockerfile"
+                },
+                "region": {
+                  "endLine": 6,
+                  "snippet": {
+                    "text": "FROM $NODE_IMAGE_TAG as angular-deps\n"
+                  },
+                  "startLine": 6
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure the base image uses a non latest version tag"
+          },
+          "ruleId": "CKV_DOCKER_7",
+          "ruleIndex": 2
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "client/Dockerfile"
+                },
+                "region": {
+                  "endLine": 65,
+                  "snippet": {
+                    "text": "ARG NODE_IMAGE_TAG=node:20\n\n# ==================================================================\n# Angular app dependencies by default used for local development\n# ==================================================================\nFROM $NODE_IMAGE_TAG as angular-deps\nWORKDIR /app\n\n# Install dependencies\nCOPY package.json yarn.lock ./\nARG YARN_INSTALL_OPTS=--ignore-engines\nRUN yarn install ${YARN_INSTALL_OPTS}\n\nENV ENVIRONMENT_CONFIG development\n\n\n# ========================================\n# Angular app bundle build\n# ========================================\nFROM angular-deps as angular-build\n\n# Copy the code and build the app bundle\nCOPY src ./src\nCOPY tslint ./tslint\nCOPY e2e ./e2e\nCOPY *.json webpack.config.js browserslist ./\n\nARG ANGULAR_CONFIG=production\nENV NODE_OPTIONS=\"--max-old-space-size=4096 --openssl-legacy-provider\"\nRUN yarn build --configuration=$ANGULAR_CONFIG --output-path=dist\n\n# When targeting this image stage, run angulat dev server\nEXPOSE 4200\nHEALTHCHECK --interval=5m --timeout=10s \\\n  CMD curl -f localhost:4200 || exit 1\nCMD yarn dev-start\n\n\n# ========================================\n# Runtime stage - NGINX\n# ========================================\nFROM nginx:1.21\nLABEL org.opencontainers.image.source https://github.com/SBRG/lifelike\n\nWORKDIR /usr/share/nginx/html\n\n# Copy built assets\nCOPY --from=angular-build /app/dist ./\n\n# Copy nginx configuraiton template\nCOPY nginx.conf /etc/nginx/templates/default.conf.template\n\n# appserver URL to proxy /api requests\nENV APPSERVER_URL http://appserver:5000\n\n# List of space delimited list of non-stantdard MIME types\n# which are known to benefit from gzip compression (text based content)\nENV GZIP_EXTRA_TYPES text/tsv vnd.lifelike.document/bioc vnd.lifelike.document/enrichment-table vnd.lifelike.document/graph vnd.lifelike.document/map\n\n# Runtime environment configuration preset\nENV ENVIRONMENT_CONFIG production\n\n# Listen port\nENV PORT 80\nEXPOSE $PORT"
+                  },
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure that a user for the container has been created"
+          },
+          "ruleId": "CKV_DOCKER_3",
+          "ruleIndex": 0
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/graphdb-migrate.yml"
+                },
+                "region": {
+                  "endLine": 59,
+                  "snippet": {
+                    "text": "      neo4j_host:\n        description: Neo4j target host\n        type: string\n        required: true\n      neo4j_username:\n        description: Neo4j username\n        type: string\n        required: true\n        default: neo4j\n      neo4j_password:\n        description: Neo4j password\n        type: string\n        required: true\n      log_level:\n        description: Log level\n        type: choice\n        required: true\n        default: info\n        options:\n          - debug\n          - info\n          - warn\n          - error\n      release_lock:\n        description: Release any present lock before executing\n        type: boolean\n        required: true\n        default: true\n      datafiles_prefix:\n        description: Prefix of the datafiles in remote storage (stage/prod)\n        type: choice\n        required: true\n        default: stage\n        options:\n          - stage\n          - prod\n      chunk_size:\n        description: Liquibase transaction chunk size\n        type: string\n        required: true\n        default: '2000'\n      changelog:\n        description: Path to the changelog file\n        type: string\n        required: true\n        default: 'lifelike-graph/changelog-master.xml'\n      migrator_image_tag:\n        description: Tag of the graphdb-migrator image to use\n        type: string\n        required: true\n        default: latest\n\njobs:\n  migrate:\n"
+                  },
+                  "startLine": 6
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty. "
+          },
+          "ruleId": "CKV_GHA_7",
+          "ruleIndex": 3
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sonar.yml"
+                },
+                "region": {
+                  "endLine": 22,
+                  "snippet": {
+                    "text": "      application:\n        required: false\n        type: choice\n        default: \"\"\n        description: Specific application to analyze\n        options:\n          - \"\"\n          - Appserver\n          - Frontend\n\njobs:\n  sonarqube:\n"
+                  },
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty. "
+          },
+          "ruleId": "CKV_GHA_7",
+          "ruleIndex": 3
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/browserstack.yml"
+                },
+                "region": {
+                  "endLine": 11,
+                  "snippet": {
+                    "text": "      baseUrl:\n        description: Base URL of environment to test against\n        required: true\n        type: string\n\njobs:\n  browserstack:\n"
+                  },
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty. "
+          },
+          "ruleId": "CKV_GHA_7",
+          "ruleIndex": 3
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/graphdb-migrate.yml"
+                },
+                "region": {
+                  "endLine": 1,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/tests.yml"
+                },
+                "region": {
+                  "endLine": 16,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 15
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codeql-analysis.yml"
+                },
+                "region": {
+                  "endLine": 32,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 31
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/copilot-auto-fix.yml"
+                },
+                "region": {
+                  "endLine": 16,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 15
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/docker.yml"
+                },
+                "region": {
+                  "endLine": 37,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 36
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/browserstack.yml"
+                },
+                "region": {
+                  "endLine": 1,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/sonar.yml"
+                },
+                "region": {
+                  "endLine": 1,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        },
+        {
+          "attachments": [],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/codeql.yml"
+                },
+                "region": {
+                  "endLine": 28,
+                  "snippet": {
+                    "text": ""
+                  },
+                  "startLine": 27
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Ensure top-level permissions are not set to write-all"
+          },
+          "ruleId": "CKV2_GHA_1",
+          "ruleIndex": 4
+        }
+      ],
+      "tool": {
+        "driver": {
+          "informationUri": "https://checkov.io",
+          "name": "Checkov (MegaLinter REPOSITORY_CHECKOV)",
+          "organization": "bridgecrew",
+          "rules": [
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Ensure that a user for the container has been created"
+              },
+              "help": {
+                "text": "Ensure that a user for the container has been created\nResource: /docker/elasticsearch.Dockerfile."
+              },
+              "helpUri": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-that-a-user-for-the-container-has-been-created",
+              "id": "CKV_DOCKER_3",
+              "name": "Ensure that a user for the container has been created",
+              "shortDescription": {
+                "text": "Ensure that a user for the container has been created"
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Ensure that COPY is used instead of ADD in Dockerfiles"
+              },
+              "help": {
+                "text": "Ensure that COPY is used instead of ADD in Dockerfiles\nResource: /graph-db/migrator/Dockerfile.ADD"
+              },
+              "helpUri": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-that-copy-is-used-instead-of-add-in-dockerfiles",
+              "id": "CKV_DOCKER_4",
+              "name": "Ensure that COPY is used instead of ADD in Dockerfiles",
+              "shortDescription": {
+                "text": "Ensure that COPY is used instead of ADD in Dockerfiles"
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Ensure the base image uses a non latest version tag"
+              },
+              "help": {
+                "text": "Ensure the base image uses a non latest version tag\nResource: /client/Dockerfile.FROM"
+              },
+              "helpUri": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-the-base-image-uses-a-non-latest-version-tag",
+              "id": "CKV_DOCKER_7",
+              "name": "Ensure the base image uses a non latest version tag",
+              "shortDescription": {
+                "text": "Ensure the base image uses a non latest version tag"
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty. "
+              },
+              "help": {
+                "text": "The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty. \nResource: on(Grpah DB Migrate)"
+              },
+              "id": "CKV_GHA_7",
+              "name": "The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty. ",
+              "shortDescription": {
+                "text": "The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty. "
+              }
+            },
+            {
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "fullDescription": {
+                "text": "Ensure top-level permissions are not set to write-all"
+              },
+              "help": {
+                "text": "Ensure top-level permissions are not set to write-all\nResource: on(Grpah DB Migrate)"
+              },
+              "id": "CKV2_GHA_1",
+              "name": "Ensure top-level permissions are not set to write-all",
+              "shortDescription": {
+                "text": "Ensure top-level permissions are not set to write-all"
+              }
+            }
+          ],
+          "version": "3.2.413"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}
