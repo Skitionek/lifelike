@@ -149,7 +149,8 @@
 #                     id = anno['meta']['id']
 
 #                     print(
-#                         f'{identifier}\t{lo_offset}\t{hi_offset}\t{keyword}\t{keyword_type}\t{id}',
+#                         f'{identifier}\t{lo_offset}\t{hi_offset}\t'
+#                         f'{keyword}\t{keyword_type}\t{id}',
 #                         file=mem_file,
 #                     )
 

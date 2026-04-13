@@ -373,7 +373,7 @@ class BiocTypeProvider(BaseFileTypeProvider):
     def validate_content(self, buffer: BufferedIOBase):
         with BioCJsonIterReader(buffer) as reader:
             for obj in reader:
-                passage = biocFromJSON(obj, bioctype='BioCDocument')
+                biocFromJSON(obj, bioctype='BioCDocument')
 
     def extract_doi(self, buffer: BufferedIOBase) -> Optional[str]:
         data = buffer.read()

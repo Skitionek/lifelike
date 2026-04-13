@@ -1,0 +1,21 @@
+line-length = 100
+target-version = "py310"
+exclude = ["appserver/migrations/"]
+
+[lint]
+select = ["E", "F"]
+
+[lint.per-file-ignores]
+# Re-export modules — F401 false-positives are intentional
+"**/__init__.py" = ["F401"]
+# Wildcard imports are used throughout annotations — refactoring is out-of-scope
+"appserver/neo4japp/services/annotations/annotation_graph_service.py" = ["F403", "F405"]
+"appserver/neo4japp/services/annotations/manual_annotation_service.py" = ["F403", "F405"]
+"appserver/neo4japp/data_transfer_objects/__init__.py" = ["F403", "F405"]
+"appserver/neo4japp/services/elastic/__init__.py" = ["F403", "F405"]
+"appserver/neo4japp/services/enrichment/data_transfer_objects/__init__.py" = ["F403", "F405"]
+"appserver/neo4japp/utils/__init__.py" = ["F403", "F405"]
+"appserver/tests/database/services/annotations/annotations_test.py" = ["F403", "F405"]
+"appserver/tests/database/services/annotations/recognition_test.py" = ["F403", "F405"]
+"appserver/neo4japp/services/annotations/data_transfer_objects/__init__.py" = ["F403", "F405"]
+"statistical-enrichment/statistical_enrichment/services/__init__.py" = ["F403", "F405"]

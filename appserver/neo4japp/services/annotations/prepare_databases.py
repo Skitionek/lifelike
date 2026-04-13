@@ -77,7 +77,7 @@ def prepare_lmdb_genes_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # geneId	geneName	synonym	data_source
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 gene_name = line[1]
                 synonym = line[2]
@@ -108,7 +108,7 @@ def prepare_lmdb_chemicals_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # id	name	synonym
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 chemical_id = line[0]
                 chemical_name = line[1]
@@ -142,7 +142,7 @@ def prepare_lmdb_compounds_database(filename: str):
             reader = csv.reader(f, delimiter=',', quotechar='"')
             # skip headers
             # n.biocyc_id,n.common_name,n.synonyms
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 compound_id = line[0]
                 compound_name = line[1]
@@ -193,11 +193,11 @@ def prepare_lmdb_proteins_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers (only care for first 3)
             # id	name	synonym	...
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 # synonyms already have their own line in dataset
                 #
-                protein_id = line[1]
+                _protein_id = line[1]
                 protein_name = line[2]
                 # changed protein_id to protein_name for now (JIRA LL-671)
                 # will eventually change back to protein_id
@@ -226,7 +226,7 @@ def prepare_lmdb_species_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # tax_id	rank	category	name	name_class
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 # synonyms already have their own line in dataset
                 #
@@ -262,7 +262,7 @@ def prepare_lmdb_diseases_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # MeshID	Name	Synonym
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 disease_id = line[0]
                 disease_name = line[1]
@@ -292,7 +292,7 @@ def prepare_lmdb_phenomenas_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # mesh_id,name,synonym
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 phenomena_id = line[0]
                 phenomena_name = line[1]
@@ -326,7 +326,7 @@ def prepare_lmdb_phenotypes_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # mesh_id,name,synonym
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 phenotype_id = line[0]
                 phenotype_name = line[1]
@@ -360,7 +360,7 @@ def prepare_lmdb_foods_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # MeshID	Name	Synonym
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 foods_id = line[0]
                 foods_name = line[1]
@@ -393,7 +393,7 @@ def prepare_lmdb_anatomy_database(filename: str):
             reader = csv.reader(f, delimiter='\t', quotechar='"')
             # skip headers
             # MeshID	Name	Synonym
-            headers = next(reader)
+            next(reader)
             for line in reader:
                 anatomy_id = line[0]
                 anatomy_name = line[1]

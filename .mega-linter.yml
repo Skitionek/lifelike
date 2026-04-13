@@ -1,0 +1,59 @@
+# MegaLinter configuration
+# https://megalinter.io/latest/configuration/
+
+# Apply auto-fixes for all supported linters
+APPLY_FIXES: all
+APPLY_FIXES_EVENT: pull_request
+APPLY_FIXES_MODE: commit
+
+# Linters to enable (subset relevant to this repo: Python + TypeScript/JavaScript + misc)
+ENABLE_LINTERS:
+  - PYTHON_RUFF
+  - PYTHON_MYPY
+  - TYPESCRIPT_ES
+  - JAVASCRIPT_ES
+  - JSON_PRETTIER
+  - YAML_PRETTIER
+  - MARKDOWN_MARKDOWNLINT
+  - SPELL_CSPELL
+  - REPOSITORY_TRIVY
+  - REPOSITORY_CHECKOV
+
+# Paths to exclude from linting
+FILTER_REGEX_EXCLUDE: (appserver/migrations|node_modules|dist|\.git|vendor|venv|\.venv|__pycache__|\.pytest_cache)
+
+# Reporters
+REPORTERS:
+  - GitHub
+  - SARIF
+  - Text
+
+# MegaLinter flavour: use the full image (no flavour restriction)
+# Disable suggestions for flavour optimization (keep CI simple)
+FLAVOR_SUGGESTIONS: false
+
+# Git-related settings
+VALIDATE_ALL_CODEBASE: false   # only lint changed files on PRs
+# On push to main, lint everything
+# VALIDATE_ALL_CODEBASE: true  # uncomment for full scan on push
+
+# Python: use ruff instead of flake8/pycodestyle (ruff is much faster)
+PYTHON_RUFF_CONFIG_FILE: ruff.toml
+PYTHON_RUFF_ARGUMENTS: "--no-fix"   # fixes handled in lint.yml's fast-lint step
+
+# TypeScript / JavaScript: use tslint config from client/
+TYPESCRIPT_ES_CONFIG_FILE: client/tslint.json
+JAVASCRIPT_ES_CONFIG_FILE: client/tslint.json
+
+# Markdown
+MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .markdownlint.json
+
+# Disable spell-check for now (too many false positives in code)
+SPELL_CSPELL_DISABLE_ERRORS: true
+
+# Trivy: informational only (errors handled by CodeQL)
+REPOSITORY_TRIVY_DISABLE_ERRORS: true
+REPOSITORY_CHECKOV_DISABLE_ERRORS: true
+
+# Upload SARIF to GitHub Security tab (see lint.yml for the upload step)
+SARIF_REPORTER: true

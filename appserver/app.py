@@ -280,7 +280,7 @@ def reannotate_files(user, password):
 
     # NUM_PROCESSES = 2
     task_queue = Queue()
-    running = {}
+    _running = {}
 
     files = db.session.query(
         Files.id,

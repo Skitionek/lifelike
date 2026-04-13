@@ -1,0 +1,106 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # ── Fast linters ────────────────────────────────────────────────────────────
+  # Run cheap, local linters first for immediate feedback.
+  # MegaLinter only runs if this job succeeds.
+
+  fast-lint:
+    name: Fast Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      # Python – ruff (replaces pycodestyle / flake8)
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Install ruff
+        run: pip install ruff==0.15.10
+
+      - name: Run ruff (appserver)
+        run: ruff check appserver/ --config ruff.toml
+
+      - name: Run ruff (statistical-enrichment)
+        run: ruff check statistical-enrichment/ --config ruff.toml
+
+      - name: Run ruff (cache-invalidator)
+        run: ruff check cache-invalidator/ --config ruff.toml
+
+      # TypeScript – tslint
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Install client dependencies
+        working-directory: client
+        run: yarn install --frozen-lockfile
+
+      - name: Run tslint
+        working-directory: client
+        run: yarn lint-ci
+
+  # ── MegaLinter ──────────────────────────────────────────────────────────────
+  # Comprehensive lint + optional auto-fix, runs only after fast-lint passes.
+
+  megalinter:
+    name: MegaLinter
+    runs-on: ubuntu-latest
+    needs: fast-lint
+    permissions:
+      contents: write        # needed to commit auto-fixes
+      issues: write
+      pull-requests: write
+      security-events: write # needed to upload SARIF
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Run MegaLinter
+        id: ml
+        uses: oxsecurity/megalinter@v8
+        env:
+          # Lint only changed files on PRs; lint everything on push to main
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Auto-fix commit (PR only) ──────────────────────────────────────────
+      - name: Commit MegaLinter auto-fixes
+        if: >
+          github.event_name == 'pull_request' &&
+          steps.ml.outputs.has_updated_sources == 1
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: apply MegaLinter auto-fixes"
+          commit_user_name: megalinter-bot
+          commit_user_email: megalinter-bot@users.noreply.github.com
+
+      # ── Upload SARIF for PR annotations ───────────────────────────────────
+      - name: Upload SARIF report
+        if: >
+          (github.event_name == 'pull_request' || github.event_name == 'push') &&
+          always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: megalinter-reports/megalinter-report.sarif
+          # Annotations appear as PR review comments / Security tab findings
+          category: megalinter

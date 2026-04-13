@@ -79,7 +79,9 @@ def load_mixed_form_json(request, schema):
     except KeyError:
         data = {}
     except ValueError:
-        logging.getLogger(__name__).warning('Failed to parse mixed_form_json: invalid JSON in json$ field')
+        logging.getLogger(__name__).warning(
+            'Failed to parse mixed_form_json: invalid JSON in json$ field'
+        )
         data = {}
 
     setattr(request, cache_field, data)

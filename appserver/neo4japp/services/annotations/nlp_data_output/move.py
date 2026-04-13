@@ -33,7 +33,7 @@ def main():
                 curr_line = line[:-1]  # strip \n
             try:
                 split_line = curr_line.split(',')
-                file_path = split_line[1].replace('"', '')
+                _file_path = split_line[1].replace('"', '')
                 pmcid = split_line[3].replace('"', '')
             except (IndexError, Exception):
                 print(f'Bad line {curr_line}')

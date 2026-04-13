@@ -41,7 +41,7 @@ def get_primary_names(annotations):
         if not anno.get('primaryName'):
             # a custom annotation had a list in ['meta']['type']
             # probably a leftover from previous change
-            if type(anno['meta']['type']) == list:
+            if isinstance(anno['meta']['type'], list):
                 anno['meta']['type'] = anno['meta']['type'][0]
 
             if anno['meta']['type'] in {
