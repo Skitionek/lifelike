@@ -39,7 +39,7 @@ import { FindState, RenderTextMode } from './utils/constants';
 import { PDFSource, PDFProgressData, PDFPageRenderEvent, PDFPageView, TextLayerBuilder, ScrollDestination } from './pdf-viewer/interfaces';
 import { AnnotationToolbarComponent } from './components/annotation-toolbar.component';
 
-declare var jQuery: any;
+declare var bootstrap: any;
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -85,7 +85,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
       const removedAnnotations = this.annotations.filter((ann: Annotation) => uuids.includes(ann.uuid));
       removedAnnotations.forEach((ann: Annotation) => {
         const ref = this.annotationHighlightElementMap.get(ann);
-        jQuery(ref).remove();
+        if (ref) { ref.forEach(el => el.remove()); }
       });
       this.annotations = this.annotations.filter((ann: Annotation) => !uuids.includes(ann.uuid));
     }
@@ -132,6 +132,11 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
    * Stores a mapping of annotations to the HTML elements that are used to show it.
    */
   private readonly annotationHighlightElementMap: Map<Annotation, HTMLElement[]> = new Map();
+
+  /**
+   * Stores Bootstrap Popover instances for annotation highlight elements.
+   */
+  private readonly annotationPopoverMap: Map<HTMLElement, any> = new Map();
 
   pendingHighlights = {};
 
@@ -209,6 +214,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
       openExclusionPanel: (annExclusion) => this.zone.run(() => this.openExclusionPanel(annExclusion)),
       removeAnnotationExclusion: (annExclusion) => this.zone.run(() => this.removeAnnotationExclusion(annExclusion)),
       highlightAllAnnotations: (id, toggle = true) => this.zone.run(() => this.highlightAllAnnotations(id, toggle)),
+      hideAllAnnotationPopovers: () => this.zone.run(() => this.hideAllAnnotationPopovers()),
     };
 
     this.goToPosition.subscribe((sub) => {
@@ -245,10 +251,12 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
     });
 
     if (this.debugMode) {
-      jQuery(document).on('click', '.system-annotation', event => {
-        const target = event.target;
-        const location = JSON.parse(jQuery(target).attr('location')) as Location;
-        const meta = JSON.parse(jQuery(target).attr('meta')) as Meta;
+      document.addEventListener('click', (event) => {
+        const target = event.target as Element;
+        if (target.classList.contains('system-annotation')) {
+          const location = JSON.parse(target.getAttribute('location')) as Location;
+          const meta = JSON.parse(target.getAttribute('meta')) as Meta;
+        }
       });
     }
 
@@ -355,36 +363,15 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
         overlayContainer.appendChild(overlayDiv);
         (annotation as any).ref = overlayDiv;
         elementRefs.push(overlayDiv);
-        jQuery(overlayDiv).css('cursor', 'move');
-        (jQuery(overlayDiv) as any).qtip(
-          {
-            content: this.prepareTooltipContent(annotation),
-            position: {
-              my: 'top center',
-              at: 'bottom center',
-              viewport: false,
-              target: [left + width / 2, top + height],
-              container: jQuery(overlayContainer),
-            },
-            style: {
-              classes: 'qtip-bootstrap',
-              tip: {
-                width: 16,
-                height: 8,
-              },
-            },
-            show: {
-              delay: 10,
-              event: 'click',
-              solo: true,
-            },
-            hide: {
-              fixed: true,
-              delay: 150,
-              event: 'unfocus',
-            },
-          },
-        );
+        overlayDiv.style.cursor = 'move';
+        const popover = new bootstrap.Popover(overlayDiv, {
+          content: this.prepareTooltipContent(annotation),
+          html: true,
+          trigger: 'click',
+          placement: 'top',
+          container: overlayContainer,
+        });
+        this.annotationPopoverMap.set(overlayDiv, popover);
       }
     }
 
@@ -549,7 +536,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
     base.push(`
         <div class="mt-1">
           <button type="button" class="btn btn-secondary btn-block" onclick="window.pdfViewerRef['${this.pdfViewerId}'].highlightAllAnnotations(${escape(
-      JSON.stringify(an.meta.id))}, false);jQuery('.system-annotation').qtip('hide')">
+      JSON.stringify(an.meta.id))}, false);window.pdfViewerRef['${this.pdfViewerId}'].hideAllAnnotationPopovers()">
             <i class="fas fa-fw fa-search"></i>
             <span>Find Occurrences</span>
           </button>
@@ -618,7 +605,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
         clientX: event.clientX,
         clientY: event.clientY,
       };
-      this.dragAndDropOriginHoverCount = jQuery('.textLayer > span:hover').length || 0;
+      this.dragAndDropOriginHoverCount = document.querySelectorAll('.textLayer > span:hover').length || 0;
     }
   }
 
@@ -811,9 +798,15 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
   //endregion
 
   deleteFrictionless() {
-    const annotationRef = jQuery('.frictionless-annotation');
-    annotationRef.qtip('destroy');
-    annotationRef.remove();
+    document.querySelectorAll('.frictionless-annotation').forEach(el => {
+      this.annotationPopoverMap.get(el as HTMLElement)?.dispose();
+      this.annotationPopoverMap.delete(el as HTMLElement);
+      el.remove();
+    });
+  }
+
+  hideAllAnnotationPopovers() {
+    this.annotationPopoverMap.forEach(popover => popover.hide());
   }
 
   resetSelection() {
@@ -944,7 +937,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
   }
 
   openExclusionPanel(annExclusion) {
-    jQuery('.system-annotation').qtip('hide');
+    this.hideAllAnnotationPopovers();
 
     const dialogRef = this.modalService.open(AnnotationExcludeDialogComponent);
     dialogRef.componentInstance.text = annExclusion.text;
@@ -956,7 +949,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
   }
 
   removeAnnotationExclusion(annExclusion) {
-    jQuery('.system-annotation').qtip('hide');
+    this.hideAllAnnotationPopovers();
     this.annotationExclusionRemoved.emit(annExclusion);
   }
 
@@ -1180,9 +1173,9 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
       'left:' + (left - 4) + 'px;top:' + (top - 4) + 'px;width:' + (width + 8) + 'px;height:' + (height + 8) + 'px;');
     overlayContainer.appendChild(overlayDiv);
     overlayDiv.scrollIntoView({block: 'center'});
-    jQuery(overlayDiv).effect('highlight', {}, 1000);
+    overlayDiv.classList.add('highlight-effect');
     setTimeout(() => {
-      jQuery(overlayDiv).remove();
+      overlayDiv.remove();
     }, 3000);
   }
 
@@ -1254,7 +1247,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
   }
 
   removeCustomAnnotation(uuid) {
-    jQuery('.system-annotation').qtip('hide');
+    this.hideAllAnnotationPopovers();
     this.annotationRemoved.emit(uuid);
   }
 
@@ -1270,7 +1263,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
       if (ann.meta.type === exclusionData.type &&
         this.termsMatch(exclusionData.text, ann.textInDocument, exclusionData.isCaseInsensitive)) {
         const ref = this.annotationHighlightElementMap.get(ann);
-        jQuery(ref).remove();
+        if (ref) { ref.forEach(el => el.remove()); }
         ann.meta.isExcluded = true;
         ann.meta.exclusionReason = exclusionData.reason;
         ann.meta.exclusionComment = exclusionData.comment;
@@ -1285,7 +1278,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
     this.annotations.forEach((ann: Annotation) => {
       if (ann.meta.type === exclusionData.type && this.termsMatch(exclusionData.text, ann.textInDocument, ann.meta.isCaseInsensitive)) {
         const ref = this.annotationHighlightElementMap.get(ann);
-        jQuery(ref).remove();
+        if (ref) { ref.forEach(el => el.remove()); }
         ann.meta.isExcluded = false;
         this.addAnnotation(ann, ann.pageNumber);
       }

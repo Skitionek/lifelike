@@ -12,6 +12,14 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ## [Unreleased]
 
+### Removed
+- Dropped `jquery`, `jquery-ui`, `jquery-ui-dist`, `qtip2`, `jqueryui`, `@types/jquery`, and `@types/jqueryui` dependencies from the client
+
+### Changed
+- Replaced jQuery DOM manipulation in `bioc-view.component.ts` with native DOM APIs and CSS transitions
+- Replaced jQuery + qtip2 annotation tooltips in `pdf-viewer-lib.component.ts` with Bootstrap 5 Popover
+- Replaced jQuery UI `.resizable()` in `resizable.directive.ts` with native CSS `resize` property
+
 ### Security
 - Upgrade `pdfjs-dist` 2.9.359 → 4.2.67 to fix arbitrary JavaScript execution on malicious PDF open (CVE-2024-4367, affects ≤ 4.1.392)
 
