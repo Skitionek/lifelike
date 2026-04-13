@@ -7,6 +7,8 @@ import { isNil } from 'lodash-es';
   selector: '[appResizable]'
 })
 export class ResizableDirective  implements OnInit {
+  // Note: the CSS `resize` property does not support directional handles.
+  // The `handles` input is retained for API compatibility but has no effect.
   @Input() handles = 'n,w,s,e';
   @Input() minHeight = 52;
 

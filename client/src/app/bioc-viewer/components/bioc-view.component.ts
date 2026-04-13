@@ -276,7 +276,6 @@ export class BiocViewComponent implements OnDestroy, ModuleAwareComponent {
       range.setEnd(annotationElem.firstChild, Number(params.start) + Number(params.len));
       const newNode = document.createElement('span');
       newNode.style['background-color'] = 'rgba(255, 255, 51, 0.3)';
-      this.animateBorderHighlight(newNode);
       range.surroundContents(newNode);
       this.createdNode = newNode;
       if (newNode) {

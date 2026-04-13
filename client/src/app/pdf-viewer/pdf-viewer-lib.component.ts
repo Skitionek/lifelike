@@ -85,7 +85,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
       const removedAnnotations = this.annotations.filter((ann: Annotation) => uuids.includes(ann.uuid));
       removedAnnotations.forEach((ann: Annotation) => {
         const ref = this.annotationHighlightElementMap.get(ann);
-        if (ref) { ref.forEach(el => el.remove()); }
+        this.removeAnnotationElements(ref);
       });
       this.annotations = this.annotations.filter((ann: Annotation) => !uuids.includes(ann.uuid));
     }
@@ -798,15 +798,21 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
   //endregion
 
   deleteFrictionless() {
-    document.querySelectorAll('.frictionless-annotation').forEach(el => {
-      this.annotationPopoverMap.get(el as HTMLElement)?.dispose();
-      this.annotationPopoverMap.delete(el as HTMLElement);
-      el.remove();
-    });
+    const elements = Array.from(document.querySelectorAll('.frictionless-annotation')) as HTMLElement[];
+    this.removeAnnotationElements(elements);
   }
 
   hideAllAnnotationPopovers() {
     this.annotationPopoverMap.forEach(popover => popover.hide());
+  }
+
+  private removeAnnotationElements(elements: HTMLElement[]) {
+    if (!elements) { return; }
+    elements.forEach(el => {
+      this.annotationPopoverMap.get(el)?.dispose();
+      this.annotationPopoverMap.delete(el);
+      el.remove();
+    });
   }
 
   resetSelection() {
@@ -1262,8 +1268,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
     this.annotations.forEach((ann: Annotation) => {
       if (ann.meta.type === exclusionData.type &&
         this.termsMatch(exclusionData.text, ann.textInDocument, exclusionData.isCaseInsensitive)) {
-        const ref = this.annotationHighlightElementMap.get(ann);
-        if (ref) { ref.forEach(el => el.remove()); }
+        this.removeAnnotationElements(this.annotationHighlightElementMap.get(ann));
         ann.meta.isExcluded = true;
         ann.meta.exclusionReason = exclusionData.reason;
         ann.meta.exclusionComment = exclusionData.comment;
@@ -1277,8 +1282,7 @@ export class PdfViewerLibComponent implements OnInit, OnDestroy {
   unmarkAnnotationExclusions(exclusionData: RemovedAnnotationExclusion) {
     this.annotations.forEach((ann: Annotation) => {
       if (ann.meta.type === exclusionData.type && this.termsMatch(exclusionData.text, ann.textInDocument, ann.meta.isCaseInsensitive)) {
-        const ref = this.annotationHighlightElementMap.get(ann);
-        if (ref) { ref.forEach(el => el.remove()); }
+        this.removeAnnotationElements(this.annotationHighlightElementMap.get(ann));
         ann.meta.isExcluded = false;
         this.addAnnotation(ann, ann.pageNumber);
       }
