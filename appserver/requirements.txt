@@ -200,7 +200,7 @@ paramiko==3.4.0
     # via lifelike-appserver
 pdfminer-six==20260107
     # via lifelike-appserver
-pillow==12.1.1
+pillow==12.2.0
     # via lifelike-appserver
 proto-plus==1.27.1
     # via google-api-core
