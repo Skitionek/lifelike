@@ -163,7 +163,9 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
    * {@link getLocationAtMouse} can access it without requiring every caller
    * to pass the event explicitly (mirrors the role of the removed d3.event).
    */
-  private currentEvent: MouseEvent | d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject> | d3.D3ZoomEvent<HTMLCanvasElement, any> | null = null;
+  private currentEvent:
+    MouseEvent | d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject> |
+    d3.D3ZoomEvent<HTMLCanvasElement, any> | null = null;
 
   /**
    * The subscription that handles the resizes.
@@ -230,9 +232,15 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
           }
           return null;
         })
-        .on('start', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => { this.currentEvent = event; this.canvasDragStarted(event); })
-        .on('drag', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => { this.currentEvent = event; this.canvasDragged(event); })
-        .on('end', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => { this.currentEvent = event; this.canvasDragEnded(event); }))
+        .on('start', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => {
+          this.currentEvent = event; this.canvasDragStarted(event);
+        })
+        .on('drag', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => {
+          this.currentEvent = event; this.canvasDragged(event);
+        })
+        .on('end', (event: d3.D3DragEvent<HTMLCanvasElement, any, CanvasSubject>) => {
+          this.currentEvent = event; this.canvasDragEnded(event);
+        }))
       .call(this.zoom)
       .on('dblclick.zoom', null);
 

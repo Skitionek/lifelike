@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
-import { DashboardComponent } from './dashboard.component';
+import { DashboardComponent } from 'app/dashboard.component';
 import { MetaDataService } from 'app/shared/services/metadata.service';
 import { BuildInfo } from 'app/interfaces';
 

@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import {TreeNode, FlatNode} from 'app/shared/schemas/common';
 
 @Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class GenericFlatTreeComponent<T> implements OnDestroy {
   protected _treeData: TreeNode<T>[] = [];
   @Input() set treeData(treeData: TreeNode<T>[]) {

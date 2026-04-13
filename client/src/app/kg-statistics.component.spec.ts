@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { KgStatisticsComponent } from './kg-statistics.component';
+import { KgStatisticsComponent } from 'app/kg-statistics.component';
 
 describe('KgStatisticsComponent', () => {
     let component: KgStatisticsComponent;

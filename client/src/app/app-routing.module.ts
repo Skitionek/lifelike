@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { createRouteWithDynamicOutlets } from 'route-with-dynamic-outlets';
 
 import { AdminPanelComponent } from 'app/admin/components/admin-panel.component';
