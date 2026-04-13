@@ -1,7 +1,5 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
-import * as $ from 'jquery';
-import 'jqueryui';
 import { isNil } from 'lodash-es';
 
 
@@ -9,6 +7,8 @@ import { isNil } from 'lodash-es';
   selector: '[appResizable]'
 })
 export class ResizableDirective  implements OnInit {
+  // Note: the CSS `resize` property does not support directional handles.
+  // The `handles` input is retained for API compatibility but has no effect.
   @Input() handles = 'n,w,s,e';
   @Input() minHeight = 52;
 
@@ -25,12 +25,12 @@ export class ResizableDirective  implements OnInit {
       return;
     }
 
-    $(`#${this.el.nativeElement.id}`).resizable({
-      handles: this.handles,
-      maxWidth: 500,
-      minWidth: 256,
-      maxHeight: 500,
-      minHeight: this.minHeight
-    });
+    const element: HTMLElement = this.el.nativeElement;
+    element.style.resize = 'both';
+    element.style.overflow = 'auto';
+    element.style.maxWidth = '500px';
+    element.style.minWidth = '256px';
+    element.style.maxHeight = '500px';
+    element.style.minHeight = `${this.minHeight}px`;
   }
 }

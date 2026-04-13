@@ -41,3 +41,12 @@
   outline: 4px solid red;
   position: relative;
 }
+
+@keyframes highlight-fade {
+  0% { background-color: #ffff66; }
+  100% { background-color: transparent; }
+}
+
+.highlight-effect {
+  animation: highlight-fade 1s ease-out forwards;
+}
