@@ -7,11 +7,12 @@ APPLY_FIXES_EVENT: pull_request
 APPLY_FIXES_MODE: commit
 
 # Linters to enable (subset relevant to this repo: Python + TypeScript/JavaScript + misc)
+# TYPESCRIPT_ES / JAVASCRIPT_ES are disabled: project uses tslint (via fast-lint); eslint
+# was misconfigured here with a tslint.json which is not a valid eslint config.
+# PYTHON_MYPY is disabled: cross-package duplicate-module-name issue when scanning
+# appserver/ and statistical-enrichment/ together. Type checking runs via appserver/setup.cfg.
 ENABLE_LINTERS:
   - PYTHON_RUFF
-  - PYTHON_MYPY
-  - TYPESCRIPT_ES
-  - JAVASCRIPT_ES
   - JSON_PRETTIER
   - YAML_PRETTIER
   - MARKDOWN_MARKDOWNLINT
@@ -40,10 +41,6 @@ VALIDATE_ALL_CODEBASE: false   # only lint changed files on PRs
 # Python: use ruff instead of flake8/pycodestyle (ruff is much faster)
 PYTHON_RUFF_CONFIG_FILE: ruff.toml
 PYTHON_RUFF_ARGUMENTS: "--no-fix"   # fixes handled in lint.yml's fast-lint step
-
-# TypeScript / JavaScript: use tslint config from client/
-TYPESCRIPT_ES_CONFIG_FILE: client/tslint.json
-JAVASCRIPT_ES_CONFIG_FILE: client/tslint.json
 
 # Markdown
 MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .markdownlint.json
