@@ -81,6 +81,6 @@ def _find_start_end_quote(query_string: str, start=0) -> Tuple[int, int]:
 
 def _find_first_start_quote(s: str, quote: str, start_idx=0) -> int:
     idx = s.find(quote, start_idx)
-    if idx > 0 and not s[idx - 1] in string.whitespace:
+    if idx > 0 and s[idx - 1] not in string.whitespace:
         return _find_first_start_quote(s, quote, idx + 1)
     return idx

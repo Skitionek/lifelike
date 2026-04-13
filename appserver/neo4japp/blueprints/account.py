@@ -32,7 +32,6 @@ from neo4japp.models.auth import user_role
 from neo4japp.schemas.account import (
     UserListSchema,
     UserSearchSchema,
-    UserProfileSchema,
     UserProfileListSchema,
     UserCreateSchema,
     UserUpdateSchema,
@@ -287,7 +286,7 @@ def reset_password(email: str):
                                                     password=new_password))
     try:
         SENDGRID_API_CLIENT.send(message)
-    except Exception as e:
+    except Exception:
         raise
 
     target.set_password(new_password)

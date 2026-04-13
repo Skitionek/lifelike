@@ -13,7 +13,7 @@ from neo4japp.utils.logger import EventLog
 from .annotation_service import AnnotationService
 from .annotation_db_service import AnnotationDBService
 from .annotation_graph_service import AnnotationGraphService
-from .constants import EntityIdStr, EntityType
+from .constants import EntityType
 from .data_transfer_objects import (
     Annotation,
     CreateAnnotationObjParams,

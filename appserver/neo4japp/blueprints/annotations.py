@@ -17,7 +17,6 @@ from flask import (
     jsonify,
 )
 from flask.views import MethodView
-from flask_apispec import use_kwargs
 from json import JSONDecodeError
 from marshmallow import validate, fields
 from sqlalchemy import and_
@@ -86,8 +85,7 @@ from ..services.annotations.sorted_annotation_service import (
 from ..services.annotations.utils.graph_queries import (
     get_global_inclusions_paginated_query,
     get_global_inclusions_query,
-    get_global_inclusions_count_query,
-    get_delete_global_inclusion_query
+    get_global_inclusions_count_query
 )
 from ..services.enrichment.data_transfer_objects import EnrichmentCellTextMapping
 from ..utils.logger import UserEventLog

@@ -1,21 +1,20 @@
 import re
 import sys
-from typing import Generator, Union
 
 import unicodedata
 
 
 def is_nice_word_boundary_char(ch):
-    return not unicodedata.category(ch)[0] in ('C', 'Z')
+    return unicodedata.category(ch)[0] not in ('C', 'Z')
 
 
 def is_nice_char(ch):
-    return not unicodedata.category(ch)[0] in ('C',)
+    return unicodedata.category(ch)[0] not in ('C',)
 
 
 def is_nice_filename_char(ch):
     category = unicodedata.category(ch)
-    return not category[0] in ('C',) and (category[0] != 'Z' or category == 'Zs')
+    return category[0] not in ('C',) and (category[0] != 'Z' or category == 'Zs')
 
 
 all_unicode_chars = ''.join(chr(c) for c in range(sys.maxunicode + 1))

@@ -1,7 +1,6 @@
 import json
 
 import pandas as pd
-import pytest
 
 from statistical_enrichment.services.enrichment.enrich_methods.fisher import (
     add_q_value,

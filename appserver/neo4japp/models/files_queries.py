@@ -10,7 +10,7 @@ from sqlalchemy.orm import aliased, contains_eager, defer, joinedload, lazyload,
 from neo4japp.database import db
 from . import AppUser, AppRole, Projects
 from .files import Files, FileContent, file_collaborator_role, FallbackOrganism
-from .projects_queries import add_project_user_role_columns, ProjectCalculator
+from .projects_queries import ProjectCalculator
 from ..schemas.filesystem import FilePrivileges
 
 

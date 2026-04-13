@@ -2,7 +2,6 @@ import hashlib
 import io
 import itertools
 import json
-import re
 import typing
 import urllib.request
 import zipfile
@@ -12,7 +11,7 @@ from deepdiff import DeepDiff
 from flask import Blueprint, current_app, g, jsonify, make_response, request
 from flask.views import MethodView
 from marshmallow import ValidationError
-from sqlalchemy import and_, desc, or_, not_
+from sqlalchemy import and_, desc, or_
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import raiseload, joinedload, lazyload, aliased, contains_eager
@@ -314,7 +313,7 @@ class FilesystemBaseView(MethodView):
 
         # Prevent recursive parent hash IDs
         if parent_hash_id is not None and parent_hash_id in [file.hash_id for file in target_files]:
-            raise ValidationError(f'An object cannot be set as the parent of itself.',
+            raise ValidationError('An object cannot be set as the parent of itself.',
                                   "parentHashId")
 
         # Check the specified parent to see if it can even be a parent
@@ -439,7 +438,7 @@ class FilesystemBaseView(MethodView):
         if len(changed_fields):
             try:
                 db.session.commit()
-            except IntegrityError as e:
+            except IntegrityError:
                 db.session.rollback()
                 raise ValidationError("No two items (folder or file) can share the same name.",
                                       "filename")
@@ -539,7 +538,7 @@ class FileHierarchyView(FilesystemBaseView):
         Fetches a representation of the complete file hierarchy accessible by the current user.
         """
         current_app.logger.info(
-            f'Attempting to generate file hierarchy...',
+            'Attempting to generate file hierarchy...',
             extra=UserEventLog(
                 username=g.current_user.username,
                 event_type=LogEventType.FILESYSTEM.value
@@ -622,7 +621,7 @@ class FileHierarchyView(FilesystemBaseView):
         ]
 
         current_app.logger.info(
-            f'Generated file hierarchy!',
+            'Generated file hierarchy!',
             extra=UserEventLog(
                 username=g.current_user.username,
                 event_type=LogEventType.FILESYSTEM.value
@@ -758,7 +757,7 @@ class FileListView(FilesystemBaseView):
 
             # Check if the user can even upload this type of file
             if not provider.can_create():
-                raise ValidationError(f"The provided file type is not accepted.")
+                raise ValidationError("The provided file type is not accepted.")
 
             # Validate the content
             try:
@@ -823,7 +822,7 @@ class FileListView(FilesystemBaseView):
                 db.session.add(file)
                 db.session.commit()
                 break
-            except IntegrityError as e:
+            except IntegrityError:
                 # Warning: this could catch some other integrity error
                 db.session.rollback()
 

@@ -1,11 +1,9 @@
-import binascii
 import json
 import hashlib
 import os
 import types
-import hashlib
 import pytest
-from datetime import date, datetime
+from datetime import datetime
 
 from neo4japp.models import (
     AppRole,
@@ -16,7 +14,6 @@ from neo4japp.models import (
     FileContent,
     Files,
     DomainURLsMap,
-    AnnotationStyle,
     FallbackOrganism
 )
 from neo4japp.services import AccountService
@@ -28,8 +25,7 @@ from neo4japp.services.elastic import ElasticService
 #################
 # Service mocks
 ################
-from neo4japp.services.file_types.providers import DirectoryTypeProvider, MapTypeProvider, \
-    PDFTypeProvider
+from neo4japp.services.file_types.providers import DirectoryTypeProvider, PDFTypeProvider
 
 
 @pytest.fixture(scope='function')

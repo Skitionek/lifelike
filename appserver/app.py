@@ -7,14 +7,13 @@ import io
 import json
 import logging
 import math
-import os
 import re
 import sentry_sdk
 import uuid
 import requests
 import zipfile
 
-from flask import g, request
+from flask import request
 
 from marshmallow.exceptions import ValidationError
 
@@ -246,7 +245,7 @@ def reannotate_files(user, password):
     from neo4japp.models import FileContent, FallbackOrganism
     # from neo4japp.exceptions import AnnotationError
     from neo4japp.schemas.annotations import AnnotationConfigurations
-    from multiprocessing import Process, Queue, cpu_count
+    from multiprocessing import Queue
     import time
 
     def get_token():
@@ -407,7 +406,7 @@ def add_file(filename: str, description: str, user_id: int, parent_id: int, file
 
     # Check if the user can even upload this type of file
     if not provider.can_create():
-        raise ValidationError(f"The provided file type is not accepted.")
+        raise ValidationError("The provided file type is not accepted.")
 
     # Validate the content
     try:
@@ -453,7 +452,7 @@ def add_file(filename: str, description: str, user_id: int, parent_id: int, file
             db.session.add(file)
             db.session.commit()
             break
-        except IntegrityError as e:
+        except IntegrityError:
             # Warning: this could catch some other integrity error
             db.session.rollback()
 

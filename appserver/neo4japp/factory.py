@@ -21,7 +21,7 @@ from werkzeug.utils import find_modules, import_string
 
 from .constants import LogEventType
 from .database import close_neo4j_db, db, ma, migrate
-from .encoders import CustomJSONEncoder, CustomJSONProvider
+from .encoders import CustomJSONProvider
 from .exceptions import ServerException
 from .schemas.common import ErrorResponseSchema
 from .utils.logger import ErrorLog

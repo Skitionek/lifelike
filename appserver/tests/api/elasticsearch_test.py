@@ -82,7 +82,7 @@ def test_user_can_search_content(
         return_value=({'hits': {'hits': [], 'total': 0}}, [])
     ) as mock_search:
         resp = client.get(
-            f'/search/content',
+            '/search/content',
             headers=headers,
             data={
                 'q': 'BOLA3',
@@ -129,7 +129,7 @@ def test_user_can_search_content_with_single_types(
     ) as mock_search:
 
         resp = client.get(
-            f'/search/content',
+            '/search/content',
             headers=headers,
             data={
                 'q': '',
@@ -176,7 +176,7 @@ def test_user_can_search_content_with_multiple_types(
     ) as mock_search:
 
         resp = client.get(
-            f'/search/content',
+            '/search/content',
             headers=headers,
             data={
                 'q': 'BOLA3',
@@ -223,7 +223,7 @@ def test_user_can_search_content_with_folder(
     ) as mock_search:
 
         resp = client.get(
-            f'/search/content',
+            '/search/content',
             headers=headers,
             data={
                 'q': '',

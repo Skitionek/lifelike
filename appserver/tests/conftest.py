@@ -6,7 +6,6 @@ from neo4j.graph import Node, Relationship
 from pathlib import Path
 from typing import Optional
 
-from neo4japp.services.common import GraphBaseDao
 from neo4japp.constants import DISPLAY_NAME_MAP
 from neo4japp.database import db, reset_dao
 from neo4japp.data_transfer_objects.visualization import (
