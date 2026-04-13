@@ -1,0 +1,26 @@
+---
+# yamllint configuration for lifelike
+# GitHub Actions workflows use `on:` (truthy) and long lines - relax accordingly
+extends: default
+
+rules:
+  # `---` document start is optional; don't require it
+  document-start: disable
+
+  # GitHub Actions uses `on:` as a trigger key, which looks like a truthy bool
+  truthy:
+    allowed-values: ["true", "false"]
+    check-keys: false
+
+  # Workflows and config files legitimately have long lines
+  line-length:
+    max: 140
+    level: warning
+
+  # Allow a single space before inline comments (common in YAML config files)
+  comments:
+    min-spaces-from-content: 1
+
+  # Allow multiple blank lines where needed
+  empty-lines:
+    max: 2

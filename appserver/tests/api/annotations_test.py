@@ -65,7 +65,7 @@ def test_user_can_get_global_inclusions(
     headers = generate_headers(login_resp['accessToken']['token'])
 
     response = client.get(
-        f'/annotations/global-list/inclusions',
+        '/annotations/global-list/inclusions',
         headers=headers,
         content_type='application/json',
     )
@@ -84,7 +84,7 @@ def test_user_can_get_global_exclusions(
     headers = generate_headers(login_resp['accessToken']['token'])
 
     response = client.get(
-        f'/annotations/global-list/exclusions',
+        '/annotations/global-list/exclusions',
         headers=headers,
         content_type='application/json',
     )
@@ -104,7 +104,7 @@ def test_user_can_get_global_list(
     headers = generate_headers(login_resp['accessToken']['token'])
 
     response = client.get(
-        f'/annotations/global-list',
+        '/annotations/global-list',
         headers=headers,
         content_type='application/json',
     )

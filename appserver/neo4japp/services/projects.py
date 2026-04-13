@@ -1,4 +1,4 @@
-from typing import Sequence, Optional, Tuple
+from typing import Sequence, Optional
 
 from sqlalchemy import and_
 from sqlalchemy.orm import aliased

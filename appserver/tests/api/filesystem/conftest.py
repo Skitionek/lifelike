@@ -29,7 +29,7 @@ def project_owner_user(
         login_password: str) -> AppUser:
     user = AppUser(
         username='project owner',
-        email=f'somebody@lifelike.bio',
+        email='somebody@lifelike.bio',
         first_name='joe',
         last_name='taylor',
     )
@@ -79,7 +79,7 @@ def user_with_project_roles(
 
     user = AppUser(
         username='user_with_project_roles',
-        email=f'somehow@lifelike.bio',
+        email='somehow@lifelike.bio',
         first_name='erica',
         last_name='samuel',
     )

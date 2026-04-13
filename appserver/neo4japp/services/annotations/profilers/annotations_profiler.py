@@ -48,7 +48,7 @@ def cprofiled():
         pass
     file_name = f'{log_path}/{datetime.now().isoformat()}-annotations.dmp'
     # ps = pstats.Stats(pr, stream=s).sort_stats('cumulative')
-    ps = pstats.Stats(pr, stream=s).dump_stats(file_name)
+    pstats.Stats(pr, stream=s).dump_stats(file_name)
     # ps.print_stats()
     # uncomment this to see who's calling what
     # ps.print_callers()

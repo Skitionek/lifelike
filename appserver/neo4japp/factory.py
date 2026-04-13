@@ -21,7 +21,7 @@ from werkzeug.utils import find_modules, import_string
 
 from .constants import LogEventType
 from .database import close_neo4j_db, db, ma, migrate
-from .encoders import CustomJSONEncoder, CustomJSONProvider
+from .encoders import CustomJSONProvider
 from .exceptions import ServerException
 from .schemas.common import ErrorResponseSchema
 from .utils.logger import ErrorLog
@@ -79,7 +79,9 @@ def load_mixed_form_json(request, schema):
     except KeyError:
         data = {}
     except ValueError:
-        logging.getLogger(__name__).warning('Failed to parse mixed_form_json: invalid JSON in json$ field')
+        logging.getLogger(__name__).warning(
+            'Failed to parse mixed_form_json: invalid JSON in json$ field'
+        )
         data = {}
 
     setattr(request, cache_field, data)

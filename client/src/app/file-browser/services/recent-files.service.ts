@@ -115,7 +115,7 @@ export class RecentFileHashesService implements OnDestroy {
 
 
 @Injectable({providedIn: 'root'})
-export class RecentFilesService extends RecentFileHashesService {
+export class RecentFilesService extends RecentFileHashesService implements OnDestroy {
   list: ReplaySubject<FilesystemObject[]>;
   loadTask;
   fileObjects = new Map();

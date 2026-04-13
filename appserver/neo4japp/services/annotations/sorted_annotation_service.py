@@ -3,7 +3,7 @@ from typing import Dict, Tuple, Union, TypedDict, List
 import numpy as np
 from neo4japp.models import Files
 from neo4japp.services.annotations import ManualAnnotationService
-from pandas import DataFrame, MultiIndex
+from pandas import DataFrame
 from scipy.stats import mannwhitneyu
 import pandas as pd
 
@@ -49,7 +49,7 @@ class SortedAnnotation:
         return files_annotations, key_map
 
     def get_annotations(self, project_id: List[Files]) -> SortedAnnotationResults:
-        raise NotImplemented
+        raise NotImplementedError
 
 
 class SumLogCountSA(SortedAnnotation):

@@ -459,7 +459,7 @@ export class WorkspaceManager {
   }
 
   navigateByUrl(navigationData: NavigationData): Promise<boolean> {
-    let extras = navigationData.extras || {};
+    const extras = navigationData.extras || {};
     const urlStr = typeof navigationData.url === 'string'
       ? navigationData.url
       : this.router.serializeUrl(navigationData.url as UrlTree);

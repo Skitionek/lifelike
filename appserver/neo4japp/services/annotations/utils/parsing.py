@@ -52,7 +52,9 @@ def process_parsed_content(resp: dict) -> Tuple[str, List[PDFWord]]:
 
 
 def parse_content(content_type=FILE_MIME_TYPE_PDF, **kwargs) -> Tuple[str, List[PDFWord]]:
-    parserPath = '/token/rect/json/' if content_type == FILE_MIME_TYPE_PDF else '/token/rect/text/json'
+    parserPath = (
+        '/token/rect/json/' if content_type == FILE_MIME_TYPE_PDF else '/token/rect/text/json'
+    )
     url = f'{PDFPARSER_URL}{parserPath}'
 
     if 'exclude_references' in kwargs:

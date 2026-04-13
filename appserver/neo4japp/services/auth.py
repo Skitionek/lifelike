@@ -9,7 +9,6 @@ from neo4japp.models.auth import (
     AccessControlPolicy,
     AccessRuleType,
     AppUser,
-    AppRole,
 )
 
 from typing import Iterable, Sequence

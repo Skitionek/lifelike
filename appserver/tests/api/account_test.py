@@ -1,6 +1,6 @@
 import json
 import pytest
-from neo4japp.models import AppUser, AppRole
+from neo4japp.models import AppUser
 from tests.helpers.api import generate_jwt_headers
 
 

@@ -33,7 +33,7 @@ def _forward_request(resource):
             (name, value) for (name, value) in resp.raw.headers.items()
             if name.lower() not in excluded_headers
         ]
-    except ConnectionError as e:
+    except ConnectionError:
         raise StatisticalEnrichmentError(
             'Unable to process request',
             'An unexpected connection error occurred to statistical enrichment service.'

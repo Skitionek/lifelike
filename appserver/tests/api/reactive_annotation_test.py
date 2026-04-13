@@ -7,10 +7,9 @@ These tests verify that:
 4. The /annotations/needs-reannotation endpoint returns files that need re-annotation.
 """
 import hashlib
-import pytest
 from datetime import datetime
 
-from neo4japp.models import AppUser, Files, FileContent, Projects
+from neo4japp.models import Files, FileContent
 from neo4japp.services.file_types.providers import (
     PDFTypeProvider,
     EnrichmentTableTypeProvider,

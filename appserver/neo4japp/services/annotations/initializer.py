@@ -1,4 +1,3 @@
-from os import environ
 
 from .annotation_service import AnnotationService
 from .annotation_db_service import AnnotationDBService

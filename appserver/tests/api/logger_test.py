@@ -1,6 +1,5 @@
 import pytest
 import json
-from marshmallow.exceptions import ValidationError
 
 
 def generate_headers(jwt_token):
@@ -23,7 +22,7 @@ def test_logging_invalid_schemas(client, test_user, payload):
     headers = generate_headers(login_resp['accessToken']['token'])
 
     resp = client.post(
-        f'/logging/',
+        '/logging/',
         data=json.dumps(payload),
         headers=headers,
         content_type='application/json'
@@ -44,7 +43,7 @@ def test_logging_valid_schemas(client, test_user, payload):
     headers = generate_headers(login_resp['accessToken']['token'])
 
     resp = client.post(
-        f'/logging/',
+        '/logging/',
         data=json.dumps(payload),
         headers=headers,
         content_type='application/json'

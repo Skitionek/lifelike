@@ -112,7 +112,7 @@ def is_valid_doi(doi):
                                               "Safari/537.36"
                             }
                             ).status_code not in [400, 404]
-    except Exception as e:
+    except Exception:
         return False
 
 
@@ -239,9 +239,9 @@ def _search_doi_in(content: bytes) -> Optional[str]:
                         )
                         if is_valid_doi(doi):
                             return doi
-                except Exception as e:
+                except Exception:
                     pass
-    except Exception as e:
+    except Exception:
         pass
     return None
 
@@ -307,7 +307,7 @@ class PDFTypeProvider(BaseFileTypeProvider):
                                                   "Safari/537.36"
                                 }
                                 ).status_code not in [400, 404]
-        except Exception as e:
+        except Exception:
             return False
 
     # ref: https://stackoverflow.com/a/10324802
@@ -373,7 +373,7 @@ class BiocTypeProvider(BaseFileTypeProvider):
     def validate_content(self, buffer: BufferedIOBase):
         with BioCJsonIterReader(buffer) as reader:
             for obj in reader:
-                passage = biocFromJSON(obj, bioctype='BioCDocument')
+                biocFromJSON(obj, bioctype='BioCDocument')
 
     def extract_doi(self, buffer: BufferedIOBase) -> Optional[str]:
         data = buffer.read()
@@ -1140,7 +1140,7 @@ class MapTypeProvider(BaseFileTypeProvider):
         final_bytes = io.BytesIO()
         try:
             images = [Image.open(self.get_file_export(file, 'png')) for file in files]
-        except Image.DecompressionBombError as e:
+        except Image.DecompressionBombError:
             raise SystemError('One of the files exceeds the maximum size - it cannot be exported'
                               'as part of the linked export')
         cropped_images = [image.crop(image.getbbox()) for image in images]

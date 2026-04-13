@@ -5,8 +5,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { MockComponents } from 'ng-mocks';
 
-import { WarningPillComponent } from './warning-pill.component';
-import { WarningListComponent } from '../warning-list/warning-list.component';
+import { WarningPillComponent } from 'app/shared/components/warning-pill/warning-pill.component';
+import { WarningListComponent } from 'app/shared/components/warning-list/warning-list.component';
 import { WarningControllerService } from 'app/shared/services/warning-controller.service';
 
 describe('WarningPillComponent', () => {
