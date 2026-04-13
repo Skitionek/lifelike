@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+# Default to read-only; individual jobs grant only the permissions they need.
+permissions: read-all
+
 jobs:
   # ── Fast linters ────────────────────────────────────────────────────────────
   # Run cheap, local linters first for immediate feedback.
