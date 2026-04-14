@@ -4,13 +4,13 @@
 
 | Descriptor  |                                   Linter                                    |Files|Fixed|Errors|Warnings|Elapsed time|
 |-------------|-----------------------------------------------------------------------------|----:|----:|-----:|-------:|-----------:|
-|✅ JSON      |[prettier](https://megalinter.io/9.4.0/descriptors/json_prettier)            |    6|    4|     0|       0|       1.17s|
-|⚠️ MARKDOWN  |[markdownlint](https://megalinter.io/9.4.0/descriptors/markdown_markdownlint)|    2|    1|    58|       0|       1.53s|
-|✅ PYTHON    |[ruff](https://megalinter.io/9.4.0/descriptors/python_ruff)                  |    1|    0|     0|       0|       1.24s|
-|⚠️ REPOSITORY|[checkov](https://megalinter.io/9.4.0/descriptors/repository_checkov)        |  yes|     |    17|      no|      49.57s|
-|⚠️ REPOSITORY|[trivy](https://megalinter.io/9.4.0/descriptors/repository_trivy)            |  yes|     |    70|      45|      43.33s|
-|⚠️ SPELL     |[cspell](https://megalinter.io/9.4.0/descriptors/spell_cspell)               |   14|     |   112|       0|       6.92s|
-|✅ YAML      |[prettier](https://megalinter.io/9.4.0/descriptors/yaml_prettier)            |    4|    2|     0|       0|       0.97s|
+|✅ JSON      |[prettier](https://megalinter.io/9.4.0/descriptors/json_prettier)            |    4|    2|     0|       0|       1.16s|
+|⚠️ MARKDOWN  |[markdownlint](https://megalinter.io/9.4.0/descriptors/markdown_markdownlint)|    1|    0|    10|       0|       1.38s|
+|✅ PYTHON    |[ruff](https://megalinter.io/9.4.0/descriptors/python_ruff)                  |    1|    0|     0|       0|        0.9s|
+|⚠️ REPOSITORY|[checkov](https://megalinter.io/9.4.0/descriptors/repository_checkov)        |  yes|     |    17|      no|      43.27s|
+|⚠️ REPOSITORY|[trivy](https://megalinter.io/9.4.0/descriptors/repository_trivy)            |  yes|     |    70|      45|      38.01s|
+|⚠️ SPELL     |[cspell](https://megalinter.io/9.4.0/descriptors/spell_cspell)               |   10|     |     7|       0|       3.22s|
+|✅ YAML      |[prettier](https://megalinter.io/9.4.0/descriptors/yaml_prettier)            |    3|    1|     0|       0|       1.06s|
 
 ## Detailed Issues
 
@@ -218,234 +218,24 @@ error: 17 errors emitted
 </details>
 
 <details>
-<summary>⚠️ SPELL / cspell - 112 errors</summary>
+<summary>⚠️ SPELL / cspell - 7 errors</summary>
 
 ```
-cd0ab782-74b9-458c-bc9d-a87ef32451f8-megalinter_file_names_cspell.txt:13:14     - Unknown word (locustfile) -- tests locust locustfile
-	 Suggestions: [countfile, countFile, hcountfile, Hcountfile, icountfile]
 CHANGELOG.md:23:84     - Unknown word (locustfile) -- laceholders) in `tests/locust/locustfile.py`
-	 Suggestions: [countfile, countFile, hcountfile, Hcountfile, icountfile]
-megalinter-reports/megalinter-report.md:27:18     - Unknown word (opencontainers) -- 4 │ │ LABEL org.opencontainers.image.source https:
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:36:51     - Unknown word (Dockerfiles)    -- used instead of ADD in Dockerfiles
-	 Suggestions: [Dockerfile, Dockerize]
-megalinter-reports/megalinter-report.md:42:49     - Unknown word (Dockerfiles)    -- used instead of ADD in Dockerfiles
-	 Suggestions: [Dockerfile, Dockerize]
-megalinter-reports/megalinter-report.md:43:49     - Unknown word (Dockerfiles)    -- used instead of ADD in Dockerfiles
-	 Suggestions: [Dockerfile, Dockerize]
-megalinter-reports/megalinter-report.md:45:51     - Unknown word (Dockerfiles)    -- used instead of ADD in Dockerfiles
-	 Suggestions: [Dockerfile, Dockerize]
-megalinter-reports/megalinter-report.md:51:49     - Unknown word (Dockerfiles)    -- used instead of ADD in Dockerfiles
-	 Suggestions: [Dockerfile, Dockerize]
-megalinter-reports/megalinter-report.md:117:10    - Unknown word (sonarqube)      -- 22 │ │   sonarqube:
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:141:11    - Unknown word (Grpah)          -- 1 │ name: Grpah DB Migrate
-	 Suggestions: [Graph*, Grape, Grapy, Graphs, Oprah]
-megalinter-reports/megalinter-report.md:199:11    - Unknown word (Sonarqube)      -- 1 │ name: Sonarqube code analysis
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:224:55    - Unknown word (laceholders)    -- word (locustfile) -- laceholders) in `tests/locust/locustfile
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:308:25    - Unknown word (httpauth)       -- warning: Package: flask-httpauth
-	 Suggestions: [hupauth, hUpauth, hzipauth, hZipauth, hupAuth]
-megalinter-reports/megalinter-report.md:316:13    - Unknown word (httpauth)       -- 100 │ flask-httpauth==4.8.0
-	 Suggestions: [hupauth, hUpauth, hzipauth, hZipauth, hupAuth]
-megalinter-reports/megalinter-report.md:350:25    - Unknown word (httpauth)       -- warning: Package: flask-httpauth
-	 Suggestions: [hupauth, hUpauth, hzipauth, hZipauth, hupAuth]
-megalinter-reports/megalinter-report.md:457:1223  - Unknown word (exfiltration)   -- could lead to credential exfiltration and/or page vandalism
-	 Suggestions: [exhilaration, exaltation, excitation, exfiltrate, expiration]
-megalinter-reports/megalinter-report.md:474:515   - Unknown word (preimage)       -- a countermeasure to preimage and collision attacks
-	 Suggestions: [presage, primate, prisage, prepage, prePage]
-megalinter-reports/megalinter-report.md:478:15    - Unknown word (GHSA)           -- Vulnerability GHSA-67mh-4wv8-2f99
-	 Suggestions: [gsa, GSA, ohsa, OHSA, GRAS]
-megalinter-reports/megalinter-report.md:481:8     - Unknown word (GHSA)           -- Link: [GHSA-67mh-4wv8-2f99](https
-	 Suggestions: [gsa, GSA, ohsa, OHSA, GRAS]
-megalinter-reports/megalinter-report.md:535:21    - Unknown word (fasterxml)      -- error: Package: com.fasterxml.jackson.core:jackson
-	 Suggestions: [faster, fastenal]
-megalinter-reports/megalinter-report.md:546:9     - Unknown word (fasterxml)      -- = com.fasterxml.jackson.core/jackson
-	 Suggestions: [faster, fastenal]
-megalinter-reports/megalinter-report.md:546:69    - Unknown word (Stackoverflow)  -- jackson-core Potential StackoverflowError
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:547:257   - Unknown word (Stackoverflow)  -- could end up throwing a StackoverflowError if the depth is
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:547:547   - Unknown word (databind)       -- is reached. jackson-databind also benefits from this
-	 Suggestions: [databin, dataBin, Databin, DataBin, databig]
-megalinter-reports/megalinter-report.md:549:23    - Unknown word (fasterxml)      -- warning: Package: com.fasterxml.jackson.core:jackson
-	 Suggestions: [faster, fastenal]
-megalinter-reports/megalinter-report.md:551:15    - Unknown word (GHSA)           -- Vulnerability GHSA-72hv-8253-57qq
-	 Suggestions: [gsa, GSA, ohsa, OHSA, GRAS]
-megalinter-reports/megalinter-report.md:554:8     - Unknown word (GHSA)           -- Link: [GHSA-72hv-8253-57qq](https
-	 Suggestions: [gsa, GSA, ohsa, OHSA, GRAS]
-megalinter-reports/megalinter-report.md:580:37    - Unknown word (Charsets)       -- nio.charset.StandardCharsets;
-	 Suggestions: [Charset, Chariest, Coarsest, Carets, Chares]
-megalinter-reports/megalinter-report.md:594:17    - Unknown word (sprabhav)       -- * Authors: sprabhav7, rohan-repos
-	 Suggestions: [spathal, strawhat]
-megalinter-reports/megalinter-report.md:594:28    - Unknown word (rohan)          -- Authors: sprabhav7, rohan-repos
-	 Suggestions: [roan, roman, rowan, Roman, cohan]
-megalinter-reports/megalinter-report.md:618:24    - Unknown word (println)        -- System.out.println("[SYNC] Parsing " +
-	 Suggestions: [print, pintle, printf, prints, print's]
-megalinter-reports/megalinter-report.md:623:40    - Unknown word (println)        -- System.out.println("[SYNC] Accepted number
-	 Suggestions: [print, pintle, printf, prints, print's]
-megalinter-reports/megalinter-report.md:629:28    - Unknown word (println)        -- System.out.println("[SYNC] Rejected with
-	 Suggestions: [print, pintle, printf, prints, print's]
-megalinter-reports/megalinter-report.md:654:28    - Unknown word (println)        -- System.out.println("[ASYNC INT] Accepted
-	 Suggestions: [print, pintle, printf, prints, print's]
-megalinter-reports/megalinter-report.md:669:51    - Unknown word (Charsets)       -- toString().getBytes(StandardCharsets.UTF_8);
-	 Suggestions: [Charset, Chariest, Coarsest, Carets, Chares]
-megalinter-reports/megalinter-report.md:685:66    - Unknown word (rohan)          -- collaboration with [rohan-repos](https://github
-	 Suggestions: [roan, roman, rowan, Roman, cohan]
-megalinter-reports/megalinter-report.md:687:21    - Unknown word (fasterxml)      -- error: Package: com.fasterxml.jackson.core:jackson
-	 Suggestions: [faster, fastenal]
-megalinter-reports/megalinter-report.md:687:52    - Unknown word (databind)       -- jackson.core:jackson-databind
-	 Suggestions: [databin, dataBin, Databin, DataBin, databig]
-megalinter-reports/megalinter-report.md:698:13    - Unknown word (databind)       -- = jackson-databind: denial of service via
-	 Suggestions: [databin, dataBin, Databin, DataBin, databig]
-megalinter-reports/megalinter-report.md:699:13    - Unknown word (databind)       -- = jackson-databind before 2.13.0 allows
-	 Suggestions: [databin, dataBin, Databin, DataBin, databig]
-megalinter-reports/megalinter-report.md:701:21    - Unknown word (fasterxml)      -- error: Package: com.fasterxml.jackson.core:jackson
-	 Suggestions: [faster, fastenal]
-megalinter-reports/megalinter-report.md:701:52    - Unknown word (databind)       -- jackson.core:jackson-databind
-	 Suggestions: [databin, dataBin, Databin, DataBin, databig]
-megalinter-reports/megalinter-report.md:729:33    - Unknown word (woodstox)       -- Package: com.fasterxml.woodstox:woodstox-core
-	 Suggestions: [woodbox, woodstock, Woodstock, woodlot, woodlots]
-megalinter-reports/megalinter-report.md:729:42    - Unknown word (woodstox)       -- com.fasterxml.woodstox:woodstox-core
-	 Suggestions: [woodbox, woodstock, Woodstock, woodlot, woodlots]
-megalinter-reports/megalinter-report.md:740:5     - Unknown word (woodstox)       -- = woodstox-core: woodstox to serialise
-	 Suggestions: [woodbox, woodstock, Woodstock, woodlot, woodlots]
-megalinter-reports/megalinter-report.md:740:20    - Unknown word (woodstox)       -- = woodstox-core: woodstox to serialise XML data
-	 Suggestions: [woodbox, woodstock, Woodstock, woodlot, woodlots]
-megalinter-reports/megalinter-report.md:740:32    - Unknown word (serialise)      -- woodstox-core: woodstox to serialise XML data was vulnerable
-	 Suggestions: [serialism, serialist, serialize, serialised, serializes]
-megalinter-reports/megalinter-report.md:741:17    - Unknown word (Woodstox)       -- = Those using Woodstox to parse XML data may
-	 Suggestions: [Woodbox, woodstock, Woodstock, Woodlot, Woodlots]
-megalinter-reports/megalinter-report.md:741:239   - Unknown word (stackoverflow)  -- the parser to crash by stackoverflow. This effect may support
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:797:508   - Unknown word (undecoded)      -- cumulates bytes in the `undecodedChunk` buffer until it
-	 Suggestions: [undecided, udecode, undecayed, unencoded, undecideds]
-megalinter-reports/megalinter-report.md:857:15    - Unknown word (GHSA)           -- Vulnerability GHSA-xpw8-rcwv-8f8p
-	 Suggestions: [gsa, GSA, ohsa, OHSA, GRAS]
-megalinter-reports/megalinter-report.md:857:25    - Unknown word (rcwv)           -- Vulnerability GHSA-xpw8-rcwv-8f8p
-	 Suggestions: [crv, raws, rcai, rcmp, rcpt]
-megalinter-reports/megalinter-report.md:860:18    - Unknown word (rcwv)           -- Link: [GHSA-xpw8-rcwv-8f8p](https://github
-	 Suggestions: [crv, raws, rcai, rcmp, rcpt]
-megalinter-reports/megalinter-report.md:925:20    - Unknown word (projectreactor) -- error: Package: io.projectreactor.netty:reactor-netty
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:946:20    - Unknown word (projectreactor) -- error: Package: io.projectreactor.netty:reactor-netty
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:964:22    - Unknown word (projectreactor) -- warning: Package: io.projectreactor.netty:reactor-netty
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:978:22    - Unknown word (projectreactor) -- warning: Package: io.projectreactor.netty:reactor-netty
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:989:8     - Unknown word (projectreactor) -- = io.projectreactor.netty/reactor-netty
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:1080:73   - Unknown word (Prio)           -- browser and Node.js. Prio ...
-	 Suggestions: [Prgo, Prig, Prim, Priv, Prix]
-megalinter-reports/megalinter-report.md:1154:51   - Unknown word (maskn)          -- Service via calling maskn(0)
-	 Suggestions: [mask, masan, masks, mason, Masan]
-megalinter-reports/megalinter-report.md:1155:72   - Unknown word (maskn)          -- before 5.2.3. Calling maskn(0) on any BN instance
-	 Suggestions: [mask, masan, masks, mason, Masan]
-megalinter-reports/megalinter-report.md:1155:149  - Unknown word (divmod)         -- causing toString(), divmod(), and other methods
-	 Suggestions: [dived, divot, dimmed, diamond, Diamond]
-megalinter-reports/megalinter-report.md:1171:51   - Unknown word (maskn)          -- Service via calling maskn(0)
-	 Suggestions: [mask, masan, masks, mason, Masan]
-megalinter-reports/megalinter-report.md:1172:72   - Unknown word (maskn)          -- before 5.2.3. Calling maskn(0) on any BN instance
-	 Suggestions: [mask, masan, masks, mason, Masan]
-megalinter-reports/megalinter-report.md:1172:149  - Unknown word (divmod)         -- causing toString(), divmod(), and other methods
-	 Suggestions: [dived, divot, dimmed, diamond, Diamond]
-megalinter-reports/megalinter-report.md:1287:8    - Unknown word (jsdiff)         -- = jsdiff: denial of service vulnerabil
-	 Suggestions: [jiff, diff, ddiff, skiff, sniff]
-megalinter-reports/megalinter-report.md:1288:8    - Unknown word (jsdiff)         -- = jsdiff is a JavaScript text
-	 Suggestions: [jiff, diff, ddiff, skiff, sniff]
-megalinter-reports/megalinter-report.md:1304:8    - Unknown word (jsdiff)         -- = jsdiff: denial of service vulnerabil
-	 Suggestions: [jiff, diff, ddiff, skiff, sniff]
-megalinter-reports/megalinter-report.md:1305:8    - Unknown word (jsdiff)         -- = jsdiff is a JavaScript text
-	 Suggestions: [jiff, diff, ddiff, skiff, sniff]
-megalinter-reports/megalinter-report.md:1381:30   - Unknown word (fjfh)           -- Vulnerability GHSA-vjh7-7g9h-fjfh
-	 Suggestions: [faff, fash, fath, fifa, fife]
-megalinter-reports/megalinter-report.md:1384:23   - Unknown word (fjfh)           -- Link: [GHSA-vjh7-7g9h-fjfh](https://github.com
-	 Suggestions: [faff, fash, fath, fifa, fife]
-megalinter-reports/megalinter-report.md:1511:35   - Unknown word (EDDSA)          -- elliptic: nodejs/elliptic: EDDSA signature malleability
-	 Suggestions: [EDDA, ecdsa, ECDSA, Edda, EDSDK]
-megalinter-reports/megalinter-report.md:1512:51   - Unknown word (EDDSA)          -- package 6.5.6 for Node.js, EDDSA signature malleability
-	 Suggestions: [EDDA, ecdsa, ECDSA, Edda, EDSDK]
-megalinter-reports/megalinter-report.md:1551:80   - Unknown word (enconded)       -- malleability due to BER-enconded signatures being allowed
-	 Suggestions: [encoded*, encode, encoder, encodes, encored]
-megalinter-reports/megalinter-report.md:1591:51   - Unknown word (EDDSA)          -- Validation in Elliptic's EDDSA Signature Verification
-	 Suggestions: [EDDA, ecdsa, ECDSA, Edda, EDSDK]
-megalinter-reports/megalinter-report.md:1592:44   - Unknown word (eddsa)          -- function in lib/elliptic/eddsa/index.js in the Elliptic
-	 Suggestions: [edda, ecdsa, Edda, ECDSA, edsdk]
-megalinter-reports/megalinter-report.md:1592:131  - Unknown word (eddsa)          -- omits "sig.S().gte(sig.eddsa.curve.n) || sig.S()
-	 Suggestions: [edda, ecdsa, Edda, ECDSA, edsdk]
-megalinter-reports/megalinter-report.md:1711:14   - Unknown word (vulnerabities)  -- = ReDOS vulnerabities: multiple grammars
-	 Suggestions: [vulnerabilities, vulnerability]
-megalinter-reports/megalinter-report.md:1714:9    - Unknown word (oswasp)         -- [oswasp](https://owasp.org/www
-	 Suggestions: [owasp, OWASP, ossp, oslash, oswald]
-megalinter-reports/megalinter-report.md:1727:24   - Unknown word (htmlbars)       -- - handlebars (htmlbars)
-	 Suggestions: [humblers, html's, htmlnano, html-tags, htmlparser]
-megalinter-reports/megalinter-report.md:1734:12   - Unknown word (routeros)       -- - routeros
-	 Suggestions: [routers*, router's, router, routes, reuters]
-megalinter-reports/megalinter-report.md:1735:12   - Unknown word (livescript)     -- - livescript (10.4.0 and 9.18.5 included
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:1743:10   - Unknown word (gcode)          -- - gcode
-	 Suggestions: [geode, goode, Goode, code, xcode]
-megalinter-reports/megalinter-report.md:1745:10   - Unknown word (aspectj)        -- - aspectj
-	 Suggestions: [aspect, aspects, Aspect, aspect's, aspca]
-megalinter-reports/megalinter-report.md:1746:10   - Unknown word (moonscript)     -- - moonscript
-	 Suggestions: [moonscape]
-megalinter-reports/megalinter-report.md:1747:23   - Unknown word (livescript)     -- - coffeescript/livescript
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:1749:10   - Unknown word (scilab)         -- - scilab
-	 Suggestions: [scab, scil, slab, scala, silas]
-megalinter-reports/megalinter-report.md:1753:10   - Unknown word (ebnf)           -- - ebnf
-	 Suggestions: [ebpf, eBPF, abnf, ABNF, beef]
-megalinter-reports/megalinter-report.md:1755:18   - Unknown word (irpf)           -- - fortran/irpf90
-	 Suggestions: [impf, iopf, Iopf, riff, ripe]
-megalinter-reports/megalinter-report.md:1759:10   - Unknown word (dsconfig)       -- - dsconfig
-	 Suggestions: [jsconfig, tsconfig, config, ifconfig, ipconfig]
-megalinter-reports/megalinter-report.md:1761:10   - Unknown word (ruleslanguage)  -- - ruleslanguage
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:1762:10   - Unknown word (xquery)         -- - xquery
-	 Suggestions: [query, jquery, Query, hquery, Hquery]
-megalinter-reports/megalinter-report.md:1977:42   - Unknown word (reflink)        -- regular expression inline.reflinkSearch may lead Denial
-	 Suggestions: [relink, refine, reline, realine, recline]
-megalinter-reports/megalinter-report.md:1978:106  - Unknown word (reflink)        -- regular expression `inline.reflinkSearch` may cause catastrophic
-	 Suggestions: [relink, refine, reline, realine, recline]
-megalinter-reports/megalinter-report.md:2035:14   - Unknown word (duraton)        -- = parse-duraton is software that allows
-	 Suggestions: [duration, duran, dragon, drayton, duramen]
-megalinter-reports/megalinter-report.md:2180:30   - Unknown word (rmvq)           -- Vulnerability GHSA-5c6j-r48x-rmvq
-	 Suggestions: [rave, reva, revo, revs, rive]
-megalinter-reports/megalinter-report.md:2183:23   - Unknown word (rmvq)           -- Link: [GHSA-5c6j-r48x-rmvq](https://github.com
-	 Suggestions: [rave, reva, revo, revs, rive]
-megalinter-reports/megalinter-report.md:2289:15   - Unknown word (NSWG)           -- Vulnerability NSWG-ECO-161
-	 Suggestions: [nwsa, NWSA, SNAG, SNOG, SNUG]
-megalinter-reports/megalinter-report.md:2292:8    - Unknown word (NSWG)           -- Link: [NSWG-ECO-161]()
-	 Suggestions: [nwsa, NWSA, SNAG, SNOG, SNUG]
-megalinter-reports/megalinter-report.md:2378:94   - Unknown word (liblmdb)        -- apt-get install -y liblmdb-dev python3-dev libxml
-	 Suggestions: [limb, lmdb, lablab, libbed, libido]
-megalinter-reports/megalinter-report.md:2383:34   - Unknown word (liblmdb)        -- apt-get install -y liblmdb-dev python3-dev libxml
-	 Suggestions: [limb, lmdb, lablab, libbed, libido]
-megalinter-reports/megalinter-report.md:2394:94   - Unknown word (libmagic)       -- apt-get install -y libmagic-dev graphviz libgraphviz
-	 Suggestions: [limbic]
-megalinter-reports/megalinter-report.md:2394:107  - Unknown word (graphviz)       -- install -y libmagic-dev graphviz libgraphviz-dev
-	 Suggestions: [graphic, graph, graphs, gravid, graph's]
-megalinter-reports/megalinter-report.md:2394:116  - Unknown word (libgraphviz)    -- libmagic-dev graphviz libgraphviz-dev && apt-get clean
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:2399:34   - Unknown word (libmagic)       -- apt-get install -y libmagic-dev graphviz libgraphviz
-	 Suggestions: [limbic]
-megalinter-reports/megalinter-report.md:2399:47   - Unknown word (graphviz)       -- install -y libmagic-dev graphviz libgraphviz-dev \
-	 Suggestions: [graphic, graph, graphs, gravid, graph's]
-megalinter-reports/megalinter-report.md:2399:56   - Unknown word (libgraphviz)    -- libmagic-dev graphviz libgraphviz-dev \
-	 Suggestions: []
-megalinter-reports/megalinter-report.md:2480:14   - Unknown word (HEALTHCHECK)    -- Message: Add HEALTHCHECK instruction in your
-	 Suggestions: [HEALTHPEAK]
-megalinter-reports/megalinter-report.md:2487:8    - Unknown word (HEALTHCHECK)    -- = No HEALTHCHECK defined
-	 Suggestions: [HEALTHPEAK]
-megalinter-reports/megalinter-report.md:2488:20   - Unknown word (HEALTHCHECK)    -- = You should add HEALTHCHECK instruction in your
-	 Suggestions: [HEALTHPEAK]
-megalinter-reports/megalinter-report.md:2550:14   - Unknown word (HEALTHCHECK)    -- Message: Add HEALTHCHECK instruction in your
-	 Suggestions: [HEALTHPEAK]
-megalinter-reports/megalinter-report.md:2557:8    - Unknown word (HEALTHCHECK)    -- = No HEALTHCHECK defined
-	 Suggestions: [HEALTHPEAK]
-CSpell: Files checked: 14, Issues found: 112 in 3 files.
+  Suggestions: [countfile, countFile, hcountfile, Hcountfile, icountfile]
+fc8cdcf9-bc5f-4139-9381-d7fac0957493-megalinter_file_names_cspell.txt:9:14      - Unknown word (locustfile) -- tests locust locustfile
+  Suggestions: [countfile, countFile, hcountfile, Hcountfile, icountfile]
+megalinter-reports/IDE-config/.vscode/extensions.json:5:6       - Unknown word (esbenp)     -- "esbenp.prettier-vscode",
+  Suggestions: [eben, essen, essene, Eben, Essen]
+megalinter-reports/IDE-config/.vscode/extensions.json:6:6       - Unknown word (Bridgecrew) -- "Bridgecrew.checkov",
+  Suggestions: [bridger, Bridger, bridger's, Bridger's, Bridgette]
+megalinter-reports/IDE-config/.vscode/extensions.json:7:6       - Unknown word (charliermarsh) -- "charliermarsh.ruff",
+  Suggestions: []
+megalinter-reports/IDE-config/.vscode/extensions.json:9:16      - Unknown word (debugpy)       -- "ms-python.debugpy",
+  Suggestions: [debug, debugs, debussy, Debug, Debussy]
+megalinter-reports/IDE-config/.vscode/extensions.json:10:6      - Unknown word (msjsdiag)      -- "msjsdiag.debugger-for-chrome
+  Suggestions: [misdial]
+CSpell: Files checked: 10, Issues found: 7 in 3 files.
 
 
 You can skip this misspellings by defining the following .cspell.json file at the root of your repository
@@ -464,62 +254,12 @@ Of course, please correct real typos before :)
         "megalinter-reports"
     ],
     "words": [
-        "Charsets",
-        "Dockerfiles",
-        "EDDSA",
-        "GHSA",
-        "Grpah",
-        "HEALTHCHECK",
-        "NSWG",
-        "Prio",
-        "Sonarqube",
-        "Stackoverflow",
-        "Woodstox",
-        "aspectj",
-        "databind",
-        "divmod",
-        "dsconfig",
-        "duraton",
-        "ebnf",
-        "eddsa",
-        "enconded",
-        "exfiltration",
-        "fasterxml",
-        "fjfh",
-        "gcode",
-        "graphviz",
-        "htmlbars",
-        "httpauth",
-        "irpf",
-        "jsdiff",
-        "laceholders",
-        "libgraphviz",
-        "liblmdb",
-        "libmagic",
-        "livescript",
+        "Bridgecrew",
+        "charliermarsh",
+        "debugpy",
+        "esbenp",
         "locustfile",
-        "maskn",
-        "moonscript",
-        "opencontainers",
-        "oswasp",
-        "preimage",
-        "println",
-        "projectreactor",
-        "rcwv",
-        "reflink",
-        "rmvq",
-        "rohan",
-        "routeros",
-        "ruleslanguage",
-        "scilab",
-        "serialise",
-        "sonarqube",
-        "sprabhav",
-        "stackoverflow",
-        "undecoded",
-        "vulnerabities",
-        "woodstox",
-        "xquery"
+        "msjsdiag"
     ]
 }
 
@@ -530,7 +270,7 @@ You can also copy-paste megalinter-reports/.cspell.json at the root of your repo
 </details>
 
 <details>
-<summary>⚠️ MARKDOWN / markdownlint - 58 errors</summary>
+<summary>⚠️ MARKDOWN / markdownlint - 10 errors</summary>
 
 ```
 CHANGELOG.md:42 error MD024/no-duplicate-heading Multiple headings with the same content [Context: "Changed"]
@@ -543,54 +283,6 @@ CHANGELOG.md:81 error MD024/no-duplicate-heading Multiple headings with the same
 CHANGELOG.md:84 error MD024/no-duplicate-heading Multiple headings with the same content [Context: "Security"]
 CHANGELOG.md:89 error MD024/no-duplicate-heading Multiple headings with the same content [Context: "Added"]
 CHANGELOG.md:95 error MD024/no-duplicate-heading Multiple headings with the same content [Context: "Fixed"]
-megalinter-reports/megalinter-report.md:1 error MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading [Context: "## ✅⚠️[MegaLinter](https://meg..."]
-megalinter-reports/megalinter-report.md:20 error MD040/fenced-code-language Fenced code blocks should have a language specified [Context: "```"]
-megalinter-reports/megalinter-report.md:223 error MD040/fenced-code-language Fenced code blocks should have a language specified [Context: "```"]
-megalinter-reports/megalinter-report.md:275 error MD040/fenced-code-language Fenced code blocks should have a language specified [Context: "```"]
-megalinter-reports/megalinter-report.md:293 error MD040/fenced-code-language Fenced code blocks should have a language specified [Context: "```"]
-megalinter-reports/megalinter-report.md:306:401 error MD013/line-length Line length [Expected: 400; Actual: 564]
-megalinter-reports/megalinter-report.md:320:401 error MD013/line-length Line length [Expected: 400; Actual: 598]
-megalinter-reports/megalinter-report.md:348:401 error MD013/line-length Line length [Expected: 400; Actual: 563]
-megalinter-reports/megalinter-report.md:362:401 error MD013/line-length Line length [Expected: 400; Actual: 596]
-megalinter-reports/megalinter-report.md:381:401 error MD013/line-length Line length [Expected: 400; Actual: 1130]
-megalinter-reports/megalinter-report.md:400:401 error MD013/line-length Line length [Expected: 400; Actual: 688]
-megalinter-reports/megalinter-report.md:419:401 error MD013/line-length Line length [Expected: 400; Actual: 556]
-megalinter-reports/megalinter-report.md:438:401 error MD013/line-length Line length [Expected: 400; Actual: 556]
-megalinter-reports/megalinter-report.md:457:401 error MD013/line-length Line length [Expected: 400; Actual: 2160]
-megalinter-reports/megalinter-report.md:474:401 error MD013/line-length Line length [Expected: 400; Actual: 779]
-megalinter-reports/megalinter-report.md:547:401 error MD013/line-length Line length [Expected: 400; Actual: 716]
-megalinter-reports/megalinter-report.md:755:401 error MD013/line-length Line length [Expected: 400; Actual: 741]
-megalinter-reports/megalinter-report.md:783:401 error MD013/line-length Line length [Expected: 400; Actual: 894]
-megalinter-reports/megalinter-report.md:797:401 error MD013/line-length Line length [Expected: 400; Actual: 649]
-megalinter-reports/megalinter-report.md:811:401 error MD013/line-length Line length [Expected: 400; Actual: 543]
-megalinter-reports/megalinter-report.md:825:401 error MD013/line-length Line length [Expected: 400; Actual: 699]
-megalinter-reports/megalinter-report.md:839:401 error MD013/line-length Line length [Expected: 400; Actual: 458]
-megalinter-reports/megalinter-report.md:853:401 error MD013/line-length Line length [Expected: 400; Actual: 568]
-megalinter-reports/megalinter-report.md:895:401 error MD013/line-length Line length [Expected: 400; Actual: 449]
-megalinter-reports/megalinter-report.md:909:401 error MD013/line-length Line length [Expected: 400; Actual: 612]
-megalinter-reports/megalinter-report.md:923:401 error MD013/line-length Line length [Expected: 400; Actual: 930]
-megalinter-reports/megalinter-report.md:1062:401 error MD013/line-length Line length [Expected: 400; Actual: 707]
-megalinter-reports/megalinter-report.md:1119:401 error MD013/line-length Line length [Expected: 400; Actual: 442]
-megalinter-reports/megalinter-report.md:1192:401 error MD013/line-length Line length [Expected: 400; Actual: 441]
-megalinter-reports/megalinter-report.md:1211:401 error MD013/line-length Line length [Expected: 400; Actual: 441]
-megalinter-reports/megalinter-report.md:1288:401 error MD013/line-length Line length [Expected: 400; Actual: 1596]
-megalinter-reports/megalinter-report.md:1305:401 error MD013/line-length Line length [Expected: 400; Actual: 1596]
-megalinter-reports/megalinter-report.md:1572:401 error MD013/line-length Line length [Expected: 400; Actual: 417]
-megalinter-reports/megalinter-report.md:1612:401 error MD013/line-length Line length [Expected: 400; Actual: 755]
-megalinter-reports/megalinter-report.md:1634:401 error MD013/line-length Line length [Expected: 400; Actual: 755]
-megalinter-reports/megalinter-report.md:1720:401 error MD013/line-length Line length [Expected: 400; Actual: 575]
-megalinter-reports/megalinter-report.md:1805:401 error MD013/line-length Line length [Expected: 400; Actual: 1437]
-megalinter-reports/megalinter-report.md:1824:401 error MD013/line-length Line length [Expected: 400; Actual: 1437]
-megalinter-reports/megalinter-report.md:1961:401 error MD013/line-length Line length [Expected: 400; Actual: 562]
-megalinter-reports/megalinter-report.md:1978:401 error MD013/line-length Line length [Expected: 400; Actual: 552]
-megalinter-reports/megalinter-report.md:1998:401 error MD013/line-length Line length [Expected: 400; Actual: 727]
-megalinter-reports/megalinter-report.md:2018:401 error MD013/line-length Line length [Expected: 400; Actual: 727]
-megalinter-reports/megalinter-report.md:2035:401 error MD013/line-length Line length [Expected: 400; Actual: 515]
-megalinter-reports/megalinter-report.md:2266:401 error MD013/line-length Line length [Expected: 400; Actual: 469]
-megalinter-reports/megalinter-report.md:2321:401 error MD013/line-length Line length [Expected: 400; Actual: 849]
-megalinter-reports/megalinter-report.md:2338:401 error MD013/line-length Line length [Expected: 400; Actual: 730]
-megalinter-reports/megalinter-report.md:2355:401 error MD013/line-length Line length [Expected: 400; Actual: 522]
-megalinter-reports/megalinter-report.md:2372:401 error MD013/line-length Line length [Expected: 400; Actual: 512]
 ```
 
 </details>
@@ -921,8 +613,8 @@ Link: [GHSA-72hv-8253-57qq](https://github.com/advisories/GHSA-72hv-8253-57qq)
         @Test
         void syncParserRejectsLongNumber() throws Exception {
             byte[] payload = buildPayloadWithLongInteger(TEST_NUMBER_LENGTH);
-    		
-    		// Output to console
+      
+      // Output to console
             System.out.println("[SYNC] Parsing " + TEST_NUMBER_LENGTH + "-digit number (limit: " + MAX_NUMBER_LENGTH + ")");
             try {
                 try (JsonParser p = factory.createParser(ObjectReadContext.empty(), payload)) {

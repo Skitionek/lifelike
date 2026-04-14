@@ -439,7 +439,7 @@
       "tool": {
         "driver": {
           "informationUri": "https://checkov.io",
-          "name": "Checkov (MegaLinter REPOSITORY_CHECKOV) (MegaLinter REPOSITORY_CHECKOV)",
+          "name": "Checkov (MegaLinter REPOSITORY_CHECKOV) (MegaLinter REPOSITORY_CHECKOV) (MegaLinter REPOSITORY_CHECKOV)",
           "organization": "bridgecrew",
           "rules": [
             {

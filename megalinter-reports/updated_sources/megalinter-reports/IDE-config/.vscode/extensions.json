@@ -1,12 +1,11 @@
 {
   "recommendations": [
     "streetsidesoftware.code-spell-checker",
-    "AquaSecurityOfficial.trivy-vulnerability-scanner",
-    "esbenp.prettier-vscode",
-    "Bridgecrew.checkov",
-    "charliermarsh.ruff",
+    "msjsdiag.debugger-for-chrome",
     "ms-python.python",
+    "charliermarsh.ruff",
+    "AquaSecurityOfficial.trivy-vulnerability-scanner",
     "ms-python.debugpy",
-    "msjsdiag.debugger-for-chrome"
+    "esbenp.prettier-vscode"
   ]
 }
