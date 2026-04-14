@@ -9,10 +9,6 @@ INSTRUCTIONS
 IDE EXTENSIONS APPLICABLE TO YOUR PROJECT
 
 prettier (JSON)
-  - atom:
-    - prettier-atom: https://github.com/prettier/prettier-atom
-    - atom-mprettier: https://github.com/t9md/atom-mprettier
-    - atom-miniprettier: https://github.com/duailibe/atom-miniprettier
   - emacs:
     - prettier-emacs: https://github.com/prettier/prettier-emacs
     - prettier.el: https://github.com/jscheid/prettier.el
@@ -29,8 +25,6 @@ prettier (JSON)
     - prettier-vscode: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
 
 markdownlint (MARKDOWN)
-  - atom:
-    - linter-node-markdownlint: https://atom.io/packages/linter-node-markdownlint
   - sublime:
     - SublimeLinter-contrib-markdownlint: https://packagecontrol.io/packages/SublimeLinter-contrib-markdownlint
   - vim:
@@ -44,10 +38,6 @@ ruff (PYTHON)
   - vscode:
     - Ruff: https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff
 
-checkov (REPOSITORY)
-  - vscode:
-    - Checkov: https://marketplace.visualstudio.com/items?itemName=Bridgecrew.checkov
-
 trivy (REPOSITORY)
   - vscode:
     - VSCode Trivy: https://marketplace.visualstudio.com/items?itemName=AquaSecurityOfficial.trivy-vulnerability-scanner
@@ -57,10 +47,6 @@ cspell (SPELL)
     - Code Spell Checker: https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
 
 prettier (YAML)
-  - atom:
-    - prettier-atom: https://github.com/prettier/prettier-atom
-    - atom-mprettier: https://github.com/t9md/atom-mprettier
-    - atom-miniprettier: https://github.com/duailibe/atom-miniprettier
   - emacs:
     - prettier-emacs: https://github.com/prettier/prettier-emacs
     - prettier.el: https://github.com/jscheid/prettier.el
