@@ -32,7 +32,7 @@ class FileBrowserTaskSet(TaskSet):
 
     @task(1)
     def list_projects(self):
-        logging.info(f"Listing first 100 user projects by name")
+        logging.info("Listing first 100 user projects by name")
         with self.client.get(
                 "/projects/projects",
                 name="/projects/projects (list user projects)",
@@ -112,7 +112,7 @@ class UploadFileTaskSet(SequentialTaskSet):
         if self.hashId:
             logging.info(f"Annotating new file: {self.hashId}")
             self.client.post(
-                f"/filesystem/annotations/generate",
+                "/filesystem/annotations/generate",
                 name="/filesystem/annotations/generate (Generate annotations)",
                 json=dict(hashIds=[self.hashId],
                           annotationConfigs=self.defaultAnnotationConfigs,
@@ -196,7 +196,7 @@ class ReadUser(HttpUser):
         logging.info(f"Searching knowledge graph with query '{query}'")
         self.client.post(
             "/search/viz-search",
-            name=f"/search/viz-search (search knowledge graph)",
+            name="/search/viz-search (search knowledge graph)",
             json=dict(query=query, organism="", domains=[],
                       entities=[], page=1, limit=10)
         )
