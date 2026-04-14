@@ -27,3 +27,6 @@ Thumbs.db
 .bash_history
 .local/
 .run
+
+# MegaLinter build artifacts (reports, SARIF, IDE configs)
+megalinter-reports/
