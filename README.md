@@ -23,7 +23,7 @@ My overambitious roadmap:
 | **Tab/panel implementation** | Custom component | URL-encoded named router outlets (`route-with-dynamic-outlets`) |
 | **PDF viewer library** | pdfjs-dist 2.9.359 | pdfjs-dist 4.2.67 (CVE-2024-4367 fixed) |
 | **Office file support** | ❌ | ✅ Open and view Office files (`.docx`, `.xlsx`, `.pptx`, `.xls`, `.ppt`, `.odt`, etc.) |
-| **jQuery dependency** | ✅ (jquery, jquery-ui, qtip2) | ❌ Removed — replaced with native DOM APIs & Bootstrap 5 Popover |
+| **jQuery dependency** | ❌ (jquery, jquery-ui, qtip2) | ✅ Removed — replaced with native DOM APIs & Bootstrap 5 Popover |
 | **Python linting** | ❌ | ✅ ruff (E/F rules) across all Python services |
 | **Comprehensive linting** | ❌ | ✅ MegaLinter with SARIF upload & PR annotations |
 | **CI/CD pipelines** | ❌ | ✅ GitHub Actions: tests, Docker build/publish, CodeQL, Dependabot auto-merge |
