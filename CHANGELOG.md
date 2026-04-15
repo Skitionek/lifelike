@@ -32,8 +32,7 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - **JIRA prefix validation** removed from `ChangeLog.__init__`, `BaseParser.__init__`, and `app.py` — the `LL-NNNN` format constraint is gone
 - **`jira-` literal prefix** removed from output file names in `liquibase_utils.py`, `base_parser.py`, and `chebi_parser.py`
 
-### Added
-- **MegaLinter** (`oxsecurity/megalinter@v8`) added as a comprehensive lint step in CI (`lint.yml`); runs after fast linters pass and applies auto-fixes on PRs
+ (`oxsecurity/megalinter@v8`) added as a comprehensive lint step in CI (`lint.yml`); runs after fast linters pass and applies auto-fixes on PRs
 - **ruff** (`0.15.10`) added as a dev dependency to all Python projects (appserver, statistical-enrichment, cache-invalidator) with a shared root `ruff.toml` config (E/F rules, line-length 100, migrations excluded)
 - **`lint.yml`** GitHub Actions workflow: fast-lint job (ruff + tslint) gates MegaLinter; SARIF report uploaded on every PR/push so findings appear as Security-tab annotations and PR review comments
 - **`.cspell.json`** project dictionary with 418 domain/project-specific words to suppress cspell false-positive warnings

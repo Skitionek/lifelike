@@ -79,6 +79,7 @@ class EnzymeChangeLog(ChangeLog):
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{ENZYME_REL_FILE}')
         self.change_sets.append(changeset)
 
+
 def generate(args, output_dir: Path):
     """Generate and place a Liquibase changelog for Enzyme."""
     task = EnzymeChangeLog(args.author, args.prefix)

@@ -22,7 +22,7 @@ def get_database():
     username = os.environ.get('NEO4J_USERNAME')
     password = os.environ.get('NEO4J_PASSWORD')
 
-    if not all([uri, dbname, username, password is not None]):
+    if not (uri and dbname and username and password is not None):
         config = configparser.ConfigParser()
         config.read(os.path.join(directory, 'properties.ini'))
         uri = uri or config.get('neo4j', 'neo4j_uri', fallback='bolt://localhost')

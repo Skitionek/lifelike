@@ -59,6 +59,9 @@ jobs:
     name: Extract ${{ github.event.inputs.domain }} and generate changelog
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    permissions:
+      contents: write
+      pull-requests: write
 
     env:
       AZURE_ACCOUNT_STORAGE_NAME: ${{ secrets.AZURE_ACCOUNT_STORAGE_NAME }}
