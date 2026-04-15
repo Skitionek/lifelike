@@ -124,6 +124,20 @@ export class FilesystemService {
   }
 
   /**
+   * Fetches the file's content as PDF, converting it on the fly via LibreOffice on the server
+   * if the file is not already a PDF. Files that are already PDFs are returned unchanged.
+   * @param hashId - hash ID of the file to retrieve as PDF
+   */
+  getContentAsPdf(hashId: string): Observable<Blob> {
+    return this.http.get(
+      `/api/filesystem/objects/${encodeURIComponent(hashId)}/content/pdf`, {
+        ...this.apiService.getHttpOptions(true),
+        responseType: 'blob',
+      },
+    );
+  }
+
+  /**
    * Gets the 'graph.json' file from the zipped map - without the images. Since the unzipping
    * produces a promise, getting a file and unzipping it in client produces a promise that is
    * dependant on observable - making things harder to process and not aligning with the other file types

@@ -13,6 +13,11 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 ## [Unreleased]
 
 ### Added
+- **LibreOffice PDF conversion service** (`neo4japp/services/libreoffice.py`): server-side conversion of Office/document files (`.docx`, `.xlsx`, `.pptx`, `.doc`, `.xls`, `.ppt`, `.odt`, `.ods`, `.odp`, `.rtf`, `.txt`, `.html`, `.csv`) to PDF using LibreOffice headless mode.
+- **`GET /api/filesystem/objects/<hash_id>/content/pdf`** endpoint: serves any file's content as PDF — passes through existing PDFs unchanged, converts supported document formats on-the-fly.
+- **Client-side transparent rendering**: files with convertible MIME types now open directly in the PDF viewer; conversion is invisible to the user.
+- `LIBREOFFICE_CONVERTIBLE_MIME_TYPES` constant (Python `constants.py` and Angular `shared/constants.ts`) listing all MIME types eligible for conversion.
+- `FilesystemService.getContentAsPdf()` Angular method that calls the new `/content/pdf` endpoint.
 - **MegaLinter** (`oxsecurity/megalinter@v8`) added as a comprehensive lint step in CI (`lint.yml`); runs after fast linters pass and applies auto-fixes on PRs
 - **ruff** (`0.15.10`) added as a dev dependency to all Python projects (appserver, statistical-enrichment, cache-invalidator) with a shared root `ruff.toml` config (E/F rules, line-length 100, migrations excluded)
 - **`lint.yml`** GitHub Actions workflow: fast-lint job (ruff + tslint) gates MegaLinter; SARIF report uploaded on every PR/push so findings appear as Security-tab annotations and PR review comments
