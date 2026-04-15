@@ -46,6 +46,24 @@ FILE_MIME_TYPE_MAP = 'vnd.lifelike.document/map'
 FILE_MIME_TYPE_GRAPH = 'vnd.lifelike.document/graph'
 FILE_MIME_TYPE_ENRICHMENT_TABLE = 'vnd.lifelike.document/enrichment-table'
 
+# MIME types that can be converted to PDF via LibreOffice
+LIBREOFFICE_CONVERTIBLE_MIME_TYPES = frozenset({
+    'application/msword',                                                          # .doc
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',    # .docx
+    'application/vnd.ms-excel',                                                   # .xls
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',          # .xlsx
+    'application/vnd.ms-powerpoint',                                              # .ppt
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',  # .pptx
+    'application/vnd.oasis.opendocument.text',                                    # .odt
+    'application/vnd.oasis.opendocument.spreadsheet',                             # .ods
+    'application/vnd.oasis.opendocument.presentation',                            # .odp
+    'text/rtf',                                                                   # .rtf
+    'application/rtf',                                                            # .rtf (alt)
+    'text/plain',                                                                 # .txt
+    'text/html',                                                                  # .html
+    'text/csv',                                                                   # .csv
+})
+
 
 # enrichment labels
 class EnrichmentDomain(Enum):
