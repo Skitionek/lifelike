@@ -9,10 +9,31 @@ My overambitious roadmap:
 + [ ] Reactive file indexing and annotating
 + [ ] Unified tooltips
 + [ ] Angular PDF.js integration
-+ [ ] Drop jQuery dependency
++ [x] Drop jQuery dependency
 + [ ] Observable files (pararrel edits)
 + [x] Add automated tests
 + [x] Automated itegration/deployment
+
+## Comparison with original Lifelike
+
+| Feature / Improvement | [SBRG/lifelike](https://github.com/SBRG/lifelike) (original) | Lifelike Afterhours (this fork) |
+|---|:---:|:---:|
+| **Dev environment** | Manual setup required | Zero-config via VS Code Dev Container / GitHub Codespaces |
+| **Angular version** | v9 | v14 |
+| **Tab/panel implementation** | Custom component | URL-encoded named router outlets (`route-with-dynamic-outlets`) |
+| **PDF viewer library** | pdfjs-dist 2.9.359 | pdfjs-dist 4.2.67 (CVE-2024-4367 fixed) |
+| **Office-to-PDF conversion** | ❌ | ✅ Server-side LibreOffice headless conversion (`.docx`, `.xlsx`, `.pptx`, `.xls`, `.ppt`, `.odt`, etc.) |
+| **jQuery dependency** | ✅ (jquery, jquery-ui, qtip2) | ❌ Removed — replaced with native DOM APIs & Bootstrap 5 Popover |
+| **Python linting** | ❌ | ✅ ruff (E/F rules) across all Python services |
+| **Comprehensive linting** | ❌ | ✅ MegaLinter with SARIF upload & PR annotations |
+| **CI/CD pipelines** | ❌ | ✅ GitHub Actions: tests, Docker build/publish, CodeQL, Dependabot auto-merge |
+| **Automated UI tests** | ❌ | ✅ Angular unit specs for core UI components |
+| **Database migrations** | 100+ incremental Alembic files | Single squashed baseline migration |
+| **d3 version** | v5 | v7 |
+| **Flask version** | 2.x | 3.x |
+| **Bootstrap** | 5 (with import issues) | 5 (fixed SCSS architecture) |
+| **Security hardening** | — | Patched `pdfjs-dist` CVE-2024-4367, `cryptography` bumps |
+| **Copilot / AI dev support** | ❌ | ✅ Copilot coding agent instructions & auto-fix workflow |
 
 -----------
 
