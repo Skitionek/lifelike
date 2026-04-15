@@ -62,9 +62,9 @@ class ChebiOboParser(OboParser, BaseParser):
         for node in nodes:
             node.update_attribute(PROP_DATA_SOURCE, 'ChEBI')
         self.logger.info(f"Number of chebi nodes parsed from chebi.obo: {len(nodes)}")
-        filename = 'jira-LL-3198-chebi-data.tsv'
+        filename = f'{self.file_prefix}chebi-data.tsv'
         filepath = os.path.join(self.output_dir, filename)
-        zip_filename = 'jira-LL-3198-chebi-data.zip'
+        zip_filename = f'{self.file_prefix}chebi-data.zip'
         zip_filepath = os.path.join(self.output_dir, zip_filename)
 
         df = pd.DataFrame([node.to_dict() for node in nodes])
@@ -76,9 +76,9 @@ class ChebiOboParser(OboParser, BaseParser):
         df.to_csv(filepath, sep='\t', index=False)
         azure_upload(zip_filename, zip_filepath)
 
-        filename = 'jira-LL-3198-chebi-relationship-data.tsv'
+        filename = f'{self.file_prefix}chebi-relationship-data.tsv'
         filepath = os.path.join(self.output_dir, filename)
-        zip_filename = 'jira-LL-3198-chebi-relationship-data.zip'
+        zip_filename = f'{self.file_prefix}chebi-relationship-data.zip'
         zip_filepath = os.path.join(self.output_dir, zip_filename)
 
         df = pd.DataFrame([{

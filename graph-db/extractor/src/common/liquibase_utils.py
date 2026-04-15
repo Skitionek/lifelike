@@ -29,17 +29,10 @@ def get_changelog_template():
 
 
 class ChangeLog:
-    def __init__(self, author: str, change_id_prefix: str):
-        if not change_id_prefix:
-            raise ValueError('The argument change_id_prefix must not be null or empty string')
-
-        try:
-            int(change_id_prefix.split('-')[1])
-        except Exception:
-            raise ValueError('The argument change_id_prefix must be the JIRA card number; e.g LL-1234')
+    def __init__(self, author: str, change_id_prefix: str = ''):
         self.author = author
         self.id_prefix = change_id_prefix
-        self.file_prefix = f'jira-{change_id_prefix}-'
+        self.file_prefix = f'{change_id_prefix}-' if change_id_prefix else ''
 
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)

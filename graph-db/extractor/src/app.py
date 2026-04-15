@@ -60,7 +60,7 @@ def parse_args(argv):
         default='INFO',
         choices=('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'),
     )
-    parser.add_argument('--prefix', help='The JIRA card numeric number; e.g LL-1234')
+    parser.add_argument('--prefix', default='', help='A prefix tag added to change IDs and data file names')
 
     subparser = parser.add_subparsers(dest='domain', required=True)
     biocyc_parser = subparser.add_parser('biocyc')
@@ -113,11 +113,6 @@ def main(argv):
         + ' with arguments: '
         + ', '.join(['%s=%s' % (key, value) for (key, value) in args.__dict__.items()])
     )
-
-    try:
-        int(args.prefix.split('-')[1])
-    except Exception:
-        raise ValueError('The argument change_id_prefix must be the JIRA card number; e.g LL-1234')
 
     # get parser function using args.domain
     parser = get_domain_parser(args.domain)
