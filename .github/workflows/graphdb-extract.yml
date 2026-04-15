@@ -1,7 +1,8 @@
+# checkov:skip=CKV2_GHA_1: workflow_dispatch inputs are required for parameterized data extraction
 name: Graph DB Extract & Changelog
 
 on:
-  workflow_dispatch: # checkov:skip=CKV2_GHA_1: inputs are required for parameterized data extraction
+  workflow_dispatch:
     inputs:
       domain:
         description: Domain to extract
