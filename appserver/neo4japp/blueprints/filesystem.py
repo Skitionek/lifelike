@@ -63,6 +63,7 @@ from neo4japp.schemas.filesystem import (
 )
 from neo4japp.services.file_types.exports import ExportFormatError
 from neo4japp.services.file_types.providers import DirectoryTypeProvider
+from neo4japp.services.libreoffice import convert_to_pdf
 from neo4japp.utils.collections import window
 from neo4japp.utils.http import make_cacheable_file_response
 from neo4japp.utils.network import read_url
@@ -1075,8 +1076,6 @@ class FileContentPdfView(FilesystemBaseView):
     decorators = [auth.login_required]
 
     def get(self, hash_id: str):
-        from neo4japp.services.libreoffice import convert_to_pdf
-
         current_user = g.current_user
 
         file = self.get_nondeleted_recycled_file(Files.hash_id == hash_id, lazy_load_content=True)
@@ -1110,13 +1109,8 @@ class FileContentPdfView(FilesystemBaseView):
 
         pdf_buffer = convert_to_pdf(raw, file.mime_type)
         pdf_bytes = pdf_buffer.read()
-        # Derive a stable ETag from the source file's checksum so repeated requests
-        # can be served from the browser cache.
-        if file.content:
-            source_etag = file.content.checksum_sha256.hex()
-        else:
-            source_etag = hashlib.sha256(raw).hexdigest()
-        pdf_etag = hashlib.sha256(source_etag.encode()).hexdigest()
+        # Hash the actual PDF output for a reliable ETag that reflects conversion output.
+        pdf_etag = hashlib.sha256(pdf_bytes).hexdigest()
 
         # Serve with a PDF filename regardless of the original extension
         pdf_filename = os.path.splitext(file.filename)[0] + '.pdf'

@@ -14,7 +14,7 @@ from io import BytesIO, BufferedIOBase
 
 # Extension mapping for MIME types that LibreOffice can convert to PDF.
 # Used to determine the file extension when writing the input to a temp file.
-_MIME_TO_EXTENSION: dict = {
+_MIME_TO_EXTENSION: dict[str, str] = {
     'application/msword': '.doc',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
     'application/vnd.ms-excel': '.xls',
