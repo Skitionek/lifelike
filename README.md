@@ -22,7 +22,7 @@ My overambitious roadmap:
 | **Angular version** | v9 | v14 |
 | **Tab/panel implementation** | Custom component | URL-encoded named router outlets (`route-with-dynamic-outlets`) |
 | **PDF viewer library** | pdfjs-dist 2.9.359 | pdfjs-dist 4.2.67 (CVE-2024-4367 fixed) |
-| **Office-to-PDF conversion** | ❌ | ✅ Server-side LibreOffice headless conversion (`.docx`, `.xlsx`, `.pptx`, `.xls`, `.ppt`, `.odt`, etc.) |
+| **Office file support** | ❌ | ✅ Open and view Office files (`.docx`, `.xlsx`, `.pptx`, `.xls`, `.ppt`, `.odt`, etc.) directly — converted transparently to PDF server-side via LibreOffice |
 | **jQuery dependency** | ✅ (jquery, jquery-ui, qtip2) | ❌ Removed — replaced with native DOM APIs & Bootstrap 5 Popover |
 | **Python linting** | ❌ | ✅ ruff (E/F rules) across all Python services |
 | **Comprehensive linting** | ❌ | ✅ MegaLinter with SARIF upload & PR annotations |
