@@ -21,7 +21,8 @@ ENABLE_LINTERS:
   - REPOSITORY_CHECKOV
 
 # Paths to exclude from linting
-FILTER_REGEX_EXCLUDE: (appserver/migrations|node_modules|dist|\.git|vendor|venv|\.venv|__pycache__|\.pytest_cache)
+# graph-db/ uses wildcard imports by design (legacy extractor scripts); excluded from ruff via ruff.toml too
+FILTER_REGEX_EXCLUDE: (appserver/migrations|graph-db/|node_modules|dist|\.git|vendor|venv|\.venv|__pycache__|\.pytest_cache)
 
 # Reporters
 REPORTERS:
