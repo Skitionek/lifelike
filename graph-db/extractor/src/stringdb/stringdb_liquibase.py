@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import os
 from datetime import datetime
 
@@ -73,7 +75,14 @@ class StringDBChangeLog(ChangeLog):
         self.change_sets.append(changeset)
 
 
+def generate(args, output_dir: Path):
+    """Generate and place a Liquibase changelog for StringDB."""
+    task = StringDBChangeLog(args.author, args.prefix)
+    task.create_change_logs(initial_load=args.initial_load)
+    task.generate_liquibase_changelog_file(output_dir)
+
+
 if __name__ == '__main__':
-    task = StringDBChangeLog('Binh Vu', 'LL-3215')
+    task = StringDBChangeLog('', '')
     task.create_change_logs(True)
-    task.generate_liquibase_changelog_file('stringdb_changelog.xml', directory)
+    task.generate_liquibase_changelog_file(Path(directory), 'stringdb_changelog.xml')

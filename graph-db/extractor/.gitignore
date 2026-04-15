@@ -133,3 +133,7 @@ dmypy.json
 
 .vscode/settings.json
 .vscode/launch.json
+
+# Local credential files — use properties.ini.example as a template
+src/common/properties.ini
+src/cloudstorage/properties.ini

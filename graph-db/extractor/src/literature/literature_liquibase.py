@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import os
 from datetime import datetime
 
@@ -138,7 +140,14 @@ class LiteratureChangeLog(ChangeLog):
         self.change_sets.append(changeset)
 
 
+def generate(args, output_dir: Path):
+    """Generate and place a Liquibase changelog for Zenodo literature."""
+    task = LiteratureChangeLog(args.author, args.prefix)
+    task.create_change_logs(initial_load=args.initial_load)
+    task.generate_liquibase_changelog_file(output_dir)
+
+
 if __name__ == '__main__':
-    task = LiteratureChangeLog('Binh Vu', 'LL-3782')
+    task = LiteratureChangeLog('', '')
     task.create_change_logs(True)
-    task.generate_liquibase_changelog_file('literature_changelog.xml', directory)
+    task.generate_liquibase_changelog_file(Path(directory), 'literature_changelog.xml')

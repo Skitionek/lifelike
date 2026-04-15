@@ -1,0 +1,117 @@
+name: Graph DB Extract & Changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: Domain to extract
+        type: choice
+        required: true
+        options:
+          - enzyme
+          - go
+          - kegg
+          - mesh
+          - ncbi-gene
+          - ncbi-taxonomy
+          - regulondb
+          - stringdb
+          - uniprot
+          - zenodo-literature
+      author:
+        description: Author name for changelog changesets
+        type: string
+        required: true
+      prefix:
+        description: Optional prefix tag added to change IDs and file names
+        type: string
+        required: false
+        default: ''
+      changelog_dir:
+        description: Target changelog directory
+        type: choice
+        required: true
+        default: lifelike-graph
+        options:
+          - lifelike-graph
+          - new-lifelike-graph
+          - small-test-graph
+          - ecocyc-plus
+          - reactome-gds
+      initial_load:
+        description: Include index/constraint changesets (fresh database)
+        type: boolean
+        required: true
+        default: false
+      extractor_image_tag:
+        description: Tag of the graphdb-extractor image to use
+        type: string
+        required: true
+        default: latest
+      open_pr:
+        description: Open a pull request with the generated changelog
+        type: boolean
+        required: true
+        default: true
+
+jobs:
+  extract-and-changelog:
+    name: Extract ${{ github.event.inputs.domain }} and generate changelog
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      AZURE_ACCOUNT_STORAGE_NAME: ${{ secrets.AZURE_ACCOUNT_STORAGE_NAME }}
+      AZURE_ACCOUNT_STORAGE_KEY: ${{ secrets.AZURE_ACCOUNT_STORAGE_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install extractor dependencies
+        working-directory: graph-db/extractor
+        run: pip install -r requirements.txt
+
+      - name: Extract data and generate changelog
+        working-directory: graph-db/extractor
+        env:
+          DOMAIN: ${{ github.event.inputs.domain }}
+          AUTHOR: ${{ github.event.inputs.author }}
+          PREFIX: ${{ github.event.inputs.prefix }}
+          CHANGELOG_DIR: ${{ github.event.inputs.changelog_dir }}
+          INITIAL_LOAD: ${{ github.event.inputs.initial_load }}
+        run: |
+          INITIAL_LOAD_FLAG=""
+          if [ "$INITIAL_LOAD" = "true" ]; then INITIAL_LOAD_FLAG="--initial-load"; fi
+          PREFIX_ARG=""
+          if [ -n "$PREFIX" ]; then PREFIX_ARG="--prefix $PREFIX"; fi
+
+          python src/app.py $PREFIX_ARG full-load \
+            --author "$AUTHOR" \
+            --changelog-dir "$CHANGELOG_DIR" \
+            $INITIAL_LOAD_FLAG \
+            "$DOMAIN"
+
+      - name: Create pull request with generated changelog
+        if: ${{ github.event.inputs.open_pr == 'true' }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: graphdb-changelog/${{ github.event.inputs.domain }}-${{ github.run_number }}
+          commit-message: "chore(graph-db): add ${{ github.event.inputs.domain }} changelog"
+          title: "chore(graph-db): add ${{ github.event.inputs.domain }} changelog"
+          body: |
+            Auto-generated changelog for **${{ github.event.inputs.domain }}** data load.
+
+            - Domain: `${{ github.event.inputs.domain }}`
+            - Changelog dir: `${{ github.event.inputs.changelog_dir }}`
+            - Initial load: `${{ github.event.inputs.initial_load }}`
+            - Author: ${{ github.event.inputs.author }}
+            - Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Review the generated XML before merging, then trigger [Graph DB Migrate](../../actions/workflows/graphdb-migrate.yml).
+          labels: graph-db,changelog
