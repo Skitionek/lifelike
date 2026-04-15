@@ -54,9 +54,12 @@ on:
         required: true
         default: true
 
+# Restrict default token permissions; jobs elevate only what they need.
+permissions: read-all
+
 jobs:
   extract-and-changelog:
-    name: Extract ${{ github.event.inputs.domain }} and generate changelog
+    name: Extract and generate changelog
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:

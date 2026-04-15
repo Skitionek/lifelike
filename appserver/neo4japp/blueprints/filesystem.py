@@ -19,11 +19,13 @@ from typing import Optional, List, Dict, Iterable, Union, Literal, Tuple
 from sqlalchemy.sql.expression import text
 from webargs.flaskparser import use_args
 
-from neo4japp.constants import SUPPORTED_MAP_MERGING_FORMATS, MAPS_RE, FILE_MIME_TYPE_MAP
+from neo4japp.constants import SUPPORTED_MAP_MERGING_FORMATS, MAPS_RE, FILE_MIME_TYPE_MAP, \
+    LIBREOFFICE_CONVERTIBLE_MIME_TYPES, FILE_MIME_TYPE_PDF
 from neo4japp.blueprints.auth import auth
 from neo4japp.constants import LogEventType
 from neo4japp.database import db, get_file_type_service, get_authorization_service
-from neo4japp.exceptions import AccessRequestRequiredError, RecordNotFound, NotAuthorized
+from neo4japp.exceptions import AccessRequestRequiredError, RecordNotFound, NotAuthorized, \
+    ServerException
 from neo4japp.models import (
     Projects,
     Files,
@@ -61,6 +63,7 @@ from neo4japp.schemas.filesystem import (
 )
 from neo4japp.services.file_types.exports import ExportFormatError
 from neo4japp.services.file_types.providers import DirectoryTypeProvider
+from neo4japp.services.libreoffice import convert_to_pdf
 from neo4japp.utils.collections import window
 from neo4japp.utils.http import make_cacheable_file_response
 from neo4japp.utils.network import read_url
@@ -1067,6 +1070,59 @@ class FileContentView(FilesystemBaseView):
         )
 
 
+class FileContentPdfView(FilesystemBaseView):
+    """Serve a file's content as PDF, converting on-the-fly via LibreOffice if needed."""
+
+    decorators = [auth.login_required]
+
+    def get(self, hash_id: str):
+        current_user = g.current_user
+
+        file = self.get_nondeleted_recycled_file(Files.hash_id == hash_id, lazy_load_content=True)
+        self.check_file_permissions([file], current_user, ['readable'], permit_recycled=True)
+
+        raw: bytes = file.content.raw_file if file.content else b''
+
+        if file.mime_type == FILE_MIME_TYPE_PDF:
+            # Already a PDF — serve as-is
+            if file.content:
+                etag = file.content.checksum_sha256.hex()
+            else:
+                etag = hashlib.sha256(raw).hexdigest()
+            return make_cacheable_file_response(
+                request,
+                raw,
+                etag=etag,
+                filename=file.filename,
+                mime_type=FILE_MIME_TYPE_PDF,
+            )
+
+        if file.mime_type not in LIBREOFFICE_CONVERTIBLE_MIME_TYPES:
+            raise ServerException(
+                title='Unsupported File Type',
+                message=(
+                    f"The file '{file.filename}' has MIME type '{file.mime_type}' which "
+                    'cannot be converted to PDF.'
+                ),
+                code=415,
+            )
+
+        pdf_buffer = convert_to_pdf(raw, file.mime_type)
+        pdf_bytes = pdf_buffer.read()
+        # Hash the actual PDF output for a reliable ETag that reflects conversion output.
+        pdf_etag = hashlib.sha256(pdf_bytes).hexdigest()
+
+        # Serve with a PDF filename regardless of the original extension
+        pdf_filename = os.path.splitext(file.filename)[0] + '.pdf'
+        return make_cacheable_file_response(
+            request,
+            pdf_bytes,
+            etag=pdf_etag,
+            filename=pdf_filename,
+            mime_type=FILE_MIME_TYPE_PDF,
+        )
+
+
 class MapContentView(FilesystemBaseView):
     decorators = [auth.login_required]
 
@@ -1503,6 +1559,8 @@ bp.add_url_rule('search', view_func=FileSearchView.as_view('file_search'))
 bp.add_url_rule('objects/<string:hash_id>', view_func=FileDetailView.as_view('file'))
 bp.add_url_rule('objects/<string:hash_id>/content',
                 view_func=FileContentView.as_view('file_content'))
+bp.add_url_rule('objects/<string:hash_id>/content/pdf',
+                view_func=FileContentPdfView.as_view('file_content_pdf'))
 bp.add_url_rule('objects/<string:hash_id>/map-content',
                 view_func=MapContentView.as_view('map_content'))
 bp.add_url_rule('objects/<string:hash_id>/export', view_func=FileExportView.as_view('file_export'))

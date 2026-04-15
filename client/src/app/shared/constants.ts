@@ -90,6 +90,27 @@ export enum MimeTypes {
   BioC = 'vnd.lifelike.document/bioc'
 }
 
+/**
+ * MIME types that the server can convert to PDF on-the-fly using LibreOffice.
+ * Files with these MIME types are opened transparently in the PDF viewer.
+ */
+export const LIBREOFFICE_CONVERTIBLE_MIME_TYPES: ReadonlySet<string> = new Set([
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/vnd.oasis.opendocument.text',
+  'application/vnd.oasis.opendocument.spreadsheet',
+  'application/vnd.oasis.opendocument.presentation',
+  'text/rtf',
+  'application/rtf',
+  'text/plain',
+  'text/html',
+  'text/csv',
+]);
+
 export enum FAClass {
   Directory = 'fa fa-folder',
   Map = 'fa fa-project-diagram',
