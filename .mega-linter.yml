@@ -51,9 +51,8 @@ SPELL_CSPELL_DISABLE_ERRORS: true
 
 # Trivy: informational only (errors handled by CodeQL)
 REPOSITORY_TRIVY_DISABLE_ERRORS: true
+# Checkov findings are informational only (warnings); they do not block CI
 REPOSITORY_CHECKOV_DISABLE_ERRORS: true
-# CKV2_GHA_1: workflow_dispatch inputs are intentionally required for the parameterized graphdb-extract workflow
-REPOSITORY_CHECKOV_ARGUMENTS: "--skip-check CKV2_GHA_1"
 
 # Upload SARIF to GitHub Security tab (see lint.yml for the upload step)
 SARIF_REPORTER: true
