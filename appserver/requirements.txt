@@ -254,7 +254,7 @@ scipy==1.15.3
     # via lifelike-appserver
 sendgrid==6.12.5
     # via lifelike-appserver
-sentry-sdk==2.57.0
+sentry-sdk==2.58.0
     # via lifelike-appserver
 six==1.17.0
     # via
