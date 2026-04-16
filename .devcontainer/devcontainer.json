@@ -24,9 +24,7 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
       },
-      "extensions": [
-        "bierner.markdown-mermaid"
-      ]
+      "extensions": ["bierner.markdown-mermaid"]
     }
   }
 }
