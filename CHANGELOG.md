@@ -13,6 +13,7 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 ## [Unreleased]
 
 ### Changed
+- **GitHub Actions cleanup**: removed the duplicate default CodeQL workflow, kept the advanced scan workflow, and updated stale graph DB workflow action references.
 - **CI linting**: MegaLinter fixes are opened as a separate PR (`APPLY_FIXES_MODE: pull_request`) and auto-approved via `megalinter-auto-approve.yml`; `fast-lint` runs in check-only mode.
 
 ### Added
