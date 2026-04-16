@@ -46,6 +46,7 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - **`.cspell.json`** project dictionary with 418 domain/project-specific words to suppress cspell false-positive warnings
 
 ### Fixed
+- Devcontainer Docker Compose startup now resolves app bind mounts against the Docker host workspace path, fixing empty source mounts that hid service startup scripts and broke container launch
 - MegaLinter: exclude `graph-db/` from ruff scanning (legacy extractor scripts use wildcard imports by design)
 - MegaLinter: fix three spurious F541 f-strings (no placeholders) in `tests/locust/locustfile.py`
 - MegaLinter: disable `TYPESCRIPT_ES` and `JAVASCRIPT_ES` linters — project uses tslint (via fast-lint); the eslint linters were misconfigured with a `tslint.json` (invalid eslint config), causing a config-parse error

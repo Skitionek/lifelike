@@ -132,4 +132,4 @@ HEALTHCHECK --start-period=30s \
     CMD curl -f localhost:$PORT/meta || exit 1
 
 RUN chmod +x bin/docker-entrypoint.sh
-ENTRYPOINT ["bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/app/bin/docker-entrypoint.sh"]

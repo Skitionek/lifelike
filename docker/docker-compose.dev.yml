@@ -22,7 +22,9 @@ services:
       # Unset to use the default LMDB data directory
       - LMDB_DATA_DIR=
     volumes:
-      - ../appserver:/app
+      - type: bind
+        source: ${HOST_WORKSPACE_PATH:-..}/appserver
+        target: /app
     user: root
 
   statistical-enrichment:
@@ -34,7 +36,9 @@ services:
       - FLASK_ENV=development
       - FLASK_DEBUG=1
     volumes:
-      - ../statistical-enrichment:/app
+      - type: bind
+        source: ${HOST_WORKSPACE_PATH:-..}/statistical-enrichment
+        target: /app
     user: root
 
   cache-invalidator:
@@ -45,7 +49,9 @@ services:
     environment:
       - LOG_LEVEL=DEBUG
     volumes:
-      - ../cache-invalidator:/app
+      - type: bind
+        source: ${HOST_WORKSPACE_PATH:-..}/cache-invalidator
+        target: /app
     user: root
 
   elasticsearch:
