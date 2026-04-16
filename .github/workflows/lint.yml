@@ -19,15 +19,10 @@ jobs:
   fast-lint:
     name: Fast Lint
     runs-on: ubuntu-latest
-    permissions:
-      contents: write   # needed to commit auto-fixes
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
 
       # Python – ruff (replaces pycodestyle / flake8)
       - name: Set up Python
@@ -39,13 +34,13 @@ jobs:
         run: pip install ruff==0.15.10
 
       - name: Run ruff (appserver)
-        run: ruff check appserver/ --config ruff.toml --fix
+        run: ruff check appserver/ --config ruff.toml
 
       - name: Run ruff (statistical-enrichment)
-        run: ruff check statistical-enrichment/ --config ruff.toml --fix
+        run: ruff check statistical-enrichment/ --config ruff.toml
 
       - name: Run ruff (cache-invalidator)
-        run: ruff check cache-invalidator/ --config ruff.toml --fix
+        run: ruff check cache-invalidator/ --config ruff.toml
 
       # TypeScript – tslint
       - name: Set up Node.js
@@ -59,16 +54,7 @@ jobs:
 
       - name: Run tslint
         working-directory: client
-        run: yarn lint --fix
-
-      # ── Auto-fix commit (PR only) ────────────────────────────────────────────
-      - name: Commit fast-lint auto-fixes
-        if: github.event_name == 'pull_request'
-        uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          commit_message: "style: apply fast-lint autofixes"
-          commit_user_name: fast-lint-bot
-          commit_user_email: fast-lint-bot@users.noreply.github.com
+        run: yarn lint-ci
 
   # ── MegaLinter ──────────────────────────────────────────────────────────────
   # Comprehensive lint + optional auto-fix, runs only after fast-lint passes.
@@ -98,16 +84,52 @@ jobs:
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── Auto-fix commit (PR only) ──────────────────────────────────────────
-      - name: Commit MegaLinter auto-fixes
-        if: >
-          github.event_name == 'pull_request' &&
-          steps.ml.outputs.has_updated_sources == 1
-        uses: stefanzweifel/git-auto-commit-action@v7
+      # ── Auto-fix pull request (PR only) ───────────────────────────────────
+      - name: Set fix-PR flag
+        id: fix_check
+        env:
+          HAS_UPDATES: ${{ steps.ml.outputs.has_updated_sources }}
+          IS_PR: ${{ github.event_name == 'pull_request' }}
+          SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+          SKIP_FIX: ${{ contains(github.event.head_commit.message, 'skip fix') }}
+        run: |
+          if [[ "$HAS_UPDATES" == "1" && "$IS_PR" == "true" && "$SAME_REPO" == "true" && "$SKIP_FIX" != "true" ]]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create Pull Request with applied fixes
+        uses: peter-evans/create-pull-request@v6
+        id: cpr
+        if: steps.fix_check.outputs.enabled == 'true'
         with:
-          commit_message: "style: apply MegaLinter auto-fixes"
-          commit_user_name: megalinter-bot
-          commit_user_email: megalinter-bot@users.noreply.github.com
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+          commit-message: "[MegaLinter] Apply linters automatic fixes"
+          title: "[MegaLinter] Apply linters automatic fixes"
+          labels: bot
+          branch: megalinter-fixes-pr-${{ github.event.pull_request.number }}
+          body: |
+            MegaLinter has automatically applied linters fixes on this PR.
+            Please review the changes and merge if they are correct.
+          base: ${{ github.head_ref }}
+
+      - name: Post PR Comment
+        if: steps.fix_check.outputs.enabled == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            MegaLinter has automatically applied linters fixes on this PR.
+            Please review the changes and merge if they are correct.
+            PR: ${{ steps.cpr.outputs.pull-request-url }}
+          hide_and_recreate: true
+
+      - name: Fail if PR Created
+        if: steps.fix_check.outputs.enabled == 'true' && steps.cpr.outputs.pull-request-url != ''
+        run: |
+          echo "A PR with formatting fixes has been created. Please merge it before proceeding."
+          echo "PR: ${{ steps.cpr.outputs.pull-request-url }}"
+          exit 1
 
       # ── Upload SARIF for PR annotations ───────────────────────────────────
       - name: Upload SARIF report
