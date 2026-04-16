@@ -154,7 +154,30 @@ other:
 
 Lifelike Afterhours is a distributed system comprised of the following components:
 
-![Architecture diagram](docker/diagram.svg)
+```mermaid
+flowchart TD
+  frontend[Frontend Angular SPA]
+  appserver[Appserver Flask API]
+  cache_invalidator[Cache invalidator Task runner]
+  statistical_enrichment[Statistical enrichment Flask service]
+  elasticsearch[(Elasticsearch)]
+  neo4j[(Neo4j)]
+  pdfparser[PDFParser]
+  postgres[(PostgreSQL)]
+  redis[(Redis)]
+
+  frontend --> appserver
+  appserver --> pdfparser
+  appserver --> statistical_enrichment
+
+  appserver -. depends on .-> elasticsearch
+  appserver -. depends on .-> neo4j
+  appserver -. depends on .-> postgres
+  cache_invalidator -. depends on .-> neo4j
+  cache_invalidator -. depends on .-> redis
+  statistical_enrichment -. depends on .-> neo4j
+  statistical_enrichment -. depends on .-> redis
+```
 
 ### Core services
 
