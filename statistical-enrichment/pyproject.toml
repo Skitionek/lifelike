@@ -5,7 +5,7 @@ requires-python = "==3.10.*"
 dependencies = [
   "flask==3.1.3",
   "flask-caching==2.3.1",
-  "flask-marshmallow==1.4.0",
+  "flask-marshmallow==1.5.0",
   "gunicorn==25.3.0",
   "neo4j==6.1.0",
   "pandas==2.3.3",
