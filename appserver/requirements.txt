@@ -281,7 +281,7 @@ sqlalchemy-utils==0.41.2
     # via sqlalchemy-searchable
 svg-stack==0.1.0
     # via lifelike-appserver
-timeflake==0.3.3
+timeflake==0.4.3
     # via lifelike-appserver
 typing-extensions==4.15.0
     # via
