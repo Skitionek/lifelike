@@ -13,16 +13,24 @@ directory = os.path.realpath(os.path.dirname(__file__))
 
 def get_database():
     """
-    Get database instance based on environment variables
-    :return: database instance
+    Return a Database instance.  Connection parameters are resolved in order:
+    1. Environment variables (NEO4J_URI, NEO4J_DATABASE, NEO4J_USERNAME, NEO4J_PASSWORD)
+    2. properties.ini next to this file (local development fallback)
     """
-    config = configparser.ConfigParser()
-    config.read(os.path.join(directory, 'properties.ini'))
-    uri = config.get('neo4j', 'neo4j_uri')
-    dbname = config.get('neo4j', 'neo4j_database')
-    username = config.get('neo4j', 'neo4j_username')
-    pwd = config.get('neo4j', 'neo4j_password')
-    driver = GraphDatabase.driver(uri, auth=(username, pwd))
+    uri = os.environ.get('NEO4J_URI')
+    dbname = os.environ.get('NEO4J_DATABASE')
+    username = os.environ.get('NEO4J_USERNAME')
+    password = os.environ.get('NEO4J_PASSWORD')
+
+    if not (uri and dbname and username and password is not None):
+        config = configparser.ConfigParser()
+        config.read(os.path.join(directory, 'properties.ini'))
+        uri = uri or config.get('neo4j', 'neo4j_uri', fallback='bolt://localhost')
+        dbname = dbname or config.get('neo4j', 'neo4j_database', fallback='neo4j')
+        username = username or config.get('neo4j', 'neo4j_username', fallback='neo4j')
+        password = password if password is not None else config.get('neo4j', 'neo4j_password', fallback='')
+
+    driver = GraphDatabase.driver(uri, auth=(username, password))
     return Database(driver, dbname)
 
 

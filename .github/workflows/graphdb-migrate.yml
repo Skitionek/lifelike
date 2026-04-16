@@ -1,4 +1,4 @@
-name: Grpah DB Migrate
+name: Graph DB Migrate
 
 on:
   workflow_dispatch:
@@ -45,21 +45,32 @@ on:
         required: true
         default: '2000'
       changelog:
-        description: Path to the changelog file
-        type: string
+        description: Master changelog to run
+        type: choice
         required: true
-        default: 'lifelike-graph/changelog-master.xml'
+        default: lifelike-graph/changelog-master.xml
+        options:
+          - lifelike-graph/changelog-master.xml
+          - new-lifelike-graph/changelog-master.xml
+          - small-test-graph/changelog-master.xml
+          - ecocyc-plus/changelog-master.xml
+          - reactome-gds/changelog-master.xml
       migrator_image_tag:
         description: Tag of the graphdb-migrator image to use
         type: string
         required: true
         default: latest
 
+# Restrict default token permissions; job only needs to read the repo.
+permissions: read-all
+
 jobs:
   migrate:
     name: Migrate Neo4j DB
     runs-on: self-hosted
     timeout-minutes: 360
+    permissions:
+      contents: read
     container:
       image: ghcr.io/sbrg/lifelike-graphdb-migrator:${{ github.event.inputs.migrator_image_tag }}
       options: --user root

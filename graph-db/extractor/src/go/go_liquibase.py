@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import os
 from datetime import datetime
 
@@ -75,7 +77,14 @@ class GoChangeLog(ChangeLog):
         self.change_sets.append(changeset)
 
 
+def generate(args, output_dir: Path):
+    """Generate and place a Liquibase changelog for GO."""
+    task = GoChangeLog(args.author, args.prefix)
+    task.create_change_logs(initial_load=args.initial_load)
+    task.generate_liquibase_changelog_file(output_dir)
+
+
 if __name__ == '__main__':
-    task = GoChangeLog('Binh Vu', 'LL-3213')
+    task = GoChangeLog('', '')
     task.create_change_logs(True)
-    task.generate_liquibase_changelog_file('go_changelog.xml', directory)
+    task.generate_liquibase_changelog_file(Path(directory), 'go_changelog.xml')

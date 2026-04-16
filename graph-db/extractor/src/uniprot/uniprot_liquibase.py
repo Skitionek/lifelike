@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import os
 from datetime import datetime
 
@@ -122,7 +124,14 @@ class UniprotChangeLog(ChangeLog):
         self.change_sets.append(changeset)
 
 
+def generate(args, output_dir: Path):
+    """Generate and place a Liquibase changelog for UniProt."""
+    task = UniprotChangeLog(args.author, args.prefix)
+    task.create_change_logs(initial_load=args.initial_load)
+    task.generate_liquibase_changelog_file(output_dir)
+
+
 if __name__ == '__main__':
-    task = UniprotChangeLog('Binh Vu', 'LL-3210')
+    task = UniprotChangeLog('', '')
     task.create_change_logs(True)
-    task.generate_liquibase_changelog_file('uniprot_changelog.xml', directory)
+    task.generate_liquibase_changelog_file(Path(directory), 'uniprot_changelog.xml')

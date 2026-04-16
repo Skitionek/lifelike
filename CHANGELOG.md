@@ -19,6 +19,25 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - `LIBREOFFICE_CONVERTIBLE_MIME_TYPES` constant (Python `constants.py` and Angular `shared/constants.ts`) listing all MIME types eligible for conversion.
 - `FilesystemService.getContentAsPdf()` Angular method that calls the new `/content/pdf` endpoint.
 - **MegaLinter** (`oxsecurity/megalinter@v8`) added as a comprehensive lint step in CI (`lint.yml`); runs after fast linters pass and applies auto-fixes on PRs
+- **`graph-db/Makefile`** — single entry point for all graph-db operations: `make extract`, `make changelog`, `make full-load`, `make dev-up`, `make migrate`
+- **`generate-changelog` subcommand** in `extractor/src/app.py` — generates a Liquibase changelog XML for a domain and auto-places it as the next `changelog-NNNN.xml` in `graph-db/changelog/<dir>/changelogs/`
+- **`full-load` subcommand** in `extractor/src/app.py` — combines extract + changelog generation in one step
+- **`generate(args, output_dir)` function** added to every `*_liquibase.py` module so changelogs can be driven entirely from the CLI
+- **`get_next_changelog_filename()`** helper in `liquibase_utils.py` for automatic sequential changelog file naming
+- **`.github/workflows/graphdb-extract.yml`** — new `workflow_dispatch` workflow that extracts data, generates a changelog, and opens a PR for review before migration
+- **`properties.ini.example`** template files for `common/` and `cloudstorage/` so new contributors know which values to set locally
+
+### Changed
+- **Credentials now read from environment variables first** (`NEO4J_URI`, `NEO4J_DATABASE`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`, `AZURE_ACCOUNT_STORAGE_NAME`, `AZURE_ACCOUNT_STORAGE_KEY`) with `properties.ini` as local-dev fallback — no more manual file editing in CI/CD
+- **`generate_liquibase_changelog_file()`** signature updated to accept a `Path` output directory and an optional filename; auto-numbers the file when no name is given
+- **`graphdb-migrate.yml`**: `changelog` input changed from a free-text field to a dropdown of known master files, preventing path-typo mistakes
+- **`--prefix` argument** is now optional (default `''`) and accepts any string — no longer restricted to JIRA `LL-NNNN` format
+- **`app.py` subparser** destination renamed from `domain` to `command` to allow `generate-changelog` and `full-load` as first-class subcommands alongside the existing domain extract commands
+
+### Removed
+- **JIRA prefix validation** removed from `ChangeLog.__init__`, `BaseParser.__init__`, and `app.py` — the `LL-NNNN` format constraint is gone
+- **`jira-` literal prefix** removed from output file names in `liquibase_utils.py`, `base_parser.py`, and `chebi_parser.py`
+
 - **ruff** (`0.15.10`) added as a dev dependency to all Python projects (appserver, statistical-enrichment, cache-invalidator) with a shared root `ruff.toml` config (E/F rules, line-length 100, migrations excluded)
 - **`lint.yml`** GitHub Actions workflow: fast-lint job (ruff + tslint) gates MegaLinter; SARIF report uploaded on every PR/push so findings appear as Security-tab annotations and PR review comments
 - **`.cspell.json`** project dictionary with 418 domain/project-specific words to suppress cspell false-positive warnings

@@ -26,18 +26,36 @@ class AzureCloudStorage(CloudStorage):
         cloudstorage = AzureCloudStorage(AzureCloudStorage.get_file_client(sas_token, filename))
         cloudstorage.upload(filepath, filename)
         cloudstorage.close()
+
+    Credentials are resolved in order:
+    1. Environment variables: AZURE_ACCOUNT_STORAGE_NAME, AZURE_ACCOUNT_STORAGE_KEY
+    2. properties.ini next to this file (local development fallback)
     """
     def __init__(self, provider: ShareFileClient):
         super().__init__(provider)
 
     @staticmethod
+    def _get_credentials():
+        account_name = os.environ.get('AZURE_ACCOUNT_STORAGE_NAME')
+        account_key = os.environ.get('AZURE_ACCOUNT_STORAGE_KEY')
+        if not account_name or not account_key:
+            config = configparser.ConfigParser()
+            config.read(os.path.join(directory, 'properties.ini'))
+            account_name = account_name or config.get(
+                'azure_cloud', 'azure_account_storage_name', fallback=''
+            )
+            account_key = account_key or config.get(
+                'azure_cloud', 'azure_account_storage_key', fallback=''
+            )
+        return account_name, account_key
+
+    @staticmethod
     def generate_token(filename: str):
+        account_name, account_key = AzureCloudStorage._get_credentials()
         zipfilename = filename.replace('.tsv', '.zip')
-        config = configparser.ConfigParser()
-        config.read(os.path.join(directory, 'properties.ini'))
         return generate_file_sas(
-            account_name=config.get('azure_cloud', 'azure_account_storage_name'),
-            account_key=config.get('azure_cloud', 'azure_account_storage_key'),
+            account_name=account_name,
+            account_key=account_key,
             permission=AccountSasPermissions(write=True),
             share_name='knowledge-graph',
             file_path=['migration', zipfilename],
@@ -47,11 +65,10 @@ class AzureCloudStorage(CloudStorage):
 
     @staticmethod
     def get_file_client(token, filename: str):
+        account_name, _ = AzureCloudStorage._get_credentials()
         zipfilename = filename.replace('.tsv', '.zip')
-        config = configparser.ConfigParser()
-        config.read(os.path.join(directory, 'properties.ini'))
         return ShareFileClient(
-            account_url=f"https://{config.get('azure_cloud', 'azure_account_storage_name')}.file.core.windows.net",
+            account_url=f"https://{account_name}.file.core.windows.net",
             credential=token,
             share_name='knowledge-graph',
             file_path=f'migration/{zipfilename}',

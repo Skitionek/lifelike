@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import os
 from datetime import datetime
 
@@ -77,7 +79,15 @@ class EnzymeChangeLog(ChangeLog):
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{ENZYME_REL_FILE}')
         self.change_sets.append(changeset)
 
+
+def generate(args, output_dir: Path):
+    """Generate and place a Liquibase changelog for Enzyme."""
+    task = EnzymeChangeLog(args.author, args.prefix)
+    task.create_change_logs(initial_load=args.initial_load)
+    task.generate_liquibase_changelog_file(output_dir)
+
+
 if __name__ == '__main__':
-    task = EnzymeChangeLog('Binh Vu', 'LL-3217')
+    task = EnzymeChangeLog('', '')
     task.create_change_logs(True)
-    task.generate_liquibase_changelog_file('enzyme_changelog.xml', directory)
+    task.generate_liquibase_changelog_file(Path(directory), 'enzyme_changelog.xml')

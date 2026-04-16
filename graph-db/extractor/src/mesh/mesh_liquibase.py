@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import os
 from datetime import datetime
 
@@ -175,7 +177,14 @@ class MeshChangeLog(ChangeLog):
         self.change_sets.append(changeset)
 
 
+def generate(args, output_dir: Path):
+    """Generate and place a Liquibase changelog for MeSH."""
+    task = MeshChangeLog(args.author, args.prefix)
+    task.create_change_logs(initial_load=args.initial_load)
+    task.generate_liquibase_changelog_file(output_dir)
+
+
 if __name__ == '__main__':
-    task = MeshChangeLog('Binh Vu', 'LL-3214')
+    task = MeshChangeLog('', '')
     task.create_change_logs(True)
-    task.generate_liquibase_changelog_file('mesh_changelog.xml', directory)
+    task.generate_liquibase_changelog_file(Path(directory), 'mesh_changelog.xml')
