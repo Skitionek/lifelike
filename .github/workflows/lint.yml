@@ -20,11 +20,14 @@ jobs:
     name: Fast Lint
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write   # needed to commit auto-fixes
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       # Python – ruff (replaces pycodestyle / flake8)
       - name: Set up Python
@@ -36,13 +39,13 @@ jobs:
         run: pip install ruff==0.15.10
 
       - name: Run ruff (appserver)
-        run: ruff check appserver/ --config ruff.toml
+        run: ruff check appserver/ --config ruff.toml --fix
 
       - name: Run ruff (statistical-enrichment)
-        run: ruff check statistical-enrichment/ --config ruff.toml
+        run: ruff check statistical-enrichment/ --config ruff.toml --fix
 
       - name: Run ruff (cache-invalidator)
-        run: ruff check cache-invalidator/ --config ruff.toml
+        run: ruff check cache-invalidator/ --config ruff.toml --fix
 
       # TypeScript – tslint
       - name: Set up Node.js
@@ -56,7 +59,16 @@ jobs:
 
       - name: Run tslint
         working-directory: client
-        run: yarn lint-ci
+        run: yarn lint --fix
+
+      # ── Auto-fix commit (PR only) ────────────────────────────────────────────
+      - name: Commit fast-lint auto-fixes
+        if: github.event_name == 'pull_request'
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "style: apply fast-lint autofixes"
+          commit_user_name: fast-lint-bot
+          commit_user_email: fast-lint-bot@users.noreply.github.com
 
   # ── MegaLinter ──────────────────────────────────────────────────────────────
   # Comprehensive lint + optional auto-fix, runs only after fast-lint passes.
