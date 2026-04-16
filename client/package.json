@@ -43,7 +43,7 @@
     "angular-split": "^14.0.0",
     "bootstrap": "^5.1.1",
     "canvas-plus": "^1.0.3",
-    "chart.js": "^3.7.0",
+    "chart.js": "^4.5.1",
     "chartjs-plugin-datalabels": "^2.0.0",
     "color": "^3.0.0",
     "crypto-js": "^4.1.1",
