@@ -58,3 +58,9 @@ services:
     build:
       context: .
       dockerfile: elasticsearch.Dockerfile
+    environment:
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - node.store.allow_mmap=false
+      - xpack.ml.enabled=false
+    healthcheck:
+      start_period: 90s
