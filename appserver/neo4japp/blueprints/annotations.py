@@ -1238,7 +1238,7 @@ class FolderAnnotationsView(FilesystemBaseView):
         FolderAnnotationConfigSchema().load(new_data)  # validate
 
         raw_bytes = yaml.dump(new_data, allow_unicode=True).encode('utf-8')
-        checksum = __import__('hashlib').sha256(raw_bytes).digest()
+        checksum = hashlib.sha256(raw_bytes).digest()
 
         row = self._lookup_annotations_row(folder)
         if row is None:
@@ -1297,7 +1297,7 @@ class FolderAnnotationsView(FilesystemBaseView):
         FolderAnnotationConfigSchema().load(merged)  # validate
 
         raw_bytes = yaml.dump(merged, allow_unicode=True).encode('utf-8')
-        checksum = __import__('hashlib').sha256(raw_bytes).digest()
+        checksum = hashlib.sha256(raw_bytes).digest()
 
         if row is None:
             from ..models.files import FileContent
