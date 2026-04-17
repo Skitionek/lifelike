@@ -12,6 +12,9 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ## [Unreleased]
 
+### Changed
+- **Storage backend**: replaced direct `azure-storage-blob` and `azure-storage-file` SDK usage with [apache-libcloud](https://libcloud.apache.org/) Object Storage API (`apache-libcloud==3.9.0`). The `AzureStorageProvider` in `lmdb_manager` is now backed by `LibcloudStorageProvider` (a thin libcloud wrapper), making it straightforward to swap in alternative backends (GCS, S3, local) by supplying a different libcloud driver. The user-manual storage blueprint (`blueprints/storage.py`) likewise uses the libcloud API. Removed the now-unused `AZURE_BLOB_STORAGE_URL` config entry.
+
 ### Fixed
 - **CI linting**: upgraded `peter-evans/create-pull-request` from v6 to v7 to fix "Duplicate header: Authorization" error in the MegaLinter auto-fix PR step.
 
