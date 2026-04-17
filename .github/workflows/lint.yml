@@ -100,7 +100,7 @@ jobs:
           fi
 
       - name: Create Pull Request with applied fixes
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         id: cpr
         if: steps.fix_check.outputs.enabled == 'true'
         with:
@@ -116,7 +116,7 @@ jobs:
 
       - name: Post PR Comment
         if: steps.fix_check.outputs.enabled == 'true'
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: |
             MegaLinter has automatically applied linters fixes on this PR.
