@@ -37,13 +37,18 @@ My overambitious roadmap:
 
 -----------
 
-<img src="https://sbrg.github.io/lifelike-website/images/cfb_logo.png" alt="CFB" border="0" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://sbrg.github.io/lifelike-website/images/dtu_logo.png" alt="DTU" border="0" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://sbrg.github.io/lifelike-website/images/ucsd_logo.png" alt="UCSD" border="0" />
-
 Lifelike Afterhours is a fork of Lifelike that aims to provide a simple, yet powerful platform for turning structured and unstructured data from a variety of sources into a single, coherent and explorable knowledge graph.
 
 [![DOI](https://zenodo.org/badge/437040913.svg)](https://zenodo.org/badge/latestdoi/437040913)
+
+## Attribution
+
+- Textual legend: "This project uses code provided by Lifelike.bio"
+- Embeded Lifelike logo image:
+
+  [![Lifelike logo](https://github.com/SBRG/lifelike-website/raw/main/lifelike.png)](https://github.com/SBRG/lifelike)
+
+- Link to Lifelike public GitHub repository: [https://github.com/SBRG/lifelike](https://github.com/SBRG/lifelike)
 
 ## Quick start
 
@@ -149,7 +154,30 @@ other:
 
 Lifelike Afterhours is a distributed system comprised of the following components:
 
-![Architecture diagram](docker/diagram.svg)
+```mermaid
+flowchart TD
+  frontend[Frontend Angular SPA]
+  appserver[Appserver Flask API]
+  cache_invalidator[Cache invalidator Task runner]
+  statistical_enrichment[Statistical enrichment Flask service]
+  elasticsearch[(Elasticsearch)]
+  neo4j[(Neo4j)]
+  pdfparser[PDFParser]
+  postgres[(PostgreSQL)]
+  redis[(Redis)]
+
+  frontend --> appserver
+  appserver --> pdfparser
+  appserver --> statistical_enrichment
+
+  appserver -. depends on .-> elasticsearch
+  appserver -. depends on .-> neo4j
+  appserver -. depends on .-> postgres
+  cache_invalidator -. depends on .-> neo4j
+  cache_invalidator -. depends on .-> redis
+  statistical_enrichment -. depends on .-> neo4j
+  statistical_enrichment -. depends on .-> redis
+```
 
 ### Core services
 
@@ -175,5 +203,3 @@ Lifelike Afterhours licensing and upstream notice are described in [LICENSE](LIC
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for a history of changes made in this fork.
-
-![Lifelike](appserver/assets/lifelike.png)

@@ -12,7 +12,11 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ## [Unreleased]
 
+### Fixed
+- **CI linting**: upgraded `peter-evans/create-pull-request` from v6 to v7 to fix "Duplicate header: Authorization" error in the MegaLinter auto-fix PR step.
+
 ### Changed
+- **GitHub Actions cleanup**: removed the duplicate default CodeQL workflow, kept the advanced scan workflow, and updated stale graph DB workflow action references.
 - **CI linting**: MegaLinter fixes are opened as a separate PR (`APPLY_FIXES_MODE: pull_request`) and auto-approved via `megalinter-auto-approve.yml`; `fast-lint` runs in check-only mode.
 
 ### Added
@@ -46,6 +50,8 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - **`.cspell.json`** project dictionary with 418 domain/project-specific words to suppress cspell false-positive warnings
 
 ### Fixed
+- Devcontainer Docker Compose startup now resolves app bind mounts against the Docker host workspace path, fixing empty source mounts that hid service startup scripts and broke container launch
+- Devcontainer Elasticsearch now uses a smaller JVM heap and safer single-node settings, preventing restart loops and unhealthy startup during local stack initialization
 - MegaLinter: exclude `graph-db/` from ruff scanning (legacy extractor scripts use wildcard imports by design)
 - MegaLinter: fix three spurious F541 f-strings (no placeholders) in `tests/locust/locustfile.py`
 - MegaLinter: disable `TYPESCRIPT_ES` and `JAVASCRIPT_ES` linters — project uses tslint (via fast-lint); the eslint linters were misconfigured with a `tslint.json` (invalid eslint config), causing a config-parse error
