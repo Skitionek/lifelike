@@ -292,3 +292,49 @@ class FileAnnotationHistoryResponseSchema(ResultListSchema):
 
 class GlobalAnnotationsDeleteSchema(Schema):
     pids = fields.List(fields.Tuple((fields.Integer(), fields.Integer())))
+
+
+# ========================================
+# Folder-level .annotations (YAML file)
+# ========================================
+
+class FolderAnnotationOrganismSchema(Schema):
+    """Organism override stored inside a .annotations YAML file."""
+    synonym = fields.String(required=True, validate=marshmallow.validate.Length(min=1, max=200))
+    taxonomy_id = fields.String(required=True, validate=marshmallow.validate.Length(min=1, max=200))
+
+
+class FolderAnnotationInclusionSchema(Schema):
+    """A single custom-annotation inclusion entry in a .annotations file."""
+    type = fields.String(required=True)
+    text = fields.String(required=True)
+    id = fields.String(load_default='')
+    is_case_insensitive = fields.Boolean(load_default=False, data_key='isCaseInsensitive')
+
+
+class FolderAnnotationExclusionSchema(Schema):
+    """A single annotation exclusion entry in a .annotations file."""
+    type = fields.String(required=True)
+    text = fields.String(required=True)
+    is_case_insensitive = fields.Boolean(load_default=False, data_key='isCaseInsensitive')
+    reason = fields.String(load_default='')
+    comment = fields.String(load_default='')
+
+
+class FolderAnnotationConfigSchema(Schema):
+    """Schema for the complete content of a .annotations YAML file."""
+    inherit = fields.Boolean(load_default=True)
+    fallback_organism = fields.Nested(FolderAnnotationOrganismSchema, allow_none=True,
+                                      load_default=None)
+    annotation_configs = fields.Nested(AnnotationConfigurations, allow_none=True,
+                                       load_default=None)
+    include = fields.List(fields.Nested(FolderAnnotationInclusionSchema), load_default=list)
+    exclude = fields.List(fields.Nested(FolderAnnotationExclusionSchema), load_default=list)
+
+
+class EffectiveAnnotationConfigResponseSchema(CamelCaseSchema):
+    """The merged, resolved annotation config returned to the client."""
+    annotation_configs = fields.Dict(allow_none=True)
+    fallback_organism = fields.Nested(FolderAnnotationOrganismSchema, allow_none=True)
+    custom_annotations = fields.List(fields.Nested(FolderAnnotationInclusionSchema))
+    excluded_annotations = fields.List(fields.Nested(FolderAnnotationExclusionSchema))

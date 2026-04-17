@@ -53,6 +53,7 @@ dependencies = [
   "pyparsing==2.4.7",
   "svg-stack==0.1.0",
   "elastic-apm[flask]",
+  "pyyaml==6.0.1",
 ]
 
 [dependency-groups]

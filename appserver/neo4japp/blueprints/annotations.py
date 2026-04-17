@@ -6,6 +6,7 @@ import json
 import time
 
 import sqlalchemy as sa
+import yaml
 
 from datetime import datetime
 from flask import (
@@ -28,7 +29,7 @@ from .auth import auth
 from .filesystem import bp as filesystem_bp, FilesystemBaseView
 from .permissions import requires_role
 
-from ..constants import LogEventType, TIMEZONE
+from ..constants import LogEventType, TIMEZONE, FILE_MIME_TYPE_ANNOTATIONS
 from ..database import (
     db,
     get_excel_export_service,
@@ -56,7 +57,9 @@ from ..schemas.annotations import (
     AnnotationExclusionCreateSchema,
     AnnotationExclusionDeleteSchema,
     SystemAnnotationListSchema,
-    CustomAnnotationListSchema
+    CustomAnnotationListSchema,
+    EffectiveAnnotationConfigResponseSchema,
+    FolderAnnotationConfigSchema,
 )
 from ..schemas.common import PaginatedRequestSchema
 from ..schemas.enrichment import EnrichmentTableSchema
@@ -74,9 +77,14 @@ from ..services.annotations.initializer import (
     get_annotation_tokenizer,
     get_bioc_document_service,
     get_enrichment_annotation_service,
+    get_folder_annotation_service,
     get_manual_annotation_service,
     get_recognition_service,
     get_sorted_annotation_service
+)
+from ..services.annotations.folder_annotation_service import (
+    ANNOTATIONS_FILENAME,
+    EffectiveAnnotationConfig,
 )
 from ..services.annotations.sorted_annotation_service import (
     default_sorted_annotation,
@@ -459,15 +467,34 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
         missing = self.get_missing_hash_ids(targets['hash_ids'], files)
 
         for file in files:
+            # Resolve effective config from folder-level .annotations hierarchy,
+            # with any request-level overrides applied on top.
+            folder_service = get_folder_annotation_service()
+            effective_config = folder_service.get_effective_annotation_config(
+                file,
+                per_file_custom_annotations=file.custom_annotations or [],
+                per_file_excluded_annotations=file.excluded_annotations or [],
+                per_file_annotation_configs=file.annotation_configs,
+                per_file_organism=file.fallback_organism,
+            )
+
+            # Request-level overrides take highest priority
             if override_organism is not None:
                 effective_organism = override_organism
+            elif effective_config.fallback_organism:
+                # Reconstruct a FallbackOrganism from the dict in effective_config
+                effective_organism = FallbackOrganism(
+                    organism_name=effective_config.fallback_organism.get('synonym', ''),
+                    organism_synonym=effective_config.fallback_organism.get('synonym', ''),
+                    organism_taxonomy_id=effective_config.fallback_organism.get('taxonomy_id', ''),
+                )
             else:
-                effective_organism = file.fallback_organism
+                effective_organism = None
 
             if override_annotation_configs is not None:
                 effective_annotation_configs = override_annotation_configs
-            elif file.annotation_configs is not None:
-                effective_annotation_configs = file.annotation_configs
+            elif effective_config.annotation_configs:
+                effective_annotation_configs = effective_config.annotation_configs
             else:
                 effective_annotation_configs = DEFAULT_ANNOTATION_CONFIGS
 
@@ -477,6 +504,7 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
                         file=file,
                         cause=AnnotationChangeCause.SYSTEM_REANNOTATION,
                         configs=effective_annotation_configs,
+                        effective_config=effective_config,
                         organism=effective_organism,
                         user_id=current_user.id,
                     )
@@ -520,6 +548,7 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
                         enriched=enriched,
                         cause=AnnotationChangeCause.SYSTEM_REANNOTATION,
                         configs=effective_annotation_configs,
+                        effective_config=effective_config,
                         organism=effective_organism,
                         user_id=current_user.id,
                         enrichment=enrichment
@@ -565,10 +594,22 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
         file: Files,
         cause: AnnotationChangeCause,
         configs: dict,
+        effective_config: Optional[EffectiveAnnotationConfig] = None,
         organism: Optional[FallbackOrganism] = None,
         user_id: int = None
     ):
         """Annotate PDF files."""
+        excluded_annotations = (
+            effective_config.excluded_annotations
+            if effective_config is not None
+            else file.excluded_annotations or []
+        )
+        custom_annotations = (
+            effective_config.custom_annotations
+            if effective_config is not None
+            else file.custom_annotations or []
+        )
+
         text, parsed = Pipeline.parse(
             file.mime_type, file_id=file.id, exclude_references=configs['exclude_references'])
 
@@ -584,14 +625,14 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
             text=text, parsed=parsed)
 
         annotations_json = pipeline.get_globals(
-            excluded_annotations=file.excluded_annotations or [],
-            custom_annotations=file.custom_annotations or []
+            excluded_annotations=excluded_annotations,
+            custom_annotations=custom_annotations,
         ).identify(
             annotation_methods=configs['annotation_methods']
         ).annotate(
             specified_organism_synonym=organism.organism_synonym if organism else '',  # noqa
             specified_organism_tax_id=organism.organism_taxonomy_id if organism else '',  # noqa
-            custom_annotations=file.custom_annotations or [],
+            custom_annotations=custom_annotations,
             filename=file.filename)
 
         update = {
@@ -623,9 +664,21 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
         user_id: int,
         enrichment: dict,
         configs: dict,
+        effective_config: Optional[EffectiveAnnotationConfig] = None,
         organism: Optional[FallbackOrganism] = None
     ):
         """Annotate all text in enrichment table."""
+        excluded_annotations = (
+            effective_config.excluded_annotations
+            if effective_config is not None
+            else file.excluded_annotations or []
+        )
+        custom_annotations = (
+            effective_config.custom_annotations
+            if effective_config is not None
+            else file.custom_annotations or []
+        )
+
         text, parsed = Pipeline.parse(file.mime_type, text=enriched.text)
 
         pipeline = Pipeline(
@@ -640,14 +693,14 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
             text=text, parsed=parsed)
 
         annotations_json = pipeline.get_globals(
-            excluded_annotations=file.excluded_annotations or [],
-            custom_annotations=file.custom_annotations or []
+            excluded_annotations=excluded_annotations,
+            custom_annotations=custom_annotations,
         ).identify(
             annotation_methods=configs['annotation_methods']
         ).annotate(
             specified_organism_synonym=organism.organism_synonym if organism else '',  # noqa
             specified_organism_tax_id=organism.organism_taxonomy_id if organism else '',  # noqa
-            custom_annotations=file.custom_annotations or [],
+            custom_annotations=custom_annotations,
             filename=file.filename,
             enrichment_mappings=enriched.text_index_map)
 
@@ -1100,6 +1153,219 @@ class FilesNeedingReannotationView(MethodView):
         yield jsonify({'hash_ids': hash_ids, 'total': len(hash_ids)})
 
 
+class FolderAnnotationsView(FilesystemBaseView):
+    """CRUD for the .annotations YAML config file attached to a directory.
+
+    GET    /filesystem/objects/<hash_id>/folder-annotations
+        Return the parsed YAML contents of the .annotations file.
+
+    PUT    /filesystem/objects/<hash_id>/folder-annotations
+        Replace (or create) the .annotations file with the supplied YAML body.
+
+    PATCH  /filesystem/objects/<hash_id>/folder-annotations
+        Deep-merge the supplied partial config into the existing .annotations file.
+
+    DELETE /filesystem/objects/<hash_id>/folder-annotations
+        Soft-delete (mark deletion_date) the .annotations file for this directory.
+    """
+
+    decorators = [auth.login_required]
+
+    # ------------------------------------------------------------------ helpers
+
+    def _get_directory(self, hash_id: str) -> Files:
+        from ..constants import FILE_MIME_TYPE_DIRECTORY
+        folder = self.get_nondeleted_recycled_file(Files.hash_id == hash_id)
+        if folder.mime_type != FILE_MIME_TYPE_DIRECTORY:
+            raise ServerException(
+                title='Not a Directory',
+                message='Folder-level annotations can only be managed on directories.',
+                code=400,
+            )
+        return folder
+
+    def _lookup_annotations_row(self, folder: Files) -> Optional[Files]:
+        """Return the .annotations Files row for *folder*, or None."""
+        return (
+            db.session.query(Files)
+            .filter(
+                Files.filename == ANNOTATIONS_FILENAME,
+                Files.parent_id == folder.id,
+                Files.mime_type == FILE_MIME_TYPE_ANNOTATIONS,
+                Files.deletion_date.is_(None),
+            )
+            .one_or_none()
+        )
+
+    @staticmethod
+    def _parse_yaml_body() -> dict:
+        """Read and parse the YAML request body."""
+        raw = request.get_data(as_text=True) or ''
+        try:
+            data = yaml.safe_load(raw)
+            return data if isinstance(data, dict) else {}
+        except yaml.YAMLError as exc:
+            raise ServerException(
+                title='Invalid YAML',
+                message=f'Could not parse request body as YAML: {exc}',
+                code=400,
+            )
+
+    # ------------------------------------------------------------------ handlers
+
+    def get(self, hash_id: str):
+        current_user = g.current_user
+        folder = self._get_directory(hash_id)
+        self.check_file_permissions([folder], current_user, ['readable'], permit_recycled=False)
+
+        row = self._lookup_annotations_row(folder)
+        if row is None:
+            return jsonify({}), 200
+
+        raw = row.content.raw_file if row.content else b''
+        try:
+            data = yaml.safe_load(raw.decode('utf-8')) or {}
+        except (yaml.YAMLError, UnicodeDecodeError):
+            data = {}
+        return jsonify(data), 200
+
+    def put(self, hash_id: str):
+        current_user = g.current_user
+        folder = self._get_directory(hash_id)
+        self.check_file_permissions([folder], current_user, ['writable'], permit_recycled=False)
+
+        new_data = self._parse_yaml_body()
+        FolderAnnotationConfigSchema().load(new_data)  # validate
+
+        raw_bytes = yaml.dump(new_data, allow_unicode=True).encode('utf-8')
+        checksum = __import__('hashlib').sha256(raw_bytes).digest()
+
+        row = self._lookup_annotations_row(folder)
+        if row is None:
+            from ..models.files import FileContent
+            content = FileContent()
+            content.raw_file = raw_bytes
+            content.checksum_sha256 = checksum
+            db.session.add(content)
+            db.session.flush()
+
+            row = Files(
+                filename=ANNOTATIONS_FILENAME,
+                mime_type=FILE_MIME_TYPE_ANNOTATIONS,
+                parent_id=folder.id,
+                user_id=current_user.id,
+                content_id=content.id,
+            )
+            db.session.add(row)
+        else:
+            from ..models.files import FileContent
+            content = row.content
+            content.raw_file = raw_bytes
+            content.checksum_sha256 = checksum
+
+        db.session.commit()
+        return jsonify(new_data), 200
+
+    def patch(self, hash_id: str):
+        current_user = g.current_user
+        folder = self._get_directory(hash_id)
+        self.check_file_permissions([folder], current_user, ['writable'], permit_recycled=False)
+
+        patch_data = self._parse_yaml_body()
+
+        row = self._lookup_annotations_row(folder)
+        existing: dict = {}
+        if row and row.content:
+            try:
+                existing = yaml.safe_load(row.content.raw_file.decode('utf-8')) or {}
+            except (yaml.YAMLError, UnicodeDecodeError):
+                existing = {}
+
+        # Deep-merge: top-level keys are merged; lists are replaced (not appended)
+        merged = {**existing, **patch_data}
+        # Merge annotation_configs.annotation_methods separately
+        if 'annotation_configs' in existing and 'annotation_configs' in patch_data:
+            merged_ac = {**existing['annotation_configs'], **patch_data['annotation_configs']}
+            if 'annotation_methods' in existing.get('annotation_configs', {}) and \
+                    'annotation_methods' in patch_data.get('annotation_configs', {}):
+                merged_ac['annotation_methods'] = {
+                    **existing['annotation_configs']['annotation_methods'],
+                    **patch_data['annotation_configs']['annotation_methods'],
+                }
+            merged['annotation_configs'] = merged_ac
+
+        FolderAnnotationConfigSchema().load(merged)  # validate
+
+        raw_bytes = yaml.dump(merged, allow_unicode=True).encode('utf-8')
+        checksum = __import__('hashlib').sha256(raw_bytes).digest()
+
+        if row is None:
+            from ..models.files import FileContent
+            content = FileContent()
+            content.raw_file = raw_bytes
+            content.checksum_sha256 = checksum
+            db.session.add(content)
+            db.session.flush()
+
+            row = Files(
+                filename=ANNOTATIONS_FILENAME,
+                mime_type=FILE_MIME_TYPE_ANNOTATIONS,
+                parent_id=folder.id,
+                user_id=current_user.id,
+                content_id=content.id,
+            )
+            db.session.add(row)
+        else:
+            row.content.raw_file = raw_bytes
+            row.content.checksum_sha256 = checksum
+
+        db.session.commit()
+        return jsonify(merged), 200
+
+    def delete(self, hash_id: str):
+        current_user = g.current_user
+        folder = self._get_directory(hash_id)
+        self.check_file_permissions([folder], current_user, ['writable'], permit_recycled=False)
+
+        row = self._lookup_annotations_row(folder)
+        if row is None:
+            return jsonify({}), 204
+
+        row.deletion_date = datetime.now(TIMEZONE)
+        db.session.commit()
+        return jsonify({}), 204
+
+
+class EffectiveAnnotationsConfigView(FilesystemBaseView):
+    """Return the merged effective annotation config visible to a file or folder.
+
+    GET /filesystem/objects/<hash_id>/effective-annotations-config
+    """
+
+    decorators = [auth.login_required]
+
+    def get(self, hash_id: str):
+        current_user = g.current_user
+        file = self.get_nondeleted_recycled_file(Files.hash_id == hash_id)
+        self.check_file_permissions([file], current_user, ['readable'], permit_recycled=False)
+
+        folder_service = get_folder_annotation_service()
+        effective = folder_service.get_effective_annotation_config(
+            file,
+            per_file_custom_annotations=file.custom_annotations or [],
+            per_file_excluded_annotations=file.excluded_annotations or [],
+            per_file_annotation_configs=file.annotation_configs,
+            per_file_organism=file.fallback_organism,
+        )
+
+        return jsonify(EffectiveAnnotationConfigResponseSchema().dump({
+            'annotation_configs': effective.annotation_configs,
+            'fallback_organism': effective.fallback_organism,
+            'custom_annotations': effective.custom_annotations,
+            'excluded_annotations': effective.excluded_annotations,
+        })), 200
+
+
 bp.add_url_rule(
     '/global-list',
     view_func=GlobalAnnotationListView.as_view('global_annotations_list'))
@@ -1143,3 +1409,9 @@ filesystem_bp.add_url_rule(
 bp.add_url_rule(
     '/needs-reannotation',
     view_func=FilesNeedingReannotationView.as_view('files_needing_reannotation'))
+filesystem_bp.add_url_rule(
+    'objects/<string:hash_id>/folder-annotations',
+    view_func=FolderAnnotationsView.as_view('folder_annotations'))
+filesystem_bp.add_url_rule(
+    'objects/<string:hash_id>/effective-annotations-config',
+    view_func=EffectiveAnnotationsConfigView.as_view('effective_annotations_config'))

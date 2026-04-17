@@ -12,6 +12,21 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ## [Unreleased]
 
+### Added
+- **Folder-level `.annotations` YAML files**: directories can now contain a `.annotations` file (MIME type `vnd.lifelike.filesystem/annotations`) that defines annotation scope — analogous to `.gitignore`. The file uses YAML format and supports `inherit`, `fallback_organism`, `annotation_configs`, `include`, and `exclude` fields. Nested folders can extend or override parent scope; `inherit: false` resets the accumulated config from outer scopes.
+- **`FolderAnnotationService`** (`neo4japp/services/annotations/folder_annotation_service.py`): walks a file's ancestor chain, loads `.annotations` YAML files, and merges them into a single `EffectiveAnnotationConfig` dataclass.
+- **New REST API endpoints** under `/api/filesystem/objects/<hash_id>/`:
+  - `GET  /folder-annotations` — read the parsed `.annotations` config for a directory.
+  - `PUT  /folder-annotations` — create or replace the `.annotations` config.
+  - `PATCH /folder-annotations` — deep-merge a partial config into the existing one.
+  - `DELETE /folder-annotations` — soft-delete the `.annotations` file.
+  - `GET  /effective-annotations-config` — return the merged effective config for any file or folder.
+- **`FILE_MIME_TYPE_ANNOTATIONS`** constant (`vnd.lifelike.filesystem/annotations`) added to `constants.py`.
+- **Database migration** `001_add_annotations_file_unique_index`: unique partial index `(filename, parent_id)` where `filename = '.annotations'` and `deletion_date IS NULL` to enforce at most one `.annotations` file per directory.
+- **`PyYAML==6.0.1`** added as an explicit project dependency.
+- Unit tests for `FolderAnnotationService` covering: no config files, single folder config, nested config merging, `inherit: false` reset, per-file overrides, partial configs, and invalid YAML handling.
+- API tests for all new folder-annotations endpoints.
+
 ### Fixed
 - **CI linting**: upgraded `peter-evans/create-pull-request` from v6 to v7 to fix "Duplicate header: Authorization" error in the MegaLinter auto-fix PR step.
 
