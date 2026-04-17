@@ -1,13 +1,17 @@
 """API tests for folder-level .annotations endpoints."""
-import hashlib
 import json
 import types
 
 import pytest
 import yaml
 
-from neo4japp.constants import FILE_MIME_TYPE_ANNOTATIONS
-from neo4japp.models import AppUser, Files, Projects, AppRole, projects_collaborator_role, FileContent
+from neo4japp.models import (
+    AppUser,
+    Files,
+    Projects,
+    AppRole,
+    projects_collaborator_role,
+)
 from neo4japp.services.file_types.providers import DirectoryTypeProvider
 from neo4japp.services.elastic import ElasticService
 from datetime import datetime
@@ -142,7 +146,12 @@ class TestFolderAnnotationsPut:
         payload = {
             'fallback_organism': {'synonym': 'Homo sapiens', 'taxonomy_id': '9606'},
             'exclude': [
-                {'type': 'Disease', 'text': 'cancer', 'isCaseInsensitive': True, 'reason': 'generic'}
+                {
+                    'type': 'Disease',
+                    'text': 'cancer',
+                    'isCaseInsensitive': True,
+                    'reason': 'generic',
+                }
             ],
         }
 

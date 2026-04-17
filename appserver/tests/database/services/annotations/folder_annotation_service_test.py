@@ -4,13 +4,11 @@ These tests are pure-unit tests that do NOT require a running database.
 We monkey-patch the internal DB lookup function so the service can be
 exercised in isolation.
 """
-import pytest
 import yaml
 
 from neo4japp.services.annotations.folder_annotation_service import (
     EffectiveAnnotationConfig,
     FolderAnnotationService,
-    ANNOTATIONS_FILENAME,
     _load_yaml,
     _merge_layer,
 )
