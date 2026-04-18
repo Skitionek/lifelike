@@ -396,17 +396,28 @@ class ManualAnnotationService:
 
     # TODO: does this belong here?
     def get_file_annotations(self, file):
+        from neo4japp.services.annotations.initializer import get_folder_annotation_service
+        folder_service = get_folder_annotation_service()
+        effective = folder_service.get_effective_annotation_config(
+            file,
+            per_file_custom_annotations=file.custom_annotations or [],
+            per_file_excluded_annotations=file.excluded_annotations or [],
+        )
+        all_exclusions = effective.excluded_annotations
+        all_custom = effective.custom_annotations
+
         def isExcluded(exclusions, annotation):
             for exclusion in exclusions:
                 if (exclusion.get('type') == annotation['meta']['type'] and
                         self._terms_match(
                             exclusion.get('text', 'True'),
                             annotation.get('textInDocument', 'False'),
-                            exclusion['isCaseInsensitive'])):
+                            exclusion.get('isCaseInsensitive', False))):
                     return True
             return False
+
         if len(file.annotations) == 0:
-            return file.custom_annotations
+            return all_custom
         annotations = file.annotations
         # for some reason enrichment table returns list in here
         # should no longer trigger JIRA LL-2820
@@ -417,9 +428,9 @@ class ManualAnnotationService:
         annotations = annotations['documents'][0]['passages'][0]['annotations']
         filtered_annotations = [
             annotation for annotation in annotations
-            if not isExcluded(file.excluded_annotations, annotation)
+            if not isExcluded(all_exclusions, annotation)
         ]
-        return filtered_annotations + file.custom_annotations
+        return filtered_annotations + all_custom
 
     def save_global(
         self,
