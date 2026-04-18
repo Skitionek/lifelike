@@ -31,20 +31,42 @@ class EffectiveAnnotationConfig:
 
 
 def _lookup_annotations_config(folder_id: int) -> Optional[dict]:
-    """Return the parsed JSONB config for the .annotations file inside *folder_id*,
-    or ``None`` if no such file exists or its config is empty.
+    """Return the parsed config for the .annotations file inside *folder_id*,
+    or ``None`` if no such file exists.
+
+    The .annotations file content is stored as UTF-8 JSON in files_content
+    (AnnotationsFileTypeProvider converts YAML→JSON on upload).
     """
-    return (
-        db.session.query(Files.folder_annotation_config)
+    import json
+    from neo4japp.models.files import FileContent
+
+    row = (
+        db.session.query(Files.content_id)
         .filter(
             Files.filename == ANNOTATIONS_FILENAME,
             Files.parent_id == folder_id,
             Files.mime_type == FILE_MIME_TYPE_ANNOTATIONS,
             Files.deletion_date.is_(None),
-            Files.folder_annotation_config.isnot(None),
+            Files.content_id.isnot(None),
         )
+        .one_or_none()
+    )
+    if row is None:
+        return None
+
+    raw = (
+        db.session.query(FileContent.raw_file)
+        .filter(FileContent.id == row.content_id)
         .scalar()
     )
+    if not raw:
+        return None
+
+    try:
+        data = json.loads(raw.decode('utf-8'))
+        return data if isinstance(data, dict) else None
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None
 
 
 def _merge_layer(base: EffectiveAnnotationConfig, layer: dict) -> EffectiveAnnotationConfig:
@@ -95,7 +117,7 @@ class FolderAnnotationService:
 
     Primary path: queries the ``file_effective_annotation_config`` materialized
     view (a single indexed lookup).  Falls back to walking the ancestor chain
-    (using the ``folder_annotation_config`` JSONB column) if the view is not
+    and reading ``files_content.raw_file`` (stored as JSON) if the view is not
     available.
     """
 

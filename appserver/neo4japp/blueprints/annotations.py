@@ -6,7 +6,6 @@ import json
 import time
 
 import sqlalchemy as sa
-import yaml
 
 from datetime import datetime
 from flask import (
@@ -29,7 +28,7 @@ from .auth import auth
 from .filesystem import bp as filesystem_bp, FilesystemBaseView
 from .permissions import requires_role
 
-from ..constants import LogEventType, TIMEZONE, FILE_MIME_TYPE_ANNOTATIONS
+from ..constants import LogEventType, TIMEZONE
 from ..database import (
     db,
     get_excel_export_service,
@@ -59,7 +58,6 @@ from ..schemas.annotations import (
     SystemAnnotationListSchema,
     CustomAnnotationListSchema,
     EffectiveAnnotationConfigResponseSchema,
-    FolderAnnotationConfigSchema,
 )
 from ..schemas.common import PaginatedRequestSchema
 from ..schemas.enrichment import EnrichmentTableSchema
@@ -83,7 +81,6 @@ from ..services.annotations.initializer import (
     get_sorted_annotation_service
 )
 from ..services.annotations.folder_annotation_service import (
-    ANNOTATIONS_FILENAME,
     EffectiveAnnotationConfig,
 )
 from ..services.annotations.sorted_annotation_service import (
@@ -1153,189 +1150,6 @@ class FilesNeedingReannotationView(MethodView):
         yield jsonify({'hash_ids': hash_ids, 'total': len(hash_ids)})
 
 
-class FolderAnnotationsView(FilesystemBaseView):
-    """CRUD for the .annotations YAML config file attached to a directory.
-
-    GET    /filesystem/objects/<hash_id>/folder-annotations
-        Return the parsed YAML contents of the .annotations file.
-
-    PUT    /filesystem/objects/<hash_id>/folder-annotations
-        Replace (or create) the .annotations file with the supplied YAML body.
-
-    PATCH  /filesystem/objects/<hash_id>/folder-annotations
-        Deep-merge the supplied partial config into the existing .annotations file.
-
-    DELETE /filesystem/objects/<hash_id>/folder-annotations
-        Soft-delete (mark deletion_date) the .annotations file for this directory.
-    """
-
-    decorators = [auth.login_required]
-
-    # ------------------------------------------------------------------ helpers
-
-    def _get_directory(self, hash_id: str) -> Files:
-        from ..constants import FILE_MIME_TYPE_DIRECTORY
-        folder = self.get_nondeleted_recycled_file(Files.hash_id == hash_id)
-        if folder.mime_type != FILE_MIME_TYPE_DIRECTORY:
-            raise ServerException(
-                title='Not a Directory',
-                message='Folder-level annotations can only be managed on directories.',
-                code=400,
-            )
-        return folder
-
-    def _lookup_annotations_row(self, folder: Files) -> Optional[Files]:
-        """Return the .annotations Files row for *folder*, or None."""
-        return (
-            db.session.query(Files)
-            .filter(
-                Files.filename == ANNOTATIONS_FILENAME,
-                Files.parent_id == folder.id,
-                Files.mime_type == FILE_MIME_TYPE_ANNOTATIONS,
-                Files.deletion_date.is_(None),
-            )
-            .one_or_none()
-        )
-
-    @staticmethod
-    def _parse_yaml_body() -> dict:
-        """Read and parse the YAML request body."""
-        raw = request.get_data(as_text=True) or ''
-        try:
-            data = yaml.safe_load(raw)
-            return data if isinstance(data, dict) else {}
-        except yaml.YAMLError as exc:
-            raise ServerException(
-                title='Invalid YAML',
-                message=f'Could not parse request body as YAML: {exc}',
-                code=400,
-            )
-
-    # ------------------------------------------------------------------ handlers
-
-    def get(self, hash_id: str):
-        current_user = g.current_user
-        folder = self._get_directory(hash_id)
-        self.check_file_permissions([folder], current_user, ['readable'], permit_recycled=False)
-
-        row = self._lookup_annotations_row(folder)
-        if row is None:
-            return jsonify({}), 200
-
-        raw = row.content.raw_file if row.content else b''
-        try:
-            data = yaml.safe_load(raw.decode('utf-8')) or {}
-        except (yaml.YAMLError, UnicodeDecodeError):
-            data = {}
-        return jsonify(data), 200
-
-    def put(self, hash_id: str):
-        current_user = g.current_user
-        folder = self._get_directory(hash_id)
-        self.check_file_permissions([folder], current_user, ['writable'], permit_recycled=False)
-
-        new_data = self._parse_yaml_body()
-        FolderAnnotationConfigSchema().load(new_data)  # validate
-
-        raw_bytes = yaml.dump(new_data, allow_unicode=True).encode('utf-8')
-        checksum = hashlib.sha256(raw_bytes).digest()
-
-        row = self._lookup_annotations_row(folder)
-        if row is None:
-            from ..models.files import FileContent
-            content = FileContent()
-            content.raw_file = raw_bytes
-            content.checksum_sha256 = checksum
-            db.session.add(content)
-            db.session.flush()
-
-            row = Files(
-                filename=ANNOTATIONS_FILENAME,
-                mime_type=FILE_MIME_TYPE_ANNOTATIONS,
-                parent_id=folder.id,
-                user_id=current_user.id,
-                content_id=content.id,
-            )
-            db.session.add(row)
-        else:
-            from ..models.files import FileContent
-            content = row.content
-            content.raw_file = raw_bytes
-            content.checksum_sha256 = checksum
-
-        db.session.commit()
-        return jsonify(new_data), 200
-
-    def patch(self, hash_id: str):
-        current_user = g.current_user
-        folder = self._get_directory(hash_id)
-        self.check_file_permissions([folder], current_user, ['writable'], permit_recycled=False)
-
-        patch_data = self._parse_yaml_body()
-
-        row = self._lookup_annotations_row(folder)
-        existing: dict = {}
-        if row and row.content:
-            try:
-                existing = yaml.safe_load(row.content.raw_file.decode('utf-8')) or {}
-            except (yaml.YAMLError, UnicodeDecodeError):
-                existing = {}
-
-        # Deep-merge: top-level keys are merged; lists are replaced (not appended)
-        merged = {**existing, **patch_data}
-        # Merge annotation_configs.annotation_methods separately
-        if 'annotation_configs' in existing and 'annotation_configs' in patch_data:
-            merged_ac = {**existing['annotation_configs'], **patch_data['annotation_configs']}
-            if 'annotation_methods' in existing.get('annotation_configs', {}) and \
-                    'annotation_methods' in patch_data.get('annotation_configs', {}):
-                merged_ac['annotation_methods'] = {
-                    **existing['annotation_configs']['annotation_methods'],
-                    **patch_data['annotation_configs']['annotation_methods'],
-                }
-            merged['annotation_configs'] = merged_ac
-
-        FolderAnnotationConfigSchema().load(merged)  # validate
-
-        raw_bytes = yaml.dump(merged, allow_unicode=True).encode('utf-8')
-        checksum = hashlib.sha256(raw_bytes).digest()
-
-        if row is None:
-            from ..models.files import FileContent
-            content = FileContent()
-            content.raw_file = raw_bytes
-            content.checksum_sha256 = checksum
-            db.session.add(content)
-            db.session.flush()
-
-            row = Files(
-                filename=ANNOTATIONS_FILENAME,
-                mime_type=FILE_MIME_TYPE_ANNOTATIONS,
-                parent_id=folder.id,
-                user_id=current_user.id,
-                content_id=content.id,
-            )
-            db.session.add(row)
-        else:
-            row.content.raw_file = raw_bytes
-            row.content.checksum_sha256 = checksum
-
-        db.session.commit()
-        return jsonify(merged), 200
-
-    def delete(self, hash_id: str):
-        current_user = g.current_user
-        folder = self._get_directory(hash_id)
-        self.check_file_permissions([folder], current_user, ['writable'], permit_recycled=False)
-
-        row = self._lookup_annotations_row(folder)
-        if row is None:
-            return jsonify({}), 204
-
-        row.deletion_date = datetime.now(TIMEZONE)
-        db.session.commit()
-        return jsonify({}), 204
-
-
 class EffectiveAnnotationsConfigView(FilesystemBaseView):
     """Return the merged effective annotation config visible to a file or folder.
 
@@ -1409,9 +1223,6 @@ filesystem_bp.add_url_rule(
 bp.add_url_rule(
     '/needs-reannotation',
     view_func=FilesNeedingReannotationView.as_view('files_needing_reannotation'))
-filesystem_bp.add_url_rule(
-    'objects/<string:hash_id>/folder-annotations',
-    view_func=FolderAnnotationsView.as_view('folder_annotations'))
 filesystem_bp.add_url_rule(
     'objects/<string:hash_id>/effective-annotations-config',
     view_func=EffectiveAnnotationsConfigView.as_view('effective_annotations_config'))

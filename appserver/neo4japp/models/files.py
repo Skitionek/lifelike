@@ -203,9 +203,6 @@ class Files(RDBMSBase, FullTimestampMixin, RecyclableMixin, HashIdMixin):  # typ
     excluded_annotations = db.Column(postgresql.JSONB, nullable=True, server_default='[]')
     needs_reannotation = db.Column(db.Boolean, nullable=False, server_default='false',
                                    default=False)
-    # Parsed JSONB representation of the .annotations YAML file content.
-    # Only populated for files with mime_type = FILE_MIME_TYPE_ANNOTATIONS.
-    folder_annotation_config = db.Column(postgresql.JSONB, nullable=True)
     fallback_organism_id = db.Column(
         db.Integer,
         # CAREFUL do not allow cascade ondelete
