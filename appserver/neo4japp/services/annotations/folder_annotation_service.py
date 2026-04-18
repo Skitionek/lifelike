@@ -3,9 +3,10 @@
 Reads `.annotations` JSON files from the ancestor folder chain of a given
 file and merges them into a single :class:`EffectiveAnnotationConfig`.
 
-When the ``file_effective_annotation_config`` materialized view is available
-(populated by :class:`AnnotationsFileTypeProvider`), the service queries it
-directly for O(1) lookup. Otherwise it falls back to walking the ancestor chain.
+When the ``file_effective_annotation_config`` table is populated (updated via
+``refresh_effective_annotation_subtree`` called by
+:class:`AnnotationsFileTypeProvider`), the service queries it directly for
+O(1) lookup.  Otherwise it falls back to walking the ancestor chain.
 """
 from __future__ import annotations
 
@@ -112,12 +113,13 @@ def _merge_layer(base: EffectiveAnnotationConfig, layer: dict) -> EffectiveAnnot
 
 
 class FolderAnnotationService:
-    """Resolves effective annotation configuration for a file.
+    """Resolves effective annotation configuration for a file or directory.
 
-    Primary path: queries the ``file_effective_annotation_config`` materialized
-    view (a single indexed lookup).  Falls back to walking the ancestor chain
-    and reading ``files_content.raw_file`` (stored as JSON) if the view is not
-    available.
+    Primary path: queries the ``file_effective_annotation_config`` table (a
+    single indexed lookup populated by BFS when .annotations files change).
+    Falls back to walking the ancestor chain and reading
+    ``files_content.raw_file`` (stored as JSON) if the row is not yet in the
+    table.
     """
 
     # ------------------------------------------------------------------
@@ -172,7 +174,7 @@ class FolderAnnotationService:
     # ------------------------------------------------------------------
 
     def _get_from_view(self, file: Files) -> Optional[EffectiveAnnotationConfig]:
-        """Query the materialized view for a pre-computed effective config."""
+        """Query the file_effective_annotation_config table for a pre-computed config."""
         from sqlalchemy import text
         try:
             row = db.session.execute(

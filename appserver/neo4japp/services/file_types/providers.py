@@ -1317,7 +1317,7 @@ class AnnotationsFileTypeProvider(BaseFileTypeProvider):
     These files are created and managed through the standard file API like any other file.
     Content must be a JSON object that conforms to the annotations_v1.json schema.
     The raw bytes are stored as-is in ``files_content.raw_file`` so the
-    ``file_effective_annotation_config`` materialized view can read them with a plain
+    ``refresh_effective_annotation_subtree`` SQL function can read them with a plain
     ``convert_from(raw_file, 'UTF8')::jsonb`` cast — no extra column needed.
     """
 
@@ -1346,33 +1346,34 @@ class AnnotationsFileTypeProvider(BaseFileTypeProvider):
             raise ValueError(f'Annotation config does not match schema: {exc.message}')
 
     def handle_content_update(self, file: Files):
-        """Refresh the materialized view after the transaction commits.
+        """Refresh the effective annotation config table after the transaction commits.
 
         Content is already valid JSON (enforced by validate_content), so no
-        conversion is required.  The materialized view is refreshed concurrently
-        so that effective_annotation_config queries always reflect the latest state.
+        conversion is required.  After commit, refresh_effective_annotation_subtree
+        is called for the parent folder, updating the file_effective_annotation_config
+        table for all files and directories in the affected subtree via BFS.
         """
         from sqlalchemy import event, text
         from neo4japp.database import db
 
-        if not file.content:
+        if not file.content or file.parent_id is None:
             return
 
-        # Refresh the materialized view after the transaction commits so that
-        # effective_annotation_config queries always reflect the latest state.
+        parent_folder_id = file.parent_id
+
         @event.listens_for(db.session, 'after_commit', once=True)
-        def _refresh_view(session):
+        def _refresh_subtree(session):
             try:
                 with db.engine.connect() as conn:
                     conn.execute(
                         text(
-                            'REFRESH MATERIALIZED VIEW CONCURRENTLY'
-                            ' file_effective_annotation_config'
-                        )
+                            'SELECT refresh_effective_annotation_subtree(:folder_id)'
+                        ),
+                        {'folder_id': parent_folder_id},
                     )
                     conn.commit()
             except Exception:
-                pass  # Non-critical: view will be refreshed on next write
+                pass  # Non-critical: table will be refreshed on next .annotations write
 
 
 def get_content_offsets(file):
