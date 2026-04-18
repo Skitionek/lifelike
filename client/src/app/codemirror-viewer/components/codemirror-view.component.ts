@@ -11,12 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 import { basicSetup } from 'codemirror';
 import { EditorView } from '@codemirror/view';
 import { EditorState, Extension } from '@codemirror/state';
-import { json } from '@codemirror/lang-json';
-import { python } from '@codemirror/lang-python';
-import { javascript } from '@codemirror/lang-javascript';
-import { xml } from '@codemirror/lang-xml';
-import { markdown } from '@codemirror/lang-markdown';
-import { LanguageSupport } from '@codemirror/language';
 import { combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -25,6 +19,7 @@ import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { ModuleAwareComponent, ModuleProperties } from 'app/shared/modules';
 import { BackgroundTask } from 'app/shared/rxjs/background-task';
 import { mapBlobToBuffer } from 'app/shared/utils/files';
+import { getLanguageExtension } from '../codemirror-language';
 
 @Component({
   selector: 'app-codemirror-viewer',
@@ -94,7 +89,7 @@ export class CodemirrorViewComponent implements AfterViewInit, OnDestroy, Module
       }),
     ];
 
-    const lang = this.getLanguageExtension();
+    const lang = getLanguageExtension(this.object?.mimeType ?? '');
     if (lang) {
       extensions.push(lang);
     }
@@ -121,22 +116,6 @@ export class CodemirrorViewComponent implements AfterViewInit, OnDestroy, Module
     this.editorView.setState(
       EditorState.create({ doc: text, extensions: this.buildExtensions() })
     );
-  }
-
-  private getLanguageExtension(): LanguageSupport | null {
-    const mimeType = this.object?.mimeType ?? '';
-    if (mimeType.includes('json')) {
-      return json();
-    } else if (mimeType.includes('python') || mimeType.includes('x-python')) {
-      return python();
-    } else if (mimeType.includes('javascript') || mimeType.includes('typescript')) {
-      return javascript();
-    } else if (mimeType.includes('xml') || mimeType.includes('html')) {
-      return xml();
-    } else if (mimeType.includes('markdown') || mimeType.includes('x-markdown')) {
-      return markdown();
-    }
-    return null;
   }
 
   private emitModuleProperties(): void {

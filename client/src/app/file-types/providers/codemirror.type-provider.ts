@@ -10,26 +10,7 @@ import {
 } from 'app/file-types/providers/base-object.type-provider';
 import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { FilesystemService } from 'app/file-browser/services/filesystem.service';
-
-export const CODEMIRROR_HANDLED_MIME_TYPES: ReadonlySet<string> = new Set([
-  'text/plain',
-  'application/json',
-  'text/x-python',
-  'application/x-python',
-  'text/javascript',
-  'application/javascript',
-  'text/typescript',
-  'application/typescript',
-  'text/html',
-  'text/xml',
-  'application/xml',
-  'text/x-yaml',
-  'application/x-yaml',
-  'text/yaml',
-  'text/markdown',
-  'text/x-markdown',
-  'text/csv',
-]);
+import { CODEMIRROR_HANDLED_MIME_TYPES } from 'app/codemirror-viewer/codemirror-language';
 
 @Injectable()
 export class CodemirrorTypeProvider extends AbstractObjectTypeProvider {
