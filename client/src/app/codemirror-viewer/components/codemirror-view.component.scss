@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.module {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.module-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container {
+  flex: 1;
+  height: 100%;
+  overflow: auto;
+  font-size: 14px;
+}

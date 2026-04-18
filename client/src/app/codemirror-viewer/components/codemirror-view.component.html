@@ -1,0 +1,21 @@
+<div class="module" *ngIf="(loadTask.status$ | async) as status">
+    <app-module-progress *ngIf="status.running">
+        Downloading file...
+    </app-module-progress>
+
+    <app-module-error *ngIf="status.failedErrorShown" [error]="status.error">
+        <a appLink="/projects">Go to Projects <i class="fa fa-fw fa-arrow-right"></i></a>
+    </app-module-error>
+
+    <ng-container *ngIf="status.resultsShown">
+        <app-module-header *ngIf="object"
+                           [object]="object">
+            <app-module-menu [object]="object" [forEditing]="false" [showOpen]="false"
+                             [showDelete]="false">
+            </app-module-menu>
+        </app-module-header>
+        <div class="module-body">
+            <div #editorContainer class="editor-container"></div>
+        </div>
+    </ng-container>
+</div>

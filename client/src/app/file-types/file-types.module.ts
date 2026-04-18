@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TYPE_PROVIDER } from './providers/base-object.type-provider';
 import { BiocTypeProvider } from './providers/bioc.type-provider';
+import { CodemirrorTypeProvider } from './providers/codemirror.type-provider';
 import { DirectoryTypeProvider } from './providers/directory.type-provider';
 import { EnrichmentTableTypeProvider } from './providers/enrichment-table.type-provider';
 import { MapTypeProvider } from './providers/map.type-provider';
@@ -20,6 +21,11 @@ import { GraphTypeProvider } from './providers/graph.type-provider.service';
     {
       provide: TYPE_PROVIDER,
       useClass: BiocTypeProvider,
+      multi: true,
+    },
+    {
+      provide: TYPE_PROVIDER,
+      useClass: CodemirrorTypeProvider,
       multi: true,
     },
     DefaultObjectTypeProvider,

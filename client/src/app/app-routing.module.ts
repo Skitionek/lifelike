@@ -28,6 +28,7 @@ import { ShortestPathComponent } from 'app/shortest-path/containers/shortest-pat
 import {EnrichmentTableViewerComponent} from 'app/enrichment/components/table/enrichment-table-viewer.component';
 import {EnrichmentVisualisationViewerComponent} from 'app/enrichment/components/visualisation/enrichment-visualisation-viewer.component';
 import { BiocViewComponent } from 'app/bioc-viewer/components/bioc-view.component';
+import { CodemirrorViewComponent } from 'app/codemirror-viewer/components/codemirror-view.component';
 import { ObjectViewerComponent } from 'app/file-browser/components/object-viewer.component';
 import { SankeyViewComponent } from 'app/sankey-viewer/components/sankey-view.component';
 import { TraceViewComponent } from 'app/trace-viewer/components/trace-view.component';
@@ -216,6 +217,15 @@ const WORKSPACE_CONTENT_ROUTES: Routes = [
     data: {
       title: 'BioC Viewer',
       fontAwesomeIcon: 'file-alt',
+    },
+  },
+  {
+    path: 'projects/:project_name/code/:file_id',
+    component: CodemirrorViewComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Code Viewer',
+      fontAwesomeIcon: 'file-code',
     },
   },
   {
