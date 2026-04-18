@@ -33,6 +33,8 @@ blinker==1.9.0
     #   elastic-apm
     #   flask
     #   sentry-sdk
+cachelib==0.13.0
+    # via flask-caching
 certifi==2026.2.25
     # via
     #   elastic-apm
@@ -51,7 +53,9 @@ charset-normalizer==3.4.6
 click==8.3.1
     # via flask
 colorama==0.4.6 ; sys_platform == 'win32'
-    # via click
+    # via
+    #   click
+    #   tqdm
 cryptography==46.0.7
     # via
     #   azure-storage-blob
@@ -64,7 +68,7 @@ deepdiff==8.6.2
     # via lifelike-appserver
 deprecated==1.3.1
     # via redis
-docutils==0.22.4
+docopt==0.6.2
     # via bioc
 ecs-logging==2.3.0
     # via elastic-apm
@@ -121,7 +125,9 @@ google-cloud-core==2.5.0
 google-cloud-storage==3.10.1
     # via lifelike-appserver
 google-crc32c==1.8.0
-    # via google-resumable-media
+    # via
+    #   google-cloud-storage
+    #   google-resumable-media
 google-resumable-media==2.8.0
     # via google-cloud-storage
 googleapis-common-protos==1.73.0
@@ -137,7 +143,9 @@ idna==3.11
     #   anyio
     #   requests
 intervaltree==3.2.1
-    # via lifelike-appserver
+    # via
+    #   bioc
+    #   lifelike-appserver
 ipy==1.1
     # via lifelike-appserver
 isodate==0.7.2
@@ -188,7 +196,7 @@ openpyxl==3.0.9
     # via lifelike-appserver
 orderly-set==5.5.0
     # via deepdiff
-packaging==26.1
+packaging==26.0
     # via
     #   apispec
     #   gunicorn
@@ -207,7 +215,6 @@ proto-plus==1.27.1
 protobuf==6.33.6
     # via
     #   google-api-core
-    #   google-cloud-storage
     #   googleapis-common-protos
     #   proto-plus
 psycopg2-binary==2.9.11
@@ -259,7 +266,6 @@ sentry-sdk==2.58.0
 six==1.17.0
     # via
     #   bcrypt
-    #   google-cloud-storage
     #   python-dateutil
 sniffio==1.3.1
     # via
@@ -283,6 +289,10 @@ svg-stack==0.1.0
     # via lifelike-appserver
 timeflake==0.4.3
     # via lifelike-appserver
+tqdm==4.67.3
+    # via bioc
+typeguard==4.5.1
+    # via marshmallow-dataclass
 typing-extensions==4.15.0
     # via
     #   alembic
@@ -292,6 +302,9 @@ typing-extensions==4.15.0
     #   cryptography
     #   elasticsearch
     #   exceptiongroup
+    #   marshmallow-dataclass
+    #   pyjwt
+    #   typeguard
     #   typing-inspect
 typing-inspect==0.9.0
     # via marshmallow-dataclass

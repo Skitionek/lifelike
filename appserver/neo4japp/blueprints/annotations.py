@@ -56,7 +56,8 @@ from ..schemas.annotations import (
     AnnotationExclusionCreateSchema,
     AnnotationExclusionDeleteSchema,
     SystemAnnotationListSchema,
-    CustomAnnotationListSchema
+    CustomAnnotationListSchema,
+    EffectiveAnnotationConfigResponseSchema,
 )
 from ..schemas.common import PaginatedRequestSchema
 from ..schemas.enrichment import EnrichmentTableSchema
@@ -74,9 +75,13 @@ from ..services.annotations.initializer import (
     get_annotation_tokenizer,
     get_bioc_document_service,
     get_enrichment_annotation_service,
+    get_folder_annotation_service,
     get_manual_annotation_service,
     get_recognition_service,
     get_sorted_annotation_service
+)
+from ..services.annotations.folder_annotation_service import (
+    EffectiveAnnotationConfig,
 )
 from ..services.annotations.sorted_annotation_service import (
     default_sorted_annotation,
@@ -458,16 +463,36 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
         results = {}
         missing = self.get_missing_hash_ids(targets['hash_ids'], files)
 
+        folder_service = get_folder_annotation_service()
+
         for file in files:
+            # Resolve effective config from folder-level .annotations hierarchy,
+            # with any request-level overrides applied on top.
+            effective_config = folder_service.get_effective_annotation_config(
+                file,
+                per_file_custom_annotations=file.custom_annotations or [],
+                per_file_excluded_annotations=file.excluded_annotations or [],
+                per_file_annotation_configs=file.annotation_configs,
+                per_file_organism=file.fallback_organism,
+            )
+
+            # Request-level overrides take highest priority
             if override_organism is not None:
                 effective_organism = override_organism
+            elif effective_config.fallback_organism:
+                # Reconstruct a FallbackOrganism from the dict in effective_config
+                effective_organism = FallbackOrganism(
+                    organism_name=effective_config.fallback_organism.get('synonym', ''),
+                    organism_synonym=effective_config.fallback_organism.get('synonym', ''),
+                    organism_taxonomy_id=effective_config.fallback_organism.get('taxonomy_id', ''),
+                )
             else:
-                effective_organism = file.fallback_organism
+                effective_organism = None
 
             if override_annotation_configs is not None:
                 effective_annotation_configs = override_annotation_configs
-            elif file.annotation_configs is not None:
-                effective_annotation_configs = file.annotation_configs
+            elif effective_config.annotation_configs:
+                effective_annotation_configs = effective_config.annotation_configs
             else:
                 effective_annotation_configs = DEFAULT_ANNOTATION_CONFIGS
 
@@ -477,6 +502,7 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
                         file=file,
                         cause=AnnotationChangeCause.SYSTEM_REANNOTATION,
                         configs=effective_annotation_configs,
+                        effective_config=effective_config,
                         organism=effective_organism,
                         user_id=current_user.id,
                     )
@@ -520,6 +546,7 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
                         enriched=enriched,
                         cause=AnnotationChangeCause.SYSTEM_REANNOTATION,
                         configs=effective_annotation_configs,
+                        effective_config=effective_config,
                         organism=effective_organism,
                         user_id=current_user.id,
                         enrichment=enrichment
@@ -565,10 +592,22 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
         file: Files,
         cause: AnnotationChangeCause,
         configs: dict,
+        effective_config: Optional[EffectiveAnnotationConfig] = None,
         organism: Optional[FallbackOrganism] = None,
         user_id: int = None
     ):
         """Annotate PDF files."""
+        excluded_annotations = (
+            effective_config.excluded_annotations
+            if effective_config is not None
+            else file.excluded_annotations or []
+        )
+        custom_annotations = (
+            effective_config.custom_annotations
+            if effective_config is not None
+            else file.custom_annotations or []
+        )
+
         text, parsed = Pipeline.parse(
             file.mime_type, file_id=file.id, exclude_references=configs['exclude_references'])
 
@@ -584,14 +623,14 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
             text=text, parsed=parsed)
 
         annotations_json = pipeline.get_globals(
-            excluded_annotations=file.excluded_annotations or [],
-            custom_annotations=file.custom_annotations or []
+            excluded_annotations=excluded_annotations,
+            custom_annotations=custom_annotations,
         ).identify(
             annotation_methods=configs['annotation_methods']
         ).annotate(
             specified_organism_synonym=organism.organism_synonym if organism else '',  # noqa
             specified_organism_tax_id=organism.organism_taxonomy_id if organism else '',  # noqa
-            custom_annotations=file.custom_annotations or [],
+            custom_annotations=custom_annotations,
             filename=file.filename)
 
         update = {
@@ -623,9 +662,21 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
         user_id: int,
         enrichment: dict,
         configs: dict,
+        effective_config: Optional[EffectiveAnnotationConfig] = None,
         organism: Optional[FallbackOrganism] = None
     ):
         """Annotate all text in enrichment table."""
+        excluded_annotations = (
+            effective_config.excluded_annotations
+            if effective_config is not None
+            else file.excluded_annotations or []
+        )
+        custom_annotations = (
+            effective_config.custom_annotations
+            if effective_config is not None
+            else file.custom_annotations or []
+        )
+
         text, parsed = Pipeline.parse(file.mime_type, text=enriched.text)
 
         pipeline = Pipeline(
@@ -640,14 +691,14 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
             text=text, parsed=parsed)
 
         annotations_json = pipeline.get_globals(
-            excluded_annotations=file.excluded_annotations or [],
-            custom_annotations=file.custom_annotations or []
+            excluded_annotations=excluded_annotations,
+            custom_annotations=custom_annotations,
         ).identify(
             annotation_methods=configs['annotation_methods']
         ).annotate(
             specified_organism_synonym=organism.organism_synonym if organism else '',  # noqa
             specified_organism_tax_id=organism.organism_taxonomy_id if organism else '',  # noqa
-            custom_annotations=file.custom_annotations or [],
+            custom_annotations=custom_annotations,
             filename=file.filename,
             enrichment_mappings=enriched.text_index_map)
 
@@ -1100,6 +1151,36 @@ class FilesNeedingReannotationView(MethodView):
         yield jsonify({'hash_ids': hash_ids, 'total': len(hash_ids)})
 
 
+class EffectiveAnnotationsConfigView(FilesystemBaseView):
+    """Return the merged effective annotation config visible to a file or folder.
+
+    GET /filesystem/objects/<hash_id>/effective-annotations-config
+    """
+
+    decorators = [auth.login_required]
+
+    def get(self, hash_id: str):
+        current_user = g.current_user
+        file = self.get_nondeleted_recycled_file(Files.hash_id == hash_id)
+        self.check_file_permissions([file], current_user, ['readable'], permit_recycled=False)
+
+        folder_service = get_folder_annotation_service()
+        effective = folder_service.get_effective_annotation_config(
+            file,
+            per_file_custom_annotations=file.custom_annotations or [],
+            per_file_excluded_annotations=file.excluded_annotations or [],
+            per_file_annotation_configs=file.annotation_configs,
+            per_file_organism=file.fallback_organism,
+        )
+
+        return jsonify(EffectiveAnnotationConfigResponseSchema().dump({
+            'annotation_configs': effective.annotation_configs,
+            'fallback_organism': effective.fallback_organism,
+            'custom_annotations': effective.custom_annotations,
+            'excluded_annotations': effective.excluded_annotations,
+        })), 200
+
+
 bp.add_url_rule(
     '/global-list',
     view_func=GlobalAnnotationListView.as_view('global_annotations_list'))
@@ -1143,3 +1224,6 @@ filesystem_bp.add_url_rule(
 bp.add_url_rule(
     '/needs-reannotation',
     view_func=FilesNeedingReannotationView.as_view('files_needing_reannotation'))
+filesystem_bp.add_url_rule(
+    'objects/<string:hash_id>/effective-annotations-config',
+    view_func=EffectiveAnnotationsConfigView.as_view('effective_annotations_config'))

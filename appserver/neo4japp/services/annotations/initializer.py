@@ -5,6 +5,7 @@ from .annotation_graph_service import AnnotationGraphService
 from .bioc_service import BiocDocumentService
 from .enrichment_annotation_service import EnrichmentAnnotationService
 from .entity_recognition import EntityRecognitionService
+from .folder_annotation_service import FolderAnnotationService
 from .manual_annotation_service import ManualAnnotationService
 from .lmdb_service import LMDBService
 from .sorted_annotation_service import (
@@ -105,3 +106,7 @@ def get_sorted_annotation_service(sort_id, *, mime_type=None):
     return sorted_annotations_per_file_type_dict[mime_type][sort_id](
             annotation_service=get_manual_annotation_service()
     )
+
+
+def get_folder_annotation_service():
+    return FolderAnnotationService()

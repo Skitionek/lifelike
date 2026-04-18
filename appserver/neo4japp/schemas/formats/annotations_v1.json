@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://lifelike.bio/schemas/annotations_v1.json",
+  "title": "Folder Annotations Configuration",
+  "description": "JSON config file stored as '.annotations' that sets annotation scope for all files in a folder and its sub-folders. Analogous to .gitignore: place the file inside a directory to apply its settings to every document in that tree.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "inherit": {
+      "type": "boolean",
+      "description": "When false, configs from all ancestor folders are ignored and only this file's settings apply. Default: true.",
+      "default": true
+    },
+    "fallback_organism": {
+      "description": "Default organism used when no organism is detected in a document.",
+      "$ref": "#/definitions/organism"
+    },
+    "annotation_configs": {
+      "description": "Controls which annotation types and methods are active for documents in scope.",
+      "$ref": "#/definitions/annotation_configs"
+    },
+    "include": {
+      "type": "array",
+      "description": "Custom annotations to add to every document in scope.",
+      "items": {
+        "$ref": "#/definitions/inclusion"
+      },
+      "default": []
+    },
+    "exclude": {
+      "type": "array",
+      "description": "Annotation terms to suppress for every document in scope.",
+      "items": {
+        "$ref": "#/definitions/exclusion"
+      },
+      "default": []
+    }
+  },
+  "definitions": {
+    "organism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["synonym", "taxonomy_id"],
+      "properties": {
+        "synonym": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Display name of the organism (e.g. 'Homo sapiens')."
+        },
+        "taxonomy_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "NCBI Taxonomy ID (e.g. '9606')."
+        }
+      }
+    },
+    "annotation_method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nlp", "rules_based"],
+      "properties": {
+        "nlp": {
+          "type": "boolean",
+          "description": "Enable NLP-based annotation for this entity type."
+        },
+        "rules_based": {
+          "type": "boolean",
+          "description": "Enable rules-based annotation for this entity type."
+        }
+      }
+    },
+    "annotation_configs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "annotation_methods": {
+          "type": "object",
+          "description": "Per-entity-type method toggles. Keys are entity type names (e.g. 'Gene', 'Disease').",
+          "additionalProperties": {
+            "$ref": "#/definitions/annotation_method"
+          }
+        },
+        "exclude_references": {
+          "type": "boolean",
+          "description": "When true, annotations that appear in bibliography / references sections are suppressed."
+        }
+      }
+    },
+    "inclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Entity type (e.g. 'Gene', 'Disease', 'Chemical')."
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The text string to annotate."
+        },
+        "id": {
+          "type": "string",
+          "description": "Optional knowledge-graph identifier for the entity.",
+          "default": ""
+        },
+        "isCaseInsensitive": {
+          "type": "boolean",
+          "description": "Match text case-insensitively.",
+          "default": false
+        }
+      }
+    },
+    "exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Entity type (e.g. 'Gene', 'Disease', 'Chemical')."
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The annotation text to suppress."
+        },
+        "isCaseInsensitive": {
+          "type": "boolean",
+          "description": "Match text case-insensitively.",
+          "default": false
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why this term is excluded.",
+          "default": ""
+        },
+        "comment": {
+          "type": "string",
+          "description": "Additional free-text comment.",
+          "default": ""
+        }
+      }
+    }
+  }
+}
