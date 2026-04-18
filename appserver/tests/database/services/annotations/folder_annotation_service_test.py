@@ -4,12 +4,11 @@ These tests are pure-unit tests that do NOT require a running database.
 We monkey-patch the internal DB lookup function so the service can be
 exercised in isolation.
 """
-import yaml
+import json
 
 from neo4japp.services.annotations.folder_annotation_service import (
     EffectiveAnnotationConfig,
     FolderAnnotationService,
-    _load_yaml,
     _merge_layer,
 )
 
@@ -46,31 +45,6 @@ def _make_file(file_id, parent_id=None, annotations=None, custom_annotations=Non
             return self._path
 
     return FakeFile()
-
-
-def _yaml_bytes(data: dict) -> bytes:
-    return yaml.dump(data, allow_unicode=True).encode('utf-8')
-
-
-# ---------------------------------------------------------------------------
-# _load_yaml
-# ---------------------------------------------------------------------------
-
-class TestLoadYaml:
-    def test_valid_yaml(self):
-        raw = _yaml_bytes({'inherit': True, 'exclude': [{'type': 'Gene', 'text': 'foo'}]})
-        result = _load_yaml(raw)
-        assert result['inherit'] is True
-        assert result['exclude'][0]['type'] == 'Gene'
-
-    def test_empty_bytes(self):
-        assert _load_yaml(b'') == {}
-
-    def test_yaml_is_not_a_dict(self):
-        assert _load_yaml(b'- item1\n- item2\n') == {}
-
-    def test_invalid_utf8(self):
-        assert _load_yaml(b'\xff\xfe') == {}
 
 
 # ---------------------------------------------------------------------------
@@ -139,14 +113,14 @@ class TestFolderAnnotationService:
 
     def _build_service_with_layers(self, monkeypatch, folder_layers: dict):
         """
-        :param folder_layers: {folder_id: yaml_bytes_or_None}
+        :param folder_layers: {folder_id: config_dict_or_None}
         """
         import neo4japp.services.annotations.folder_annotation_service as svc_mod
 
         def fake_lookup(folder_id):
             return folder_layers.get(folder_id)
 
-        monkeypatch.setattr(svc_mod, '_lookup_annotations_file', fake_lookup)
+        monkeypatch.setattr(svc_mod, '_lookup_annotations_config', fake_lookup)
         return FolderAnnotationService()
 
     def test_no_annotations_files(self, monkeypatch):
@@ -173,9 +147,7 @@ class TestFolderAnnotationService:
             'fallback_organism': {'synonym': 'E.coli', 'taxonomy_id': '511145'},
             'exclude': [{'type': 'Disease', 'text': 'cancer', 'isCaseInsensitive': True}],
         }
-        svc = self._build_service_with_layers(
-            monkeypatch, {root.id: _yaml_bytes(layer_data)}
-        )
+        svc = self._build_service_with_layers(monkeypatch, {root.id: layer_data})
         result = svc.get_effective_annotation_config(leaf)
         assert result.fallback_organism['synonym'] == 'E.coli'
         assert len(result.excluded_annotations) == 1
@@ -203,7 +175,7 @@ class TestFolderAnnotationService:
         }
         svc = self._build_service_with_layers(
             monkeypatch,
-            {root.id: _yaml_bytes(outer_data), inner.id: _yaml_bytes(inner_data)},
+            {root.id: outer_data, inner.id: inner_data},
         )
         result = svc.get_effective_annotation_config(leaf)
         # Inner organism overrides outer
@@ -232,7 +204,7 @@ class TestFolderAnnotationService:
         }
         svc = self._build_service_with_layers(
             monkeypatch,
-            {root.id: _yaml_bytes(outer_data), inner.id: _yaml_bytes(inner_data)},
+            {root.id: outer_data, inner.id: inner_data},
         )
         result = svc.get_effective_annotation_config(leaf)
         # inherit=False in inner resets outer config; only inner's config remains
@@ -248,9 +220,7 @@ class TestFolderAnnotationService:
         folder_data = {
             'fallback_organism': {'synonym': 'Folder', 'taxonomy_id': '10'},
         }
-        svc = self._build_service_with_layers(
-            monkeypatch, {root.id: _yaml_bytes(folder_data)}
-        )
+        svc = self._build_service_with_layers(monkeypatch, {root.id: folder_data})
 
         class FakeOrg:
             organism_synonym = 'PerFile'
@@ -273,24 +243,21 @@ class TestFolderAnnotationService:
                 {'type': 'Gene', 'text': 'TP53', 'id': '7157', 'isCaseInsensitive': False}
             ],
         }
-        svc = self._build_service_with_layers(
-            monkeypatch, {root.id: _yaml_bytes(folder_data)}
-        )
+        svc = self._build_service_with_layers(monkeypatch, {root.id: folder_data})
         result = svc.get_effective_annotation_config(leaf)
         assert len(result.custom_annotations) == 1
         assert result.custom_annotations[0]['text'] == 'TP53'
         assert result.annotation_configs is None
         assert result.fallback_organism is None
 
-    def test_invalid_yaml_skipped(self, monkeypatch):
-        """Invalid YAML content is silently skipped (returns empty config)."""
+    def test_none_config_skipped(self, monkeypatch):
+        """None returned by lookup (missing or unreadable file) is silently skipped."""
         root = _make_file(1)
         leaf = _make_file(2, parent_id=1)
         leaf._path = [root, leaf]
 
-        svc = self._build_service_with_layers(
-            monkeypatch, {root.id: b':\x00invalid yaml\xff'}
-        )
+        # Lookup returns None for the folder — no config present
+        svc = self._build_service_with_layers(monkeypatch, {root.id: None})
         result = svc.get_effective_annotation_config(leaf)
         assert result.annotation_configs is None
         assert result.custom_annotations == []

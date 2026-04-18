@@ -1312,12 +1312,13 @@ class EnrichmentTableTypeProvider(BaseFileTypeProvider):
 
 
 class AnnotationsFileTypeProvider(BaseFileTypeProvider):
-    """Provider for .annotations YAML config files (folder-level annotation config).
+    """Provider for .annotations JSON config files (folder-level annotation config).
 
     These files are created and managed through the standard file API like any other file.
-    On content create/update the YAML is converted to JSON and stored back in
-    ``files_content.raw_file`` so the ``file_effective_annotation_config`` materialized
-    view can read it with a plain ``raw_file::text::jsonb`` cast — no extra column needed.
+    Content must be a JSON object that conforms to the annotations_v1.json schema.
+    The raw bytes are stored as-is in ``files_content.raw_file`` so the
+    ``file_effective_annotation_config`` materialized view can read them with a plain
+    ``convert_from(raw_file, 'UTF8')::jsonb`` cast — no extra column needed.
     """
 
     from neo4japp.constants import FILE_MIME_TYPE_ANNOTATIONS
@@ -1329,40 +1330,33 @@ class AnnotationsFileTypeProvider(BaseFileTypeProvider):
         return True
 
     def validate_content(self, buffer: BufferedIOBase):
-        """Parse and validate YAML content."""
-        import yaml
+        """Validate that the content is a JSON object conforming to annotations_v1.json."""
+        import fastjsonschema
+        from neo4japp.schemas.formats.annotations import validate_annotations
         raw = buffer.read()
         try:
-            data = yaml.safe_load(raw.decode('utf-8'))
-        except (yaml.YAMLError, UnicodeDecodeError) as exc:
-            raise ValueError(f'Invalid YAML content: {exc}')
-        if data is not None and not isinstance(data, dict):
-            raise ValueError('Annotation config must be a YAML mapping (dict).')
+            data = json.loads(raw.decode('utf-8'))
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            raise ValueError(f'Invalid JSON content: {exc}')
+        if not isinstance(data, dict):
+            raise ValueError('Annotation config must be a JSON object.')
+        try:
+            validate_annotations(data)
+        except fastjsonschema.JsonSchemaValueException as exc:
+            raise ValueError(f'Annotation config does not match schema: {exc.message}')
 
     def handle_content_update(self, file: Files):
-        """Convert YAML content to JSON and persist so the materialized view can read it.
+        """Refresh the materialized view after the transaction commits.
 
-        The raw_file is updated in-place to contain UTF-8 JSON; the checksum is
-        recalculated accordingly.  Refreshes the materialized view after commit.
+        Content is already valid JSON (enforced by validate_content), so no
+        conversion is required.  The materialized view is refreshed concurrently
+        so that effective_annotation_config queries always reflect the latest state.
         """
-        import hashlib
-        import yaml
         from sqlalchemy import event, text
         from neo4japp.database import db
 
         if not file.content:
             return
-
-        raw = file.content.raw_file or b''
-        try:
-            data = yaml.safe_load(raw.decode('utf-8'))
-            parsed = data if isinstance(data, dict) else {}
-        except (yaml.YAMLError, UnicodeDecodeError):
-            parsed = {}
-
-        json_bytes = json.dumps(parsed, ensure_ascii=False).encode('utf-8')
-        file.content.raw_file = json_bytes
-        file.content.checksum_sha256 = hashlib.sha256(json_bytes).digest()
 
         # Refresh the materialized view after the transaction commits so that
         # effective_annotation_config queries always reflect the latest state.
