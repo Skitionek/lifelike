@@ -19,6 +19,7 @@ import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { ModuleAwareComponent, ModuleProperties } from 'app/shared/modules';
 import { BackgroundTask } from 'app/shared/rxjs/background-task';
 import { mapBlobToBuffer } from 'app/shared/utils/files';
+
 import { getLanguageExtension } from '../codemirror-language';
 
 @Component({
