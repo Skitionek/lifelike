@@ -295,17 +295,17 @@ class GlobalAnnotationsDeleteSchema(Schema):
 
 
 # ========================================
-# Folder-level .annotations (YAML file)
+# Folder-level .annotations (JSON file)
 # ========================================
 
 class FolderAnnotationOrganismSchema(Schema):
-    """Organism override stored inside a .annotations YAML file."""
+    """Organism override stored inside a .annotations JSON file."""
     synonym = fields.String(required=True, validate=marshmallow.validate.Length(min=1, max=200))
     taxonomy_id = fields.String(required=True, validate=marshmallow.validate.Length(min=1, max=200))
 
 
 class FolderAnnotationInclusionSchema(Schema):
-    """A single custom-annotation inclusion entry in a .annotations file."""
+    """A single custom-annotation inclusion entry in a .annotations JSON file."""
     type = fields.String(required=True)
     text = fields.String(required=True)
     id = fields.String(load_default='')
@@ -313,7 +313,7 @@ class FolderAnnotationInclusionSchema(Schema):
 
 
 class FolderAnnotationExclusionSchema(Schema):
-    """A single annotation exclusion entry in a .annotations file."""
+    """A single annotation exclusion entry in a .annotations JSON file."""
     type = fields.String(required=True)
     text = fields.String(required=True)
     is_case_insensitive = fields.Boolean(load_default=False, data_key='isCaseInsensitive')
@@ -322,7 +322,7 @@ class FolderAnnotationExclusionSchema(Schema):
 
 
 class FolderAnnotationConfigSchema(Schema):
-    """Schema for the complete content of a .annotations YAML file."""
+    """Schema for the complete content of a .annotations JSON file."""
     inherit = fields.Boolean(load_default=True)
     fallback_organism = fields.Nested(FolderAnnotationOrganismSchema, allow_none=True,
                                       load_default=None)

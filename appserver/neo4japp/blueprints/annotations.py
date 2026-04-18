@@ -463,10 +463,11 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
         results = {}
         missing = self.get_missing_hash_ids(targets['hash_ids'], files)
 
+        folder_service = get_folder_annotation_service()
+
         for file in files:
             # Resolve effective config from folder-level .annotations hierarchy,
             # with any request-level overrides applied on top.
-            folder_service = get_folder_annotation_service()
             effective_config = folder_service.get_effective_annotation_config(
                 file,
                 per_file_custom_annotations=file.custom_annotations or [],

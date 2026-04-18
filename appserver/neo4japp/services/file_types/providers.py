@@ -1373,7 +1373,14 @@ class AnnotationsFileTypeProvider(BaseFileTypeProvider):
                     )
                     conn.commit()
             except Exception:
-                pass  # Non-critical: table will be refreshed on next .annotations write
+                from flask import current_app
+                current_app.logger.exception(
+                    'Failed to refresh effective annotation config for folder %s'
+                    ' after updating .annotations file %s (hash_id=%s)',
+                    parent_folder_id,
+                    file.filename,
+                    file.hash_id,
+                )
 
 
 def get_content_offsets(file):

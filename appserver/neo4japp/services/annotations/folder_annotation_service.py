@@ -195,7 +195,7 @@ class FolderAnnotationService:
             return None
 
         return EffectiveAnnotationConfig(
-            annotation_configs=row[0],
+            annotation_configs=row[0] if row[0] else None,
             fallback_organism=row[1],
             custom_annotations=list(row[2] or []),
             excluded_annotations=list(row[3] or []),
