@@ -22,14 +22,13 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ### Fixed
 - **Security**: pinned `cryptography>=46.0.7` directly to resolve CVE-2026-39892 (buffer overflow in non-contiguous buffer handling).
+- **CI linting**: upgraded `peter-evans/create-pull-request` from v6 to v7 to fix "Duplicate header: Authorization" error in the MegaLinter auto-fix PR step.
 
 ### Added
 - `neo4japp/services/storage_drivers/postgresql.py` — `PostgreSQLStorageDriver`, a libcloud `StorageDriver` implementation that stores objects in the `files_content` PostgreSQL table via SQLAlchemy.
 - `neo4japp/services/file_storage.py` — `FileStorageService` wrapping the libcloud `StorageDriver` API with `store`, `retrieve`, and `delete` methods.
 - `get_file_storage_service()` factory in `neo4japp/database.py` — builds the libcloud driver from app config and memoises it to the request context.
 
-### Fixed
-- **CI linting**: upgraded `peter-evans/create-pull-request` from v6 to v7 to fix "Duplicate header: Authorization" error in the MegaLinter auto-fix PR step.
 
 ### Changed
 - **GitHub Actions cleanup**: removed the duplicate default CodeQL workflow, kept the advanced scan workflow, and updated stale graph DB workflow action references.
