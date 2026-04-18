@@ -19,6 +19,8 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - Removed unused `AZURE_BLOB_STORAGE_URL` config entry (libcloud derives the endpoint from the account name).
 - **User file content** now written via the new `FileStorageService` libcloud abstraction. The default `PostgreSQLStorageDriver` stores bytes in `files_content.raw_file` (no schema change, no external service required). Switching to Azure Blobs, S3, or GCS only requires setting `FILE_STORAGE_PROVIDER` / `FILE_STORAGE_KEY` / `FILE_STORAGE_SECRET` env vars — no code changes.
 - New `FILE_STORAGE_PROVIDER` / `FILE_STORAGE_CONTAINER` / `FILE_STORAGE_KEY` / `FILE_STORAGE_SECRET` app-config keys control the libcloud backend (default: `POSTGRESQL`).
+### Added
+- **CodeMirror 6 viewer** (`codemirror-viewer`): read-only code/text viewer powered by CodeMirror 6 with syntax highlighting for JSON, Python, JavaScript/TypeScript, XML/HTML, and Markdown; plain-text display for YAML, CSV, and other text types; accessible at `projects/:project_name/code/:file_id`.
 
 ### Fixed
 - **Security**: pinned `cryptography>=46.0.7` directly to resolve CVE-2026-39892 (buffer overflow in non-contiguous buffer handling).
