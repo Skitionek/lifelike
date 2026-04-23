@@ -19,7 +19,7 @@ dependencies = [
   "psycopg2-binary==2.9.11",
   "bioc==2.1",
   "pdfminer-six==20260107",
-  "graphviz==0.19.1",
+  "graphviz==0.21",
   "pypdf4==1.27.0",
   "sqlalchemy-searchable==2.2.0",
   "elasticsearch==9.3.0",
