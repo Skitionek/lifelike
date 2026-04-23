@@ -217,7 +217,7 @@ protobuf==6.33.6
     #   google-api-core
     #   googleapis-common-protos
     #   proto-plus
-psycopg2-binary==2.9.11
+psycopg2-binary==2.9.12
     # via lifelike-appserver
 pyasn1==0.6.3
     # via pyasn1-modules
