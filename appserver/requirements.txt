@@ -22,7 +22,7 @@ azure-storage-common==2.1.0
     # via azure-storage-file
 azure-storage-file==2.1.0
     # via lifelike-appserver
-bcrypt==3.2.0
+bcrypt==5.0.0
     # via
     #   lifelike-appserver
     #   paramiko
