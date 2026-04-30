@@ -196,7 +196,7 @@ openpyxl==3.0.9
     # via lifelike-appserver
 orderly-set==5.5.0
     # via deepdiff
-packaging==26.0
+packaging==26.2
     # via
     #   apispec
     #   gunicorn
