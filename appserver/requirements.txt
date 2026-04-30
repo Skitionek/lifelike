@@ -156,7 +156,7 @@ jinja2==3.1.6
     # via flask
 jsonlines==4.0.0
     # via bioc
-lmdb==1.2.1
+lmdb==2.2.0
     # via lifelike-appserver
 lxml==6.1.0
     # via bioc
