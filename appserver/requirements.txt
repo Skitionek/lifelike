@@ -12,7 +12,19 @@ attrs==26.1.0
     # via
     #   jsonlines
     #   lifelike-appserver
-bcrypt==3.2.0
+azure-common==1.1.28
+    # via
+    #   azure-storage-common
+    #   azure-storage-file
+azure-core==1.39.0
+    # via azure-storage-blob
+azure-storage-blob==12.28.0
+    # via lifelike-appserver
+azure-storage-common==2.1.0
+    # via azure-storage-file
+azure-storage-file==2.1.0
+    # via lifelike-appserver
+bcrypt==5.0.0
     # via
     #   lifelike-appserver
     #   paramiko
@@ -53,7 +65,7 @@ cryptography==46.0.7
     #   paramiko
     #   pdfminer-six
     #   sendgrid
-deepdiff==8.6.2
+deepdiff==9.0.0
     # via lifelike-appserver
 deprecated==1.3.1
     # via redis
@@ -121,7 +133,7 @@ google-resumable-media==2.8.0
     # via google-cloud-storage
 googleapis-common-protos==1.73.0
     # via google-api-core
-graphviz==0.19.1
+graphviz==0.21
     # via lifelike-appserver
 greenlet==3.3.2 ; platform_machine == 'AMD64' or platform_machine == 'WIN32' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'ppc64le' or platform_machine == 'win32' or platform_machine == 'x86_64'
     # via sqlalchemy
@@ -143,13 +155,13 @@ jinja2==3.1.6
     # via flask
 jsonlines==4.0.0
     # via bioc
-lmdb==1.2.1
+lmdb==2.2.0
     # via lifelike-appserver
-lxml==6.0.2
+lxml==6.1.0
     # via bioc
 mako==1.3.10
     # via alembic
-markupsafe==2.1.5
+markupsafe==3.0.3
     # via
     #   flask
     #   jinja2
@@ -183,7 +195,7 @@ openpyxl==3.0.9
     # via lifelike-appserver
 orderly-set==5.5.0
     # via deepdiff
-packaging==26.0
+packaging==26.2
     # via
     #   apispec
     #   gunicorn
@@ -204,7 +216,7 @@ protobuf==6.33.6
     #   google-api-core
     #   googleapis-common-protos
     #   proto-plus
-psycopg2-binary==2.9.11
+psycopg2-binary==2.9.12
     # via lifelike-appserver
 pyasn1==0.6.3
     # via pyasn1-modules
