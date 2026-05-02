@@ -57,11 +57,12 @@ colorama==0.4.6 ; sys_platform == 'win32'
     # via
     #   click
     #   tqdm
-cryptography==46.0.6
+cryptography==47.0.0
     # via
     #   azure-storage-blob
     #   azure-storage-common
     #   google-auth
+    #   lifelike-appserver
     #   paramiko
     #   pdfminer-six
     #   sendgrid
@@ -159,8 +160,10 @@ jsonlines==4.0.0
     # via bioc
 lmdb==2.2.0
     # via lifelike-appserver
-lxml==6.0.2
-    # via bioc
+lxml==6.1.0
+    # via
+    #   bioc
+    #   lifelike-appserver
 mako==1.3.10
     # via alembic
 markupsafe==3.0.3
