@@ -229,7 +229,7 @@ pyjwt==2.12.1
     # via lifelike-appserver
 pynacl==1.6.2
     # via paramiko
-pyparsing==2.4.7
+pyparsing==3.3.2
     # via lifelike-appserver
 pypdf4==1.27.0
     # via lifelike-appserver
