@@ -1,5 +1,18 @@
 @import "lifelike-theme.scss";
 
+// ============================================================
+// Mycelium "Bio-Digital Lab" design tokens
+// ============================================================
+// Inter font — loaded via CSS @import to avoid build-time inlining
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+  --color-primary:   #004B49;
+  --color-accent:    #D4FF00;
+  --color-bg-main:   #F1F5F9;
+  --color-text-main: #0F172A;
+}
+
 $blue: #2f5d8c;
 $dark-blue: #1b4066;
 
@@ -35,7 +48,9 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Inter, Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
 }
 
 // Content placed dynamically by the Angular Router (i.e. sibling of

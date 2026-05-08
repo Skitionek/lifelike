@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-label="Mycelium logo">
+  <!-- Central hub node -->
+  <circle cx="24" cy="24" r="5" fill="#ffffff"/>
+  <!-- Mycelium filament arms -->
+  <line x1="24" y1="19" x2="24" y2="6"  stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="24" y1="29" x2="24" y2="42" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="19" y1="24" x2="6"  y2="24" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="29" y1="24" x2="42" y2="24" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="20.5" y1="20.5" x2="10" y2="10" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="27.5" y1="27.5" x2="38" y2="38" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="27.5" y1="20.5" x2="38" y2="10" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="20.5" y1="27.5" x2="10" y2="38" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Peripheral nodes (bioluminescent lime) -->
+  <circle cx="24" cy="6"  r="3" fill="#D4FF00"/>
+  <circle cx="24" cy="42" r="3" fill="#D4FF00"/>
+  <circle cx="6"  cy="24" r="3" fill="#D4FF00"/>
+  <circle cx="42" cy="24" r="3" fill="#D4FF00"/>
+  <circle cx="10" cy="10" r="2.5" fill="#ffffff" opacity="0.5"/>
+  <circle cx="38" cy="38" r="2.5" fill="#ffffff" opacity="0.5"/>
+  <circle cx="38" cy="10" r="2.5" fill="#ffffff" opacity="0.5"/>
+  <circle cx="10" cy="38" r="2.5" fill="#ffffff" opacity="0.5"/>
+</svg>
