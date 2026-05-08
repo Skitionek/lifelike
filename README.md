@@ -1,6 +1,9 @@
 # ![Lifelike](https://sbrg.github.io/lifelike-website/favicon.ico) Lifelike Afterhours
-Many times, I catch mayself thinking "I would do this that way...", "Wonder if I could do that better".
+Many times, I catch myself thinking "I would do this that way...", "Wonder if I could do that better".
 Made this fork to experiment in my free time.
+
+[![Open in Codespaces (Full stack)](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/Skitionek/lifelike?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+[![Open in Codespaces (Debug)](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/Skitionek/lifelike?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.debug.json)
 
 My overambitious roadmap:
 + [x] Zero-configuration to start developing
@@ -23,6 +26,9 @@ My overambitious roadmap:
 | **Tab/panel implementation** | Custom component | URL-encoded named router outlets (`route-with-dynamic-outlets`) |
 | **PDF viewer library** | pdfjs-dist 2.9.359 | pdfjs-dist 4.2.67 (CVE-2024-4367 fixed) |
 | **Office file support** | ❌ | ✅ Open and view Office files (`.docx`, `.xlsx`, `.pptx`, `.xls`, `.ppt`, `.odt`, etc.) |
+| **Protein structure viewer** | ❌ | ✅ Mol* viewer for `.pdb`, `.cif`, `.mmcif` |
+| **Code/text viewer** | ❌ | ✅ CodeMirror 6 read-only viewer with syntax highlighting |
+| **Folder-level annotation config** | ❌ | ✅ `.annotations` JSON files with inheritance/overrides |
 | **jQuery dependency** | ❌ (jquery, jquery-ui, qtip2) | ✅ Removed — replaced with native DOM APIs & Bootstrap 5 Popover |
 | **Python linting** | ❌ | ✅ ruff (E/F rules) across all Python services |
 | **Comprehensive linting** | ❌ | ✅ MegaLinter with SARIF upload & PR annotations |
@@ -55,7 +61,7 @@ Lifelike Afterhours is a fork of Lifelike that aims to provide a simple, yet pow
 The easiest way to get started and run a fully functional development environment of Lifelike Afterhours is to clone this repository and run the `make up` command:
 
 ```shell
-git clone https://github.com/SBRG/lifelike.git
+git clone https://github.com/Skitionek/lifelike.git
 cd lifelike
 
 make up
