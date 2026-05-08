@@ -1,5 +1,5 @@
 {
-  "name": "Lifelike Afterhours Debug",
+  "name": "Mycelium Debug",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
@@ -18,7 +18,7 @@
       "onAutoForward": "silent"
     },
     "8080": {
-      "label": "Lifelike Afterhours Client",
+      "label": "Mycelium Client",
       "protocol": "http",
       "onAutoForward": "openPreview"
     },

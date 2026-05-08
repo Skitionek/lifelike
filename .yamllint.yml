@@ -1,5 +1,4 @@
 ---
-# yamllint configuration for lifelike
 # GitHub Actions workflows use `on:` (truthy) and long lines - relax accordingly
 extends: default
 
