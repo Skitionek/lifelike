@@ -87,8 +87,15 @@ export enum MimeTypes {
   Directory = 'vnd.lifelike.filesystem/directory',
   Graph = 'vnd.lifelike.document/graph',
   Pdf = 'application/pdf',
-  BioC = 'vnd.lifelike.document/bioc'
+  BioC = 'vnd.lifelike.document/bioc',
+  Pdb = 'chemical/x-pdb',
+  Cif = 'chemical/x-cif'
 }
+
+export const PROTEIN_STRUCTURE_MIME_TYPES: ReadonlySet<string> = new Set([
+  MimeTypes.Pdb,
+  MimeTypes.Cif,
+]);
 
 /**
  * MIME types that the server can convert to PDF on-the-fly using LibreOffice.

@@ -13,7 +13,14 @@ import { PdfFile } from 'app/interfaces/pdf-files.interface';
 import { DirectoryObject } from 'app/interfaces/projects.interface';
 import { Meta } from 'app/pdf-viewer/annotation-type';
 import { annotationTypesMap } from 'app/shared/annotation-styles';
-import {MimeTypes, Unicodes, FAClass, CustomIconColors, LIBREOFFICE_CONVERTIBLE_MIME_TYPES} from 'app/shared/constants';
+import {
+  MimeTypes,
+  Unicodes,
+  FAClass,
+  CustomIconColors,
+  LIBREOFFICE_CONVERTIBLE_MIME_TYPES,
+  PROTEIN_STRUCTURE_MIME_TYPES
+} from 'app/shared/constants';
 import { CollectionModel } from 'app/shared/utils/collection-model';
 import { DragImage } from 'app/shared/utils/drag';
 import { nullCoalesce, RecursivePartial } from 'app/shared/utils/types';
@@ -158,6 +165,14 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
     return !this.isDirectory;
   }
 
+  get isProteinStructure() {
+    const filename = this.filename ? this.filename.toLowerCase() : '';
+    return PROTEIN_STRUCTURE_MIME_TYPES.has(this.mimeType)
+      || filename.endsWith('.pdb')
+      || filename.endsWith('.cif')
+      || filename.endsWith('.mmcif');
+  }
+
   get isOpenable() {
     switch (this.mimeType) {
       case MimeTypes.Directory:
@@ -168,7 +183,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       case 'application/pdf':
         return true;
       default:
-        return LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
+        return this.isProteinStructure || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
     }
   }
 
@@ -211,6 +226,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
     // TODO: Move this method to ObjectTypeProvider
     return this.isDirectory || this.mimeType === MimeTypes.Pdf || this.mimeType === MimeTypes.Map
       || this.mimeType === MimeTypes.EnrichmentTable || this.mimeType === MimeTypes.BioC
+      || this.isProteinStructure
       || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
   }
 
@@ -267,6 +283,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
 
   get mimeTypeLabel() {
     // TODO: Move this method to ObjectTypeProvider
+    if (this.isProteinStructure) {
+      return 'Protein Structure';
+    }
     switch (this.mimeType) {
       case MimeTypes.Directory:
         return 'Folder';
@@ -475,6 +494,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
   getCommands(forEditing = true): any[] {
     // TODO: Move this method to ObjectTypeProvider
     const projectName = this.project ? this.project.name : 'default';
+    if (this.isProteinStructure) {
+      return ['/projects', projectName, 'structure', this.hashId];
+    }
     switch (this.mimeType) {
       case MimeTypes.Directory:
         // TODO: Convert to hash ID
