@@ -1,6 +1,6 @@
-# Lifelike Afterhours testing tools
+# Mycelium testing tools
 
-This directory contains various types of test for ensuring perfomance and correctness of the Lifelike Afterhours application.
+This directory contains various types of test for ensuring perfomance and correctness of the Mycelium application.
 
 - Broser performance testing
 - Server stress testing

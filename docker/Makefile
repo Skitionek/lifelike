@@ -5,7 +5,7 @@ DOCKER_REGISTRY:=us.gcr.io/able-goods-221820
 #  docker-compose.yml           -> Base services containers
 #  docker-compose.services.yml  -> Third party services (PostgreSQL, Neo4j, Elasticsearch, Redis)
 #  docker-compose.dev.yml       -> Override base services for local development
-COMPOSE_COMMAND=docker-compose -p lifelike \
+COMPOSE_COMMAND=docker-compose -p mycelium \
   -f ${DOCKER_DIR}/docker-compose.yml \
   -f ${DOCKER_DIR}/docker-compose.services.yml
 # ------------------------------------------------------------------------------
@@ -14,21 +14,21 @@ COMPOSE_COMMAND=docker-compose -p lifelike \
 
 up: ##@docker Run all containers. [c=<names>]
 	${COMPOSE_COMMAND} ${args} up -d ${c}
-	@echo "\nTo access Lifelike, point your browser at: http://localhost:8080\n"
+	@echo "\nTo access mycelium, point your browser at: http://localhost:8080\n"
 
 up-dev: ##@docker Build and run all container(s) for development. [c=<names>]
 	@echo "\nBuilding and running containers...\nThis may take a while if running for the first time. \n"
 	@${COMPOSE_COMMAND} -f ${DOCKER_DIR}/docker-compose.dev.yml ${args} up -d --build --wait ${c}
-	@echo "\nTo access Lifelike, point your browser at: http://localhost:8080\n"
+	@echo "\nTo access mycelium, point your browser at: http://localhost:8080\n"
 
 tag ?= latest
 images: ##@docker Build container(s) for distribution.
 	@echo "\nBuilding Docker images...\n"
-	@cd ${DOCKER_DIR}/../appserver && docker build -t ${DOCKER_REGISTRY}/lifelike-appserver:${tag} .
-	@cd ${DOCKER_DIR}/../client && docker build -t ${DOCKER_REGISTRY}/lifelike-frontend:${tag} .
-	@cd ${DOCKER_DIR}/../statistical-enrichment && docker build -t ${DOCKER_REGISTRY}/lifelike-statistical-enrichment:${tag} .
-	@cd ${DOCKER_DIR}/../cache-invalidator && docker build -t ${DOCKER_REGISTRY}/lifelike-cache-invalidator:${tag} .
-	@cd ${DOCKER_DIR} && docker build -t ${DOCKER_REGISTRY}/lifelike-elasticsearch:${tag} -f elasticsearch.Dockerfile .
+	@cd ${DOCKER_DIR}/../appserver && docker build -t ${DOCKER_REGISTRY}/mycelium-appserver:${tag} .
+	@cd ${DOCKER_DIR}/../client && docker build -t ${DOCKER_REGISTRY}/mycelium-frontend:${tag} .
+	@cd ${DOCKER_DIR}/../statistical-enrichment && docker build -t ${DOCKER_REGISTRY}/mycelium-statistical-enrichment:${tag} .
+	@cd ${DOCKER_DIR}/../cache-invalidator && docker build -t ${DOCKER_REGISTRY}/mycelium-cache-invalidator:${tag} .
+	@cd ${DOCKER_DIR} && docker build -t ${DOCKER_REGISTRY}/mycelium-elasticsearch:${tag} -f elasticsearch.Dockerfile .
 
 status: ##@docker Show container(s) status. [c=<names>]
 	@${COMPOSE_COMMAND} ${args} ps ${c}
