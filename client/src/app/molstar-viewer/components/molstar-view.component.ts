@@ -18,8 +18,7 @@ import { MimeTypes } from 'app/shared/constants';
 import { ModuleAwareComponent, ModuleProperties } from 'app/shared/modules';
 import { BackgroundTask } from 'app/shared/rxjs/background-task';
 import { mapBlobToBuffer } from 'app/shared/utils/files';
-
-import { Viewer } from 'molstar/lib/apps/viewer/app';
+declare const molstar: any;
 
 type ProteinStructureFormat = 'pdb' | 'mmcif';
 
@@ -39,7 +38,7 @@ export class MolstarViewComponent implements AfterViewInit, OnDestroy, ModuleAwa
   loadTask: BackgroundTask<string, [FilesystemObject, string]>;
   renderError: string | null = null;
 
-  private viewer: Viewer | undefined;
+  private viewer: any;
   private viewInitialized = false;
   private structureData: string | undefined;
   private structureFormat: ProteinStructureFormat | undefined;
@@ -120,7 +119,10 @@ export class MolstarViewComponent implements AfterViewInit, OnDestroy, ModuleAwa
       this.disposeViewer();
       const container = this.molstarContainer.nativeElement;
       container.innerHTML = '';
-      this.viewer = await Viewer.create(container, {
+      if (!molstar?.Viewer?.create) {
+        throw new Error('Mol* viewer script not loaded');
+      }
+      this.viewer = await molstar.Viewer.create(container, {
         layoutShowControls: false,
         layoutShowRemoteState: false,
         layoutShowSequence: false,
