@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-> This changelog tracks changes made in the [Lifelike Afterhours fork](https://github.com/Skitionek/lifelike)
+> This changelog tracks changes made in the [Mycelium fork](https://github.com/Skitionek/mycelium)
 > since it was created from the upstream [SBRG/lifelike](https://github.com/SBRG/lifelike) repository.
 
 ---
@@ -161,23 +161,23 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ---
 
-[#109]: https://github.com/Skitionek/lifelike/pull/109
-[#114]: https://github.com/Skitionek/lifelike/pull/114
-[#115]: https://github.com/Skitionek/lifelike/pull/115
-[#116]: https://github.com/Skitionek/lifelike/pull/116
-[#117]: https://github.com/Skitionek/lifelike/pull/117
-[#128]: https://github.com/Skitionek/lifelike/pull/128
-[#130]: https://github.com/Skitionek/lifelike/pull/130
-[#132]: https://github.com/Skitionek/lifelike/pull/132
-[#133]: https://github.com/Skitionek/lifelike/pull/133
-[#134]: https://github.com/Skitionek/lifelike/pull/134
-[#136]: https://github.com/Skitionek/lifelike/pull/136
-[#141]: https://github.com/Skitionek/lifelike/pull/141
-[#147]: https://github.com/Skitionek/lifelike/pull/147
-[#148]: https://github.com/Skitionek/lifelike/pull/148
-[#149]: https://github.com/Skitionek/lifelike/pull/149
-[#150]: https://github.com/Skitionek/lifelike/pull/150
-[#152]: https://github.com/Skitionek/lifelike/pull/152
-[#153]: https://github.com/Skitionek/lifelike/pull/153
-[#154]: https://github.com/Skitionek/lifelike/pull/154
-[#155]: https://github.com/Skitionek/lifelike/pull/155
+[#109]: https://github.com/Skitionek/mycelium/pull/109
+[#114]: https://github.com/Skitionek/mycelium/pull/114
+[#115]: https://github.com/Skitionek/mycelium/pull/115
+[#116]: https://github.com/Skitionek/mycelium/pull/116
+[#117]: https://github.com/Skitionek/mycelium/pull/117
+[#128]: https://github.com/Skitionek/mycelium/pull/128
+[#130]: https://github.com/Skitionek/mycelium/pull/130
+[#132]: https://github.com/Skitionek/mycelium/pull/132
+[#133]: https://github.com/Skitionek/mycelium/pull/133
+[#134]: https://github.com/Skitionek/mycelium/pull/134
+[#136]: https://github.com/Skitionek/mycelium/pull/136
+[#141]: https://github.com/Skitionek/mycelium/pull/141
+[#147]: https://github.com/Skitionek/mycelium/pull/147
+[#148]: https://github.com/Skitionek/mycelium/pull/148
+[#149]: https://github.com/Skitionek/mycelium/pull/149
+[#150]: https://github.com/Skitionek/mycelium/pull/150
+[#152]: https://github.com/Skitionek/mycelium/pull/152
+[#153]: https://github.com/Skitionek/mycelium/pull/153
+[#154]: https://github.com/Skitionek/mycelium/pull/154
+[#155]: https://github.com/Skitionek/mycelium/pull/155
