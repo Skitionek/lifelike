@@ -18,12 +18,12 @@ $gray-800: #343a40;
 // ============================================================
 // Brand & semantic color overrides
 // ============================================================
-$primary:   #0c8caa;
+$primary:   #004B49;
 $secondary: $gray-300;
 $success:   $green;
 $info:      $cyan;
 $dark:      $gray-800;
-$highlight: #FFF7E0;
+$highlight: #D4FF00;
 
 // ============================================================
 // Spacing
@@ -45,7 +45,7 @@ $input-btn-padding-x: .65rem;
 // ============================================================
 // Typography
 // ============================================================
-$font-family-sans-serif: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+$font-family-sans-serif: Inter, Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
 
 $font-size-base: 0.9rem;
 
@@ -58,6 +58,11 @@ $form-group-margin-bottom: 0.5rem;
 
 // Modal (Bootstrap 5 default: 500px)
 $modal-md: 600px;
+
+// Border radius — 6px "rounded-md" for a clean lab aesthetic
+$border-radius:    6px;
+$border-radius-sm: 4px;
+$border-radius-lg: 8px;
 
 // Extend display utilities to include table-column
 $displays: none, inline, inline-block, block, table, table-row, table-cell, flex, inline-flex, table-column;
@@ -92,8 +97,8 @@ $window-title-font-size:                 $font-size-sm;
 $window-title-font-weight:               bold;
 
 $module-header-border-width:             1px;
-$module-header-border-color:             $gray-300;
-$module-header-box-shadow:               0 0 5px rgba(0, 0, 0, 0.1);
+$module-header-border-color:             #e2e8f0;
+$module-header-box-shadow:               none;
 $module-header-padding-y:                0.75rem;
 $module-header-padding-x:                $window-spacer;
 $module-header-padding-y-lg:             0.75rem * 2;
@@ -124,9 +129,9 @@ $search-results-border-radius:           $border-radius;
 
 $toolbar-padding:                        $window-spacer;
 $toolbar-border-width:                   1px;
-$toolbar-border-color:                   $gray-300;
+$toolbar-border-color:                   #e2e8f0;
 $toolbar-bg:                             $white;
-$toolbar-box-shadow:                     0 0 5px rgba(0, 0, 0, 0.1);
+$toolbar-box-shadow:                     none;
 $toolbar-font-size:                      $font-size-base;
 
 $floating-toolbar-padding:               $spacer / 2;
@@ -134,8 +139,8 @@ $floating-toolbar-border-color:          $gray-400;
 $floating-toolbar-bg:                    $gray-400;
 $floating-toolbar-border-radius:         $border-radius;
 
-$dropdown-menu-box-shadow:               0 2px 4px rgba(0, 0, 0, 0.1);
-$popover-box-shadow:                     0 2px 4px rgba(0, 0, 0, 0.1);
+$dropdown-menu-box-shadow:               0 1px 0 #e2e8f0;
+$popover-box-shadow:                     0 1px 0 #e2e8f0;
 
 $btn-border-radius-xs: $border-radius-sm;
 $btn-padding-y-xs:     0.1rem;

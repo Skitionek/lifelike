@@ -197,7 +197,7 @@ export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {
         );
       },
     }, {
-      name: 'Lifelike Afterhours Enrichment Table File',
+      name: 'Mycelium Enrichment Table File',
       export: () => {
         return this.filesystemService.getContent(object.hashId).pipe(
           map(blob => {

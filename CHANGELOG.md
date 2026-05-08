@@ -13,6 +13,17 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 ## [Unreleased]
 
 ### Added
+- **Mycelium rebrand**: Renamed project from "Lifelike Afterhours" to "Mycelium" across all user-facing strings, browser title, navigation, login page, version dialog, and Terms of Service. Original Lifelike protocol identifiers (`LifelikeKnowledgeMap/1`, `LifelikeKnowledgeNode/1`) preserved for backwards compatibility; upstream attribution retained in ToS and LICENSE ([#245]).
+- **Mycelium SVG logo**: Minimalist mycelium-network icon added to the left navigation bar (`assets/icons/mycelium-logo.svg`) ([#245]).
+
+### Changed
+- **"Bio-Digital Lab" design system**: Global CSS custom properties introduced (`--color-primary: #004B49`, `--color-accent: #D4FF00`, `--color-bg-main: #F1F5F9`, `--color-text-main: #0F172A`). Bootstrap `$primary` updated to Deep Sea Teal `#004B49`; highlight colour updated to Bioluminescent Lime `#D4FF00` ([#245]).
+- **Typography**: Primary sans-serif font updated to Inter (with Roboto fallback); Inter loaded from Google Fonts ([#245]).
+- **Border radius**: Global `$border-radius` set to 6px (rounded-md) for all buttons and components ([#245]).
+- **Elevation**: Heavy box-shadows replaced with subtle `1px solid #e2e8f0` borders on module headers, toolbars, dropdowns and popovers for a "clinical lab" aesthetic ([#245]).
+- **Knowledge Graph nodes**: Default node stroke and edge colour updated from `#2B7CE9` to Deep Sea Teal `#004B49`; default node background updated to `#F1F5F9` ([#245]).
+
+### Added
 - **Protein structure viewer (Mol\*)**: `.pdb`, `.cif`, and `.mmcif` files now open in a dedicated Mol\*-powered 3D viewer route (`projects/:project_name/structure/:file_id`), including in-app preview support and upload-time MIME mapping for protein structure extensions (`([#244])`).
 - **Folder-level `.annotations` JSON config files**: directories can now contain a `.annotations` file (MIME type `vnd.lifelike.filesystem/annotations`) that defines annotation scope — analogous to `.gitignore`. Content is a **JSON object** validated against `annotations_v1.json` (JSON Schema draft-07). Supports `inherit`, `fallback_organism`, `annotation_configs`, `include`, and `exclude` fields. Managed through the standard file API; nested folders can extend or override parent scope; `inherit: false` resets the accumulated config from outer scopes.
 - **`neo4japp/schemas/formats/annotations_v1.json`**: JSON Schema (draft-07) for `.annotations` config files, compiled at import time via `fastjsonschema`.

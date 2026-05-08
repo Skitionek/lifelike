@@ -3,6 +3,11 @@
   <div class="vertical-nav d-flex flex-column flex-wrap overflow-auto flex-shrink-0">
     <!-- Top buttons -->
     <div class="d-flex flex-column">
+      <!-- Mycelium logo -->
+      <a routerLink="/workspaces/local" placement="right" ngbTooltip="Mycelium" class="brand-logo">
+        <img src="assets/icons/mycelium-logo.svg" alt="Mycelium" width="28" height="28">
+      </a>
+      <div class="button-divider"></div>
       <!-- If a file is in standalone mode, workbench button opens it as tab -->
       <ng-container *ngIf="isStandaloneFileOpen; else goToWorkbench">
         <a [appLink]="mainUrl" placement="right" ngbTooltip="Workbench" [forceWorkbench]="true" [newTab]="true"
@@ -51,7 +56,7 @@
           </a>
           <div ngbDropdownMenu aria-labelledby="account-dropdown" class="dropdown-menu">
             <a class="dropdown-item" (click)="buildInfo()" placement="right">
-              Lifelike Afterhours Info
+              Mycelium Info
             </a>
             <a class="dropdown-item" *ngIf="(userRoles$ | async)?.includes('admin')" [routerLink]="['/admin']"
                placement="right">
