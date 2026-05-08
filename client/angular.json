@@ -33,6 +33,7 @@
             ],
             "styles": [
               "node_modules/tachyons/css/tachyons.css",
+              "node_modules/molstar/build/viewer/molstar.css",
               "src/lifelike-theme.scss",
               "src/scss/bootstrap.scss",
               "src/styles.scss"
@@ -133,6 +134,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/molstar/build/viewer/molstar.css",
               "src/scss/bootstrap.scss",
               "src/lifelike-theme.scss",
               "src/styles.scss"

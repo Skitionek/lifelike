@@ -9,8 +9,10 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+declare const molstar: any;
 
 import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { FilesystemService } from 'app/file-browser/services/filesystem.service';
@@ -18,7 +20,6 @@ import { MimeTypes } from 'app/shared/constants';
 import { ModuleAwareComponent, ModuleProperties } from 'app/shared/modules';
 import { BackgroundTask } from 'app/shared/rxjs/background-task';
 import { mapBlobToBuffer } from 'app/shared/utils/files';
-declare const molstar: any;
 
 type ProteinStructureFormat = 'pdb' | 'mmcif';
 
