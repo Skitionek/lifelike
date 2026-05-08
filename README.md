@@ -1,5 +1,5 @@
 # ![Lifelike](https://sbrg.github.io/lifelike-website/favicon.ico) Lifelike Afterhours
-Many times, I catch mayself thinking "I would do this that way...", "Wonder if I could do that better".
+Many times, I catch myself thinking "I would do this that way...", "Wonder if I could do that better".
 Made this fork to experiment in my free time.
 
 [![Open in Codespaces (Full stack)](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/Skitionek/lifelike?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.json)
@@ -26,7 +26,7 @@ My overambitious roadmap:
 | **Tab/panel implementation** | Custom component | URL-encoded named router outlets (`route-with-dynamic-outlets`) |
 | **PDF viewer library** | pdfjs-dist 2.9.359 | pdfjs-dist 4.2.67 (CVE-2024-4367 fixed) |
 | **Office file support** | ❌ | ✅ Open and view Office files (`.docx`, `.xlsx`, `.pptx`, `.xls`, `.ppt`, `.odt`, etc.) |
-| **Protein structure viewer** | ❌ | ✅ Mol\* viewer for `.pdb`, `.cif`, `.mmcif` |
+| **Protein structure viewer** | ❌ | ✅ Mol* viewer for `.pdb`, `.cif`, `.mmcif` |
 | **Code/text viewer** | ❌ | ✅ CodeMirror 6 read-only viewer with syntax highlighting |
 | **Folder-level annotation config** | ❌ | ✅ `.annotations` JSON files with inheritance/overrides |
 | **jQuery dependency** | ❌ (jquery, jquery-ui, qtip2) | ✅ Removed — replaced with native DOM APIs & Bootstrap 5 Popover |
