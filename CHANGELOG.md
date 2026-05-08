@@ -170,4 +170,3 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 [#153]: https://github.com/Skitionek/lifelike/pull/153
 [#154]: https://github.com/Skitionek/lifelike/pull/154
 [#155]: https://github.com/Skitionek/lifelike/pull/155
-[#244]: https://github.com/Skitionek/lifelike/pull/244
