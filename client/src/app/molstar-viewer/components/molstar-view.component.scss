@@ -1,0 +1,24 @@
+@import '~molstar/build/viewer/molstar.css';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.module {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.module-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.molstar-host {
+  flex: 1;
+  min-height: 0;
+}

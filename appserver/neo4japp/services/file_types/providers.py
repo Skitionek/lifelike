@@ -91,6 +91,9 @@ from neo4japp.utils.string import extract_text
 
 extension_mime_types = {
     '.pdf': 'application/pdf',
+    '.pdb': 'chemical/x-pdb',
+    '.cif': 'chemical/x-cif',
+    '.mmcif': 'chemical/x-cif',
     '.llmap': 'vnd.lifelike.document/map',
     '.svg': 'image/svg+xml',
     '.png': 'image/png',
