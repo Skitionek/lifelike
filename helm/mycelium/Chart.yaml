@@ -2,7 +2,7 @@ apiVersion: v2
 name: mycelium
 description: mycelium, a graph-powered knowledge mining platform. Turning big data into contextualized knowledge
 home: https://mycelium.bio
-icon: https://github.com/SBRG/mycelium/raw/main/appserver/assets/mycelium.png
+icon: https://github.com/Skitionek/mycelium/raw/main/client/src/assets/icons/mycelium-logo.svg
 type: application
 
 version: 0.5.0
@@ -18,7 +18,7 @@ keywords:
   - knowledgegraph
 
 sources:
-  - https://github.com/SBRG/mycelium
+  - https://github.com/Skitionek/mycelium
 
 dependencies:
   - name: postgresql
@@ -43,7 +43,7 @@ annotations:
     - name: mycelium website
       url: https://mycelium.bio
     - name: mycelium Git repository
-      url: https://github.com/SBRG/mycelium
+      url: https://github.com/Skitionek/mycelium
   artifacthub.io/maintainers: |
     - name: David Regla
       email: darede@biosustain.dtu.dk
