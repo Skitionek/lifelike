@@ -124,8 +124,6 @@ jobs:
 
       - name: Update CHANGELOG with release date
         if: steps.gate.outputs.ready == 'true'
-        env:
-          RELEASE_SHA: ${{ steps.gate.outputs.sha }}
         run: |
           python - <<'PY'
           import os
@@ -151,7 +149,7 @@ jobs:
 
           normalized_body = unreleased_body.strip("\n")
           if not re.search(r"(?m)^\s*-\s+", normalized_body):
-              normalized_body = f"### Changed\n- Automated release for commit `{os.environ['RELEASE_SHA'][:7]}`."
+              normalized_body = "### Changed\n- Automated release with no documented changelog entries."
 
           date_heading = f"## [{release_date}]"
           if tail.startswith(date_heading):
