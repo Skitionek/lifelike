@@ -21,7 +21,6 @@ ingress:
   #   hosts:
   #   - mycelium.local
 
-
 # ------------------------------------------------------------------------------
 # API (appserver)
 # ------------------------------------------------------------------------------
@@ -207,11 +206,10 @@ statisticalEnrichment:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 10
-  
+
   service:
     type: ClusterIP
     port: 5000
-
 
 # ------------------------------------------------------------------------------
 # PDF Parser
@@ -266,7 +264,6 @@ pdfparser:
     type: ClusterIP
     port: 7600
 
-
 # ------------------------------------------------------------------------------
 # External services
 # ------------------------------------------------------------------------------
@@ -290,13 +287,11 @@ neo4jExternal:
   password: password
   database: neo4j
 
-
 ## -- External Redis connection details, ignored if redis.enabled is set to true
 redisExternal:
   host: redis.local
   port: 6379
   password: ""
-
 
 ## -- External Elasticsearch connection details, ignored if elasticsearch.enabled is set to true
 elasticsearchExternal:
@@ -306,13 +301,11 @@ elasticsearchExternal:
   password: ""
   ssl: false
 
-
 # ---------------------------------------------------------------------------- #
 #                                                                              #
 #                               Subcharts                                      #
 #                                                                              #
 # ---------------------------------------------------------------------------- #
-
 
 # ------------------------------------------------------------------------------
 # PostgreSQL database
@@ -351,7 +344,6 @@ neo4j:
       ## -- Size of the persistent volume for each server
       size: 100Gi
 
-
 # ------------------------------------------------------------------------------
 # Elasticsearch
 # ------------------------------------------------------------------------------
@@ -378,7 +370,6 @@ elasticsearch:
     resources:
       requests:
         storage: 30Gi
-
 
 # ------------------------------------------------------------------------------
 # Redis (cache)
