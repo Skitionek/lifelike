@@ -1,4 +1,4 @@
-## This is an example values files for a simple Lifelike deployment
+## This is an example values files for a simple mycelium deployment
 ## consisting of a single replica of each component.
 ## Typically used for testing on a single node cluster.
 

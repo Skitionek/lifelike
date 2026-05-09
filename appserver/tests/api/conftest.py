@@ -332,7 +332,7 @@ def fix_project(test_user: AppUser, session) -> Projects:
         user=test_user,
     )
     project = Projects(
-        name='Lifelike',
+        name='Mycelium',
         description='Test project',
         root=root_dir,
         creation_date=datetime.now(),

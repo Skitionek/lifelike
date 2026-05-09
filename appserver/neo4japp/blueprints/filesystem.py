@@ -104,7 +104,7 @@ class FilesystemBaseView(MethodView):
     file_max_size = 1024 * 1024 * 300
     url_fetch_timeout = 10
     url_fetch_user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 ' \
-                           '(KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36 Lifelike'
+                           '(KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36 Mycelium'
 
     def get_nondeleted_recycled_file(
             self, filter, lazy_load_content=False, attr_excl: List[str] = None) -> Files:

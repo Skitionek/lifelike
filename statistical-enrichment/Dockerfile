@@ -30,7 +30,7 @@ RUN uv venv /.venv \
 # Runtime stage
 # ========================================
 FROM base
-LABEL org.opencontainers.image.source https://github.com/SBRG/lifelike
+LABEL org.opencontainers.image.source https://github.com/Skitionek/mycelium
 
 # Install curl for self healthchecks
 RUN apt-get update && apt-get install -y curl && apt-get clean

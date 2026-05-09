@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "lifelike.fullname" . }}-pdfparser
-  labels: {{- include "lifelike.labels" . | nindent 4 }}
+  name: {{ include "mycelium.fullname" . }}-pdfparser
+  labels: {{- include "mycelium.labels" . | nindent 4 }}
     app.kubernetes.io/component: pdfparser
 spec:
   type: {{ .Values.pdfparser.service.type | default }}
@@ -11,5 +11,5 @@ spec:
       targetPort: {{ .Values.pdfparser.service.port }}
       protocol: TCP
       name: http
-  selector: {{- include "lifelike.selectorLabels" . | nindent 4 }}
+  selector: {{- include "mycelium.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: pdfparser

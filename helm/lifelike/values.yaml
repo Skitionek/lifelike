@@ -5,7 +5,7 @@ ingress:
   enabled: false
 
   ## -- Configure base domain name for Ingress
-  hostname: lifelike.local
+  hostname: mycelium.local
 
   ## -- Ingress class, leave blank for default ingress controller (usually nginx)
   className: ""
@@ -17,9 +17,9 @@ ingress:
 
   ## -- Ingress TLS
   tls: []
-  # - secretName: lifelike-tls
+  # - secretName: mycelium-tls
   #   hosts:
-  #   - lifelike.local
+  #   - mycelium.local
 
 
 # ------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ ingress:
 # ------------------------------------------------------------------------------
 api:
   image:
-    repository: ghcr.io/sbrg/lifelike-appserver
+    repository: ghcr.io/sbrg/mycelium-appserver
     ## -- Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
@@ -120,7 +120,7 @@ api:
 # ------------------------------------------------------------------------------
 frontend:
   image:
-    repository: ghcr.io/sbrg/lifelike-frontend
+    repository: ghcr.io/sbrg/mycelium-frontend
     ## -- Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
@@ -173,7 +173,7 @@ frontend:
 # ------------------------------------------------------------------------------
 statisticalEnrichment:
   image:
-    repository: ghcr.io/sbrg/lifelike-statistical-enrichment
+    repository: ghcr.io/sbrg/mycelium-statistical-enrichment
     ## -- Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
@@ -218,7 +218,7 @@ statisticalEnrichment:
 # ------------------------------------------------------------------------------
 pdfparser:
   image:
-    repository: ghcr.io/sbrg/lifelike-pdfparser
+    repository: ghcr.io/sbrg/mycelium-pdfparser
     ## -- Overrides the pdfparser image tag
     tag: "latest"
 
@@ -362,7 +362,7 @@ elasticsearch:
   ## -- Set to false to disable automatic deployment of Elasticsearch
   enabled: true
 
-  image: ghcr.io/sbrg/lifelike-elasticsearch
+  image: ghcr.io/sbrg/mycelium-elasticsearch
   imageTag: 7.16.3
 
   fullnameOverride: elasticsearch

@@ -53,7 +53,7 @@ export interface Exporter {
 
 /**
  * A file type provider knows how to handle a certain or set of object types. Instances
- * are used by the application to discover operations on objects stored within Lifelike.
+ * are used by the application to discover operations on objects stored within Mycelium.
  */
 export interface ObjectTypeProvider {
 

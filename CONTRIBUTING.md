@@ -12,7 +12,7 @@ Pull requests can be created via GitHub. Refer to [this document](https://help.g
 
 ## Licensing
 
-This fork is based on the original Lifelike project. Licensing for this repository, including upstream notice and fork-specific terms, is described in [LICENSE](LICENSE).
+This work is based on the Lifelike project. Licensing for this repository, including upstream notice and fork-specific terms, is described in [LICENSE](LICENSE).
 
 If you have questions about licensing, or would like to discuss a potential license change for this fork, feel free to:
 - Open an issue at <https://github.com/Skitionek/mycelium/issues>

@@ -449,7 +449,7 @@ class ManualAnnotationService:
         to the new synonym node.
 
         If there is no match with an existing entity, then a new node is created
-        with the Lifelike domain/node label.
+        with the Mycelium domain/node label.
         """
         if inclusion_type == ManualAnnotationType.INCLUSION.value:
             try:

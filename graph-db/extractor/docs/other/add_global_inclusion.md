@@ -13,7 +13,7 @@ merge (n)-[r:HAS_SYNONYM]->(s) set r.inclusion_date = datetime(), r.user = $user
  
 #### 3. Add new term and synonyms 
 ```
-merge (n:db_Lifelike) where n.id = $external_id
+merge (n:db_Mycelium) where n.id = $external_id
 on create set n:{EntityLabel}, n.name=$name, n.data_source=$datasource, n.external_id=$external_id,
 n.hyperlink = $hyperlink, n.inclusion_date = datetime(), n.user = $user
 with n

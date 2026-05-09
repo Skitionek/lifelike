@@ -3,7 +3,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "lifelike.name" -}}
+{{- define "mycelium.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -12,7 +12,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "lifelike.fullname" -}}
+{{- define "mycelium.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -30,7 +30,7 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "lifelike.chart" -}}
+{{- define "mycelium.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end -}}
 
@@ -39,14 +39,14 @@ Create chart name and version as used by the chart label.
 {{/*
 Common labels
 */}}
-{{- define "lifelike.labels" -}}
-helm.sh/chart: {{ include "lifelike.chart" . }}
-{{ include "lifelike.selectorLabels" . }}
+{{- define "mycelium.labels" -}}
+helm.sh/chart: {{ include "mycelium.chart" . }}
+{{ include "mycelium.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/part-of: lifelike
+app.kubernetes.io/part-of: mycelium
 {{- end -}}
 
 {{/* ---------------------------------------------------------------------- */}}
@@ -54,8 +54,8 @@ app.kubernetes.io/part-of: lifelike
 {{/*
 Selector labels
 */}}
-{{- define "lifelike.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "lifelike.name" . }}
+{{- define "mycelium.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "mycelium.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
@@ -68,7 +68,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "lifelike.postgresql.fullname" -}}
+{{- define "mycelium.postgresql.fullname" -}}
 {{- if .Values.postgresql.fullnameOverride -}}
 {{- .Values.postgresql.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -84,9 +84,9 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{/*
 Return the PostgreSQL hostname
 */}}
-{{- define "lifelike.postgresqlHost" -}}
+{{- define "mycelium.postgresqlHost" -}}
 {{- if .Values.postgresql.enabled }}
-    {{- printf "%s" (include "lifelike.postgresql.fullname" .) -}}
+    {{- printf "%s" (include "mycelium.postgresql.fullname" .) -}}
 {{- else -}}
     {{- printf "%s" .Values.postgresqlExternal.host -}}
 {{- end -}}
@@ -95,7 +95,7 @@ Return the PostgreSQL hostname
 {{/*
 Return the PostgreSQL port
 */}}
-{{- define "lifelike.postgresqlPort" -}}
+{{- define "mycelium.postgresqlPort" -}}
 {{- if .Values.postgresql.enabled }}
     {{- printf "5432" -}}
 {{- else -}}
@@ -107,7 +107,7 @@ Return the PostgreSQL port
 {{/*
 Return the PostgreSQL database name
 */}}
-{{- define "lifelike.postgresqlDatabase" -}}
+{{- define "mycelium.postgresqlDatabase" -}}
 {{- if .Values.postgresql.enabled }}
     {{- printf "%s" .Values.postgresql.auth.database -}}
 {{- else -}}
@@ -118,7 +118,7 @@ Return the PostgreSQL database name
 {{/*
 Return the PostgreSQL user
 */}}
-{{- define "lifelike.postgresqlUser" -}}
+{{- define "mycelium.postgresqlUser" -}}
 {{- if .Values.postgresql.enabled }}
     {{- default "postgres" .Values.postgresql.auth.username | quote -}}
 {{- else -}}
@@ -129,7 +129,7 @@ Return the PostgreSQL user
 {{/*
 Return the PostgreSQL password
 */}}
-{{- define "lifelike.postgresqlPassword" -}}
+{{- define "mycelium.postgresqlPassword" -}}
 {{- if .Values.postgresql.enabled }}
     {{- printf "%s" .Values.postgresql.auth.postgresPassword -}}
 {{- else -}}
@@ -141,11 +141,11 @@ Return the PostgreSQL password
 {{/*
 Set postgres secret
 */}}
-{{- define "lifelike.postgresql.secret" -}}
+{{- define "mycelium.postgresql.secret" -}}
 {{- if .Values.postgresql.enabled -}}
-{{- template "lifelike.postgresql.fullname" . -}}
+{{- template "mycelium.postgresql.fullname" . -}}
 {{- else -}}
-{{- template "lifelike.fullname" . -}}
+{{- template "mycelium.fullname" . -}}
 {{- end -}}
 {{- end -}}
 
@@ -153,7 +153,7 @@ Set postgres secret
 {{/*
 Set postgres secretKey
 */}}
-{{- define "lifelike.postgresql.secretKey" -}}
+{{- define "mycelium.postgresql.secretKey" -}}
 {{- if .Values.postgresql.enabled -}}
 "postgresql-password"
 {{- else -}}
@@ -170,7 +170,7 @@ Set postgres secretKey
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "lifelike.neo4j.fullname" -}}
+{{- define "mycelium.neo4j.fullname" -}}
 {{- if .Values.neo4j.fullnameOverride -}}
 {{- .Values.neo4j.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -186,9 +186,9 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{/*
 Return the Neo4j hostname
 */}}
-{{- define "lifelike.neo4jHost" -}}
+{{- define "mycelium.neo4jHost" -}}
 {{- if .Values.neo4j.enabled }}
-    {{- printf "%s" (include "lifelike.neo4j.fullname" .) -}}
+    {{- printf "%s" (include "mycelium.neo4j.fullname" .) -}}
 {{- else -}}
     {{- printf "%s" .Values.neo4jExternal.host -}}
 {{- end -}}
@@ -197,7 +197,7 @@ Return the Neo4j hostname
 {{/*
 Return the Neo4j port
 */}}
-{{- define "lifelike.neo4jPort" -}}
+{{- define "mycelium.neo4jPort" -}}
 {{- if .Values.neo4j.enabled }}
     {{- printf "7687" -}}
 {{- else -}}
@@ -208,7 +208,7 @@ Return the Neo4j port
 {{/*
 Return the Neo4j user
 */}}
-{{- define "lifelike.neo4jUser" -}}
+{{- define "mycelium.neo4jUser" -}}
 {{- if .Values.neo4j.enabled }}
     {{- printf "neo4j" -}}
 {{- else -}}
@@ -219,7 +219,7 @@ Return the Neo4j user
 {{/*
 Return the Neo4j password
 */}}
-{{- define "lifelike.neo4jPassword" -}}
+{{- define "mycelium.neo4jPassword" -}}
 {{- if .Values.neo4j.enabled }}
     {{- printf "%s" .Values.neo4j.neo4jPassword -}}
 {{- else -}}
@@ -230,7 +230,7 @@ Return the Neo4j password
 {{/*
 Return the Neo4j database name
 */}}
-{{- define "lifelike.neo4jDatabase" -}}
+{{- define "mycelium.neo4jDatabase" -}}
 {{- if .Values.neo4j.enabled }}
     {{- default "neo4j" .Values.neo4j.defaultDatabase -}}
 {{- else -}}
@@ -246,7 +246,7 @@ Return the Neo4j database name
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "lifelike.elasticsearch.fullname" -}}
+{{- define "mycelium.elasticsearch.fullname" -}}
 {{- if .Values.elasticsearch.fullnameOverride -}}
 {{- .Values.elasticsearch.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -262,9 +262,9 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{/*
 Return the Elasticsearch hostname
 */}}
-{{- define "lifelike.elasticsearchHost" -}}
+{{- define "mycelium.elasticsearchHost" -}}
 {{- if .Values.elasticsearch.enabled }}
-    {{- printf "%s" (include "lifelike.elasticsearch.fullname" .) -}}
+    {{- printf "%s" (include "mycelium.elasticsearch.fullname" .) -}}
 {{- else -}}
     {{- printf "%s" .Values.elasticsearchExternal.host -}}
 {{- end -}}
@@ -273,7 +273,7 @@ Return the Elasticsearch hostname
 {{/*
 Return the Elasticsearch port
 */}}
-{{- define "lifelike.elasticsearchPort" -}}
+{{- define "mycelium.elasticsearchPort" -}}
 {{- if .Values.elasticsearch.enabled }}
     {{- printf "9200" -}}
 {{- else -}}
@@ -284,7 +284,7 @@ Return the Elasticsearch port
 {{/*
 Return the Neo4j user
 */}}
-{{- define "lifelike.elasticsearchUser" -}}
+{{- define "mycelium.elasticsearchUser" -}}
 {{- if .Values.elasticsearch.enabled }}
     {{- range $env := .Values.elasticsearch.extraEnvs }}
     {{- if eq $env.name "ELASTIC_USERNAME" }}
@@ -299,7 +299,7 @@ Return the Neo4j user
 {{/*
 Return the Elasticsearch password
 */}}
-{{- define "lifelike.elasticsearchPassword" -}}
+{{- define "mycelium.elasticsearchPassword" -}}
   {{- if .Values.elasticsearch.enabled }}
   {{- range $env := .Values.elasticsearch.extraEnvs }}
     {{- if eq $env.name "ELASTIC_PASSWORD" }}
@@ -311,9 +311,9 @@ Return the Elasticsearch password
 {{- end -}}
 {{- end -}}
 
-{{- define "lifelike.elasticsearchUrl" -}}
+{{- define "mycelium.elasticsearchUrl" -}}
 {{- if .Values.elasticsearch.enabled }}
-    {{- printf "http://%s:%s@%s:%s" (include "lifelike.elasticsearchUser" .) (include "lifelike.elasticsearchPassword" .) (include "lifelike.elasticsearchHost" .) (include "lifelike.elasticsearchPort" .) -}}
+    {{- printf "http://%s:%s@%s:%s" (include "mycelium.elasticsearchUser" .) (include "mycelium.elasticsearchPassword" .) (include "mycelium.elasticsearchHost" .) (include "mycelium.elasticsearchPort" .) -}}
 {{- else -}}
     {{- printf "%s" .Values.elasticsearchExternal.url -}}
 {{- end -}}
@@ -329,7 +329,7 @@ Return the Elasticsearch password
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "lifelike.redis.fullname" -}}
+{{- define "mycelium.redis.fullname" -}}
 {{- if .Values.redis.fullnameOverride -}}
 {{- .Values.redis.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -345,9 +345,9 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{/*
 Return the Redis hostname
 */}}
-{{- define "lifelike.redisHost" -}}
+{{- define "mycelium.redisHost" -}}
 {{- if .Values.redis.enabled }}
-  {{- printf "%s-master" (include "lifelike.redis.fullname" .) -}}
+  {{- printf "%s-master" (include "mycelium.redis.fullname" .) -}}
 {{- else -}}
   {{- printf "%s" .Values.redisExternal.host -}}
 {{- end -}}
@@ -356,7 +356,7 @@ Return the Redis hostname
 {{/*
 Return the Redis port
 */}}
-{{- define "lifelike.redisPort" -}}
+{{- define "mycelium.redisPort" -}}
   {{- if .Values.redis.enabled }}
     {{- printf "6379" -}}
   {{- else -}}
@@ -367,7 +367,7 @@ Return the Redis port
 {{/*
 Return the Redis password
 */}}
-{{- define "lifelike.redisPassword" -}}
+{{- define "mycelium.redisPassword" -}}
 {{- if .Values.redis.enabled }}
     {{- printf "%s" .Values.redis.auth.password -}}
 {{- else }}
@@ -383,7 +383,7 @@ Return the Redis password
 Common image spec
 */}}
 
-{{- define "lifelike.image" -}}
+{{- define "mycelium.image" -}}
 image: {{ .image.repository }}:{{ .image.tag | default (printf "%s" .Chart.AppVersion) }}
 imagePullPolicy: {{ .image.imagePullPolicy | default "IfNotPresent" }}
 {{- if .image.pullSecrets }}
@@ -398,7 +398,7 @@ imagePullSecrets: {{ toYaml .image.pullSecrets | nindent 2 }}
 {{/*
 Common pod spec
 */}}
-{{- define "lifelike.podSpec" -}}
+{{- define "mycelium.podSpec" -}}
 {{- if .affinity }}
 affinity: {{ toYaml .affinity | nindent 2 }}
 {{- end }}
@@ -423,7 +423,7 @@ securityContext:
 {{/*
 Common health checks
 */}}
-{{- define "lifelike.healthChecks" -}}
+{{- define "mycelium.healthChecks" -}}
 {{- if .livenessProbe.enabled -}}
 livenessProbe:
   httpGet:
@@ -457,43 +457,43 @@ readinessProbe:
 {{/*
 PostgreSQL environment variables helper
 */}}
-{{- define "lifelike.poostgresEnv" -}}
+{{- define "mycelium.poostgresEnv" -}}
 - name: POSTGRES_HOST
-  value: {{ template "lifelike.postgresqlHost" . }}
+  value: {{ template "mycelium.postgresqlHost" . }}
 - name: POSTGRES_PORT
-  value: {{ include "lifelike.postgresqlPort" . | quote }}
+  value: {{ include "mycelium.postgresqlPort" . | quote }}
 - name: POSTGRES_USER
-  value: {{ template "lifelike.postgresqlUser" . }}
+  value: {{ template "mycelium.postgresqlUser" . }}
 - name: POSTGRES_PASSWORD
-  value: {{ include "lifelike.postgresqlPassword" . | quote }}
+  value: {{ include "mycelium.postgresqlPassword" . | quote }}
 - name: POSTGRES_DB
-  value: {{ template "lifelike.postgresqlDatabase" . }}
+  value: {{ template "mycelium.postgresqlDatabase" . }}
 {{- end -}}
 
 
 {{/*
 Neo4j environment variables helper
 */}}
-{{- define "lifelike.neo4jEnv" -}}
+{{- define "mycelium.neo4jEnv" -}}
 - name: NEO4J_HOST
-  value: {{ template "lifelike.neo4jHost" . }}
+  value: {{ template "mycelium.neo4jHost" . }}
 - name: NEO4J_PORT
-  value: {{ include "lifelike.neo4jPort" . | quote }}
+  value: {{ include "mycelium.neo4jPort" . | quote }}
 - name: NEO4J_AUTH
-  value: {{ template "lifelike.neo4jUser" . }}/{{ template "lifelike.neo4jPassword" . }}
+  value: {{ template "mycelium.neo4jUser" . }}/{{ template "mycelium.neo4jPassword" . }}
 - name: NEO4J_DB
-  value: {{ template "lifelike.neo4jDatabase" . }}
+  value: {{ template "mycelium.neo4jDatabase" . }}
 {{- end -}}
 
 
 {{/*
 Redis environment variables helper
 */}}
-{{- define "lifelike.redisEnv" -}}
+{{- define "mycelium.redisEnv" -}}
 - name: REDIS_HOST
-  value: {{ template "lifelike.redisHost" . }}
+  value: {{ template "mycelium.redisHost" . }}
 - name: REDIS_PORT
-  value: {{ include "lifelike.redisPort" . | quote }}
+  value: {{ include "mycelium.redisPort" . | quote }}
 - name: REDIS_PASSWORD
-  value: {{ include "lifelike.redisPassword" . | quote }}
+  value: {{ include "mycelium.redisPassword" . | quote }}
 {{- end -}}

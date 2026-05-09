@@ -1,8 +1,8 @@
 apiVersion: v2
-name: lifelike
-description: Lifelike, a graph-powered knowledge mining platform. Turning big data into contextualized knowledge
-home: https://lifelike.bio
-icon: https://github.com/SBRG/lifelike/raw/main/appserver/assets/lifelike.png
+name: mycelium
+description: mycelium, a graph-powered knowledge mining platform. Turning big data into contextualized knowledge
+home: https://mycelium.bio
+icon: https://github.com/SBRG/mycelium/raw/main/appserver/assets/mycelium.png
 type: application
 
 version: 0.5.0
@@ -18,7 +18,7 @@ keywords:
   - knowledgegraph
 
 sources:
-  - https://github.com/SBRG/lifelike
+  - https://github.com/SBRG/mycelium
 
 dependencies:
   - name: postgresql
@@ -40,14 +40,14 @@ dependencies:
 annotations:
   artifacthub.io/license: MIT
   artifacthub.io/links: |
-    - name: Lifelike website
-      url: https://lifelike.bio
-    - name: Lifelike Git repository
-      url: https://github.com/SBRG/lifelike
+    - name: mycelium website
+      url: https://mycelium.bio
+    - name: mycelium Git repository
+      url: https://github.com/SBRG/mycelium
   artifacthub.io/maintainers: |
     - name: David Regla
       email: darede@biosustain.dtu.dk
   artifacthub.io/prerelease: "true"
   artifacthub.io/screenshots: |
-    - title: 'Lifelike: A graph-powered knowledge mining platform'
-      url: https://lifelike.bio/assets/img/graph_embed/hero.jpg
+    - title: 'mycelium: A graph-powered knowledge mining platform'
+      url: https://mycelium.bio/assets/img/graph_embed/hero.jpg

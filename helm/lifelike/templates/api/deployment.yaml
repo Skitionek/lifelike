@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "lifelike.fullname" . }}-api
-  labels: {{- include "lifelike.labels" . | nindent 4 }}
+  name: {{ template "mycelium.fullname" . }}-api
+  labels: {{- include "mycelium.labels" . | nindent 4 }}
     app.kubernetes.io/component: api
 spec:
   selector:
-    matchLabels: {{- include "lifelike.selectorLabels" . | nindent 6 }}
+    matchLabels: {{- include "mycelium.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: api
   replicas: {{ .Values.api.replicaCount }}
   strategy:
@@ -14,21 +14,21 @@ spec:
   template:
     metadata:
       annotations: {{ toYaml (default dict .Values.api.podAnnotations) | nindent 8 }}
-      labels: {{- include "lifelike.selectorLabels" . | nindent 8 }}
+      labels: {{- include "mycelium.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: api
         {{- if .Values.api.podLabels }}
         {{- toYaml .Values.api.podLabels | indent 8 }}
         {{- end }}
     spec:
-      {{- include "lifelike.podSpec" .Values.api | nindent 6 }}
+      {{- include "mycelium.podSpec" .Values.api | nindent 6 }}
       volumes:
         - name: lmdb-storage
           emptyDir: {}
       containers:
         - name: {{ .Chart.Name }}-api
-          {{- include "lifelike.image" (dict "image" .Values.api.image "Chart" .Chart) | nindent 10 }}
-          {{- include "lifelike.healthChecks" .Values.api | nindent 10 }}
-          env: {{ include "lifelike.apiEnv" . | nindent 12 }}
+          {{- include "mycelium.image" (dict "image" .Values.api.image "Chart" .Chart) | nindent 10 }}
+          {{- include "mycelium.healthChecks" .Values.api | nindent 10 }}
+          env: {{ include "mycelium.apiEnv" . | nindent 12 }}
           resources: {{ toYaml (default dict .Values.api.resources) | nindent 12 }}
           ports:
             - name: http
@@ -43,8 +43,8 @@ spec:
           imagePullPolicy: {{ default "IfNotPresent" .Values.api.dbWaiter.image.imagePullPolicy }}
           command:
             - /wait-for-it.sh
-            - --host={{ template "lifelike.postgresqlHost" . }}
-            - --port={{ template "lifelike.postgresqlPort" . }}
+            - --host={{ template "mycelium.postgresqlHost" . }}
+            - --port={{ template "mycelium.postgresqlPort" . }}
             - --timeout={{ default 30 .Values.api.dbWaiter.timeoutSeconds }}
         {{- end }}
         {{- if .Values.neo4j.enabled }}
@@ -53,20 +53,20 @@ spec:
           imagePullPolicy: {{ default "IfNotPresent" .Values.api.dbWaiter.image.imagePullPolicy }}
           command:
             - /wait-for-it.sh
-            - --host={{ template "lifelike.neo4jHost" . }}
-            - --port={{ template "lifelike.neo4jPort" . }}
+            - --host={{ template "mycelium.neo4jHost" . }}
+            - --port={{ template "mycelium.neo4jPort" . }}
             - --timeout={{ default 30 .Values.api.dbWaiter.timeoutSeconds }}
         {{- end }}
         - name: migrate-db
-          {{- include "lifelike.image" (dict "image" .Values.api.image "Chart" .Chart) | nindent 10 }}
-          env: {{ include "lifelike.apiEnv" . | nindent 12 }}
+          {{- include "mycelium.image" (dict "image" .Values.api.image "Chart" .Chart) | nindent 10 }}
+          env: {{ include "mycelium.apiEnv" . | nindent 12 }}
           command:
             - bin/migrate-db
             - --upgrade
         {{- if .Values.api.lmdb.loadEnabled }}
         - name: load-lmdb
-          {{- include "lifelike.image" (dict "image" .Values.api.image "Chart" .Chart) | nindent 10 }}
-          env: {{ include "lifelike.apiEnv" . | nindent 12 }}
+          {{- include "mycelium.image" (dict "image" .Values.api.image "Chart" .Chart) | nindent 10 }}
+          env: {{ include "mycelium.apiEnv" . | nindent 12 }}
           command:
             - flask
             - load-lmdb
