@@ -43,6 +43,8 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - **CodeMirror 6 viewer** (`codemirror-viewer`): read-only code/text viewer powered by CodeMirror 6 with syntax highlighting for JSON, Python, JavaScript/TypeScript, XML/HTML, and Markdown; plain-text display for YAML, CSV, and other text types; accessible at `projects/:project_name/code/:file_id`.
 
 ### Fixed
+- **Backend pagination endpoints**: updated keyword-only `paginate()` call sites for current Flask-SQLAlchemy compatibility, fixing 500 errors when listing projects and other paginated resources on the dev stack.
+- **Login JWT generation**: authentication tokens now handle the PyJWT 2.x `str` return type correctly, fixing the 500 error triggered during login on the seeded dev stack.
 - **CI linting**: upgraded `peter-evans/create-pull-request` from v6 to v7 to fix "Duplicate header: Authorization" error in the MegaLinter auto-fix PR step.
 
 ### Changed

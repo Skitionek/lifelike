@@ -991,7 +991,10 @@ class FileSearchView(FilesystemBaseView):
             if 'mime_types' in params:
                 query = query.filter(Files.mime_type.in_(params['mime_types']))
 
-            result = query.paginate(pagination['page'], pagination['limit'])
+            result = query.paginate(
+                page=pagination['page'],
+                per_page=pagination['limit'],
+            )
 
             # Now we get the full file information for this slice of the results
             files = self.get_nondeleted_recycled_files(Files.id.in_(result.items))
@@ -1007,7 +1010,10 @@ class FileSearchView(FilesystemBaseView):
             query = db.session.query(MapLinks.map_id) \
                 .filter(MapLinks.linked_id == file.id)
 
-            result = query.paginate(pagination['page'], pagination['limit'])
+            result = query.paginate(
+                page=pagination['page'],
+                per_page=pagination['limit'],
+            )
 
             # Now we get the full file information for this slice of the results
             files = self.get_nondeleted_recycled_files(Files.id.in_(result.items))
@@ -1336,7 +1342,10 @@ class FileVersionListView(FilesystemBaseView):
             .filter(FileVersion.file_id == file.id) \
             .order_by(desc(FileVersion.creation_date))
 
-        result = query.paginate(pagination['page'], pagination['limit'])
+        result = query.paginate(
+            page=pagination['page'],
+            per_page=pagination['limit'],
+        )
 
         return jsonify(FileVersionHistorySchema(context={
             'user_privilege_filter': g.current_user.id,

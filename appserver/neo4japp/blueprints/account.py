@@ -355,7 +355,11 @@ class AccountSearchView(MethodView):
         if not private_data_access and params['exclude_self']:
             query = query.filter(AppUser.id != current_user.id)
 
-        paginated_result = query.paginate(pagination.page, pagination.limit, False)
+        paginated_result = query.paginate(
+            page=pagination.page,
+            per_page=pagination.limit,
+            error_out=False,
+        )
 
         return jsonify(UserListSchema().dump({
             'total': paginated_result.total,
