@@ -45,7 +45,10 @@ jobs:
               owner,
               repo,
               ref: `heads/${branch}`
-            }).catch(() => null);
+            }).catch((error) => {
+              core.warning(`Failed to resolve branch ref heads/${branch}: ${error.message}`);
+              return null;
+            });
 
             if (!ref || ref.data.object.sha !== sha) {
               core.info(`Branch ${branch} no longer points at ${sha}; skipping stale release run.`);
@@ -186,7 +189,7 @@ jobs:
         id: tag
         run: |
           git fetch --tags
-          TAG_BASE="v$(date -u +%Y.%m.%d)"
+          TAG_BASE="v$(date -u +%Y-%m-%d)"
           TAG="$TAG_BASE"
           INDEX=1
           while git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; do
