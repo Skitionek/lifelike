@@ -195,7 +195,7 @@ def get_global_inclusions_by_type_query(entity_type):
     """
 
 
-def get_lifelike_global_inclusions_by_type_query(entity_type):
+def get_mycelium_global_inclusions_by_type_query(entity_type):
     if entity_type not in node_labels:
         return ''
 
@@ -283,7 +283,7 @@ def get_species_global_inclusion_exist_query():
     """
 
 
-def get_lifelike_global_inclusion_exist_query(entity_type):
+def get_mycelium_global_inclusion_exist_query(entity_type):
     if entity_type not in node_labels:
         return ''
 

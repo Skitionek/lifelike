@@ -23,6 +23,8 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - **Elevation**: Heavy box-shadows replaced with subtle `1px solid #e2e8f0` borders on module headers, toolbars, dropdowns and popovers for a "clinical lab" aesthetic ([#245]).
 - **Knowledge Graph nodes**: Default node stroke and edge colour updated from `#2B7CE9` to Deep Sea Teal `#004B49`; default node background updated to `#F1F5F9` ([#245]).
 - **Release automation**: each successful push CI run on `main`/`master` now rolls `[Unreleased]` into a dated changelog section, creates a date-based git tag, and publishes a GitHub Release.
+- **`get_mycelium_global_inclusions_by_type_query` / `get_mycelium_global_inclusion_exist_query`**: Renamed from `get_lifelike_*` to `get_mycelium_*` to match the `db_Mycelium` label they query; call sites in `annotation_graph_service.py` and `manual_annotation_service.py` updated accordingly ([#254]).
+- **DB constraint/index names**: `constraint_lifelike_name` → `constraint_mycelium_name` and `index_lifelike_id` → `index_mycelium_id` in `changelog-0030.xml` to match the `db_Mycelium` node label they target ([#254]).
 
 ### Added
 - **Protein structure viewer (Mol\*)**: `.pdb`, `.cif`, and `.mmcif` files now open in a dedicated Mol\*-powered 3D viewer route (`projects/:project_name/structure/:file_id`), including in-app preview support and upload-time MIME mapping for protein structure extensions (`([#244])`).
