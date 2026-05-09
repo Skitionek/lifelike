@@ -128,7 +128,10 @@ class ProjectBaseView(MethodView):
             query = query.filter(filter)
 
         if pagination:
-            paginated_results = query.paginate(pagination.page, pagination.limit)
+            paginated_results = query.paginate(
+                page=pagination.page,
+                per_page=pagination.limit,
+            )
             results = paginated_results.items
             total = paginated_results.total
         else:
@@ -364,7 +367,11 @@ class ProjectCollaboratorsListView(ProjectBaseView):
             .join(AppRole, AppRole.id == projects_collaborator_role.c.app_role_id) \
             .filter(projects_collaborator_role.c.projects_id == project.id)
 
-        paginated_result = query.paginate(pagination.page, pagination.limit, False)
+        paginated_result = query.paginate(
+            page=pagination.page,
+            per_page=pagination.limit,
+            error_out=False,
+        )
 
         return jsonify(ProjectCollaboratorListSchema().dump({
             'results': [{

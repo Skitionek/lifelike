@@ -1000,7 +1000,7 @@ class GlobalAnnotationListView(MethodView):
                 GlobalList.type == ManualAnnotationType.EXCLUSION.value
             ).order_by(
                 sa.asc(GlobalList.annotation['text'].astext.label('text'))
-            ).paginate(page, limit)
+            ).paginate(page=page, per_page=limit)
 
             data = [{
                 'global_id': r.global_list_id,
