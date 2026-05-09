@@ -53,7 +53,7 @@ class AnnotationGraphService(GraphConnection):
         global_inclusions = self.exec_read_query(get_global_inclusions_by_type_query(entity_type))
         # need to append here because an inclusion
         # might've not been matched to an existing entity
-        # so look for it in Lifelike
+        # so look for it in Mycelium
         global_inclusions += self.exec_read_query(
             get_lifelike_global_inclusions_by_type_query(entity_type))
 

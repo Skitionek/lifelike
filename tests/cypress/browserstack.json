@@ -33,7 +33,7 @@
     },
     "cypress_config_file": "./cypress.json",
     "cypress_version": "9",
-    "project_name": "Lifelike App",
+    "project_name": "Mycelium App",
     "build_name": "DEMO environment",
     "parallels": "1",
     "system_env_vars": [

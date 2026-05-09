@@ -21,11 +21,11 @@
       MATCH (n:Taxonomy) WHERE exists(n.user) REMOVE n.user;
       MATCH (n:db_UniProt) WHERE exists(n.user) REMOVE n.user;
       MATCH (n:db_UniProt) WHERE exists(n.inclusion_date) REMOVE n.inclusion_date;
-      MATCH (n:db_Lifelike) WHERE exists(n.external_id) REMOVE n.external_id;
-      MATCH (n:db_Lifelike) WHERE exists(n.entity_type) REMOVE n.entity_type;
-      MATCH (n:db_Lifelike) WHERE exists(n.hyperlink) REMOVE n.hyperlink;
-      MATCH (n:db_Lifelike) WHERE exists(n.inclusion_date) REMOVE n.inclusion_date;
-      MATCH (n:db_Lifelike) WHERE exists(n.user) REMOVE n.user;
+      MATCH (n:db_Mycelium) WHERE exists(n.external_id) REMOVE n.external_id;
+      MATCH (n:db_Mycelium) WHERE exists(n.entity_type) REMOVE n.entity_type;
+      MATCH (n:db_Mycelium) WHERE exists(n.hyperlink) REMOVE n.hyperlink;
+      MATCH (n:db_Mycelium) WHERE exists(n.inclusion_date) REMOVE n.inclusion_date;
+      MATCH (n:db_Mycelium) WHERE exists(n.user) REMOVE n.user;
     </sql>
   </changeSet>
 </databaseChangeLog>

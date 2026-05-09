@@ -1,4 +1,4 @@
-# Lifelike-stg database refactoring (LL-3520)
+# Mycelium-stg database refactoring (LL-3520)
 
 ## 1. load data from lifelike-stg-08042021.dump
 Stop lifelike-stg, then run the following command:

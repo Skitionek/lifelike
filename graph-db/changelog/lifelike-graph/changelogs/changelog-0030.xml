@@ -10,8 +10,8 @@
       Add index to properties that are used by global inclusion.
     </comment>
     <sql>
-      CREATE CONSTRAINT constraint_lifelike_name IF NOT EXISTS ON (n:db_Lifelike) ASSERT n.name IS UNIQUE;
-      CREATE INDEX index_lifelike_id IF NOT EXISTS FOR (n:db_Lifelike) ON (n.eid)
+      CREATE CONSTRAINT constraint_lifelike_name IF NOT EXISTS ON (n:db_Mycelium) ASSERT n.name IS UNIQUE;
+      CREATE INDEX index_lifelike_id IF NOT EXISTS FOR (n:db_Mycelium) ON (n.eid)
     </sql>
   </changeSet>
 </databaseChangeLog>

@@ -118,7 +118,7 @@ export class ProjectImpl implements Project {
 }
 
 /**
- * This object represents both directories and every type of file in Lifelike. Due
+ * This object represents both directories and every type of file in Mycelium. Due
  * to a lot of legacy code, we implement several legacy interfaces to reduce the
  * amount of code for the refactor.
  */

@@ -52,7 +52,7 @@ call apoc.periodic.iterate(
 {batchSize: 5000}
 );
 
-match(n:db_Lifelike) set n.eid = n.id;
+match(n:db_Mycelium) set n.eid = n.id;
 
 call apoc.periodic.iterate(
 "match(n:db_NCBI) return n",
@@ -83,7 +83,7 @@ call apoc.periodic.iterate(
 {batchSize: 5000}
 );
 
-match(n:db_Lifelike) remove n.id;
+match(n:db_Mycelium) remove n.id;
 match(n:db_MESH) remove n.id; 
 
 call apoc.periodic.iterate(

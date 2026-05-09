@@ -138,8 +138,8 @@ export interface KnowledgeMap {
   project_name?: string;
 }
 
-export const MAP_TYPE_ID = 'LifelikeKnowledgeMap/1';
-export const NODE_TYPE_ID = 'LifelikeKnowledgeNode/1';
+export const MAP_TYPE_ID = 'MyceliumKnowledgeMap/1';
+export const NODE_TYPE_ID = 'MyceliumKnowledgeNode/1';
 
 export const DETAIL_NODE_LABELS = new Set(['note', 'link', 'image']);
 

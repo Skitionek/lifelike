@@ -448,11 +448,11 @@ RESET_PASSWORD_ALPHABET = RESET_PASSWORD_SYMBOLS + string.ascii_letters + string
 ASSETS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../assets')
 
 # Reset password messages
-RESET_PASSWORD_EMAIL_SUBJECT = 'Lifelike: Account password reset'
+RESET_PASSWORD_EMAIL_SUBJECT = 'Mycelium: Account password reset'
 RESET_PASSWORD_EMAIL_BODY = codecs.open(os.path.join(ASSETS_PATH, 'reset_email.html'), "r").read()
 
 # Email configuration
-FROM_EMAIL = "Lifelike <no-reply@example.com>"
+FROM_EMAIL = "Mycelium <no-reply@example.com>"
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 SENDGRID_API_CLIENT = SendGridAPIClient(SENDGRID_API_KEY)
 

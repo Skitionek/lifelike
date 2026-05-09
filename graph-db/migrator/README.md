@@ -1,10 +1,10 @@
-# Lifelike Graph DB migrator
+# Mycelium Graph DB migrator
 
 Liquibase based migrator for Neo4j
 
 ## Run with Docker
 
-To run migrations from Lifelike Docker registry latest image, you can run the following command:
+To run migrations from Mycelium Docker registry latest image, you can run the following command:
 
 ```bash
 # Update using bundled changelog files

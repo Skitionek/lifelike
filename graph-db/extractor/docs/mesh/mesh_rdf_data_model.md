@@ -1,4 +1,4 @@
-# MeSH Data Model (RDF imported database, not Lifelike)
+# MeSH Data Model (RDF imported database, not Mycelium)
 ### Descriptors 
 https://hhs.github.io/meshrdf/descriptors   
 MeSH headings, used to index citations in the NLM MEDLINE database and to describe the subjects for NLM Catalog 

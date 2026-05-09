@@ -693,7 +693,7 @@ def generate_plotly_from_lifelike_sankey(
     parent_id,
 ):
     """
-    Generates a Plotly compatible JSON file from a Lifelike sankey file.
+    Generates a Plotly compatible JSON file from a Mycelium sankey file.
 
     Args:
 

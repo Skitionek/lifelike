@@ -85,7 +85,7 @@ from neo4japp.constants import (
     WATERMARK_ICON_SIZE
 )
 
-# This file implements handlers for every file type that we have in Lifelike so file-related
+# This file implements handlers for every file type that we have in Mycelium so file-related
 # code can use these handlers to figure out how to handle different file types
 from neo4japp.utils.string import extract_text
 
@@ -465,7 +465,7 @@ def create_default_node(node):
             f"{-node['data']['y'] / SCALING_FACTOR}!"
         ),
         # Resize the node base on font size, as otherwise the margin would be smaller than
-        # in the Lifelike map editor
+        # in the Mycelium map editor
         'width': f"{node['data'].get('width', DEFAULT_NODE_WIDTH) / SCALING_FACTOR}",
         'height': f"{node['data'].get('height', DEFAULT_NODE_HEIGHT) / SCALING_FACTOR}",
         'shape': 'box',
@@ -743,7 +743,7 @@ def set_node_href(node):
     current_link = href.strip()
     # If url points to internal file, prepend it with the domain address
     if current_link.startswith('/'):
-        # Remove Lifelike links to files that we do not create - due to the possible copyrights
+        # Remove Mycelium links to files that we do not create - due to the possible copyrights
         if ANY_FILE_RE.match(current_link):
             # Remove the link from the dictionary
             if node.get('link'):
@@ -815,7 +815,7 @@ def create_edge(edge, node_hash_type_dict):
 
 def create_watermark(x_center, y):
     """
-    Create a Lifelike watermark (icon, text, hyperlink) below the pdf.
+    Create a Mycelium watermark (icon, text, hyperlink) below the pdf.
     We need to ensure that the lowest node is not intersecting it - if so, we push it even lower.
     :params:
     :param x_center: middle of the pdf
@@ -827,7 +827,7 @@ def create_watermark(x_center, y):
     y += WATERMARK_DISTANCE
     label_params = {
         'name': 'watermark_node',
-        'label': 'Created by Lifelike',
+        'label': 'Created by Mycelium',
         'pos': (
             f"{x_center / SCALING_FACTOR},"
             f"{-y / SCALING_FACTOR}!"
@@ -896,7 +896,7 @@ class MapTypeProvider(BaseFileTypeProvider):
 
     def validate_content(self, buffer: BufferedIOBase):
         """
-        Validates whether the uploaded file is a Lifelike map - a zip containing graph.json file
+        Validates whether the uploaded file is a Mycelium map - a zip containing graph.json file
         describing the map and optionally, folder with the images. If there are any images specified
         in the json graph, their presence and accordance to the png standard is verified.
         :params:

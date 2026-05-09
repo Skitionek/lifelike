@@ -54,6 +54,6 @@ retry_with_compatible_api_if_needed() {
   DOCKER_API_VERSION="$max_api" run_compose
 }
 
-echo "Ensuring all Lifelike services are running..."
+echo "Ensuring all Mycelium services are running..."
 set_host_workspace_path
 retry_with_compatible_api_if_needed

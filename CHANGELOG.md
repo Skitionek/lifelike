@@ -5,8 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-> This changelog tracks changes made in the [Mycelium fork](https://github.com/Skitionek/mycelium)
-> since it was created from the upstream [SBRG/lifelike](https://github.com/SBRG/lifelike) repository.
+> This changelog tracks changes made in the [Mycelium](https://github.com/Skitionek/mycelium)
+> fork of the [SBRG/lifelike](https://github.com/SBRG/lifelike) repository.
 
 ---
 

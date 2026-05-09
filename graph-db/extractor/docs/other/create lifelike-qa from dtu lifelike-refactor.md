@@ -1,4 +1,4 @@
-# LL-3272 Build Lifelike-qa from Lifelike-refactor.dump (dtu)
+# LL-3272 Build Mycelium-qa from Mycelium-refactor.dump (dtu)
 
 1. Clean data
 - Remove user-input data from database

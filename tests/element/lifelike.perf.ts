@@ -8,7 +8,7 @@ const userPassword = process.env.USER_PASSWORD || 'password'
 
 export const settings: TestSettings = {
 	loopCount: -1,
-	description: 'Lifelike load tests',
+	description: 'Mycelium load tests',
 	screenshotOnFailure: true,
 	disableCache: false,
 	clearCache: false,

@@ -1,4 +1,4 @@
-# ![Mycelium](https://sbrg.github.io/lifelike-website/favicon.ico) Mycelium
+# ![Mycelium](./client/src/assets/icons/mycelium-logo.svg) Mycelium
 *Mycelium* is a high-performance knowledge discovery platform designed to map the intricate networks of biological data. Just as mycelium forms the underlying nervous system of the natural world, this platform unifies disparate datasets into a cohesive, navigable graph architecture—empowering researchers to uncover hidden relationships and accelerate the pace of scientific insight.
 
 [![Open in Codespaces (Demo)](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new/Skitionek/mycelium?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.json)
@@ -15,9 +15,9 @@ Roadmap:
 + [x] Add automated tests
 + [x] Automated itegration/deployment
 
-## Comparison with original Lifelike
+## Comparison with Lifelike
 
-| Feature / Improvement | [SBRG/lifelike](https://github.com/SBRG/lifelike) (original) | Mycelium (this fork) |
+| Feature / Improvement | [SBRG/lifelike](https://github.com/SBRG/lifelike) | Mycelium |
 |---|:---:|:---:|
 | **Dev environment** | Manual setup required | Zero-config via VS Code Dev Container / GitHub Codespaces |
 | **Angular version** | v9 | v14 |
