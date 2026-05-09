@@ -19,10 +19,10 @@ Kubernetes: `>=1.20.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | postgresql | 11.0.4 |
-| https://charts.bitnami.com/bitnami | redis | 16.2.0 |
-| https://helm.elastic.co | elasticsearch | 7.16.3 |
-| https://neo4j-contrib.github.io/neo4j-helm | neo4j | 4.4.3 |
+| <https://charts.bitnami.com/bitnami> | postgresql | 11.0.4 |
+| <https://charts.bitnami.com/bitnami> | redis | 16.2.0 |
+| <https://helm.elastic.co> | elasticsearch | 7.16.3 |
+| <https://neo4j-contrib.github.io/neo4j-helm> | neo4j | 4.4.3 |
 
 ## Values
 
