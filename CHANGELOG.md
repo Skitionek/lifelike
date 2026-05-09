@@ -13,7 +13,7 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 ## [Unreleased]
 
 ### Added
-- **Mycelium rebrand**: Renamed project from "Lifelike Afterhours" to "Mycelium" across all user-facing strings, browser title, navigation, login page, version dialog, and Terms of Service. Original Lifelike protocol identifiers (`LifelikeKnowledgeMap/1`, `LifelikeKnowledgeNode/1`) preserved for backwards compatibility; upstream attribution retained in ToS and LICENSE ([#245]).
+- **Mycelium rebrand**: Renamed project from "Lifelike Afterhours" to "Mycelium" across all user-facing strings, browser title, navigation, login page, version dialog, and Terms of Service.
 - **Mycelium SVG logo**: Minimalist mycelium-network icon added to the left navigation bar (`assets/icons/mycelium-logo.svg`) ([#245]).
 
 ### Changed
