@@ -55,7 +55,7 @@ class AnnotationGraphService(GraphConnection):
         # might've not been matched to an existing entity
         # so look for it in Mycelium
         global_inclusions += self.exec_read_query(
-            get_lifelike_global_inclusions_by_type_query(entity_type))
+            get_mycelium_global_inclusions_by_type_query(entity_type))
 
         for inclusion in global_inclusions:
             normalized_synonym = normalize_str(inclusion['synonym'])

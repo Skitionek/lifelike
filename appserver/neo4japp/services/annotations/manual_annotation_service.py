@@ -592,7 +592,7 @@ class ManualAnnotationService:
             return check
         else:
             try:
-                query = get_lifelike_global_inclusion_exist_query(values['entity_type'])
+                query = get_mycelium_global_inclusion_exist_query(values['entity_type'])
                 check = self.graph.exec_read_query_with_params(query, values)[0]
             except (BrokenPipeError, ServiceUnavailable):
                 raise
