@@ -177,7 +177,7 @@ export class ObjectEditDialogComponent extends CommonFormDialogComponent<ObjectE
 
   getValue(): ObjectEditDialogValue {
     const value = this.form.value;
-    const mimeType = value.mimeType ?? this.object?.mimeType ?? null;
+    const mimeType = value.mimeType ?? this.object?.mimeType ?? undefined;
 
     const objectChanges: Partial<FilesystemObject> = {
       parent: value.parent,
