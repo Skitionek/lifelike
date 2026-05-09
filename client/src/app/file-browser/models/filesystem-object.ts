@@ -124,6 +124,10 @@ export class ProjectImpl implements Project {
  * amount of code for the refactor.
  */
 export class FilesystemObject implements DirectoryObject, Directory, PdfFile, KnowledgeMap {
+  private static readonly LIBREOFFICE_CONVERTIBLE_EXTENSIONS: ReadonlySet<string> = new Set([
+    '.docx', '.xlsx', '.pptx', '.doc', '.xls', '.ppt', '.odt', '.ods', '.odp', '.rtf', '.txt', '.html', '.csv',
+  ]);
+
   hashId: string;
   filename: string;
   user: AppUser;
@@ -174,6 +178,19 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       || filename.endsWith('.mmcif');
   }
 
+  get isLibreOfficeConvertible() {
+    const filename = (this.filename || '').toLowerCase();
+    if (LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType)) {
+      return true;
+    }
+    for (const ext of FilesystemObject.LIBREOFFICE_CONVERTIBLE_EXTENSIONS) {
+      if (filename.endsWith(ext)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   get isOpenable() {
     switch (this.mimeType) {
       case MimeTypes.Directory:
@@ -186,7 +203,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       default:
         return this.isProteinStructure
           || isCodemirrorHandledMimeType(this.mimeType)
-          || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
+          || this.isLibreOfficeConvertible;
     }
   }
 
@@ -231,7 +248,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       || this.mimeType === MimeTypes.EnrichmentTable || this.mimeType === MimeTypes.BioC
       || this.isProteinStructure
       || isCodemirrorHandledMimeType(this.mimeType)
-      || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
+      || this.isLibreOfficeConvertible;
   }
 
   get hasWordCloud() {
@@ -519,7 +536,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
         if (isCodemirrorHandledMimeType(this.mimeType)) {
           return ['/projects', projectName, 'code', this.hashId];
         }
-        if (LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType)) {
+        if (this.isLibreOfficeConvertible) {
           // Route convertible files to the PDF viewer — conversion happens server-side
           return ['/projects', projectName, 'files', this.hashId];
         }
