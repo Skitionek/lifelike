@@ -43,6 +43,8 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 - **CodeMirror 6 viewer** (`codemirror-viewer`): read-only code/text viewer powered by CodeMirror 6 with syntax highlighting for JSON, Python, JavaScript/TypeScript, XML/HTML, and Markdown; plain-text display for YAML, CSV, and other text types; accessible at `projects/:project_name/code/:file_id`.
 
 ### Fixed
+- **Multipart filesystem uploads**: `mixed_form_json` requests now merge uploaded files and regular form fields with the `json$` payload, fixing false `Content must be provided` errors on `POST /api/filesystem/objects` file uploads.
+- **Folder creation request shape**: the create-object dialog now preserves an existing folder MIME type when building `POST /api/filesystem/objects` requests, preventing false `Content must be provided` validation errors on directory creates.
 - **POST search payload parsing**: stacked request parsers for account, project, and filesystem search endpoints now ignore sibling pagination/body fields correctly, fixing 400 `Unknown field` errors when `page` or `limit` are sent in the JSON request body.
 - **Backend pagination endpoints**: updated keyword-only `paginate()` call sites for current Flask-SQLAlchemy compatibility, fixing 500 errors when listing projects and other paginated resources on the dev stack.
 - **Login JWT generation**: authentication tokens now handle the PyJWT 2.x `str` return type correctly, fixing the 500 error triggered during login on the seeded dev stack.

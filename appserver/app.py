@@ -771,7 +771,7 @@ def generate_plotly_from_lifelike_sankey(
                 'to': link['target'],
                 'label': link.get('label', link.get('description', 'Unknown')),
                 'color': {
-                    'color': '#0c8caa'
+                    'color': '#004B49'
                 },
                 'arrows': 'to'
             }
