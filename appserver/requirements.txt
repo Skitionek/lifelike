@@ -204,7 +204,7 @@ packaging==26.2
     #   webargs
 pandas==2.3.3
     # via lifelike-appserver
-paramiko==3.4.0
+paramiko==4.0.0
     # via lifelike-appserver
 pdfminer-six==20260107
     # via lifelike-appserver
