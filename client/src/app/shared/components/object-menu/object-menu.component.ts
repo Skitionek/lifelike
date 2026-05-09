@@ -19,16 +19,10 @@ import { ErrorHandler } from 'app/shared/services/error-handler.service';
 import { WorkspaceManager } from 'app/shared/workspace-manager';
 import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { getObjectLabel } from 'app/file-browser/utils/objects';
-import { FilesystemObjectActions } from 'app/file-browser/services/filesystem-object-actions';
+import { FilesystemObjectActions, OpenInOption } from 'app/file-browser/services/filesystem-object-actions';
 import { ObjectVersion } from 'app/file-browser/models/object-version';
 import { Exporter, ObjectTypeProvider } from 'app/file-types/providers/base-object.type-provider';
 import { ObjectTypeService } from 'app/file-types/services/object-type.service';
-import { isCodemirrorHandledMimeType, MimeTypes } from 'app/shared/constants';
-
-interface OpenInOption {
-  label: string;
-  commands: any[];
-}
 
 @Component({
   selector: 'app-object-menu',
@@ -165,46 +159,10 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
   }
 
   openIn(option: OpenInOption) {
-    this.workspaceManager.navigate(option.commands, {
-      newTab: true,
-    });
+    return this.actions.openIn(option);
   }
 
   private getOpenInOptions(): OpenInOption[] {
-    if (!this.object || this.object.isDirectory) {
-      return [];
-    }
-
-    const options: OpenInOption[] = [];
-    const seen = new Set<string>();
-    const addOption = (label: string, commands: any[]) => {
-      const key = commands.join('/');
-      if (!seen.has(key)) {
-        seen.add(key);
-        options.push({ label, commands });
-      }
-    };
-
-    addOption('Default viewer', this.object.getCommands(this.forEditing));
-
-    const projectName = this.object.project?.name || 'default';
-
-    if (this.object.mimeType === MimeTypes.Pdf || this.object.isLibreOfficeConvertible) {
-      addOption('PDF viewer', ['/projects', projectName, 'files', this.object.hashId]);
-    }
-
-    if (isCodemirrorHandledMimeType(this.object.mimeType)) {
-      addOption('Code viewer', ['/projects', projectName, 'code', this.object.hashId]);
-    }
-
-    if (this.object.mimeType === MimeTypes.BioC) {
-      addOption('BioC viewer', ['/projects', projectName, 'bioc', this.object.hashId]);
-    }
-
-    if (this.object.isProteinStructure) {
-      addOption('Protein structure viewer', ['/projects', projectName, 'structure', this.object.hashId]);
-    }
-
-    return options;
+    return this.actions.getOpenInOptions(this.object, this.forEditing);
   }
 }
