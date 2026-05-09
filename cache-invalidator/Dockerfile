@@ -30,7 +30,7 @@ RUN uv venv /.venv \
 # Runtime stage
 # ========================================
 FROM base
-LABEL org.opencontainers.image.source https://github.com/SBRG/lifelike
+LABEL org.opencontainers.image.source https://github.com/skitionek/mycelium
 
 # Copy Python virtual environment
 COPY --from=build-deps /.venv /.venv
