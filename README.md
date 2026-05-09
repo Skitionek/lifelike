@@ -41,7 +41,7 @@ Roadmap:
 
 -----------
 
-Mycelium is a fork of Lifelike that aims to provide a simple, yet powerful platform for turning structured and unstructured data from a variety of sources into a single, coherent and explorable knowledge graph.
+Mycelium started as a fork of Lifelike that aims to provide a simple, yet powerful platform for turning structured and unstructured data from a variety of sources into a single, coherent and explorable knowledge graph.
 
 [![DOI](https://zenodo.org/badge/437040913.svg)](https://zenodo.org/badge/latestdoi/437040913)
 
@@ -206,4 +206,4 @@ Mycelium licensing and upstream notice are described in [LICENSE](LICENSE).
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for a history of changes made in this fork.
+See [CHANGELOG.md](CHANGELOG.md) for a history of changes.
