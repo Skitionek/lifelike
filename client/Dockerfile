@@ -40,7 +40,7 @@ CMD yarn dev-start
 # Runtime stage - NGINX
 # ========================================
 FROM nginx:1.21
-LABEL org.opencontainers.image.source https://github.com/SBRG/lifelike
+LABEL org.opencontainers.image.source https://github.com/Skitionek/mycelium
 
 WORKDIR /usr/share/nginx/html
 

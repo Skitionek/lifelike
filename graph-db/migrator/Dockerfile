@@ -18,7 +18,7 @@ RUN mvn -B clean package -DskipTests
 # Liquibase runtime stage
 # ========================================
 FROM liquibase/liquibase:$LIQUIBASE_IMAGE_TAG
-LABEL org.opencontainers.image.source https://github.com/SBRG/lifelike
+LABEL org.opencontainers.image.source https://github.com/Skitionek/mycelium
 
 ARG LIQUIBASE_NEO4J_VERSION=4.7.1.3
 ARG NEO4J_JDBC_VERSION=4.0.5
