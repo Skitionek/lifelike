@@ -44,6 +44,7 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ### Fixed
 - **CodeMirror 6 routing for Python files**: files detected with Python MIME variants (for example `text/x-script.python`) now open in the CodeMirror 6 viewer route instead of falling back to generic download/PDF paths.
+- **Office document preview fallback**: `.docx` and other LibreOffice-convertible extensions now open in the PDF preview route even when uploaded with a generic MIME type.
 - **Multipart filesystem uploads**: `mixed_form_json` requests now merge uploaded files and regular form fields with the `json$` payload, fixing false `Content must be provided` errors on `POST /api/filesystem/objects` file uploads.
 - **Folder creation request shape**: the create-object dialog now preserves an existing folder MIME type when building `POST /api/filesystem/objects` requests, preventing false `Content must be provided` validation errors on directory creates.
 - **POST search payload parsing**: stacked request parsers for account, project, and filesystem search endpoints now ignore sibling pagination/body fields correctly, fixing 400 `Unknown field` errors when `page` or `limit` are sent in the JSON request body.
