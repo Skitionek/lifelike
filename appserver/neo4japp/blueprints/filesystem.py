@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from deepdiff import DeepDiff
 from flask import Blueprint, current_app, g, jsonify, make_response, request
 from flask.views import MethodView
-from marshmallow import ValidationError
+from marshmallow import EXCLUDE, ValidationError
 from sqlalchemy import and_, desc, or_
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
@@ -974,8 +974,8 @@ class FileListView(FilesystemBaseView):
 class FileSearchView(FilesystemBaseView):
     decorators = [auth.login_required]
 
-    @use_args(FileSearchRequestSchema)
-    @use_args(PaginatedRequestSchema)
+    @use_args(FileSearchRequestSchema, unknown=EXCLUDE)
+    @use_args(PaginatedRequestSchema, unknown=EXCLUDE)
     def post(self, params: dict, pagination: dict):
         current_user = g.current_user
 

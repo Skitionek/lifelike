@@ -5,6 +5,7 @@ import string
 
 from flask import Blueprint, g, jsonify, current_app
 from flask.views import MethodView
+from marshmallow import EXCLUDE
 from sqlalchemy import func, literal_column, or_
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
@@ -322,8 +323,8 @@ def unlock_user(hash_id):
 class AccountSearchView(MethodView):
     decorators = [auth.login_required]
 
-    @use_args(UserSearchSchema)
-    @use_args(PaginatedRequestSchema)
+    @use_args(UserSearchSchema, unknown=EXCLUDE)
+    @use_args(PaginatedRequestSchema, unknown=EXCLUDE)
     def post(self, params: dict, pagination: Pagination):
         """
         Endpoint to search for users that match certain criteria.
