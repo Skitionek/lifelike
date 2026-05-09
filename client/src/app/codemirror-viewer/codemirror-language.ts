@@ -5,30 +5,7 @@ import { xml } from '@codemirror/lang-xml';
 import { markdown } from '@codemirror/lang-markdown';
 import { LanguageSupport } from '@codemirror/language';
 
-/**
- * MIME types handled by the CodeMirror viewer.
- * Files with these MIME types will open in the read-only code/text viewer
- * instead of triggering a generic download.
- */
-export const CODEMIRROR_HANDLED_MIME_TYPES: ReadonlySet<string> = new Set([
-  'text/plain',
-  'application/json',
-  'text/x-python',
-  'application/x-python',
-  'text/javascript',
-  'application/javascript',
-  'text/typescript',
-  'application/typescript',
-  'text/html',
-  'text/xml',
-  'application/xml',
-  'text/x-yaml',
-  'application/x-yaml',
-  'text/yaml',
-  'text/markdown',
-  'text/x-markdown',
-  'text/csv',
-]);
+import { isCodemirrorHandledMimeType } from 'app/shared/constants';
 
 /**
  * Returns a CodeMirror LanguageSupport extension for the given MIME type,
@@ -36,16 +13,20 @@ export const CODEMIRROR_HANDLED_MIME_TYPES: ReadonlySet<string> = new Set([
  * dedicated language pack.
  */
 export function getLanguageExtension(mimeType: string): LanguageSupport | null {
-  if (mimeType.includes('json')) {
+  const normalizedMimeType = (mimeType || '').toLowerCase();
+
+  if (normalizedMimeType.includes('json')) {
     return json();
-  } else if (mimeType.includes('python') || mimeType.includes('x-python')) {
+  } else if (normalizedMimeType.includes('python') || normalizedMimeType.includes('x-python')) {
     return python();
-  } else if (mimeType.includes('javascript') || mimeType.includes('typescript')) {
+  } else if (normalizedMimeType.includes('javascript') || normalizedMimeType.includes('typescript')) {
     return javascript();
-  } else if (mimeType.includes('xml') || mimeType.includes('html')) {
+  } else if (normalizedMimeType.includes('xml') || normalizedMimeType.includes('html')) {
     return xml();
-  } else if (mimeType.includes('markdown') || mimeType.includes('x-markdown')) {
+  } else if (normalizedMimeType.includes('markdown') || normalizedMimeType.includes('x-markdown')) {
     return markdown();
   }
   return null;
 }
+
+export { isCodemirrorHandledMimeType };

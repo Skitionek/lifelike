@@ -18,6 +18,7 @@ import {
   Unicodes,
   FAClass,
   CustomIconColors,
+  isCodemirrorHandledMimeType,
   LIBREOFFICE_CONVERTIBLE_MIME_TYPES,
   PROTEIN_STRUCTURE_MIME_TYPES
 } from 'app/shared/constants';
@@ -183,7 +184,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       case 'application/pdf':
         return true;
       default:
-        return this.isProteinStructure || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
+        return this.isProteinStructure
+          || isCodemirrorHandledMimeType(this.mimeType)
+          || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
     }
   }
 
@@ -227,6 +230,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
     return this.isDirectory || this.mimeType === MimeTypes.Pdf || this.mimeType === MimeTypes.Map
       || this.mimeType === MimeTypes.EnrichmentTable || this.mimeType === MimeTypes.BioC
       || this.isProteinStructure
+      || isCodemirrorHandledMimeType(this.mimeType)
       || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
   }
 
@@ -512,6 +516,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       case MimeTypes.Graph:
         return ['/projects', projectName, 'sankey', this.hashId];
       default:
+        if (isCodemirrorHandledMimeType(this.mimeType)) {
+          return ['/projects', projectName, 'code', this.hashId];
+        }
         if (LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType)) {
           // Route convertible files to the PDF viewer — conversion happens server-side
           return ['/projects', projectName, 'files', this.hashId];

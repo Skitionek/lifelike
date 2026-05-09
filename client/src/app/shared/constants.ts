@@ -118,6 +118,37 @@ export const LIBREOFFICE_CONVERTIBLE_MIME_TYPES: ReadonlySet<string> = new Set([
   'text/csv',
 ]);
 
+/**
+ * MIME types handled by the CodeMirror viewer.
+ * Files with these MIME types should open in the read-only code/text viewer.
+ */
+export const CODEMIRROR_HANDLED_MIME_TYPES: ReadonlySet<string> = new Set([
+  'text/plain',
+  'application/json',
+  'text/x-python',
+  'application/x-python',
+  'text/x-script.python',
+  'text/x-script.python3',
+  'text/javascript',
+  'application/javascript',
+  'text/typescript',
+  'application/typescript',
+  'text/html',
+  'text/xml',
+  'application/xml',
+  'text/x-yaml',
+  'application/x-yaml',
+  'text/yaml',
+  'text/markdown',
+  'text/x-markdown',
+  'text/csv',
+]);
+
+export function isCodemirrorHandledMimeType(mimeType: string): boolean {
+  const normalizedMimeType = (mimeType || '').toLowerCase();
+  return CODEMIRROR_HANDLED_MIME_TYPES.has(normalizedMimeType) || normalizedMimeType.includes('python');
+}
+
 export enum FAClass {
   Directory = 'fa fa-folder',
   Map = 'fa fa-project-diagram',
