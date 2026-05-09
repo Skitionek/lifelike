@@ -1,6 +1,6 @@
 # Credits
 
-Mycelium is an attempt of Skitionek to keep the project alive and open source after the original project, Lifelike, was discontinued. Lifelike was developed by a team of talented engineers and scientists at UCSD and DTU, and Mycelium is built on top of the codebase and ideas of Lifelike.
+Mycelium is an attempt of Skitionek to keep the project alive and open source after Lifelike, was discontinued. Lifelike was developed by a team of talented engineers and scientists at UCSD and DTU, and Mycelium is built on top of the codebase and ideas of Lifelike.
 Lifelike was released as an open source project as of January 2022,
 however, this was made possible thanks to valuable contributions and
 hard labor of many people over several months from different parts of the world.
