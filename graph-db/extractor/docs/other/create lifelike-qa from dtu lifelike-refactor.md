@@ -17,12 +17,12 @@ drop index classIdx
 Run go_parser
 ```
 parser = GoOboParser("/Users/rcai/data")
-database = get_database(Neo4jInstance.LOCAL, 'lifelike-qa')
+database = get_database(Neo4jInstance.LOCAL, 'mycelium-qa')
 parser.load_data_to_neo4j(database)
 database.close()
 ```
 
-2. Update NCBI genes to match with lifelike-staging
+2. Update NCBI genes to match with mycelium-staging
 - remove all gene synonyms
 ```
 call apoc.periodic.iterate(
@@ -37,7 +37,7 @@ Run chebi_parser
 ```
     parser = ChebiOboParser("/Users/rcai/data")
     # use the right database
-    database = get_database(Neo4jInstance.LOCAL, 'lifelike-qa')
+    database = get_database(Neo4jInstance.LOCAL, 'mycelium-qa')
     parser.load_data_to_neo4j(database)
     database.close()
 ```
@@ -45,7 +45,7 @@ Run chebi_parser
 4. Update MESH nodes  with additional annotation labels
 Run mesh_annotations.py
 ```
-    database = get_database(Neo4jInstance.LOCAL, 'lifelike-qa')
+    database = get_database(Neo4jInstance.LOCAL, 'mycelium-qa')
     add_annotation_entity_labels(database)
     database.close()
 ```
@@ -112,7 +112,7 @@ merge (uniProt)-[:HAS_SYNONYM]->(s)
 run add_disease_synonyms.py
 ```
     file = os.path.join(get_data_dir(), 'Pruned mesh_terms_ends_with_disease.csv')
-    database = get_database(Neo4jInstance.LOCAL, 'lifelike-qa')
+    database = get_database(Neo4jInstance.LOCAL, 'mycelium-qa')
     load_pruned_terms_as_disease_synonym(file, database)
     database.close()
 ```

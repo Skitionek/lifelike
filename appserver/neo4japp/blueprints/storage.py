@@ -23,13 +23,13 @@ class UserManualAPI(MethodView):
 
     decorators = [auth.login_required]
 
-    USER_MANUAL_FILENAME = 'lifelike-user-manual'
+    USER_MANUAL_FILENAME = 'mycelium-user-manual'
 
     def get_blob_service(self):
         storage_client = BlobServiceClient(
             current_app.config.get('AZURE_BLOB_STORAGE_URL'),
             current_app.config.get('AZURE_ACCOUNT_STORAGE_KEY'))
-        container_client = storage_client.get_container_client('lifelike-manual')
+        container_client = storage_client.get_container_client('mycelium-manual')
         blob_client = container_client.get_blob_client(f'{self.USER_MANUAL_FILENAME}.pdf')
         return blob_client
 

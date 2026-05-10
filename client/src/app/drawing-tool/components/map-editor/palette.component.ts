@@ -55,7 +55,7 @@ export class PaletteComponent {
     const dataTransfer: DataTransfer = event.dataTransfer;
     createNodeDragImage(dragImageNode).addDataTransferData(dataTransfer);
     dataTransfer.setData('text/plain', annotationStyle.label);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify(copiedNode));
+    dataTransfer.setData('application/mycelium-node', JSON.stringify(copiedNode));
   }
 
   click() {

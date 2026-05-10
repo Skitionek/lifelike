@@ -27,7 +27,7 @@ export class AssociatedMapsComponent implements OnInit, OnDestroy {
     hashId => this.filesystemService.search({
       type: 'linked',
       linkedHashId: hashId,
-      mimeTypes: ['vnd.lifelike.document/map'],
+      mimeTypes: ['vnd.mycelium.document/map'],
     }),
   );
 

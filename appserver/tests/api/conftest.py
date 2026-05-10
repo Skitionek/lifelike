@@ -241,7 +241,7 @@ def fix_admin_user(session, fix_admin_role, fix_superuser_role) -> AppUser:
     user = AppUser(
         id=100,
         username='api_owner',
-        email='admin@lifelike.bio',
+        email='admin@mycelium.bio',
         first_name='Jim',
         last_name='Melancholy',
     )
@@ -257,7 +257,7 @@ def test_user(session, fix_user_role) -> AppUser:
     user = AppUser(
         id=200,
         username='test',
-        email='test@lifelike.bio',
+        email='test@mycelium.bio',
         first_name='Jim',
         last_name='Melancholy'
     )
@@ -400,7 +400,7 @@ def client(app):
 @pytest.fixture(scope='function')
 def user_client(client, test_user: AppUser):
     """ Returns an authenticated client as well as the JWT information """
-    auth = client.login_as_user('test@lifelike.bio', 'password')
+    auth = client.login_as_user('test@mycelium.bio', 'password')
     return client, auth
 
 

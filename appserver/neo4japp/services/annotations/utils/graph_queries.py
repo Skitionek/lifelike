@@ -400,7 +400,7 @@ def get_create_protein_global_inclusion_query():
     """
 
 
-def get_create_lifelike_global_inclusion_query(entity_type):
+def get_create_mycelium_global_inclusion_query(entity_type):
     if entity_type not in node_labels:
         return ''
 

@@ -34,7 +34,7 @@ import { ErrorHandler } from 'app/shared/services/error-handler.service';
 import { openModal } from 'app/shared/utils/modals';
 
 
-export const ENRICHMENT_TABLE_MIMETYPE = 'vnd.lifelike.document/enrichment-table';
+export const ENRICHMENT_TABLE_MIMETYPE = 'vnd.mycelium.document/enrichment-table';
 
 @Injectable()
 export class EnrichmentTableTypeProvider extends AbstractObjectTypeProvider {

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd /workspaces/lifelike
+cd /workspaces/mycelium
 
 COMPOSE_ARGS=(
-	-p lifelike
+	-p mycelium
 	-f docker/docker-compose.yml
 	-f docker/docker-compose.services.yml
 	-f docker/docker-compose.dev.yml

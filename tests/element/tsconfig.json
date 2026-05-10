@@ -24,6 +24,6 @@
     "checkJs": false
   },
   "files": [
-    "./lifelike.perf.ts"
+    "./mycelium.perf.ts"
   ]
 }

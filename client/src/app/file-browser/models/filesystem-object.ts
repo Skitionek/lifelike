@@ -114,7 +114,7 @@ export class ProjectImpl implements Project {
 
     dataTransfer.effectAllowed = 'all';
     dataTransfer.setData('text/plain', this.name);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify(node));
+    dataTransfer.setData('application/mycelium-node', JSON.stringify(node));
   }
 }
 
@@ -215,7 +215,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
   get isAnnotatable() {
     // TODO: Move this method to ObjectTypeProvider
     return this.mimeType === 'application/pdf' ||
-      this.mimeType === 'vnd.lifelike.document/enrichment-table';
+      this.mimeType === 'vnd.mycelium.document/enrichment-table';
   }
 
   get promptOrganism() {
@@ -618,7 +618,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
     dataTransfer.effectAllowed = 'all';
     dataTransfer.setData('text/plain', this.name);
     dataTransfer.setData(FILESYSTEM_OBJECT_TRANSFER_TYPE, JSON.stringify(filesystemObjectTransfer));
-    dataTransfer.setData('application/lifelike-node', JSON.stringify(node));
+    dataTransfer.setData('application/mycelium-node', JSON.stringify(node));
   }
 
   private getId(): any {

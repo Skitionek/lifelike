@@ -8,7 +8,7 @@ def user_factory(uid):
         'username': f'AppUser-{uid}',
         'firstName': f'firstname-{uid}',
         'lastName': f'lastname-{uid}',
-        'email': f'appuser-{uid}@lifelike.bio',
+        'email': f'appuser-{uid}@mycelium.bio',
         'roles': ['user'],
         'failedLoginCount': 0,
     }

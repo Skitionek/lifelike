@@ -436,7 +436,7 @@ export class SankeyViewComponent implements OnDestroy, ModuleAwareComponent, Aft
   dragStarted(event: DragEvent) {
     const dataTransfer: DataTransfer = event.dataTransfer;
     dataTransfer.setData('text/plain', this.object.filename);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify({
+    dataTransfer.setData('application/mycelium-node', JSON.stringify({
       display_name: this.object.filename,
       label: 'link',
       sub_labels: [],

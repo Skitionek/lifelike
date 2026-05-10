@@ -5,7 +5,7 @@ Revises: 000000000000
 Create Date: 2026-04-18 00:00:00.000000
 
 The .annotations files are stored as regular Files rows (mime_type =
-'vnd.lifelike.filesystem/annotations') whose content is JSON stored in
+'vnd.mycelium.filesystem/annotations') whose content is JSON stored in
 files_content.raw_file.  The effective annotation config for every file
 and directory is held in the regular table file_effective_annotation_config
 and updated incrementally via refresh_effective_annotation_subtree() using a
@@ -128,7 +128,7 @@ BEGIN
         JOIN   files anf
                    ON  anf.parent_id = fa.folder_id
                    AND anf.filename  = '.annotations'
-                   AND anf.mime_type = 'vnd.lifelike.filesystem/annotations'
+                   AND anf.mime_type = 'vnd.mycelium.filesystem/annotations'
                    AND anf.deletion_date IS NULL
                    AND anf.content_id IS NOT NULL
         JOIN   files_content fc ON fc.id = anf.content_id

@@ -1,19 +1,19 @@
 # Mycelium-stg database refactoring (LL-3520)
 
-## 1. load data from lifelike-stg-08042021.dump
-Stop lifelike-stg, then run the following command:
+## 1. load data from mycelium-stg-08042021.dump
+Stop mycelium-stg, then run the following command:
 ```
-neo4j-admin load --from=lifelike-stg-08042021.dump --database=lifelike-stg --force
+neo4j-admin load --from=mycelium-stg-08042021.dump --database=mycelium-stg --force
 ```
 make sure the data files has owner neo4j
 ``` 
-sudo chown -R neo4j:neo4j databases/lifelike-stg
-sudo chown -R neo4j:neo4j transactions/lifelike-stg
+sudo chown -R neo4j:neo4j databases/mycelium-stg
+sudo chown -R neo4j:neo4j transactions/mycelium-stg
 ```
-## 2. open cypher-shell, start lifelike-stg
+## 2. open cypher-shell, start mycelium-stg
 ```
-start database `lifelike-stg`;
-use lifelike-stg
+start database `mycelium-stg`;
+use mycelium-stg
 ```
 
 ## 3. Run cyphers to merge snippets
@@ -66,7 +66,7 @@ apoc.periodic.commit or iterate did not seem to work with apoc refactoring metho
 Use the following python script: 25 min, final snippets 8106939
 
 ```
-graph = Graph('bolt://neo4j.lifelike.bio:7687', auth=(username, password), name='lifelike-stg')
+graph = Graph('bolt://neo4j.mycelium.bio:7687', auth=(username, password), name='mycelium-stg')
 query = """
 match (n:Snippet) with n.id as id, collect(n) as nodes where size(nodes) > 1 with nodes limit 50000
 call apoc.refactor.mergeNodes(nodes, {properties: 'discard', mergeRels:false}) 
@@ -287,13 +287,13 @@ or
 gsutil cp filename gs://robin-files
 
 
-__lifelike-after-refactor-08082021.dump (26g)__:  dump file for lifelike, which was restored from google lifelike-stg dump file, then 
+__mycelium-after-refactor-08082021.dump (26g)__:  dump file for mycelium, which was restored from google mycelium-stg dump file, then 
 performed the above refactoring steps.
 
-__lifelike-copy-08082021.dump (6.8g)__: lifelike was copied to lifelike-stg using neo4j-admin copy --from-database=lifelike, to-database=lifelike-stg --force
+__mycelium-copy-08082021.dump (6.8g)__: mycelium was copied to mycelium-stg using neo4j-admin copy --from-database=mycelium, to-database=mycelium-stg --force
 The database does not have indexes.  All constraints and indexes need to be re-created.
 
-lifelike-copy-08082021.dump was uploaded to google cloud storage, then downloaded to google vm (neo4j-staging-migration-test)
+mycelium-copy-08082021.dump was uploaded to google cloud storage, then downloaded to google vm (neo4j-staging-migration-test)
 to perform the following steps
 
 ## 8. Create constraints and indexes
@@ -374,7 +374,7 @@ call apoc.periodic.iterate(
 follow the steps described in docs/biocyc/label_biocyc_genes_as_master.md
 
 ## 10. Replace all node id property as 'eid'
-see "docs/databases/Replace lifelike kg nodes id with eid.md"
+see "docs/databases/Replace mycelium kg nodes id with eid.md"
 
 ## 11. Add tax_id to relationship GO_LINK for enrichment statistics 
 The code was in NCBI gene parser and docs/biocyc/label_biocyc_genes_as_master.md (for pseudomonas gene go links)

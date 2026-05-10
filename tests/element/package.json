@@ -1,5 +1,5 @@
 {
-  "name": "lifelike-element-load-tests",
+  "name": "mycelium-element-load-tests",
   "version": "1.0.0",
   "description": "Load tests using Flood Element",
   "private": true,

@@ -39,13 +39,13 @@ DB_CHEBI = 'CHEBI'
 DB_GO = 'GO'
 DB_EC = 'EC'
 
-FILE_MIME_TYPE_DIRECTORY = 'vnd.lifelike.filesystem/directory'
-FILE_MIME_TYPE_ANNOTATIONS = 'vnd.lifelike.filesystem/annotations'
+FILE_MIME_TYPE_DIRECTORY = 'vnd.mycelium.filesystem/directory'
+FILE_MIME_TYPE_ANNOTATIONS = 'vnd.mycelium.filesystem/annotations'
 FILE_MIME_TYPE_PDF = 'application/pdf'
-FILE_MIME_TYPE_BIOC = 'vnd.lifelike.document/bioc'
-FILE_MIME_TYPE_MAP = 'vnd.lifelike.document/map'
-FILE_MIME_TYPE_GRAPH = 'vnd.lifelike.document/graph'
-FILE_MIME_TYPE_ENRICHMENT_TABLE = 'vnd.lifelike.document/enrichment-table'
+FILE_MIME_TYPE_BIOC = 'vnd.mycelium.document/bioc'
+FILE_MIME_TYPE_MAP = 'vnd.mycelium.document/map'
+FILE_MIME_TYPE_GRAPH = 'vnd.mycelium.document/graph'
+FILE_MIME_TYPE_ENRICHMENT_TABLE = 'vnd.mycelium.document/enrichment-table'
 
 # MIME types that can be converted to PDF via LibreOffice
 LIBREOFFICE_CONVERTIBLE_MIME_TYPES = frozenset({

@@ -31,7 +31,7 @@ jobs:
           #   file: docker/elasticsearch.Dockerfile
           # - name: Grap data migrator
           #   path: graph-db
-          #   image: lifelike-graph-db
+          #   image: mycelium-graph-db
 
     permissions:
       contents: read
