@@ -90,7 +90,7 @@ def get_all_enrichment_tables():
         raise NotAuthorized(message='You do not have sufficient privileges.', code=400)
 
     query = db.session.query(Files.hash_id).filter(
-        Files.mime_type == 'vnd.lifelike.document/enrichment-table')
+        Files.mime_type == 'vnd.mycelium.document/enrichment-table')
     results = [hash_id[0] for hash_id in query.all()]
     return jsonify(dict(result=results)), 200
 

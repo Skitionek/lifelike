@@ -519,7 +519,7 @@ class ManualAnnotationService:
                     if query:
                         self.graph.exec_write_query_with_params(query, createval)
                     else:
-                        query = get_create_lifelike_global_inclusion_query(entity_type)
+                        query = get_create_mycelium_global_inclusion_query(entity_type)
                         self.graph.exec_write_query_with_params(query, createval)
                 except (BrokenPipeError, ServiceUnavailable):
                     raise
@@ -530,7 +530,7 @@ class ManualAnnotationService:
                     )
             elif not check['node_exist']:
                 try:
-                    query = get_create_lifelike_global_inclusion_query(entity_type)
+                    query = get_create_mycelium_global_inclusion_query(entity_type)
                     self.graph.exec_write_query_with_params(query, createval)
                 except (BrokenPipeError, ServiceUnavailable):
                     raise

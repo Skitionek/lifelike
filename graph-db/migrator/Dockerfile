@@ -38,7 +38,7 @@ ENV NEO4J_USERNAME=neo4j
 ENV NEO4J_PASSWORD=neo4j
 ENV NEO4J_DATABASE=neo4j
 
-# Master changelog file. e.g. lifelike-graph/changelog-master.xml
+# Master changelog file. e.g. mycelium-graph/changelog-master.xml
 ENV CHANGELOG_FILE=
 
 # Remote storage configuration

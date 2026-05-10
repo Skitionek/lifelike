@@ -75,7 +75,7 @@ export class SearchRecordRelationshipsComponent {
   dragStarted(event: DragEvent) {
     const dataTransfer: DataTransfer = event.dataTransfer;
     dataTransfer.setData('text/plain', this.node.node.displayName);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify({
+    dataTransfer.setData('application/mycelium-node', JSON.stringify({
       display_name: this.node.node.displayName,
       label: this.node.node.label.toLowerCase(),
       sub_labels: [],

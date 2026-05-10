@@ -863,7 +863,7 @@ wheels = [
 ]
 
 [[package]]
-name = "lifelike-appserver"
+name = "mycelium-appserver"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [

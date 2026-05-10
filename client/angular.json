@@ -33,7 +33,7 @@
             ],
             "styles": [
               "node_modules/tachyons/css/tachyons.css",
-              "src/lifelike-theme.scss",
+              "src/mycelium-theme.scss",
               "src/scss/bootstrap.scss",
               "src/styles.scss"
             ],
@@ -131,7 +131,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/scss/bootstrap.scss",
-              "src/lifelike-theme.scss",
+              "src/mycelium-theme.scss",
               "src/styles.scss"
             ],
             "scripts": ["node_modules/molstar/build/viewer/molstar.js"],

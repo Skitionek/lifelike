@@ -82,12 +82,12 @@ export const MAX_DESCRIPTION_LENGTH = 5000;
 export const FORMATS_WITH_POSSIBLE_DESCRIPTION = ['graph'];
 
 export enum MimeTypes {
-  Map = 'vnd.lifelike.document/map',
-  EnrichmentTable = 'vnd.lifelike.document/enrichment-table',
-  Directory = 'vnd.lifelike.filesystem/directory',
-  Graph = 'vnd.lifelike.document/graph',
+  Map = 'vnd.mycelium.document/map',
+  EnrichmentTable = 'vnd.mycelium.document/enrichment-table',
+  Directory = 'vnd.mycelium.filesystem/directory',
+  Graph = 'vnd.mycelium.document/graph',
   Pdf = 'application/pdf',
-  BioC = 'vnd.lifelike.document/bioc',
+  BioC = 'vnd.mycelium.document/bioc',
   Pdb = 'chemical/x-pdb',
   Cif = 'chemical/x-cif'
 }

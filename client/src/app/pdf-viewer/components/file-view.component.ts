@@ -426,7 +426,7 @@ export class FileViewComponent implements OnDestroy, ModuleAwareComponent {
       title: text,
       uri: new URL(source, window.location.href).href,
     }]);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify({
+    dataTransfer.setData('application/mycelium-node', JSON.stringify({
       display_name: text,
       label: meta.type.toLowerCase(),
       sub_labels: [],
@@ -673,7 +673,7 @@ export class FileViewComponent implements OnDestroy, ModuleAwareComponent {
   dragStarted(event: DragEvent) {
     const dataTransfer: DataTransfer = event.dataTransfer;
     dataTransfer.setData('text/plain', this.object.filename);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify({
+    dataTransfer.setData('application/mycelium-node', JSON.stringify({
       display_name: this.object.filename,
       label: 'link',
       sub_labels: [],

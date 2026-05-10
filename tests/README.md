@@ -38,7 +38,7 @@ Then, navigate to <http://localhost:8089> in a browser.
 ```bash
 # Set varibles for the environment to run the tests against
 export BASE_URL=https://localhost:5000/api
-export USER_EMAIL="user@lifelike.bio"
+export USER_EMAIL="user@mycelium.bio"
 export USER_PASSWORD="[replace]"
 export NUM_USERS=10  # Peak number of concurrent Locust users.
 export RUN_TIME=60s  # Stop after the specified amount of time, e.g. (300s, 20m, 3h, 1h30m, etc.).

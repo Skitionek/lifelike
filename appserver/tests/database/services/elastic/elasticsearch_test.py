@@ -1805,7 +1805,7 @@ def test_pre_process_query(
                                 ]
                             }
                         },
-                        {'term': {'mime_type': 'vnd.lifelike.document/map'}}
+                        {'term': {'mime_type': 'vnd.mycelium.document/map'}}
                     ]
                 }
             },
@@ -1950,7 +1950,7 @@ def test_pre_process_query(
                                 ]
                             }
                         },
-                        {'term': {'mime_type': 'vnd.lifelike.document/map'}}
+                        {'term': {'mime_type': 'vnd.mycelium.document/map'}}
                     ]
                 }
             }

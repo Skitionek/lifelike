@@ -13,7 +13,7 @@ export class DragDropEntityBehavior extends AbstractCanvasBehavior {
 
   dragOver(event: BehaviorEvent<DragEvent>): BehaviorResult {
     const dragEvent = event.event;
-    if (dragEvent?.dataTransfer.types.includes('application/lifelike-node')) {
+    if (dragEvent?.dataTransfer.types.includes('application/mycelium-node')) {
       dragEvent.preventDefault();
     }
     return BehaviorResult.Continue;
@@ -21,7 +21,7 @@ export class DragDropEntityBehavior extends AbstractCanvasBehavior {
 
   drop(event: BehaviorEvent<DragEvent>): BehaviorResult {
     const dragEvent = event.event;
-    const data = dragEvent.dataTransfer.getData('application/lifelike-node');
+    const data = dragEvent.dataTransfer.getData('application/mycelium-node');
     let node;
     try {
       node = JSON.parse(data) as UniversalGraphNode;

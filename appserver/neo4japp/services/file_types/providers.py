@@ -94,7 +94,7 @@ extension_mime_types = {
     '.pdb': 'chemical/x-pdb',
     '.cif': 'chemical/x-cif',
     '.mmcif': 'chemical/x-cif',
-    '.llmap': 'vnd.lifelike.document/map',
+    '.llmap': 'vnd.mycelium.document/map',
     '.svg': 'image/svg+xml',
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
@@ -433,7 +433,7 @@ def get_icons_data():
         return ICON_DATA
     else:
         for key in ['map', 'link', 'email', 'sankey', 'document', 'enrichment_table', 'note',
-                    'ms-word', 'ms-excel', 'ms-powerpoint', 'cytoscape', 'lifelike']:
+                    'ms-word', 'ms-excel', 'ms-powerpoint', 'cytoscape', 'mycelium']:
             icon_path = os.path.join(ASSETS_PATH, f'{key}.png')
             with open(icon_path, 'rb') as file:
                 ICON_DATA[icon_path] = 'data:image/png;base64,' \
@@ -843,8 +843,8 @@ def create_watermark(x_center, y):
     }
     url_params = {
         'name': 'watermark_hyper',
-        'label': 'lifelike.bio',
-        'href': 'https://lifelike.bio',
+        'label': 'mycelium.bio',
+        'href': 'https://mycelium.bio',
         'pos': (
             f"{x_center / SCALING_FACTOR},"
             f"{-(y + DEFAULT_NODE_HEIGHT / 2.0) / SCALING_FACTOR}!"
@@ -868,7 +868,7 @@ def create_watermark(x_center, y):
         'fixedsize': 'true',
         'imagescale': 'both',
         'shape': 'rect',
-        'image': ASSETS_PATH + 'lifelike.png',
+        'image': ASSETS_PATH + 'mycelium.png',
         'width': f"{WATERMARK_ICON_SIZE / SCALING_FACTOR}",
         'height': f"{WATERMARK_ICON_SIZE / SCALING_FACTOR}",
         'penwidth': '0.0'

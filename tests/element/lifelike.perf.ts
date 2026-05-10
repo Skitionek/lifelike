@@ -3,7 +3,7 @@ import faker from 'faker'
 import { navigateMenu } from './utils'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:4200'
-const userEmail = process.env.USER_EMAIL || 'user@lifelike.bio'
+const userEmail = process.env.USER_EMAIL || 'user@mycelium.bio'
 const userPassword = process.env.USER_PASSWORD || 'password'
 
 export const settings: TestSettings = {
