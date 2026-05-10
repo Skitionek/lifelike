@@ -12,57 +12,9 @@ on:
 permissions: read-all
 
 jobs:
-  # ── Fast linters ────────────────────────────────────────────────────────────
-  # Run cheap, local linters first for immediate feedback.
-  # MegaLinter only runs if this job succeeds.
-
-  fast-lint:
-    name: Fast Lint
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      # Python – ruff (replaces pycodestyle / flake8)
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.10'
-
-      - name: Install ruff
-        run: pip install ruff==0.15.10
-
-      - name: Run ruff (appserver)
-        run: ruff check appserver/ --config ruff.toml
-
-      - name: Run ruff (statistical-enrichment)
-        run: ruff check statistical-enrichment/ --config ruff.toml
-
-      - name: Run ruff (cache-invalidator)
-        run: ruff check cache-invalidator/ --config ruff.toml
-
-      # TypeScript – tslint
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: '22'
-
-      - name: Install client dependencies
-        working-directory: client
-        run: yarn install --frozen-lockfile
-
-      - name: Run tslint
-        working-directory: client
-        run: yarn lint-ci
-
-  # ── MegaLinter ──────────────────────────────────────────────────────────────
-  # Comprehensive lint + optional auto-fix, runs only after fast-lint passes.
-
   megalinter:
     name: MegaLinter
     runs-on: ubuntu-latest
-    needs: fast-lint
     permissions:
       contents: write        # needed to commit auto-fixes
       issues: write
