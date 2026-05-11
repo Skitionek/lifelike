@@ -207,7 +207,7 @@ jobs:
 
       - name: Create GitHub release
         if: steps.gate.outputs.ready == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
           target_commitish: ${{ steps.tag.outputs.commit_sha }}
