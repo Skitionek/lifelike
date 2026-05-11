@@ -204,7 +204,7 @@ packaging==26.2
     #   webargs
 pandas==2.3.3
     # via mycelium-appserver
-paramiko==4.0.0
+paramiko==5.0.0
     # via mycelium-appserver
 pdfminer-six==20260107
     # via mycelium-appserver
@@ -310,7 +310,7 @@ typing-inspect==0.9.0
     # via marshmallow-dataclass
 tzdata==2025.3
     # via pandas
-urllib3==2.6.3
+urllib3==2.7.0
     # via
     #   elastic-apm
     #   elastic-transport
