@@ -50,7 +50,7 @@ charset-normalizer==3.4.6
     # via
     #   pdfminer-six
     #   requests
-click==8.3.1
+click==8.3.3
     # via flask
 colorama==0.4.6 ; sys_platform == 'win32'
     # via
