@@ -10732,10 +10732,10 @@ tablesort@^5.7.0:
   resolved "https://registry.yarnpkg.com/tablesort/-/tablesort-5.7.0.tgz#f16e615d7fca88a95ea88636c126a674aed1f2e4"
   integrity sha512-irnN1HPD08466v6DHKR1+gqZ2be2+QZBDIGTM1DFGoWywY+d38bFtfsuUqBbMGkqaMyYE1uPxE7p0AM5cmbRSA==
 
-tachyons@4.10.0:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/tachyons/-/tachyons-4.10.0.tgz#87fa088e88d9759983f2a1b0efd01d767bbef87b"
-  integrity sha512-50KOizE6V9QB7LdQqVLsLw17dnBzxonC2JWhmbu8xnQYUoyqV+Gcx678NwVM+O8A7jljobtC6QMl/hc8UZOzAA==
+tachyons@4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/tachyons/-/tachyons-4.12.0.tgz#6fdfa8360927a46a1efd996a4dcc94f04bd31df0"
+  integrity sha512-2nA2IrYFy3raCM9fxJ2KODRGHVSZNTW3BR0YnlGsLUf1DA3pk3YfWZ/DdfbnZK6zLZS+jUenlUGJsKcA5fUiZg==
 
 tapable@^2.1.1, tapable@^2.3.0:
   version "2.3.2"
