@@ -13,6 +13,21 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 ## [Unreleased]
 
 ### Added
+- **`neo4japp/storage/` — IStorageProvider abstraction layer**: a new `storage` package that defines a uniform Python interface (`IStorageProvider`) for pluggable file-storage backends, together with three ready-to-use adapters:
+  - **`PostgresAdapter`** wraps the existing Lifelike Postgres/SQLAlchemy file store (`Files` + `FileVersion` tables).  `supports_acl=True`: `chmod` maps the POSIX other-read bit to `file.public`; `chown` transfers ownership via `file.user_id` (accepts `AppUser.hash_id`).  Full revision history via `file_version`.
+  - **`AzureDataLakeAdapter`** targets Azure Data Lake Storage Gen2.  `supports_acl=True` using ADLS Gen2 native ACL APIs; `supports_versioning=True` using Azure Blob Versioning.
+  - **`GoogleDriveAdapter`** targets Google Drive v3.  `supports_acl=True` mapping Drive permission roles to POSIX-ish bits; `supports_versioning=True` via the Drive Revisions API.
+- **Pydantic data models** (`FileStat`, `Revision`, `StorageCapabilities`) shared across all adapters; `FileStat` now carries an optional `checksum` field (hex SHA-256).
+- **`NotSupportedError`** raised by ACL/versioning methods on adapters that declare the capability absent.
+- **`pydantic==2.11.4`** added to project dependencies.
+- Unit tests (`tests/unit/storage_test.py`) covering interface guards, data models, POSIX helpers, role mapping, `PostgresAdapter`, `AzureDataLakeAdapter`, and `GoogleDriveAdapter` logic (66 tests, all mocked — no DB or cloud credentials required).
+
+### Changed
+- **`filesystem.py` — all file-content I/O routes through `PostgresAdapter`**: binary reads (`FileContentView`, `FileContentPdfView`, `MapContentView`, `FileExportView.get_all_linked_maps`, `FileVersionContentView`) now call `adapter.open_read()` / `adapter.get_revision_stream()` instead of accessing `file.content.raw_file` directly.  File content writes (`update_files`, `FileListView.post` create path) now call `adapter.open_write()` instead of constructing `FileContent` / `FileVersion` objects inline.
+- **`IStorageProvider.open_write`** now returns `bool` (`True` if content changed, `False` if identical) and accepts an optional `author` keyword argument for revision attribution.
+- **`PostgresAdapter.open_write`** records the calling user as the `FileVersion.user` when `author` (a `AppUser.hash_id`) is supplied.
+
+### Added
 - **Mycelium rebrand**: Renamed project from "Lifelike Afterhours" to "Mycelium" across all user-facing strings, browser title, navigation, login page, version dialog, and Terms of Service.
 - **Mycelium SVG logo**: Minimalist mycelium-network icon added to the left navigation bar (`assets/icons/mycelium-logo.svg`) ([#245]).
 - **File context menu "Open in" options**: context menus now include an "Open in" section so users can choose a specific viewer (for example Default, PDF, Code, BioC, or Protein Structure) when multiple viewers are applicable ([#257]).
