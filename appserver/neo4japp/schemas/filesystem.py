@@ -134,7 +134,7 @@ class FileSchema(CamelCaseSchema):
     recycling_date = fields.DateTime()
     parent = fields.Method('get_parent')
     children = fields.Method('get_children')
-    project = fields.Method('get_project', exclude='root')
+    project = fields.Method('get_project')
     privileges = fields.Method('get_privileges')
     highlight = fields.Method('get_highlight')
     recycled = fields.Boolean()
@@ -290,12 +290,12 @@ class FileHierarchyRequestSchema(CamelCaseSchema):
 
 
 class FileResponseSchema(SingleResultSchema):
-    result = fields.Nested(FileSchema, exclude=('project.root',))
+    result = fields.Nested(FileSchema(exclude=('project.root',)))
 
 
 class MultipleFileResponseSchema(ResultMappingSchema):
     mapping = fields.Dict(keys=fields.String(),
-                          values=fields.Nested(FileSchema, exclude=('project.root',)))
+                          values=fields.Nested(FileSchema(exclude=('project.root',))))
 
 
 class FileListSchema(ResultListSchema):
@@ -339,7 +339,7 @@ class FileVersionSchema(CamelCaseSchema):
 
 
 class FileVersionHistorySchema(ResultListSchema):
-    object = fields.Nested(FileSchema, exclude=('project.root',))
+    object = fields.Nested(FileSchema(exclude=('project.root',)))
     results = fields.List(fields.Nested(FileVersionSchema))
 
 
