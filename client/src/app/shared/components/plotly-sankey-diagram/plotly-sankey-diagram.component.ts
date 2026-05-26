@@ -72,7 +72,7 @@ export class PlotlySankeyDiagramComponent implements AfterViewInit {
         });
 
       this.styleLinks(incomingLinks, {fill: 'red'});
-      this.styleLinks(outgoingLinks, {fill: '#0c8caa'});
+      this.styleLinks(outgoingLinks, {fill: '#004B49'});
     });
     nodeBoxes.on('mouseout', d => {
       // @ts-ignore
@@ -97,7 +97,7 @@ export class PlotlySankeyDiagramComponent implements AfterViewInit {
         });
 
       this.styleLinks(incomingLinks, {fill: 'red'});
-      this.styleLinks(outgoingLinks, {fill: '#0c8caa'});
+      this.styleLinks(outgoingLinks, {fill: '#004B49'});
     });
     nodeLabels.on('mouseout', d => {
       // @ts-ignore
@@ -107,7 +107,7 @@ export class PlotlySankeyDiagramComponent implements AfterViewInit {
     // Capture all "link" elements on the canvas and setup on-hover behavior
     const links = d3.selectAll('path.sankey-link');
     links.on('mouseover', function() {
-      d3.select(this).style('fill', '#0c8caa');
+      d3.select(this).style('fill', '#004B49');
     });
     links.on('mouseout', function() {
       d3.select(this).style('fill', 'black');

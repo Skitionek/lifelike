@@ -8,7 +8,7 @@ The Gene Ontology (GO) describes our knowledge of the biological domain with res
 
 See http://geneontology.org/docs/ontology-documentation/ for detail description of Gene Ontology and GO term elements   
 
-The Lifelike GO graph contain go terms with labels 'db_GO' and label for one of the aspects 
+The Mycelium GO graph contain go terms with labels 'db_GO' and label for one of the aspects 
 (MolecularFunction, CellularComponent or BiologicalProcess)
 
 

@@ -40,7 +40,7 @@ CMD yarn dev-start
 # Runtime stage - NGINX
 # ========================================
 FROM nginx:1.21
-LABEL org.opencontainers.image.source https://github.com/SBRG/lifelike
+LABEL org.opencontainers.image.source https://github.com/Skitionek/mycelium
 
 WORKDIR /usr/share/nginx/html
 
@@ -55,7 +55,7 @@ ENV APPSERVER_URL http://appserver:5000
 
 # List of space delimited list of non-stantdard MIME types
 # which are known to benefit from gzip compression (text based content)
-ENV GZIP_EXTRA_TYPES text/tsv vnd.lifelike.document/bioc vnd.lifelike.document/enrichment-table vnd.lifelike.document/graph vnd.lifelike.document/map
+ENV GZIP_EXTRA_TYPES text/tsv vnd.mycelium.document/bioc vnd.mycelium.document/enrichment-table vnd.mycelium.document/graph vnd.mycelium.document/map
 
 # Runtime environment configuration preset
 ENV ENVIRONMENT_CONFIG production

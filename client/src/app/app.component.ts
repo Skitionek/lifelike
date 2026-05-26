@@ -59,8 +59,8 @@ export class AppComponent {
         const child = this.activatedRoute.firstChild;
         titleService.setTitle(
           child.snapshot.data.title
-            ? `Lifelike Afterhours: ${child.snapshot.data.title}`
-            : 'Lifelike Afterhours'
+            ? `Mycelium: ${child.snapshot.data.title}`
+            : 'Mycelium'
         );
         this.isStandaloneFileOpen = this.standAloneFileUrlRegex.test(event.url);
         const urlParts = event.url.split('#', 2);
@@ -72,7 +72,7 @@ export class AppComponent {
 
   }
   /**
-   * View Lifelike meta information
+   * View Mycelium meta information
    */
   buildInfo() {
     this.modalService.open(AppVersionDialogComponent);

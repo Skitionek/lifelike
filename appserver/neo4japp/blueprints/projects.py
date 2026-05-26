@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple, Dict, Iterable
 
 from flask import jsonify, Blueprint, g
 from flask.views import MethodView
-from marshmallow import ValidationError
+from marshmallow import EXCLUDE, ValidationError
 from sqlalchemy import and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import raiseload, joinedload
@@ -128,7 +128,10 @@ class ProjectBaseView(MethodView):
             query = query.filter(filter)
 
         if pagination:
-            paginated_results = query.paginate(pagination.page, pagination.limit)
+            paginated_results = query.paginate(
+                page=pagination.page,
+                per_page=pagination.limit,
+            )
             results = paginated_results.items
             total = paginated_results.total
         else:
@@ -308,8 +311,8 @@ class ProjectListView(ProjectBaseView):
 class ProjectSearchView(ProjectBaseView):
     decorators = [auth.login_required]
 
-    @use_args(ProjectSearchRequestSchema)
-    @use_args(PaginatedRequestSchema)
+    @use_args(ProjectSearchRequestSchema, unknown=EXCLUDE)
+    @use_args(PaginatedRequestSchema, unknown=EXCLUDE)
     def post(self, params: dict, pagination: Pagination):
         """Endpoint to search for projects that match certain criteria."""
         current_user = g.current_user
@@ -364,7 +367,11 @@ class ProjectCollaboratorsListView(ProjectBaseView):
             .join(AppRole, AppRole.id == projects_collaborator_role.c.app_role_id) \
             .filter(projects_collaborator_role.c.projects_id == project.id)
 
-        paginated_result = query.paginate(pagination.page, pagination.limit, False)
+        paginated_result = query.paginate(
+            page=pagination.page,
+            per_page=pagination.limit,
+            error_out=False,
+        )
 
         return jsonify(ProjectCollaboratorListSchema().dump({
             'results': [{

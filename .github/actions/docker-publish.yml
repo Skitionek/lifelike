@@ -4,7 +4,7 @@ description: 'Builds and publishes a Docker image into a Docker registry.'
 inputs:
   registry:
     description: 'Server address of the Docker registry'
-    default: lifelike.azurecr.io
+    default: mycelium.azurecr.io
     required: false
   image:
     description: 'Docker image'

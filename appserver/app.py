@@ -683,17 +683,17 @@ def merge_maps(user_id, filename, description, parent_id, maps):
     )
 
 
-@app.cli.command('generate-plotly-sankey-from-lifelike')
+@app.cli.command('generate-plotly-sankey')
 @click.option('--sankey-file-id', '-s', required=True, type=int)
 @click.option('--user-id', '-u', required=True, type=int)
 @click.option('--parent-id', '-p', required=True, type=int)
-def generate_plotly_from_lifelike_sankey(
+def generate_plotly_from_sankey(
     sankey_file_id,
     user_id,
     parent_id,
 ):
     """
-    Generates a Plotly compatible JSON file from a Lifelike sankey file.
+    Generates a Plotly compatible JSON file from a Mycelium sankey file.
 
     Args:
 
@@ -771,7 +771,7 @@ def generate_plotly_from_lifelike_sankey(
                 'to': link['target'],
                 'label': link.get('label', link.get('description', 'Unknown')),
                 'color': {
-                    'color': '#0c8caa'
+                    'color': '#004B49'
                 },
                 'arrows': 'to'
             }

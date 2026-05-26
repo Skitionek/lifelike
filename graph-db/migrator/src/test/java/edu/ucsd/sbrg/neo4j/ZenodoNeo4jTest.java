@@ -17,7 +17,7 @@ import java.util.*;
 
 /**
  * Depends on Zenodo literature data being in the graph.
- * See: lifelike-graph/changelogs/changelog-0020.xml
+ * See: mycelium-graph/changelogs/changelog-0020.xml
  */
 public class ZenodoNeo4jTest {
     private Neo4jGraph graph;

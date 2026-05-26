@@ -330,7 +330,7 @@ class KgService(HybridDBDao):
                             'from': edge['start_node'],
                             'to': edge['end_node'],
                             'color': {
-                                'color': '#0c8caa',
+                                'color': '#004B49',
                             },
                             'arrows': 'to',
                         }

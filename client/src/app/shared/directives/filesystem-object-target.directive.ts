@@ -64,8 +64,8 @@ export class FilesystemObjectTargetDirective {
     this.dropTargeted = false;
   }
 
-  @HostListener('body:lifelikeobjectupdate', ['$event'])
-  lifelikeObjectUpdate(event) {
+  @HostListener('body:myceliumobjectupdate', ['$event'])
+  myceliumObjectUpdate(event) {
     if (this.appFSObjectTarget) {
       if (this.isAffectedObject(event.detail.hashId)) {
         this.refreshRequest.emit();
@@ -103,7 +103,7 @@ export class FilesystemObjectTargetDirective {
                 this.appFSObjectTarget.hashId,
               ]);
               for (const hashId of affectedHashIds) {
-                document.body.dispatchEvent(new CustomEvent('lifelikeobjectupdate', {
+                document.body.dispatchEvent(new CustomEvent('myceliumobjectupdate', {
                   detail: {
                     hashId,
                   },

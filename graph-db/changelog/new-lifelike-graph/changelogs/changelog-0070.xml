@@ -15,7 +15,7 @@ CREATE INDEX index_regulondb_name IF NOT EXISTS FOR (n:db_RegulonDB) ON (n.name)
 
   <changeSet id="LL-3218 Create RegulonDB gene nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -39,7 +39,7 @@ SET n:Gene,n.regulondb_id=row.regulondb_id,n.name=row.name,n.left_end_position=r
 
   <changeSet id="LL-3218 Create RegulonDB operon nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -63,7 +63,7 @@ SET n:Operon,n.regulondb_id=row.regulondb_id,n.name=row.name,n.left_end_position
 
   <changeSet id="LL-3218 Create RegulonDB gene product nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -87,7 +87,7 @@ SET n:GeneProduct,n.regulondb_id=row.regulondb_id,n.name=row.name,n.molecular_we
 
   <changeSet id="LL-3218 Create RegulonDB promoter nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -111,7 +111,7 @@ SET n:Promoter,n.regulondb_id=row.regulondb_id,n.name=row.name,n.pos_1=row.pos_1
 
   <changeSet id="LL-3218 Create RegulonDB nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -135,7 +135,7 @@ SET n:Regulon,n.regulondb_id=row.regulondb_id,n.name=row.name,n.num_tfs=row.num_
 
   <changeSet id="LL-3218 Create RegulonDB terminator nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -159,7 +159,7 @@ SET n:Terminator,n.regulondb_id=row.regulondb_id,n.left_end_position=row.left_en
 
   <changeSet id="LL-3218 Create RegulonDB transcription factor nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -183,7 +183,7 @@ SET n:TranscriptionFactor,n.regulondb_id=row.regulondb_id,n.name=row.name,n.regu
 
   <changeSet id="LL-3218 Create RegulonDB transcription unit nodes on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -207,7 +207,7 @@ SET n:TranscriptionUnit,n.regulondb_id=row.regulondb_id,n.name=row.name,n.commen
 
   <changeSet id="LL-3218 Create RegulonDB promoter transcription unit rels on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -231,7 +231,7 @@ MERGE (a)-[r:ELEMENT_OF]->(b)
 
   <changeSet id="LL-3218 Create RegulonDB operon transcription unit rels on date 12202021" author="Binh Vu">
     <comment>
-        Property regulondb_id is for backward compatibility in Lifelike, some queries uses it.
+        Property regulondb_id is for backward compatibility in Mycelium, some queries uses it.
     </comment>
     <customChange
       class="edu.ucsd.sbrg.FileQueryHandler"
@@ -452,7 +452,7 @@ MERGE (a)-[r:IS]->(b)
   </changeSet>
 
   <changeSet id="LL-3218 Setup RegulonDB data for enrichment on date 12212021" author="Binh Vu">
-    <comment>Data is used by enrichment features in Lifelike</comment>
+    <comment>Data is used by enrichment features in Mycelium</comment>
     <sql>
         MATCH (n:Gene:db_RegulonDB)-[:ENCODES]-(p)-[]-(t:TranscriptionFactor) SET n.regulator_family = t.regulator_family;
         MATCH (n:Gene:db_RegulonDB)-[r:REGULATES]-(t) WHERE r.function = '+' WITH n, collect(t.name) AS regulators SET n.activated_by = regulators;

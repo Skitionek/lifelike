@@ -449,7 +449,7 @@ class ManualAnnotationService:
         to the new synonym node.
 
         If there is no match with an existing entity, then a new node is created
-        with the Lifelike domain/node label.
+        with the Mycelium domain/node label.
         """
         if inclusion_type == ManualAnnotationType.INCLUSION.value:
             try:
@@ -519,7 +519,7 @@ class ManualAnnotationService:
                     if query:
                         self.graph.exec_write_query_with_params(query, createval)
                     else:
-                        query = get_create_lifelike_global_inclusion_query(entity_type)
+                        query = get_create_mycelium_global_inclusion_query(entity_type)
                         self.graph.exec_write_query_with_params(query, createval)
                 except (BrokenPipeError, ServiceUnavailable):
                     raise
@@ -530,7 +530,7 @@ class ManualAnnotationService:
                     )
             elif not check['node_exist']:
                 try:
-                    query = get_create_lifelike_global_inclusion_query(entity_type)
+                    query = get_create_mycelium_global_inclusion_query(entity_type)
                     self.graph.exec_write_query_with_params(query, createval)
                 except (BrokenPipeError, ServiceUnavailable):
                     raise
@@ -592,7 +592,7 @@ class ManualAnnotationService:
             return check
         else:
             try:
-                query = get_lifelike_global_inclusion_exist_query(values['entity_type'])
+                query = get_mycelium_global_inclusion_exist_query(values['entity_type'])
                 check = self.graph.exec_read_query_with_params(query, values)[0]
             except (BrokenPipeError, ServiceUnavailable):
                 raise

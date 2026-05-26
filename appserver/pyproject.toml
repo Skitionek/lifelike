@@ -1,5 +1,5 @@
 [project]
-name = "lifelike-appserver"
+name = "appserver"
 version = "0.0.0"
 requires-python = "==3.10.*"
 dependencies = [
@@ -7,7 +7,7 @@ dependencies = [
   "bcrypt==5.0.0",
   "flask-marshmallow==1.4.0",
   "flask==3.1.3",
-  "flask-caching==2.3.1",
+  "flask-caching==2.4.0",
   "flask-cors==6.0.0",
   "flask-httpauth==4.8.0",
   "flask-migrate==2.5.3",
@@ -34,7 +34,7 @@ dependencies = [
   "xlsxwriter==3.2.9",
   "python-json-logger==4.0.0",
   "intervaltree==3.2.1",
-  "paramiko==3.4.0",
+  "paramiko==5.0.0",
   "google-cloud-storage==3.10.1",
   "fastjsonschema==2.21.2",
   "marshmallow-dataclass==8.7.1",
@@ -53,7 +53,7 @@ dependencies = [
   "lmdb==2.2.0",
   "pydantic==2.11.4",
   "pillow==12.2.0",
-  "pyparsing==2.4.7",
+  "pyparsing==3.3.2",
   "svg-stack==0.1.0",
   "elastic-apm[flask]",
 ]
@@ -62,9 +62,9 @@ dependencies = [
 dev = [
   "ipython==8.39.0",
   "pytest==9.0.3",
-  "ruff==0.15.10",
+  "ruff==0.15.13",
   "pycodestyle==2.14.0",
-  "mypy==1.19.1",
+  "mypy==2.0.0",
   "httpretty==1.1.4",
   "types-paramiko==4.0.0.20260408",
   "types-redis==4.6.0.20241004",

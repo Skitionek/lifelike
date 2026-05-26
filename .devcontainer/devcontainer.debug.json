@@ -1,0 +1,42 @@
+{
+  "name": "Mycelium Debug",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "containerUser": "root",
+  "remoteUser": "root",
+  "forwardPorts": [4200, 5000, 5432, 6379, 7474, 7687, 8080, 9200, 9222],
+  "portsAttributes": {
+    "4200": {
+      "label": "Angular dev server",
+      "protocol": "http",
+      "onAutoForward": "openPreview"
+    },
+    "5000": {
+      "label": "Appserver API",
+      "onAutoForward": "silent"
+    },
+    "8080": {
+      "label": "Mycelium Client",
+      "protocol": "http",
+      "onAutoForward": "openPreview"
+    },
+    "9222": {
+      "label": "Chrome debug port",
+      "onAutoForward": "silent"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "bierner.markdown-mermaid",
+        "ms-python.debugpy",
+        "msjsdiag.debugger-for-chrome"
+      ]
+    }
+  }
+}

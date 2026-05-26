@@ -62,7 +62,7 @@ wheels = [
 ]
 
 [[package]]
-name = "lifelike-cache-invalidator"
+name = "mycelium-cache-invalidator"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [

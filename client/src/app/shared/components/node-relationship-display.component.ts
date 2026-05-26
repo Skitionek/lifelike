@@ -34,7 +34,7 @@ export class NodeRelationshipComponent {
   nodeDragStart(event: DragEvent, displayName: string, label: string, databaseUrl: string) {
     const dataTransfer: DataTransfer = event.dataTransfer;
     dataTransfer.setData('text/plain', displayName);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify({
+    dataTransfer.setData('application/mycelium-node', JSON.stringify({
       // Should we give this node a hash here? Seems odd/error-prone not to do so.
       display_name: displayName,
       label: getDTCompatibleLabel(label),
@@ -60,7 +60,7 @@ export class NodeRelationshipComponent {
     const node1Hash = uuidv4();
     const node2Hash = uuidv4();
     dataTransfer.setData('text/plain', this.edge);
-    dataTransfer.setData('application/lifelike-relationship', JSON.stringify({
+    dataTransfer.setData('application/mycelium-relationship', JSON.stringify({
       node1: {
         hash: node1Hash,
         display_name: this.leftNodeName,

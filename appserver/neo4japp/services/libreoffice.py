@@ -63,7 +63,7 @@ def convert_to_pdf(content: bytes, mime_type: str) -> BufferedIOBase:
 
     soffice = _find_soffice()
 
-    with tempfile.TemporaryDirectory(prefix='lifelike_lo_') as tmpdir:
+    with tempfile.TemporaryDirectory(prefix='mycelium_lo_') as tmpdir:
         # Write source file to a temp path so LibreOffice can read it.
         src_path = os.path.join(tmpdir, f'input{extension}')
         with open(src_path, 'wb') as fh:

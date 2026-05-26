@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from deepdiff import DeepDiff
 from flask import Blueprint, current_app, g, jsonify, make_response, request
 from flask.views import MethodView
-from marshmallow import ValidationError
+from marshmallow import EXCLUDE, ValidationError
 from sqlalchemy import and_, desc, or_
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
@@ -90,7 +90,7 @@ def get_all_enrichment_tables():
         raise NotAuthorized(message='You do not have sufficient privileges.', code=400)
 
     query = db.session.query(Files.hash_id).filter(
-        Files.mime_type == 'vnd.lifelike.document/enrichment-table')
+        Files.mime_type == 'vnd.mycelium.document/enrichment-table')
     results = [hash_id[0] for hash_id in query.all()]
     return jsonify(dict(result=results)), 200
 
@@ -104,7 +104,7 @@ class FilesystemBaseView(MethodView):
     file_max_size = 1024 * 1024 * 300
     url_fetch_timeout = 10
     url_fetch_user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 ' \
-                           '(KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36 Lifelike'
+                           '(KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36 Mycelium'
 
     def get_nondeleted_recycled_file(
             self, filter, lazy_load_content=False, attr_excl: List[str] = None) -> Files:
@@ -974,8 +974,8 @@ class FileListView(FilesystemBaseView):
 class FileSearchView(FilesystemBaseView):
     decorators = [auth.login_required]
 
-    @use_args(FileSearchRequestSchema)
-    @use_args(PaginatedRequestSchema)
+    @use_args(FileSearchRequestSchema, unknown=EXCLUDE)
+    @use_args(PaginatedRequestSchema, unknown=EXCLUDE)
     def post(self, params: dict, pagination: dict):
         current_user = g.current_user
 
@@ -991,7 +991,10 @@ class FileSearchView(FilesystemBaseView):
             if 'mime_types' in params:
                 query = query.filter(Files.mime_type.in_(params['mime_types']))
 
-            result = query.paginate(pagination['page'], pagination['limit'])
+            result = query.paginate(
+                page=pagination['page'],
+                per_page=pagination['limit'],
+            )
 
             # Now we get the full file information for this slice of the results
             files = self.get_nondeleted_recycled_files(Files.id.in_(result.items))
@@ -1007,7 +1010,10 @@ class FileSearchView(FilesystemBaseView):
             query = db.session.query(MapLinks.map_id) \
                 .filter(MapLinks.linked_id == file.id)
 
-            result = query.paginate(pagination['page'], pagination['limit'])
+            result = query.paginate(
+                page=pagination['page'],
+                per_page=pagination['limit'],
+            )
 
             # Now we get the full file information for this slice of the results
             files = self.get_nondeleted_recycled_files(Files.id.in_(result.items))
@@ -1341,7 +1347,10 @@ class FileVersionListView(FilesystemBaseView):
             .filter(FileVersion.file_id == file.id) \
             .order_by(desc(FileVersion.creation_date))
 
-        result = query.paginate(pagination['page'], pagination['limit'])
+        result = query.paginate(
+            page=pagination['page'],
+            per_page=pagination['limit'],
+        )
 
         return jsonify(FileVersionHistorySchema(context={
             'user_privilege_filter': g.current_user.id,

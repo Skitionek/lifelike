@@ -10,9 +10,9 @@ from neo4japp.models import Files
 
 @pytest.mark.parametrize(
     'pair', [
-        ('vnd.lifelike.filesystem/directory', True),
-        ('vnd.lifelike.document/map', True),
-        ('vnd.lifelike.document/enrichment-table', True),
+        ('vnd.mycelium.filesystem/directory', True),
+        ('vnd.mycelium.document/map', True),
+        ('vnd.mycelium.document/enrichment-table', True),
         ('application/pdf', True),
         ('image/png', True),
         ('text/plain', True),
@@ -32,9 +32,9 @@ def test_file_type_can_create(pair):
 
 @pytest.mark.parametrize(
     'pair', [
-        ('vnd.lifelike.filesystem/directory', False),
-        ('vnd.lifelike.document/map', False),
-        ('vnd.lifelike.document/enrichment-table', True),
+        ('vnd.mycelium.filesystem/directory', False),
+        ('vnd.mycelium.document/map', False),
+        ('vnd.mycelium.document/enrichment-table', True),
         ('application/pdf', True),
         ('image/png', False),
         ('text/plain', True),
@@ -54,7 +54,7 @@ def test_file_type_should_highlight_content_text_matches(pair):
 
 @pytest.mark.parametrize(
     'pair', [
-        ('vnd.lifelike.filesystem/directory', BytesIO(), BytesIO()),
+        ('vnd.mycelium.filesystem/directory', BytesIO(), BytesIO()),
         ('application/pdf', BytesIO(b'raw data'), BytesIO(b'raw data')),
         ('image/png', BytesIO(b'data'), BytesIO()),
         ('text/plain', BytesIO(b'data'), BytesIO(b'data')),

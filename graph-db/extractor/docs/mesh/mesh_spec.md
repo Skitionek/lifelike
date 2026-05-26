@@ -19,7 +19,7 @@ https://neo4j.com/labs/neosemantics/
     ```
 #### 2. Create a database 'meshdb' in neo4j
 #### 3. Download mesh.nt.gz from the download site, then unzip it into mesh download folder
-#### 4. Run MeshParser to import mesh rdf to neo4j database 'meshdb', then load into lifelike (see mesh_parser.py)
+#### 4. Run MeshParser to import mesh rdf to neo4j database 'meshdb', then load into mycelium (see mesh_parser.py)
 
 #### 5. Clean mesh term synonyms with ',' except for chemicals (LL-2974)
 Since the LMDB annotations disease and TopicalDescriptor categories (disease, food, anatomy, phenomena) under tree number ['A', 'C', 'F', 'G'],

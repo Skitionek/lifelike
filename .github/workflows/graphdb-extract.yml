@@ -31,10 +31,10 @@ on:
         description: Target changelog directory
         type: choice
         required: true
-        default: lifelike-graph
+        default: mycelium-graph
         options:
-          - lifelike-graph
-          - new-lifelike-graph
+          - mycelium-graph
+          - new-mycelium-graph
           - small-test-graph
           - ecocyc-plus
           - reactome-gds

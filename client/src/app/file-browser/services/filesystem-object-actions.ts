@@ -34,6 +34,12 @@ import { AnnotationsService } from './annotations.service';
 import { ObjectCreationService } from './object-creation.service';
 import { AnnotationGenerationResultData } from '../schema';
 import { ObjectReannotateResultsDialogComponent } from '../components/dialog/object-reannotate-results-dialog.component';
+import { isCodemirrorHandledMimeType, MimeTypes } from 'app/shared/constants';
+
+export interface OpenInOption {
+  label: string;
+  commands: any[];
+}
 
 @Injectable()
 export class FilesystemObjectActions {
@@ -223,6 +229,48 @@ export class FilesystemObjectActions {
   openNewWindow(object: FilesystemObject, forEditing = false) {
     const objectPath = `${object.getURL(forEditing)}`;
     return window.open(objectPath);
+  }
+
+  getOpenInOptions(object: FilesystemObject, forEditing = false): OpenInOption[] {
+    if (!object || object.isDirectory) {
+      return [];
+    }
+
+    const options: OpenInOption[] = [];
+    const seen = new Set<string>();
+    const addOption = (label: string, commands: any[]) => {
+      const key = commands.join('/');
+      if (!seen.has(key)) {
+        seen.add(key);
+        options.push({ label, commands });
+      }
+    };
+
+    addOption('Default viewer', object.getCommands(forEditing));
+
+    const projectName = object.project?.name || 'default';
+
+    if (object.mimeType === MimeTypes.Pdf || object.isLibreOfficeConvertible) {
+      addOption('PDF viewer', ['/projects', projectName, 'files', object.hashId]);
+    }
+
+    if (isCodemirrorHandledMimeType(object.mimeType)) {
+      addOption('Code viewer', ['/projects', projectName, 'code', object.hashId]);
+    }
+
+    if (object.mimeType === MimeTypes.BioC) {
+      addOption('BioC viewer', ['/projects', projectName, 'bioc', object.hashId]);
+    }
+
+    if (object.isProteinStructure) {
+      addOption('Protein structure viewer', ['/projects', projectName, 'structure', object.hashId]);
+    }
+
+    return options;
+  }
+
+  openIn(option: OpenInOption): Promise<boolean> {
+    return this.workspaceManager.navigate(option.commands, { newTab: true });
   }
 
   reannotate(targets: FilesystemObject[]): Promise<any> {

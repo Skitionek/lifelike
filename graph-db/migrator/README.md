@@ -1,20 +1,20 @@
-# Lifelike Graph DB migrator
+# Mycelium Graph DB migrator
 
 Liquibase based migrator for Neo4j
 
 ## Run with Docker
 
-To run migrations from Lifelike Docker registry latest image, you can run the following command:
+To run migrations from Mycelium Docker registry latest image, you can run the following command:
 
 ```bash
 # Update using bundled changelog files
 docker run --rm \
   --env NEO4J_HOST=neo4j:7687 \
   --env NEO4J_PASSWORD=password \
-  --env AZURE_ACCOUNT_STORAGE_NAME=lifelike \
+  --env AZURE_ACCOUNT_STORAGE_NAME=mycelium \
   --env AZURE_ACCOUNT_STORAGE_KEY=<storage-key> \
-  --env CHANGELOG_DIR=lifelike-graph \
-  ghcr.io/sbrg/lifelike-graphdb-migrator:latest
+  --env CHANGELOG_DIR=mycelium-graph \
+  ghcr.io/sbrg/mycelium-graphdb-migrator:latest
 
 # Or you can run your own local changelog files by setting a volume mount
 # pointing to your changelog directory by adding a `--volume` argument
@@ -27,7 +27,7 @@ docket run --rm \
 
 | Variable                   | Default        | Comment                             |
 | -------------------------- | -------------- | ----------------------------------- |
-| CHANGELOG_DIR              | lifelike-graph | Master changelog directory path     |
+| CHANGELOG_DIR              | mycelium-graph | Master changelog directory path     |
 | NEO4J_HOST                 |                | Host and port of Neo4j instance     |
 | NEO4J_USERNAME             | neo4j          | Neo4j authentication username       |
 | NEO4J_PASSWORD             | password       | Neo4j authentication password       |
