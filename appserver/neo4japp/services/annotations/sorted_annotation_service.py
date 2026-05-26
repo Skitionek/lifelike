@@ -237,7 +237,7 @@ sorted_annotations_dict = {
 default_sorted_annotation = FrequencySA
 
 sorted_annotations_per_file_type_dict = {
-    'vnd.lifelike.document/enrichment-table': {
+    'vnd.mycelium.document/enrichment-table': {
         FrequencyEnrichmentSA.id: FrequencyEnrichmentSA,
         CountPerRowUSA.id: CountPerRowUSA,
         MannWhitneyPerRowUSA.id: MannWhitneyPerRowUSA,

@@ -3,7 +3,7 @@
 #
 # Usage examples:
 #   make extract         DOMAIN=kegg
-#   make changelog       DOMAIN=kegg AUTHOR="Jane" CHANGELOG_DIR=lifelike-graph
+#   make changelog       DOMAIN=kegg AUTHOR="Jane" CHANGELOG_DIR=mycelium-graph
 #   make full-load       DOMAIN=kegg AUTHOR="Jane"
 #   make migrate
 #   make dev-up
@@ -18,7 +18,7 @@ APP           := extractor/src/app.py
 DOMAIN        ?= kegg
 AUTHOR        ?= $(USER)
 PREFIX        ?=
-CHANGELOG_DIR ?= lifelike-graph
+CHANGELOG_DIR ?= mycelium-graph
 INITIAL_LOAD  ?=
 
 _PREFIX_ARG        := $(if $(PREFIX),--prefix $(PREFIX),)
@@ -74,7 +74,7 @@ help:
 	@echo "  migrate                                      Run Liquibase against local stack"
 	@echo "  dev-down                                     Stop local stack"
 	@echo ""
-	@echo "Optional variables: PREFIX, CHANGELOG_DIR (default: lifelike-graph), INITIAL_LOAD=1"
+	@echo "Optional variables: PREFIX, CHANGELOG_DIR (default: mycelium-graph), INITIAL_LOAD=1"
 	@echo ""
 	@echo "Available domains (extract):    $(shell echo $(DOMAINS_EXTRACT))"
 	@echo "Available domains (changelog):  $(shell echo $(DOMAINS_CHANGELOG))"

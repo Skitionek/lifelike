@@ -1,6 +1,6 @@
-# Getting Started with Lifelike Afterhours using Docker
+# Getting Started with Mycelium using Docker
 
-Docker is an easy way to get started with Lifelike Afterhours.
+Docker is an easy way to get started with Mycelium.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ Docker is an easy way to get started with Lifelike Afterhours.
 
 In order to build and bring up all required containers, run the following command after cloning this repository:
 
-Once it's running, you can access the Lifelike Afterhours UI at [http://localhost:8080](http://localhost:8080) in your browser.
+Once it's running, you can access the Mycelium UI at [http://localhost:8080](http://localhost:8080) in your browser.
 Default username / password is: `admin@example.com` / `password`
 
 ```shell
@@ -22,21 +22,21 @@ Building and running containers...
 This may take a while if running for the first time. 
 
 [+] Running 13/13
- ⠿ Network lifelike                             Created
- ⠿ Volume "lifelike_postgres"                   Created
- ⠿ Volume "lifelike_elasticsearch"              Created
- ⠿ Volume "lifelike_neo4j"                      Created
- ⠿ Container lifelike-neo4j-1                   Started
- ⠿ Container lifelike-postgres-1                Started
- ⠿ Container lifelike-pdfparser-1               Started
- ⠿ Container lifelike-elasticsearch-1           Started
- ⠿ Container lifelike-redis-1                   Started
- ⠿ Container lifelike-statistical-enrichment-1  Started
- ⠿ Container lifelike-cache-invalidator-1       Started
- ⠿ Container lifelike-appserver-1               Started
- ⠿ Container lifelike-frontend-1                Started
+ ⠿ Network mycelium                             Created
+ ⠿ Volume "mycelium_postgres"                   Created
+ ⠿ Volume "mycelium_elasticsearch"              Created
+ ⠿ Volume "mycelium_neo4j"                      Created
+ ⠿ Container mycelium-neo4j-1                   Started
+ ⠿ Container mycelium-postgres-1                Started
+ ⠿ Container mycelium-pdfparser-1               Started
+ ⠿ Container mycelium-elasticsearch-1           Started
+ ⠿ Container mycelium-redis-1                   Started
+ ⠿ Container mycelium-statistical-enrichment-1  Started
+ ⠿ Container mycelium-cache-invalidator-1       Started
+ ⠿ Container mycelium-appserver-1               Started
+ ⠿ Container mycelium-frontend-1                Started
 
-To access Lifelike Afterhours, point your browser at: http://localhost:8080
+To access Mycelium, point your browser at: http://localhost:8080
 ```
 
 ## Architecture diagram

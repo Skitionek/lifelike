@@ -136,7 +136,7 @@ merge (c)-[:catalyzes]->(n2)
 ```
 236 relationships created
 
-# additinal changes (local lifelike-stg instance reactome-human) 
+# additinal changes (local mycelium-stg instance reactome-human) 
 ```
 create constraint constraint_synonym_name on (n:Synonym) assert (n.name) is Unique;
 match(n:ReferenceGeneProduct) with n unwind n.geneName as synonym 

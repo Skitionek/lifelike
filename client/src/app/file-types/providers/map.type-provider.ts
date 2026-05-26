@@ -124,7 +124,7 @@ export class MapTypeProvider extends AbstractObjectTypeProvider {
         },
       }))
     ), {
-      name: 'Lifelike Afterhours Map File',
+      name: 'Mycelium Map File',
       export: () => {
         return this.filesystemService.getContent(object.hashId).pipe(
           map(blob => {

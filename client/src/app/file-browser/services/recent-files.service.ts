@@ -13,7 +13,7 @@ import { FilesystemObjectData } from '../schema';
 
 @Injectable()
 export class RecentFileHashesService implements OnDestroy {
-  static readonly RECENT_KEY = 'lifelike_workspace_recentList';
+  static readonly RECENT_KEY = 'mycelium_workspace_recentList';
   private readonly storage = localStorage;
   private _hashes: BehaviorSubject<string[]>;
   hashes: Observable<string[]>;

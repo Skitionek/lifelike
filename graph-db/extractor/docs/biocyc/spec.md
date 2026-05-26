@@ -21,7 +21,7 @@ MetaCyc contains pathways involved in both primary and secondary metabolism, as 
 enzymes, and genes. The goal of MetaCyc is to catalog the universe of metabolism by storing a representative sample of each experimentally elucidated pathway 
 https://brg-files.ai.sri.com/public/dist/meta.tar.gz
 
-In Lifelike graph database, each node in BioCyc was labeled as db_BioCyc, and nodes for each biocyc database was 
+In Mycelium graph database, each node in BioCyc was labeled as db_BioCyc, and nodes for each biocyc database was 
 labeled as additional database name, such as db_EcoCyc, db_HumanCyc.  Therefore for any EcoCyc, there are 3 labels: 
 db_BioCyc, db_EcoCyc and the entity name (e.g. Gene, Protein)
 
@@ -212,7 +212,7 @@ id has the same value for biocyc_id, and displayName and pathways attributes wer
 match(n:db_BioCyc) set n.data_source='BioCyc'
 ```
 
-### Set PseudomonasCyc genes as Master genes for Lifelike searching and annotations  
+### Set PseudomonasCyc genes as Master genes for Mycelium searching and annotations  
 Since Pseudomonas putida KT2440 (taxID 160488) genes do not have NCBI gene links for now, we need to set Pseudomoas genes as Master gene.
 Once NCBI integrated those genes, the steps can be removed  
 - Follow the steps described in file 'Label_biocyc_genes_as_master.md' to update neo4j

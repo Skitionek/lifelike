@@ -1,0 +1,53 @@
+apiVersion: v2
+name: mycelium
+description: mycelium, a graph-powered knowledge mining platform. Turning big data into contextualized knowledge
+home: https://mycelium.bio
+icon: https://github.com/Skitionek/mycelium/raw/main/client/src/assets/icons/mycelium-logo.svg
+type: application
+
+version: 0.5.0
+appVersion: 0.10.4
+
+kubeVersion: ">=1.20.0-0"
+
+keywords:
+  - bioinformatics
+  - bigdata
+  - ai
+  - biofoundry
+  - knowledgegraph
+
+sources:
+  - https://github.com/Skitionek/mycelium
+
+dependencies:
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.0.4
+    condition: postgresql.enabled
+  - name: neo4j
+    version: 4.4.3
+    repository: https://neo4j-contrib.github.io/neo4j-helm
+    condition: neo4j.enabled
+  - name: elasticsearch
+    version: 7.16.3
+    repository: https://helm.elastic.co
+    condition: elasticsearch.enabled
+  - name: redis
+    version: 16.2.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+annotations:
+  artifacthub.io/license: MIT
+  artifacthub.io/links: |
+    - name: mycelium website
+      url: https://mycelium.bio
+    - name: mycelium Git repository
+      url: https://github.com/Skitionek/mycelium
+  artifacthub.io/maintainers: |
+    - name: David Regla
+      email: darede@biosustain.dtu.dk
+  artifacthub.io/prerelease: "true"
+  artifacthub.io/screenshots: |
+    - title: 'mycelium: A graph-powered knowledge mining platform'
+      url: https://mycelium.bio/assets/img/graph_embed/hero.jpg

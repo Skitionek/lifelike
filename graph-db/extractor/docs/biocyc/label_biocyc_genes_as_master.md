@@ -1,6 +1,6 @@
 # Label Biocyc Genes as Master Genes (LL-3404)
 The following steps are for PseudomonasCyc genes, but similar steps can apply to other biocyc databases 
-if NCBI gene links not available, and Lifelike need to search and annotate those genes
+if NCBI gene links not available, and Mycelium need to search and annotate those genes
 
 - add Master label
 ```

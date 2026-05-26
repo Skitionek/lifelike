@@ -38,7 +38,7 @@ ParameterizedFile = namedtuple('FilesParam', (
 def project_owner(request, session):
     user = AppUser(
         username='project owner',
-        email='somebody@lifelike.bio',
+        email='somebody@mycelium.bio',
         first_name='joe',
         last_name='taylor',
     )

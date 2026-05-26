@@ -14,7 +14,7 @@ def mock_users(session, fix_user_role):
             username=u,
             first_name=u,
             last_name=u,
-            email=f'{u}.lifelike.bio'
+            email=f'{u}.mycelium.bio'
         ) for u in mock_users]
     for u in users:
         u.roles.append(fix_user_role)
@@ -32,7 +32,7 @@ def test_admin_can_create_user(client, fix_admin_user):
         headers=headers,
         data=json.dumps({
             'username': 'xXxBabyYodaxXx',
-            'email': 'babyyodes858@lifelike.bio',
+            'email': 'babyyodes858@mycelium.bio',
             'firstName': 'baby',
             'lastName': 'yoda',
             'roles': 'admin',
@@ -54,7 +54,7 @@ def test_nonadmin_cannot_create_user(client, test_user):
         headers=headers,
         data=json.dumps({
             'username': 'xXxBabyYodaxXx',
-            'email': 'babyyodes858@lifelike.bio',
+            'email': 'babyyodes858@mycelium.bio',
             'firstName': 'baby',
             'lastName': 'yoda',
             'roles': 'admin',
@@ -133,8 +133,8 @@ def test_nonadmin_can_only_get_self(client, mock_users, test_user):
 @pytest.mark.parametrize('attribute, value, is_editable', [
     ('firstName', 'fresh', True),
     ('lastName', 'smith', True),
-    ('username', 'false@lifelike.bio', True),
-    ('email', 'email@lifelike.bio', False),
+    ('username', 'false@mycelium.bio', True),
+    ('email', 'email@mycelium.bio', False),
 ])
 def test_can_update_only_allowed_attributes(client, test_user, attribute, value, is_editable):
     login_resp = client.login_as_user(test_user.email, 'password')

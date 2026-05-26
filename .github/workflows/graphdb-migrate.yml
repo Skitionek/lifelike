@@ -48,10 +48,10 @@ on:
         description: Master changelog to run
         type: choice
         required: true
-        default: lifelike-graph/changelog-master.xml
+        default: mycelium-graph/changelog-master.xml
         options:
-          - lifelike-graph/changelog-master.xml
-          - new-lifelike-graph/changelog-master.xml
+          - mycelium-graph/changelog-master.xml
+          - new-mycelium-graph/changelog-master.xml
           - small-test-graph/changelog-master.xml
           - ecocyc-plus/changelog-master.xml
           - reactome-gds/changelog-master.xml
@@ -72,7 +72,7 @@ jobs:
     permissions:
       contents: read
     container:
-      image: ghcr.io/sbrg/lifelike-graphdb-migrator:${{ github.event.inputs.migrator_image_tag }}
+      image: ghcr.io/sbrg/mycelium-graphdb-migrator:${{ github.event.inputs.migrator_image_tag }}
       options: --user root
       env:
         NEO4J_HOST: ${{ github.event.inputs.neo4j_host }}

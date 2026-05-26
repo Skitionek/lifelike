@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "mycelium.fullname" . }}-pdfparser
+  labels: {{- include "mycelium.labels" . | nindent 4 }}
+    app.kubernetes.io/component: pdfparser
+spec:
+  selector:
+    matchLabels: {{- include "mycelium.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: pdfparser
+  replicas: {{ .Values.pdfparser.replicaCount }}
+  strategy:
+    type: {{ .Values.pdfparser.strategyType | default "RollingUpdate" }}
+  template:
+    metadata:
+      annotations: {{ toYaml (default dict .Values.pdfparser.podAnnotations) | nindent 8 }}
+      labels:
+        {{- include "mycelium.selectorLabels" . | nindent 8 }}
+        {{- if .Values.pdfparser.podLabels }}
+        {{ toYaml .Values.pdfparser.podLabels | indent 8 }}
+        {{- end }}
+        app.kubernetes.io/component: pdfparser
+    spec:
+      {{- include "mycelium.podSpec" .Values.pdfparser | nindent 6 }}
+      containers:
+      - name: {{ .Chart.Name }}-pdfparser
+        {{- include "mycelium.image" (dict "image" .Values.pdfparser.image "Chart" .Chart) | nindent 8 }}
+        {{- include "mycelium.healthChecks" .Values.pdfparser | nindent 8 }}
+        resources: {{ toYaml (default dict .Values.pdfparser.resources) | nindent 10 }}
+        ports:
+        - containerPort: {{ .Values.pdfparser.service.port }}
+        tty: true
+        env:
+        {{- range $envName, $envValue := (default dict .Values.pdfparser.extraEnv) }}
+        - name: {{ $envName }}
+          value: {{ $envValue | quote }}
+        {{- end }}

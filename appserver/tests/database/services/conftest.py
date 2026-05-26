@@ -10,7 +10,7 @@ def fix_owner(session) -> AppUser:
     user = AppUser(
         id=100,
         username='test_admin_user',
-        email='admin@lifelike.bio',
+        email='admin@mycelium.bio',
         password_hash='password',
         first_name='Jim',
         last_name='Melancholy'
@@ -25,7 +25,7 @@ def test_user(session) -> AppUser:
     user = AppUser(
         id=200,
         username='test_user',
-        email='test@lifelike.bio',
+        email='test@mycelium.bio',
         password_hash='password',
         first_name='Jim',
         last_name='Melancholy'

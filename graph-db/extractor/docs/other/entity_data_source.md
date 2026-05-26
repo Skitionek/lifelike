@@ -8,7 +8,7 @@
 - NCBI Gene
 - NCBI Taxonomy
 - PubChem
-- Lifelike
+- Mycelium
 
 ### Update data sources
 ```

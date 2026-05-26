@@ -130,7 +130,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
           // Keys of the result dict are all lowercase, need to change the first character
           // to uppercase to match Neo4j labels
           const formattedLabel = label.slice(0, 1).toUpperCase() + label.slice(1, 10) + label.slice(10, 11).toUpperCase() + label.slice(11);
-          this.legend.set(formattedLabel, [legend[label].color, '#0c8caa']);
+          this.legend.set(formattedLabel, [legend[label].color, '#004B49']);
         }
       });
     });
@@ -294,7 +294,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     return {
       ...e,
       color: {
-        color: '#0c8caa',
+        color: '#004B49',
       },
       label: e.data.description,
       arrows: 'to',

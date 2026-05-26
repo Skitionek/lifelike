@@ -35,7 +35,7 @@ RUN uv venv /.venv \
 # Runtime stage
 # ========================================
 FROM base
-LABEL org.opencontainers.image.source https://github.com/SBRG/lifelike
+LABEL org.opencontainers.image.source https://github.com/Skitionek/mycelium
 
 # Install runtime system dependencies
 RUN apt-get update \
@@ -102,11 +102,11 @@ ENV STATISTICAL_ENRICHMENT_URL=http://statistical-enrichment:5000
 ENV PDFPARSER_URL=http://pdfparser:7600
 
 # NLP Processing service
-ENV NLP_URL=https://nlp-api.lifelike.bio/v1/predict
+ENV NLP_URL=https://placeholder
 ENV NLP_SECRET=secret
 
 # Mailserver configuration
-ENV FROM_EMAIL=lifelike@example.com
+ENV FROM_EMAIL=mycelium@example.com
 
 # Sendgrid integration
 ENV SENDGRID_API_KEY=

@@ -359,7 +359,7 @@ class FileAnnotationSortedView(FilesystemBaseView):
         buffer = io.StringIO()
         writer = csv.writer(buffer, delimiter="\t", quotechar='"')
 
-        if file.mime_type == 'vnd.lifelike.document/enrichment-table':
+        if file.mime_type == 'vnd.mycelium.document/enrichment-table':
             files = self.get_nondeleted_recycled_files(
                     Files.id == file.id,
                     lazy_load_content=True
@@ -524,7 +524,7 @@ class FileAnnotationsGenerationView(FilesystemBaseView):
                         'success': True,
                         'error': ''
                     }
-            elif file.mime_type == 'vnd.lifelike.document/enrichment-table':
+            elif file.mime_type == 'vnd.mycelium.document/enrichment-table':
                 try:
                     enrichment = json.loads(file.content.raw_file_utf8)
                 except JSONDecodeError:
@@ -1000,7 +1000,7 @@ class GlobalAnnotationListView(MethodView):
                 GlobalList.type == ManualAnnotationType.EXCLUSION.value
             ).order_by(
                 sa.asc(GlobalList.annotation['text'].astext.label('text'))
-            ).paginate(page, limit)
+            ).paginate(page=page, per_page=limit)
 
             data = [{
                 'global_id': r.global_list_id,
