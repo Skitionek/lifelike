@@ -53,8 +53,8 @@ metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(
     metadata=metadata,
     engine_options={
-        'executemany_mode': 'values',
-        'executemany_values_page_size': 10000
+        'executemany_mode': 'values_only',
+        'insertmanyvalues_page_size': 10000
     }
 )
 
