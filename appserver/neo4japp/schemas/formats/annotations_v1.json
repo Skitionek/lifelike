@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://lifelike.bio/schemas/annotations_v1.json",
+  "$id": "https://mycelium.bio/schemas/annotations_v1.json",
   "title": "Folder Annotations Configuration",
   "description": "JSON config file stored as '.annotations' that sets annotation scope for all files in a folder and its sub-folders. Analogous to .gitignore: place the file inside a directory to apply its settings to every document in that tree.",
   "type": "object",

@@ -8,7 +8,7 @@ def test_user(session) -> AppUser:
     user = AppUser(
         id=200,
         username='test',
-        email='test@lifelike.bio',
+        email='test@mycelium.bio',
         password_hash='password',
         first_name='Jim',
         last_name='Melancholy'

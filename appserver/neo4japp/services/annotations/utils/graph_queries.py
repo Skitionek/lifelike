@@ -195,7 +195,7 @@ def get_global_inclusions_by_type_query(entity_type):
     """
 
 
-def get_lifelike_global_inclusions_by_type_query(entity_type):
+def get_mycelium_global_inclusions_by_type_query(entity_type):
     if entity_type not in node_labels:
         return ''
 
@@ -204,7 +204,7 @@ def get_lifelike_global_inclusions_by_type_query(entity_type):
         query_label = 'Organism'
 
     return f"""
-    MATCH (s:GlobalInclusion:Synonym)-[r:HAS_SYNONYM]-(n:db_Lifelike:{query_label})
+    MATCH (s:GlobalInclusion:Synonym)-[r:HAS_SYNONYM]-(n:db_Mycelium:{query_label})
     RETURN
         id(n) AS internal_id,
         n.eid AS entity_id,
@@ -283,13 +283,13 @@ def get_species_global_inclusion_exist_query():
     """
 
 
-def get_lifelike_global_inclusion_exist_query(entity_type):
+def get_mycelium_global_inclusion_exist_query(entity_type):
     if entity_type not in node_labels:
         return ''
 
     query_label = node_labels[entity_type]
     return f"""
-    OPTIONAL MATCH (n:db_Lifelike:{query_label})-[r:HAS_SYNONYM]->(s)
+    OPTIONAL MATCH (n:db_Mycelium:{query_label})-[r:HAS_SYNONYM]->(s)
     WHERE n.name = $common_name AND r.entity_type = $entity_type
     RETURN n IS NOT NULL AS node_exist,
         $synonym IN collect(s.name) OR
@@ -400,7 +400,7 @@ def get_create_protein_global_inclusion_query():
     """
 
 
-def get_create_lifelike_global_inclusion_query(entity_type):
+def get_create_mycelium_global_inclusion_query(entity_type):
     if entity_type not in node_labels:
         return ''
 
@@ -414,7 +414,7 @@ def get_create_lifelike_global_inclusion_query(entity_type):
     # so no need to add a :Master Gene label
 
     return """
-    MERGE (n:db_Lifelike {name: $common_name})
+    MERGE (n:db_Mycelium {name: $common_name})
     ON CREATE
     SET n.eid = $entity_id,
         n:GlobalInclusion:replace_with_param,

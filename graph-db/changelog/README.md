@@ -9,14 +9,14 @@
 * [Running Migrations](#running-migrations)
 
 ## What The Folders Mean
-`lifelike-graph`
+`mycelium-graph`
 - this folder contains migration for the current PROD graph (starting at whatever state on 9/10/2021).
 
-`new-lifelike-graph`
-- this folder contains migration to create a **new** graph. Run these migrations first, then run the ones in `lifelike-graph`.
+`new-mycelium-graph`
+- this folder contains migration to create a **new** graph. Run these migrations first, then run the ones in `mycelium-graph`.
 
 `small-test-graph`
-- this folder contains migration to create a small subset graph for development or testing purposes. Run these migrations first, then run the ones in `lifelike-graph`.
+- this folder contains migration to create a small subset graph for development or testing purposes. Run these migrations first, then run the ones in `mycelium-graph`.
 
 ## Why Use Migrations
 Using migrations allows us to consistently deploy a copy of the current graph model on any server. Like all migration frameworks, if liquibase fails at a step, it will start at that step when you re-run it.
@@ -116,7 +116,7 @@ You should be in the `graph-db/migration/liquibase`, look for the `liquibase.pro
 > cat liquibase.properties
 
 # properties used by liquibase command line
-changeLogFile=lifelike-graph/changelog-master.xml
+changeLogFile=mycelium-graph/changelog-master.xml
 url=jdbc:neo4j:bolt://localhost?database=
 username=
 password=

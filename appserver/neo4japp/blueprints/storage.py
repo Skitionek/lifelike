@@ -20,14 +20,14 @@ CONTAINER_NAME = 'lifelike-manual'
 
 class UserManualAPI(MethodView):
     """
-    Uploads a user manual for how to use Lifelike.
+    Uploads a user manual for how to use Mycelium.
     Uses apache-libcloud Object Storage API so that alternative storage
     backends can be substituted by changing the provider.
     """
 
     decorators = [auth.login_required]
 
-    USER_MANUAL_FILENAME = 'lifelike-user-manual'
+    USER_MANUAL_FILENAME = 'mycelium-user-manual'
 
     def get_storage_driver(self):
         cls = get_driver(Provider.AZURE_BLOBS)

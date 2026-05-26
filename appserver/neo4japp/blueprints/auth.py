@@ -66,7 +66,9 @@ class TokenService:
             'sub': sub,
             'exp': expiration,
             'type': token_type,
-        }, secret, algorithm=self.algorithm).decode('utf-8')
+        }, secret, algorithm=self.algorithm)
+        if isinstance(token, bytes):
+            token = token.decode('utf-8')
         return {
             'sub': sub,
             'iat': time_now,

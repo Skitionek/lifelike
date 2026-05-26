@@ -33,6 +33,7 @@ import { ObjectViewerComponent } from 'app/file-browser/components/object-viewer
 import { SankeyViewComponent } from 'app/sankey-viewer/components/sankey-view.component';
 import { TraceViewComponent } from 'app/trace-viewer/components/trace-view.component';
 import { SankeyManyToManyViewComponent } from 'app/sankey-many-to-many-viewer/components/sankey-view.component';
+import { MolstarViewComponent } from 'app/molstar-viewer/components/molstar-view.component';
 
 /**
  * Routes that can appear as tab content within the workspace. These are also
@@ -226,6 +227,15 @@ const WORKSPACE_CONTENT_ROUTES: Routes = [
     data: {
       title: 'Code Viewer',
       fontAwesomeIcon: 'file-code',
+    },
+  },
+  {
+    path: 'projects/:project_name/structure/:file_id',
+    component: MolstarViewComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Protein Structure Viewer',
+      fontAwesomeIcon: 'dna',
     },
   },
   {

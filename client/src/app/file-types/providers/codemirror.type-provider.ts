@@ -10,7 +10,7 @@ import {
 } from 'app/file-types/providers/base-object.type-provider';
 import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { FilesystemService } from 'app/file-browser/services/filesystem.service';
-import { CODEMIRROR_HANDLED_MIME_TYPES } from 'app/codemirror-viewer/codemirror-language';
+import { isCodemirrorHandledMimeType } from 'app/codemirror-viewer/codemirror-language';
 
 @Injectable()
 export class CodemirrorTypeProvider extends AbstractObjectTypeProvider {
@@ -21,7 +21,7 @@ export class CodemirrorTypeProvider extends AbstractObjectTypeProvider {
   }
 
   handles(object: FilesystemObject): boolean {
-    return CODEMIRROR_HANDLED_MIME_TYPES.has(object.mimeType);
+    return isCodemirrorHandledMimeType(object.mimeType);
   }
 
   getExporters(object: FilesystemObject): Observable<Exporter[]> {

@@ -116,7 +116,7 @@ export class AdminSettingsComponent {
             status: 'Uploading user manual...',
         }));
         const progressDialogRef = this.progressDialog.display({
-            title: 'Saving manual as lifelike-user-manual.pdf...',
+            title: 'Saving manual as mycelium-user-manual.pdf...',
             progressObservable,
         });
         const data = {...this.form.value};

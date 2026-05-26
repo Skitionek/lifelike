@@ -150,7 +150,7 @@ export class AnnotationTagHandler extends TagHandler {
       const dataTransfer: DataTransfer = event.dataTransfer;
       createNodeDragImage(dragImageNode).addDataTransferData(dataTransfer);
       dataTransfer.setData('text/plain', text);
-      dataTransfer.setData('application/lifelike-node', JSON.stringify(copiedNode));
+      dataTransfer.setData('application/mycelium-node', JSON.stringify(copiedNode));
       if (object) {
         GenericDataProvider.setURIs(dataTransfer, [{
           title: object.filename,

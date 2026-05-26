@@ -1,0 +1,215 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows:
+      - Lint
+      - Tests
+      - CodeQL Advanced
+    types:
+      - completed
+
+permissions: read-all
+
+concurrency:
+  group: release-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release on successful push checks
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      (github.event.workflow_run.head_branch == 'main' || github.event.workflow_run.head_branch == 'master') &&
+      !startsWith(github.event.workflow_run.head_commit.message, 'chore(release):')
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+
+    steps:
+      - name: Verify all required workflows passed for this commit
+        id: gate
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const requiredWorkflows = ['Lint', 'Tests', 'CodeQL Advanced'];
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const sha = context.payload.workflow_run.head_sha;
+            const branch = context.payload.workflow_run.head_branch;
+
+            const ref = await github.rest.git.getRef({
+              owner,
+              repo,
+              ref: `heads/${branch}`
+            }).catch((error) => {
+              core.warning(`Failed to resolve branch ref heads/${branch}: ${error.message}`);
+              return null;
+            });
+
+            if (!ref || ref.data.object.sha !== sha) {
+              core.info(`Branch ${branch} no longer points at ${sha}; skipping stale release run.`);
+              core.setOutput('ready', 'false');
+              return;
+            }
+
+            const runs = await github.paginate(
+              github.rest.actions.listWorkflowRunsForRepo,
+              {
+                owner,
+                repo,
+                event: 'push',
+                branch,
+                head_sha: sha,
+                per_page: 100
+              }
+            );
+
+            const latestByName = new Map();
+            for (const run of runs) {
+              if (!requiredWorkflows.includes(run.name)) continue;
+              const previous = latestByName.get(run.name);
+              if (!previous || new Date(run.created_at) > new Date(previous.created_at)) {
+                latestByName.set(run.name, run);
+              }
+            }
+
+            const missing = [];
+            const incomplete = [];
+            const failed = [];
+            for (const name of requiredWorkflows) {
+              const run = latestByName.get(name);
+              if (!run) {
+                missing.push(name);
+                continue;
+              }
+              if (run.status !== 'completed') {
+                incomplete.push(`${name} (${run.status})`);
+                continue;
+              }
+              if (run.conclusion !== 'success') {
+                failed.push(`${name} (${run.conclusion})`);
+              }
+            }
+
+            if (missing.length || incomplete.length || failed.length) {
+              core.info(`Skipping release; missing=${missing.join(', ') || 'none'} incomplete=${incomplete.join(', ') || 'none'} failed=${failed.join(', ') || 'none'}`);
+              core.setOutput('ready', 'false');
+              return;
+            }
+
+            core.setOutput('ready', 'true');
+            core.setOutput('sha', sha);
+            core.setOutput('branch', branch);
+
+      - name: Checkout repository
+        if: steps.gate.outputs.ready == 'true'
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Checkout validated release branch head
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          git fetch origin "${{ steps.gate.outputs.branch }}"
+          git checkout -B "${{ steps.gate.outputs.branch }}" "origin/${{ steps.gate.outputs.branch }}"
+          CURRENT_SHA="$(git rev-parse HEAD)"
+          if [ "$CURRENT_SHA" != "${{ steps.gate.outputs.sha }}" ]; then
+            echo "Branch advanced from validated commit; skipping release."
+            exit 1
+          fi
+
+      - name: Update CHANGELOG with release date
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          changelog_path = Path("CHANGELOG.md")
+          text = changelog_path.read_text(encoding="utf-8")
+          marker = "## [Unreleased]"
+          if marker not in text:
+              raise RuntimeError("CHANGELOG.md is missing '## [Unreleased]' section")
+
+          release_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+          before, after = text.split(marker, 1)
+          next_section_match = re.search(r"(?m)^## \[", after)
+          if next_section_match:
+              unreleased_body = after[:next_section_match.start()]
+              tail = after[next_section_match.start():]
+          else:
+              unreleased_body = after
+              tail = ""
+
+          normalized_body = unreleased_body.strip("\n")
+          if not re.search(r"(?m)^\s*-\s+", normalized_body):
+              normalized_body = "### Changed\n- Automated release with no documented changelog entries."
+
+          date_heading = f"## [{release_date}]"
+          if tail.startswith(date_heading):
+              merged = (
+                  f"{before}{marker}\n\n"
+                  f"{date_heading}\n\n"
+                  f"{normalized_body}\n\n"
+                  f"{tail[len(date_heading):].lstrip()}"
+              )
+          else:
+              merged = (
+                  f"{before}{marker}\n\n"
+                  f"{date_heading}\n\n"
+                  f"{normalized_body}\n\n"
+                  f"{tail.lstrip()}"
+              )
+
+          changelog_path.write_text(merged.rstrip() + "\n", encoding="utf-8")
+          PY
+
+      - name: Commit changelog update
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          if git diff --cached --quiet; then
+            echo "No changelog updates to commit."
+            exit 0
+          fi
+          git commit -m "chore(release): $(date -u +%Y-%m-%d)"
+
+      - name: Create release tag
+        if: steps.gate.outputs.ready == 'true'
+        id: tag
+        run: |
+          git fetch --tags
+          TAG_BASE="v$(date -u +%Y-%m-%d)"
+          TAG="$TAG_BASE"
+          INDEX=1
+          while git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; do
+            TAG="${TAG_BASE}.${INDEX}"
+            INDEX=$((INDEX + 1))
+          done
+          git tag -a "$TAG" -m "Release $TAG"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "release_date=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Push release commit and tag
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          git push origin "HEAD:${{ steps.gate.outputs.branch }}"
+          git push origin "refs/tags/${{ steps.tag.outputs.tag }}"
+
+      - name: Create GitHub release
+        if: steps.gate.outputs.ready == 'true'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          target_commitish: ${{ steps.tag.outputs.commit_sha }}
+          name: Release ${{ steps.tag.outputs.tag }} (${{ steps.tag.outputs.release_date }})
+          generate_release_notes: true

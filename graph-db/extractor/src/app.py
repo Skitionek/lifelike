@@ -70,8 +70,8 @@ DOMAIN_CHANGELOG_GENERATORS = {
 }
 
 _CHANGELOG_DIRS = [
-    'lifelike-graph',
-    'new-lifelike-graph',
+    'mycelium-graph',
+    'new-mycelium-graph',
     'small-test-graph',
     'ecocyc-plus',
     'reactome-gds',
@@ -84,9 +84,9 @@ def _add_changelog_args(p):
     p.add_argument('--author', required=True, help='Author name recorded in each changeset')
     p.add_argument(
         '--changelog-dir',
-        default='lifelike-graph',
+        default='mycelium-graph',
         choices=_CHANGELOG_DIRS,
-        help='Target sub-directory under graph-db/changelog/ (default: lifelike-graph)',
+        help='Target sub-directory under graph-db/changelog/ (default: mycelium-graph)',
     )
     p.add_argument(
         '--output-dir',

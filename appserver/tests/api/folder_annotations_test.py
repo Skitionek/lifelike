@@ -54,7 +54,7 @@ def admin_user(session, fix_admin_role_fa, fix_superuser_role_fa) -> AppUser:
     user = AppUser(
         id=501,
         username='fa_admin',
-        email='fa_admin@lifelike.bio',
+        email='fa_admin@mycelium.bio',
         first_name='FA',
         last_name='Admin',
     )

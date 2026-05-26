@@ -88,7 +88,7 @@ def test_can_set_user_role(session, role):
 
     test_user = AppUser(
         username='test',
-        email='test@lifelike.bio',
+        email='test@mycelium.bio',
         password_hash='pw',
         first_name='test',
         last_name='tester',

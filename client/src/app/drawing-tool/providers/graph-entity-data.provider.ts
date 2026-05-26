@@ -16,8 +16,8 @@ import { makeid } from 'app/shared/utils/identifiers';
 import { GraphEntity, GraphEntityType, UniversalGraphNode, UniversalGraphRelationship } from '../services/interfaces';
 
 export const GRAPH_ENTITY_TOKEN = new DataTransferToken<GraphEntity[]>('universalGraphEntity');
-export const GRAPH_NODE_TYPE = 'application/lifelike-node';
-export const GRAPH_RELATIONSHIP_TYPE = 'application/lifelike-relationship';
+export const GRAPH_NODE_TYPE = 'application/mycelium-node';
+export const GRAPH_RELATIONSHIP_TYPE = 'application/mycelium-relationship';
 export const GRAPH_ENTITY_TYPES = [
   GRAPH_NODE_TYPE,
   GRAPH_RELATIONSHIP_TYPE

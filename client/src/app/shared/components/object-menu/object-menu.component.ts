@@ -19,7 +19,7 @@ import { ErrorHandler } from 'app/shared/services/error-handler.service';
 import { WorkspaceManager } from 'app/shared/workspace-manager';
 import { FilesystemObject } from 'app/file-browser/models/filesystem-object';
 import { getObjectLabel } from 'app/file-browser/utils/objects';
-import { FilesystemObjectActions } from 'app/file-browser/services/filesystem-object-actions';
+import { FilesystemObjectActions, OpenInOption } from 'app/file-browser/services/filesystem-object-actions';
 import { ObjectVersion } from 'app/file-browser/models/object-version';
 import { Exporter, ObjectTypeProvider } from 'app/file-types/providers/base-object.type-provider';
 import { ObjectTypeService } from 'app/file-types/services/object-type.service';
@@ -44,6 +44,7 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
   @Output() objectUpdate = new EventEmitter<FilesystemObject>();
   typeProvider$: Observable<ObjectTypeProvider>;
   exporters$: Observable<Exporter[]>;
+  openInOptions: OpenInOption[] = [];
 
   constructor(readonly router: Router,
               protected readonly snackBar: MatSnackBar,
@@ -66,10 +67,11 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
       mergeMap(typeProvider => typeProvider.getExporters(object)),
       shareReplay(),
     );
+    this.openInOptions = this.getOpenInOptions();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('object' in changes) {
+    if ('object' in changes || 'forEditing' in changes) {
       this.updateObjectObservables();
     }
   }
@@ -154,5 +156,13 @@ export class ObjectMenuComponent implements AfterViewInit, OnChanges {
 
   openLink(url: string) {
     window.open(url);
+  }
+
+  openIn(option: OpenInOption) {
+    return this.actions.openIn(option);
+  }
+
+  private getOpenInOptions(): OpenInOption[] {
+    return this.actions.getOpenInOptions(this.object, this.forEditing);
   }
 }

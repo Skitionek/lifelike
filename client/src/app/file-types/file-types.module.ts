@@ -10,6 +10,7 @@ import { MapTypeProvider } from './providers/map.type-provider';
 import { DefaultObjectTypeProvider } from './providers/default.type-provider';
 import { PdfTypeProvider } from './providers/pdf.type-provider';
 import { GraphTypeProvider } from './providers/graph.type-provider.service';
+import { MolstarTypeProvider } from './providers/molstar.type-provider';
 
 
 @NgModule({
@@ -26,6 +27,11 @@ import { GraphTypeProvider } from './providers/graph.type-provider.service';
     {
       provide: TYPE_PROVIDER,
       useClass: CodemirrorTypeProvider,
+      multi: true,
+    },
+    {
+      provide: TYPE_PROVIDER,
+      useClass: MolstarTypeProvider,
       multi: true,
     },
     DefaultObjectTypeProvider,

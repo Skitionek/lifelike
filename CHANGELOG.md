@@ -5,17 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-> This changelog tracks changes made in the [Lifelike Afterhours fork](https://github.com/Skitionek/lifelike)
-> since it was created from the upstream [SBRG/lifelike](https://github.com/SBRG/lifelike) repository.
+> This changelog tracks changes made in the [Mycelium](https://github.com/Skitionek/mycelium)
+> fork of the [SBRG/lifelike](https://github.com/SBRG/lifelike) repository.
 
 ---
 
 ## [Unreleased]
 
 ### Added
+- **Mycelium rebrand**: Renamed project from "Lifelike Afterhours" to "Mycelium" across all user-facing strings, browser title, navigation, login page, version dialog, and Terms of Service.
+- **Mycelium SVG logo**: Minimalist mycelium-network icon added to the left navigation bar (`assets/icons/mycelium-logo.svg`) ([#245]).
+- **File context menu "Open in" options**: context menus now include an "Open in" section so users can choose a specific viewer (for example Default, PDF, Code, BioC, or Protein Structure) when multiple viewers are applicable ([#257]).
+- **Protein structure viewer (Mol\*)**: `.pdb`, `.cif`, and `.mmcif` files now open in a dedicated Mol\*-powered 3D viewer route (`projects/:project_name/structure/:file_id`), including in-app preview support and upload-time MIME mapping for protein structure extensions (`([#244])`).
 - `neo4japp/services/storage_drivers/postgresql.py` — `PostgreSQLStorageDriver`, a libcloud `StorageDriver` implementation that stores objects in the `files_content` PostgreSQL table via SQLAlchemy.
 - `neo4japp/services/file_storage.py` — `FileStorageService` wrapping the libcloud `StorageDriver` API with `store`, `retrieve`, and `delete` methods.
 - `get_file_storage_service()` factory in `neo4japp/database.py` — builds the libcloud driver from app config and memoises it to the request context.
+
+### Changed
+- **"Bio-Digital Lab" design system**: Global CSS custom properties introduced (`--color-primary: #004B49`, `--color-accent: #D4FF00`, `--color-bg-main: #F1F5F9`, `--color-text-main: #0F172A`). Bootstrap `$primary` updated to Deep Sea Teal `#004B49`; highlight colour updated to Bioluminescent Lime `#D4FF00` ([#245]).
+- **Typography**: Primary sans-serif font updated to Inter (with Roboto fallback); Inter loaded from Google Fonts ([#245]).
+- **Border radius**: Global `$border-radius` set to 6px (rounded-md) for all buttons and components ([#245]).
+- **Elevation**: Heavy box-shadows replaced with subtle `1px solid #e2e8f0` borders on module headers, toolbars, dropdowns and popovers for a "clinical lab" aesthetic ([#245]).
+- **Knowledge Graph nodes**: Default node stroke and edge colour updated from `#2B7CE9` to Deep Sea Teal `#004B49`; default node background updated to `#F1F5F9` ([#245]).
+- **Release automation**: each successful push CI run on `main`/`master` now rolls `[Unreleased]` into a dated changelog section, creates a date-based git tag, and publishes a GitHub Release.
+- **`get_mycelium_global_inclusions_by_type_query` / `get_mycelium_global_inclusion_exist_query`**: Renamed from `get_lifelike_*` to `get_mycelium_*` to match the `db_Mycelium` label they query; call sites in `annotation_graph_service.py` and `manual_annotation_service.py` updated accordingly ([#254]).
+- **DB constraint/index names**: `constraint_lifelike_name` → `constraint_mycelium_name` and `index_lifelike_id` → `index_mycelium_id` in `changelog-0030.xml` to match the `db_Mycelium` node label they target ([#254]).
+
+### Added
 - **Folder-level `.annotations` JSON config files**: directories can now contain a `.annotations` file (MIME type `vnd.lifelike.filesystem/annotations`) that defines annotation scope — analogous to `.gitignore`. Content is a **JSON object** validated against `annotations_v1.json` (JSON Schema draft-07). Supports `inherit`, `fallback_organism`, `annotation_configs`, `include`, and `exclude` fields. Managed through the standard file API; nested folders can extend or override parent scope; `inherit: false` resets the accumulated config from outer scopes.
 - **`neo4japp/schemas/formats/annotations_v1.json`**: JSON Schema (draft-07) for `.annotations` config files, compiled at import time via `fastjsonschema`.
 - **`AnnotationsFileTypeProvider`**: registered file-type provider for `.annotations` MIME type. Validates uploaded JSON against the schema; triggers a synchronous refresh of the `file_effective_annotation_config` table via an `after_commit` hook that executes a SQL function.
@@ -29,6 +45,22 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 ### Security
 - **`cryptography`** bumped from 46.0.6 → 46.0.7 to fix CVE-2026-39892 (buffer overflow via non-contiguous buffer, MEDIUM severity).
 - **CodeMirror 6 viewer** (`codemirror-viewer`): read-only code/text viewer powered by CodeMirror 6 with syntax highlighting for JSON, Python, JavaScript/TypeScript, XML/HTML, and Markdown; plain-text display for YAML, CSV, and other text types; accessible at `projects/:project_name/code/:file_id`.
+
+### Fixed
+- **CodeMirror 6 routing for Python files**: files detected with Python MIME variants (for example `text/x-script.python`) now open in the CodeMirror 6 viewer route instead of falling back to generic download/PDF paths.
+- **Office document preview fallback**: `.docx` and other LibreOffice-convertible extensions now open in the PDF preview route even when uploaded with a generic MIME type.
+- **Multipart filesystem uploads**: `mixed_form_json` requests now merge uploaded files and regular form fields with the `json$` payload, fixing false `Content must be provided` errors on `POST /api/filesystem/objects` file uploads.
+- **Folder creation request shape**: the create-object dialog now preserves an existing folder MIME type when building `POST /api/filesystem/objects` requests, preventing false `Content must be provided` validation errors on directory creates.
+- **POST search payload parsing**: stacked request parsers for account, project, and filesystem search endpoints now ignore sibling pagination/body fields correctly, fixing 400 `Unknown field` errors when `page` or `limit` are sent in the JSON request body.
+- **Backend pagination endpoints**: updated keyword-only `paginate()` call sites for current Flask-SQLAlchemy compatibility, fixing 500 errors when listing projects and other paginated resources on the dev stack.
+- **Login JWT generation**: authentication tokens now handle the PyJWT 2.x `str` return type correctly, fixing the 500 error triggered during login on the seeded dev stack.
+- **CI linting**: upgraded `peter-evans/create-pull-request` from v6 to v7 to fix "Duplicate header: Authorization" error in the MegaLinter auto-fix PR step.
+
+### Changed
+- **GitHub Actions cleanup**: removed the duplicate default CodeQL workflow, kept the advanced scan workflow, and updated stale graph DB workflow action references.
+- **CI linting**: MegaLinter fixes are opened as a separate PR (`APPLY_FIXES_MODE: pull_request`) and auto-approved via `megalinter-auto-approve.yml`; `fast-lint` runs in check-only mode.
+
+### Added
 - **LibreOffice PDF conversion service** (`neo4japp/services/libreoffice.py`): server-side conversion of Office/document files (`.docx`, `.xlsx`, `.pptx`, `.doc`, `.xls`, `.ppt`, `.odt`, `.ods`, `.odp`, `.rtf`, `.txt`, `.html`, `.csv`) to PDF using LibreOffice headless mode.
 - **`GET /api/filesystem/objects/<hash_id>/content/pdf`** endpoint: serves any file's content as PDF — passes through existing PDFs unchanged, converts supported document formats on-the-fly.
 - **Client-side transparent rendering**: files with convertible MIME types now open directly in the PDF viewer; conversion is invisible to the user.
@@ -153,23 +185,23 @@ and this project adheres to [Conventional Commits](https://www.conventionalcommi
 
 ---
 
-[#109]: https://github.com/Skitionek/lifelike/pull/109
-[#114]: https://github.com/Skitionek/lifelike/pull/114
-[#115]: https://github.com/Skitionek/lifelike/pull/115
-[#116]: https://github.com/Skitionek/lifelike/pull/116
-[#117]: https://github.com/Skitionek/lifelike/pull/117
-[#128]: https://github.com/Skitionek/lifelike/pull/128
-[#130]: https://github.com/Skitionek/lifelike/pull/130
-[#132]: https://github.com/Skitionek/lifelike/pull/132
-[#133]: https://github.com/Skitionek/lifelike/pull/133
-[#134]: https://github.com/Skitionek/lifelike/pull/134
-[#136]: https://github.com/Skitionek/lifelike/pull/136
-[#141]: https://github.com/Skitionek/lifelike/pull/141
-[#147]: https://github.com/Skitionek/lifelike/pull/147
-[#148]: https://github.com/Skitionek/lifelike/pull/148
-[#149]: https://github.com/Skitionek/lifelike/pull/149
-[#150]: https://github.com/Skitionek/lifelike/pull/150
-[#152]: https://github.com/Skitionek/lifelike/pull/152
-[#153]: https://github.com/Skitionek/lifelike/pull/153
-[#154]: https://github.com/Skitionek/lifelike/pull/154
-[#155]: https://github.com/Skitionek/lifelike/pull/155
+[#109]: https://github.com/Skitionek/mycelium/pull/109
+[#114]: https://github.com/Skitionek/mycelium/pull/114
+[#115]: https://github.com/Skitionek/mycelium/pull/115
+[#116]: https://github.com/Skitionek/mycelium/pull/116
+[#117]: https://github.com/Skitionek/mycelium/pull/117
+[#128]: https://github.com/Skitionek/mycelium/pull/128
+[#130]: https://github.com/Skitionek/mycelium/pull/130
+[#132]: https://github.com/Skitionek/mycelium/pull/132
+[#133]: https://github.com/Skitionek/mycelium/pull/133
+[#134]: https://github.com/Skitionek/mycelium/pull/134
+[#136]: https://github.com/Skitionek/mycelium/pull/136
+[#141]: https://github.com/Skitionek/mycelium/pull/141
+[#147]: https://github.com/Skitionek/mycelium/pull/147
+[#148]: https://github.com/Skitionek/mycelium/pull/148
+[#149]: https://github.com/Skitionek/mycelium/pull/149
+[#150]: https://github.com/Skitionek/mycelium/pull/150
+[#152]: https://github.com/Skitionek/mycelium/pull/152
+[#153]: https://github.com/Skitionek/mycelium/pull/153
+[#154]: https://github.com/Skitionek/mycelium/pull/154
+[#155]: https://github.com/Skitionek/mycelium/pull/155

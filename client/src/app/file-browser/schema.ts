@@ -137,7 +137,7 @@ export type ObjectSearchRequest = ({
 } & PaginatedRequestOptions) | {
   type: 'linked';
   linkedHashId: string;
-  mimeTypes: ['vnd.lifelike.document/map'];
+  mimeTypes: ['vnd.mycelium.document/map'];
 };
 
 /**
