@@ -12,7 +12,7 @@ from neo4japp.services.file_types.exports import ExportFormatError, FileExport
 class BaseFileTypeProvider:
     """
     A file type provider knows how to handle a certain or set of file types. Instances
-    are used by the application to discover operations on files stored within Lifelike.
+    are used by the application to discover operations on files stored within Mycelium.
     """
 
     # This string should be used anytime we need a user-readable representation of the

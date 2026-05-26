@@ -39,13 +39,13 @@ DB_CHEBI = 'CHEBI'
 DB_GO = 'GO'
 DB_EC = 'EC'
 
-FILE_MIME_TYPE_DIRECTORY = 'vnd.lifelike.filesystem/directory'
-FILE_MIME_TYPE_ANNOTATIONS = 'vnd.lifelike.filesystem/annotations'
+FILE_MIME_TYPE_DIRECTORY = 'vnd.mycelium.filesystem/directory'
+FILE_MIME_TYPE_ANNOTATIONS = 'vnd.mycelium.filesystem/annotations'
 FILE_MIME_TYPE_PDF = 'application/pdf'
-FILE_MIME_TYPE_BIOC = 'vnd.lifelike.document/bioc'
-FILE_MIME_TYPE_MAP = 'vnd.lifelike.document/map'
-FILE_MIME_TYPE_GRAPH = 'vnd.lifelike.document/graph'
-FILE_MIME_TYPE_ENRICHMENT_TABLE = 'vnd.lifelike.document/enrichment-table'
+FILE_MIME_TYPE_BIOC = 'vnd.mycelium.document/bioc'
+FILE_MIME_TYPE_MAP = 'vnd.mycelium.document/map'
+FILE_MIME_TYPE_GRAPH = 'vnd.mycelium.document/graph'
+FILE_MIME_TYPE_ENRICHMENT_TABLE = 'vnd.mycelium.document/enrichment-table'
 
 # MIME types that can be converted to PDF via LibreOffice
 LIBREOFFICE_CONVERTIBLE_MIME_TYPES = frozenset({
@@ -448,11 +448,11 @@ RESET_PASSWORD_ALPHABET = RESET_PASSWORD_SYMBOLS + string.ascii_letters + string
 ASSETS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../assets')
 
 # Reset password messages
-RESET_PASSWORD_EMAIL_SUBJECT = 'Lifelike: Account password reset'
+RESET_PASSWORD_EMAIL_SUBJECT = 'Mycelium: Account password reset'
 RESET_PASSWORD_EMAIL_BODY = codecs.open(os.path.join(ASSETS_PATH, 'reset_email.html'), "r").read()
 
 # Email configuration
-FROM_EMAIL = "Lifelike <no-reply@example.com>"
+FROM_EMAIL = "Mycelium <no-reply@example.com>"
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 SENDGRID_API_CLIENT = SendGridAPIClient(SENDGRID_API_KEY)
 

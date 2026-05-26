@@ -7,7 +7,7 @@ The UniProt Knowledgebase consists of two sections:
 - Swiss-Prot: a section containing manually-annotated records with information extracted from literature and curator-evaluated computational analysis 
 - TrEMBL:  a section with computationally analyzed records that await full manual annotation.
 
-For Lifelike KG, we only loaded Swiss-Prot proteins. 
+For Mycelium KG, we only loaded Swiss-Prot proteins. 
 
 ### Download links:
 https://ftp.uniprot.org/pub/databases/uniprot/

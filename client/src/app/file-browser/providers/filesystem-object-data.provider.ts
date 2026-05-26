@@ -10,7 +10,7 @@ import { FilesystemObject } from '../models/filesystem-object';
 import { FilePrivileges } from '../models/privileges';
 
 export const FILESYSTEM_OBJECT_TRANSFER_TOKEN = new DataTransferToken<FilesystemObject[]>('filesystemObjectTransfer');
-export const FILESYSTEM_OBJECT_TRANSFER_TYPE = 'vnd.lifelike.transfer/filesystem-object';
+export const FILESYSTEM_OBJECT_TRANSFER_TYPE = 'vnd.mycelium.transfer/filesystem-object';
 
 export class FilesystemObjectTransferData {
   hashId: string;

@@ -206,13 +206,14 @@ export class ObjectEditDialogComponent extends CommonFormDialogComponent<ObjectE
 
   getValue(): ObjectEditDialogValue {
     const value = this.form.value;
+    const mimeType = value.mimeType ?? this.object?.mimeType ?? undefined;
 
     const objectChanges: Partial<FilesystemObject> = {
       parent: value.parent,
       filename: value.filename,
       description: value.description,
       public: value.public,
-      mimeType: value.mimeType,
+      mimeType,
       fallbackOrganism: value.organism,
       annotationConfigs: value.annotationConfigs,
     };
@@ -222,7 +223,7 @@ export class ObjectEditDialogComponent extends CommonFormDialogComponent<ObjectE
       parentHashId: value.parent ? value.parent.hashId : null,
       description: value.description,
       public: value.public,
-      mimeType: value.mimeType,
+      mimeType,
       fallbackOrganism: value.organism,
       annotationConfigs: value.annotationConfigs,
       ...this.getFileContentRequest(value),

@@ -410,7 +410,7 @@ export class BiocViewComponent implements OnDestroy, ModuleAwareComponent {
   dragStarted(event: DragEvent) {
     const dataTransfer: DataTransfer = event.dataTransfer;
     dataTransfer.setData('text/plain', this.object.filename);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify({
+    dataTransfer.setData('application/mycelium-node', JSON.stringify({
       display_name: this.object.filename,
       label: 'link',
       sub_labels: [],
@@ -545,7 +545,7 @@ export class BiocViewComponent implements OnDestroy, ModuleAwareComponent {
       }
       const link = meta.idHyperlink || '';
       dataTransfer.setData('text/plain', this.selectedText);
-      dataTransfer.setData('application/lifelike-node', JSON.stringify({
+      dataTransfer.setData('application/mycelium-node', JSON.stringify({
         display_name: 'Link',
         label: 'link',
         data: {
@@ -587,7 +587,7 @@ export class BiocViewComponent implements OnDestroy, ModuleAwareComponent {
       sourceUrl += '#offset=' + offset;
     }
     dataTransfer.setData('text/plain', txt);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify({
+    dataTransfer.setData('application/mycelium-node', JSON.stringify({
       display_name: txt,
       label: String(type).toLowerCase() === 'text-truncate' ? 'link' : String(type).toLowerCase(),
       sub_labels: [],

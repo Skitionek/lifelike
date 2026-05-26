@@ -1,5 +1,5 @@
 {
-  "name": "lifelike-cypress",
+  "name": "mycelium-cypress",
   "license": "MIT",
   "scripts": {
     "cypress:open": "cypress open",

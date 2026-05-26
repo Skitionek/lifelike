@@ -570,15 +570,15 @@ export class VisualizationCanvasComponent implements OnInit, AfterViewInit {
                 }
 
                 td {
-                    border: thin solid #0c8caa;
+                    border: thin solid #004B49;
                     padding: 2.5px 3.5px;
                 }
 
                 .reference-table {
                     background: #FFFFFF;
-                    border: thin solid #0c8caa;
+                    border: thin solid #004B49;
                     border-radius: 2px;
-                    color: #0c8caa;
+                    color: #004B49;
                     font-family: Roboto, "Helvetica Neue", sans-serif;
                     font-size: 12px;
                     font-weight: bold;
@@ -608,7 +608,7 @@ export class VisualizationCanvasComponent implements OnInit, AfterViewInit {
 
                 .snippet-bar-repr {
                     height: 10px;
-                    background: #0c8caa;
+                    background: #004B49;
                 }
             </style>
             <foreignObject x="0" y="0" width="100%" height="100%">

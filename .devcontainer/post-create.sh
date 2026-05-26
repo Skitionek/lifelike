@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd /workspaces/lifelike
+cd /workspaces/mycelium
 
 COMPOSE_ARGS=(
-	-p lifelike
+	-p mycelium
 	-f docker/docker-compose.yml
 	-f docker/docker-compose.services.yml
 	-f docker/docker-compose.dev.yml
@@ -54,8 +54,8 @@ retry_with_compatible_api_if_needed() {
 	DOCKER_API_VERSION="$max_api" run_compose
 }
 
-echo "Building and starting the full Lifelike Afterhours stack (development mode)..."
+echo "Building and starting the full Mycelium stack (development mode)..."
 set_host_workspace_path
 retry_with_compatible_api_if_needed
 
-echo "Lifelike Afterhours stack is ready. The client will be available on http://localhost:8080"
+echo "Mycelium stack is ready. The client will be available on http://localhost:8080"

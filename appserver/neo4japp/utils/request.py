@@ -77,4 +77,4 @@ def paginate_from_args(query, args, columns: Dict[str, Column],
     limit = parse_limit(args.get('limit'), upper_limit)
     return query \
         .order_by(*sort) \
-        .paginate(page, limit, False)
+        .paginate(page=page, per_page=limit, error_out=False)

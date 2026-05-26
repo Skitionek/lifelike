@@ -82,7 +82,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB gene nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_NAME, PROP_POS_LEFT, PROP_POS_RIGHT, PROP_STRAND], [NODE_GENE], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_GENE_FILE}')
         self.change_sets.append(changeset)
@@ -91,7 +91,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB operon nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_NAME, PROP_POS_LEFT, PROP_POS_RIGHT, PROP_STRAND], [NODE_OPERON], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_OPERON_FILE}')
         self.change_sets.append(changeset)
@@ -100,7 +100,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB gene product nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_NAME, PROP_MOLECULAR_WEIGHT, PROP_LOCATION], [NODE_PRODUCT], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_PRODUCT_FILE}')
         self.change_sets.append(changeset)
@@ -109,7 +109,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB promoter nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_NAME, PROP_POS_1, PROP_SIGMA_FACTOR, PROP_SEQUENCE, PROP_STRAND], [NODE_PROMOTER], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_PROMOTER_FILE}')
         self.change_sets.append(changeset)
@@ -118,7 +118,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_NAME, PROP_NUM_TFS], [NODE_REGULON], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_D_FILE}')
         self.change_sets.append(changeset)
@@ -127,7 +127,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB terminator nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_POS_LEFT, PROP_POS_RIGHT, PROP_TERMINATOR_CLASS, PROP_SEQUENCE], [NODE_TERMINATOR], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_TERMINATOR_FILE}')
         self.change_sets.append(changeset)
@@ -136,7 +136,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB transcription factor nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_NAME, PROP_REGULATORY_FAMILY], [NODE_TRANS_FACTOR], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_TRANSCRIPTION_FACTOR_FILE}')
         self.change_sets.append(changeset)
@@ -145,7 +145,7 @@ class RegulonChangeLog(ChangeLog):
         id = f'Create RegulonDB transcription unit nodes on date {self.date_tag}'
         if self.id_prefix:
             id = f'{self.id_prefix} {id}'
-        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Lifelike, some queries uses it.'
+        comment = f'Property {PROP_REGULONDB_ID} is for backward compatibility in Mycelium, some queries uses it.'
         query = get_create_update_nodes_query(NODE_REGULONDB, PROP_ID, [PROP_REGULONDB_ID, PROP_NAME, PROP_COMMENT], [NODE_TRANS_UNIT], data_source='RegulonDB')
         changeset = CustomChangeSet(id, self.author, comment, query, f'{self.file_prefix}{REGULON_TRANSCRIPTION_UNIT_FILE}')
         self.change_sets.append(changeset)

@@ -387,10 +387,10 @@ export class FilesystemService {
     );
   }
 
-  acquireLock(hashId: string, options: { own: true }): Observable<ObjectLock[]> {
+  acquireLock(hashId: string): Observable<ObjectLock[]> {
     return this.http.put<ResultList<ObjectLockData>>(
-      `/api/filesystem/objects/${encodeURIComponent(hashId)}/locks?own=true`,
-      {},
+      `/api/filesystem/objects/${encodeURIComponent(hashId)}/locks`,
+      { own: true },
       this.apiService.getHttpOptions(true),
     ).pipe(
       map(data => {
@@ -409,10 +409,11 @@ export class FilesystemService {
     );
   }
 
-  deleteLock(hashId: string, options: { own: true }): Observable<{}> {
+  deleteLock(hashId: string): Observable<{}> {
     return this.http.delete<unknown>(
-      `/api/filesystem/objects/${encodeURIComponent(hashId)}/locks?own=true`, {
-        ...this.apiService.getHttpOptions(true),
+      `/api/filesystem/objects/${encodeURIComponent(hashId)}/locks`, {
+        ...this.apiService.getHttpOptions(true, { contentType: 'application/json' }),
+        body: { own: true },
       },
     ).pipe(
       map(() => ({})),

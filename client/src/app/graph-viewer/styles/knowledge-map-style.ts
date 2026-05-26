@@ -41,7 +41,7 @@ import { ImageNode } from '../utils/canvas/graph-nodes/image-node';
  * Implements the style used on the Knowledge Graph.
  */
 export class KnowledgeMapStyle implements NodeRenderStyle, EdgeRenderStyle {
-  private readonly font = 'Roboto, "Helvetica Neue", sans-serif';
+  private readonly font = 'Inter, Roboto, "Helvetica Neue", sans-serif';
   private readonly defaultSourceLineEndDescriptor: string = null;
   private readonly defaultTargetLineEndDescriptor = 'arrow';
   private readonly lineEndBaseSize = 16;
@@ -62,9 +62,9 @@ export class KnowledgeMapStyle implements NodeRenderStyle, EdgeRenderStyle {
     const labelFont = (16 * labelFontSizeScale) + 'px ' + this.font;
     const forceHighDetailLevel = placementOptions.selected || placementOptions.highlighted;
 
-    let textColor = '#000';
-    let bgColor = '#fff';
-    let strokeColor = '#2B7CE9';
+    let textColor = '#0F172A';
+    let bgColor = '#F1F5F9';
+    let strokeColor = '#004B49';
     let iconCode = null;
 
     // Pull style from the annotation types map
@@ -292,7 +292,7 @@ export class KnowledgeMapStyle implements NodeRenderStyle, EdgeRenderStyle {
     const connectedToNotes = DETAIL_NODE_LABELS.has(from.label) || DETAIL_NODE_LABELS.has(to.label);
     const styleData: UniversalEdgeStyle = nullCoalesce(d.style, {});
     const fontSizeScale = nullCoalesce(styleData.fontSizeScale, 1);
-    const strokeColor = nullCoalesce(styleData.strokeColor, '#2B7CE9');
+    const strokeColor = nullCoalesce(styleData.strokeColor, '#004B49');
     const lineType = nullCoalesce(styleData.lineType, connectedToNotes ? 'dashed' : 'solid');
     // noinspection UnnecessaryLocalVariableJS
     const lineWidthScale = nullCoalesce(styleData.lineWidthScale, 1);

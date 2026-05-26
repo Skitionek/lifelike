@@ -6,7 +6,7 @@ import random
 from faker import Factory
 from locust import HttpUser, SequentialTaskSet, TaskSet, between, task
 
-USER_EMAIL = os.getenv("USER_EMAIL", "user@lifelike.bio")
+USER_EMAIL = os.getenv("USER_EMAIL", "user@mycelium.bio")
 USER_PASSWORD = os.getenv("USER_PASSWORD", "password")
 UPLOAD_PROJECT_ID = os.getenv("UPLOAD_PROJECT_ID", "02oJFsTL07cpI7TUUenlF8")
 

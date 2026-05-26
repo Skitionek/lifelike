@@ -667,7 +667,7 @@ export class CanvasGraphView extends GraphView<CanvasBehavior> {
   protected testAssetsLoaded() {
     const dummyText = '\uf279\uf1c1';
     const ctx = this.canvas.getContext('2d');
-    ctx.font = `18px \'Dummy Lifelike Font ${Math.random()}\'`;
+    ctx.font = `18px \'Dummy Mycelium Font ${Math.random()}\'`;
     const defaultMetrics = ctx.measureText(dummyText);
     ctx.font = '18px \'Font Awesome 5 Pro\'';
     const faMetrics = ctx.measureText(dummyText);

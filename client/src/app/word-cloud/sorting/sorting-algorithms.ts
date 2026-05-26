@@ -45,7 +45,7 @@ for that specific term tends to be larger than a count from any other term.<br/>
 };
 
 export const fileTypeSortingAlgorithms = {
-  'vnd.lifelike.filesystem/directory': {
+  'vnd.mycelium.filesystem/directory': {
     default: frequency,
     all: [
       frequency,
@@ -71,7 +71,7 @@ over similar counts collected from a single source.<br/>
       frequency
     ]
   },
-  'vnd.lifelike.document/enrichment-table': {
+  'vnd.mycelium.document/enrichment-table': {
     default: frequency, all: [
       frequency,
       {

@@ -9,7 +9,7 @@ apispec==6.10.0
 attrs==26.1.0
     # via
     #   jsonlines
-    #   lifelike-appserver
+    #   mycelium-appserver
 azure-common==1.1.28
     # via
     #   azure-storage-common
@@ -17,23 +17,23 @@ azure-common==1.1.28
 azure-core==1.39.0
     # via azure-storage-blob
 azure-storage-blob==12.28.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 azure-storage-common==2.1.0
     # via azure-storage-file
 azure-storage-file==2.1.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 bcrypt==5.0.0
     # via
-    #   lifelike-appserver
+    #   mycelium-appserver
     #   paramiko
 bioc==2.1
-    # via lifelike-appserver
+    # via mycelium-appserver
 blinker==1.9.0
     # via
     #   elastic-apm
     #   flask
     #   sentry-sdk
-cachelib==0.13.0
+cachelib==0.14.0
     # via flask-caching
 certifi==2026.2.25
     # via
@@ -46,11 +46,11 @@ cffi==2.0.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==3.4.6
+charset-normalizer==3.4.7
     # via
     #   pdfminer-six
     #   requests
-click==8.3.1
+click==8.3.3
     # via flask
 colorama==0.4.6 ; sys_platform == 'win32'
     # via
@@ -65,7 +65,7 @@ cryptography==46.0.7
     #   pdfminer-six
     #   sendgrid
 deepdiff==9.0.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 deprecated==1.3.1
     # via redis
 docopt==0.6.2
@@ -73,17 +73,17 @@ docopt==0.6.2
 ecs-logging==2.3.0
     # via elastic-apm
 elastic-apm==6.25.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 elastic-transport==9.2.1
     # via elasticsearch
 elasticsearch==9.3.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 et-xmlfile==2.0.0
     # via openpyxl
 exceptiongroup==1.3.1
     # via anyio
 fastjsonschema==2.21.2
-    # via lifelike-appserver
+    # via mycelium-appserver
 flask==3.1.3
     # via
     #   flask-apispec
@@ -93,24 +93,24 @@ flask==3.1.3
     #   flask-marshmallow
     #   flask-migrate
     #   flask-sqlalchemy
-    #   lifelike-appserver
+    #   mycelium-appserver
     #   sentry-sdk
 flask-apispec==0.11.4
-    # via lifelike-appserver
-flask-caching==2.3.1
-    # via lifelike-appserver
+    # via mycelium-appserver
+flask-caching==2.4.0
+    # via mycelium-appserver
 flask-cors==6.0.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 flask-httpauth==4.8.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 flask-marshmallow==1.4.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 flask-migrate==2.5.3
-    # via lifelike-appserver
+    # via mycelium-appserver
 flask-sqlalchemy==3.0.5
     # via
     #   flask-migrate
-    #   lifelike-appserver
+    #   mycelium-appserver
 google-api-core==2.30.0
     # via
     #   google-cloud-core
@@ -123,7 +123,7 @@ google-auth==2.49.1
 google-cloud-core==2.5.0
     # via google-cloud-storage
 google-cloud-storage==3.10.1
-    # via lifelike-appserver
+    # via mycelium-appserver
 google-crc32c==1.8.0
     # via
     #   google-cloud-storage
@@ -133,21 +133,21 @@ google-resumable-media==2.8.0
 googleapis-common-protos==1.73.0
     # via google-api-core
 graphviz==0.21
-    # via lifelike-appserver
+    # via mycelium-appserver
 greenlet==3.3.2 ; platform_machine == 'AMD64' or platform_machine == 'WIN32' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'ppc64le' or platform_machine == 'win32' or platform_machine == 'x86_64'
     # via sqlalchemy
 gunicorn==22.0.0
-    # via lifelike-appserver
-idna==3.11
+    # via mycelium-appserver
+idna==3.15
     # via
     #   anyio
     #   requests
 intervaltree==3.2.1
     # via
     #   bioc
-    #   lifelike-appserver
+    #   mycelium-appserver
 ipy==1.1
-    # via lifelike-appserver
+    # via mycelium-appserver
 isodate==0.7.2
     # via azure-storage-blob
 itsdangerous==2.2.0
@@ -157,7 +157,7 @@ jinja2==3.1.6
 jsonlines==4.0.0
     # via bioc
 lmdb==2.2.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 lxml==6.1.0
     # via bioc
 mako==1.3.10
@@ -166,7 +166,7 @@ markupsafe==3.0.3
     # via
     #   flask
     #   jinja2
-    #   lifelike-appserver
+    #   mycelium-appserver
     #   mako
     #   sentry-sdk
     #   werkzeug
@@ -179,21 +179,21 @@ marshmallow==3.26.2
     #   marshmallow-sqlalchemy
     #   webargs
 marshmallow-dataclass==8.7.1
-    # via lifelike-appserver
+    # via mycelium-appserver
 marshmallow-enum==1.5.1
-    # via lifelike-appserver
+    # via mycelium-appserver
 marshmallow-sqlalchemy==1.5.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 mypy-extensions==1.1.0
     # via typing-inspect
 neo4j==6.1.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 numpy==2.2.6
     # via
     #   pandas
     #   scipy
 openpyxl==3.0.9
-    # via lifelike-appserver
+    # via mycelium-appserver
 orderly-set==5.5.0
     # via deepdiff
 packaging==26.2
@@ -203,13 +203,13 @@ packaging==26.2
     #   marshmallow
     #   webargs
 pandas==2.3.3
-    # via lifelike-appserver
-paramiko==3.4.0
-    # via lifelike-appserver
+    # via mycelium-appserver
+paramiko==5.0.0
+    # via mycelium-appserver
 pdfminer-six==20260107
-    # via lifelike-appserver
+    # via mycelium-appserver
 pillow==12.2.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 proto-plus==1.27.1
     # via google-api-core
 protobuf==6.33.6
@@ -218,7 +218,7 @@ protobuf==6.33.6
     #   googleapis-common-protos
     #   proto-plus
 psycopg2-binary==2.9.12
-    # via lifelike-appserver
+    # via mycelium-appserver
 pyasn1==0.6.3
     # via pyasn1-modules
 pyasn1-modules==0.4.2
@@ -226,13 +226,13 @@ pyasn1-modules==0.4.2
 pycparser==3.0 ; implementation_name != 'PyPy'
     # via cffi
 pyjwt==2.12.1
-    # via lifelike-appserver
+    # via mycelium-appserver
 pynacl==1.6.2
     # via paramiko
-pyparsing==2.4.7
-    # via lifelike-appserver
+pyparsing==3.3.2
+    # via mycelium-appserver
 pypdf4==1.27.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 python-dateutil==2.9.0.post0
     # via
     #   azure-storage-common
@@ -241,28 +241,28 @@ python-dateutil==2.9.0.post0
 python-http-client==3.3.7
     # via sendgrid
 python-json-logger==4.0.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 python-magic==0.4.27
-    # via lifelike-appserver
-pytz==2026.1.post1
+    # via mycelium-appserver
+pytz==2026.2
     # via
     #   neo4j
     #   pandas
 redis==4.0.2
-    # via lifelike-appserver
+    # via mycelium-appserver
 requests==2.33.1
     # via
     #   azure-core
     #   azure-storage-common
     #   google-api-core
     #   google-cloud-storage
-    #   lifelike-appserver
+    #   mycelium-appserver
 scipy==1.15.3
-    # via lifelike-appserver
+    # via mycelium-appserver
 sendgrid==6.12.5
-    # via lifelike-appserver
+    # via mycelium-appserver
 sentry-sdk==2.58.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 six==1.17.0
     # via
     #   bcrypt
@@ -277,18 +277,18 @@ sqlalchemy==1.4.54
     # via
     #   alembic
     #   flask-sqlalchemy
-    #   lifelike-appserver
+    #   mycelium-appserver
     #   marshmallow-sqlalchemy
     #   sqlalchemy-searchable
     #   sqlalchemy-utils
 sqlalchemy-searchable==2.2.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 sqlalchemy-utils==0.41.2
     # via sqlalchemy-searchable
 svg-stack==0.1.0
-    # via lifelike-appserver
+    # via mycelium-appserver
 timeflake==0.4.3
-    # via lifelike-appserver
+    # via mycelium-appserver
 tqdm==4.67.3
     # via bioc
 typeguard==4.5.1
@@ -310,7 +310,7 @@ typing-inspect==0.9.0
     # via marshmallow-dataclass
 tzdata==2025.3
     # via pandas
-urllib3==2.6.3
+urllib3==2.7.0
     # via
     #   elastic-apm
     #   elastic-transport
@@ -322,11 +322,11 @@ werkzeug==3.1.6
     # via
     #   flask
     #   flask-cors
-    #   lifelike-appserver
+    #   mycelium-appserver
     #   sendgrid
 wrapt==2.1.2
     # via
     #   deprecated
     #   elastic-apm
 xlsxwriter==3.2.9
-    # via lifelike-appserver
+    # via mycelium-appserver

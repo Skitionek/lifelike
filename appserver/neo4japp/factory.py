@@ -84,6 +84,13 @@ def load_mixed_form_json(request, schema):
         )
         data = {}
 
+    for key, value in request.form.items():
+        if key != 'json$' and key not in data:
+            data[key] = value
+
+    for key, value in request.files.items():
+        data[key] = value
+
     setattr(request, cache_field, data)
     return data
 

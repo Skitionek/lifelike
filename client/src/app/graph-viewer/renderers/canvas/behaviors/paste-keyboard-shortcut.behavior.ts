@@ -14,10 +14,10 @@ import { CanvasGraphView } from '../canvas-graph-view';
 /**
  * We use this string to know that it's our own JSON.
  */
-export const TYPE_STRING = 'LifelikeKnowledgeMap/1';
+export const TYPE_STRING = 'MyceliumKnowledgeMap/1';
 
 export interface GraphClipboardData {
-  type: 'LifelikeKnowledgeMap/1';
+  type: 'MyceliumKnowledgeMap/1';
   selection: GraphEntity[];
 }
 

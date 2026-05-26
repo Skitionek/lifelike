@@ -13,7 +13,15 @@ import { PdfFile } from 'app/interfaces/pdf-files.interface';
 import { DirectoryObject } from 'app/interfaces/projects.interface';
 import { Meta } from 'app/pdf-viewer/annotation-type';
 import { annotationTypesMap } from 'app/shared/annotation-styles';
-import {MimeTypes, Unicodes, FAClass, CustomIconColors, LIBREOFFICE_CONVERTIBLE_MIME_TYPES} from 'app/shared/constants';
+import {
+  MimeTypes,
+  Unicodes,
+  FAClass,
+  CustomIconColors,
+  isCodemirrorHandledMimeType,
+  LIBREOFFICE_CONVERTIBLE_MIME_TYPES,
+  PROTEIN_STRUCTURE_MIME_TYPES
+} from 'app/shared/constants';
 import { CollectionModel } from 'app/shared/utils/collection-model';
 import { DragImage } from 'app/shared/utils/drag';
 import { nullCoalesce, RecursivePartial } from 'app/shared/utils/types';
@@ -106,16 +114,20 @@ export class ProjectImpl implements Project {
 
     dataTransfer.effectAllowed = 'all';
     dataTransfer.setData('text/plain', this.name);
-    dataTransfer.setData('application/lifelike-node', JSON.stringify(node));
+    dataTransfer.setData('application/mycelium-node', JSON.stringify(node));
   }
 }
 
 /**
- * This object represents both directories and every type of file in Lifelike. Due
+ * This object represents both directories and every type of file in Mycelium. Due
  * to a lot of legacy code, we implement several legacy interfaces to reduce the
  * amount of code for the refactor.
  */
 export class FilesystemObject implements DirectoryObject, Directory, PdfFile, KnowledgeMap {
+  private static readonly LIBREOFFICE_CONVERTIBLE_EXTENSIONS: ReadonlySet<string> = new Set([
+    '.docx', '.xlsx', '.pptx', '.doc', '.xls', '.ppt', '.odt', '.ods', '.odp', '.rtf', '.txt', '.html', '.csv',
+  ]);
+
   hashId: string;
   filename: string;
   user: AppUser;
@@ -167,6 +179,27 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
     return !this.isDirectory;
   }
 
+  get isProteinStructure() {
+    const filename = this.filename ? this.filename.toLowerCase() : '';
+    return PROTEIN_STRUCTURE_MIME_TYPES.has(this.mimeType)
+      || filename.endsWith('.pdb')
+      || filename.endsWith('.cif')
+      || filename.endsWith('.mmcif');
+  }
+
+  get isLibreOfficeConvertible() {
+    const filename = (this.filename || '').toLowerCase();
+    if (LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType)) {
+      return true;
+    }
+    for (const ext of FilesystemObject.LIBREOFFICE_CONVERTIBLE_EXTENSIONS) {
+      if (filename.endsWith(ext)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   get isOpenable() {
     switch (this.mimeType) {
       case MimeTypes.Directory:
@@ -177,7 +210,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       case 'application/pdf':
         return true;
       default:
-        return LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
+        return this.isProteinStructure
+          || isCodemirrorHandledMimeType(this.mimeType)
+          || this.isLibreOfficeConvertible;
     }
   }
 
@@ -189,7 +224,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
   get isAnnotatable() {
     // TODO: Move this method to ObjectTypeProvider
     return this.mimeType === 'application/pdf' ||
-      this.mimeType === 'vnd.lifelike.document/enrichment-table';
+      this.mimeType === 'vnd.mycelium.document/enrichment-table';
   }
 
   get promptOrganism() {
@@ -220,7 +255,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
     // TODO: Move this method to ObjectTypeProvider
     return this.isDirectory || this.mimeType === MimeTypes.Pdf || this.mimeType === MimeTypes.Map
       || this.mimeType === MimeTypes.EnrichmentTable || this.mimeType === MimeTypes.BioC
-      || LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType);
+      || this.isProteinStructure
+      || isCodemirrorHandledMimeType(this.mimeType)
+      || this.isLibreOfficeConvertible;
   }
 
   get hasWordCloud() {
@@ -276,6 +313,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
 
   get mimeTypeLabel() {
     // TODO: Move this method to ObjectTypeProvider
+    if (this.isProteinStructure) {
+      return 'Protein Structure';
+    }
     switch (this.mimeType) {
       case MimeTypes.Directory:
         return 'Folder';
@@ -484,6 +524,9 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
   getCommands(forEditing = true): any[] {
     // TODO: Move this method to ObjectTypeProvider
     const projectName = this.project ? this.project.name : 'default';
+    if (this.isProteinStructure) {
+      return ['/projects', projectName, 'structure', this.hashId];
+    }
     switch (this.mimeType) {
       case MimeTypes.Directory:
         // TODO: Convert to hash ID
@@ -499,7 +542,10 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
       case MimeTypes.Graph:
         return ['/projects', projectName, 'sankey', this.hashId];
       default:
-        if (LIBREOFFICE_CONVERTIBLE_MIME_TYPES.has(this.mimeType)) {
+        if (isCodemirrorHandledMimeType(this.mimeType)) {
+          return ['/projects', projectName, 'code', this.hashId];
+        }
+        if (this.isLibreOfficeConvertible) {
           // Route convertible files to the PDF viewer — conversion happens server-side
           return ['/projects', projectName, 'files', this.hashId];
         }
@@ -581,7 +627,7 @@ export class FilesystemObject implements DirectoryObject, Directory, PdfFile, Kn
     dataTransfer.effectAllowed = 'all';
     dataTransfer.setData('text/plain', this.name);
     dataTransfer.setData(FILESYSTEM_OBJECT_TRANSFER_TYPE, JSON.stringify(filesystemObjectTransfer));
-    dataTransfer.setData('application/lifelike-node', JSON.stringify(node));
+    dataTransfer.setData('application/mycelium-node', JSON.stringify(node));
   }
 
   private getId(): any {
