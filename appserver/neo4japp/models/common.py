@@ -49,6 +49,7 @@ class RDBMSBase(db.Model):  # type: ignore
         object in the system.
     """
     __abstract__ = True
+    __allow_unmapped__ = True
 
     def __repr__(self) -> str:
         identifier = sa.inspect(self).identity

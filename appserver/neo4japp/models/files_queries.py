@@ -3,7 +3,6 @@ For now, it's just a file with query functions to help DRY.
 """
 from typing import Set, Optional, Union, Literal
 
-from flask_sqlalchemy import BaseQuery
 from sqlalchemy import and_, inspect, literal
 from sqlalchemy.orm import aliased, contains_eager, defer, joinedload, lazyload, Query, raiseload
 
@@ -55,7 +54,7 @@ def get_all_files_by_id(file_ids: Set[str], project_id: int):
 
 def _build_file_cte(direction: Union[Literal['children'], Literal['parents']],
                     filter, max_depth=Files.MAX_DEPTH,
-                    files_table=Files, projects_table=Projects) -> BaseQuery:
+                    files_table=Files, projects_table=Projects) -> Query:
     """
     Build a query for fetching *just* the parent (or) child IDs of a file,
     and the file itself. The query returned is to be combined with another query to actually
@@ -120,7 +119,7 @@ def _build_file_cte(direction: Union[Literal['children'], Literal['parents']],
 
 
 def build_file_parents_cte(filter, max_depth=Files.MAX_DEPTH,
-                           files_table=Files, projects_table=Projects) -> BaseQuery:
+                           files_table=Files, projects_table=Projects) -> Query:
     """
     Build a query for fetching *just* the parent IDs of a file, and the file itself.
     The query returned is to be combined with another query to actually
@@ -136,7 +135,7 @@ def build_file_parents_cte(filter, max_depth=Files.MAX_DEPTH,
 
 
 def build_file_children_cte(filter, max_depth=Files.MAX_DEPTH,
-                            files_table=Files, projects_table=Projects) -> BaseQuery:
+                            files_table=Files, projects_table=Projects) -> Query:
     """
     Build a query for fetching *just* the child IDs of a file, and the file itself.
     The query returned is to be combined with another query to actually
