@@ -210,7 +210,7 @@ pdfminer-six==20260107
     # via mycelium-appserver
 pillow==12.2.0
     # via mycelium-appserver
-proto-plus==1.27.2
+proto-plus==1.28.0
     # via google-api-core
 protobuf==7.35.0
     # via
