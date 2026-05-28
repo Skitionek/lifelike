@@ -283,7 +283,7 @@ sqlalchemy==2.0.44
     #   sqlalchemy-utils
 sqlalchemy-searchable==2.2.0
     # via mycelium-appserver
-sqlalchemy-utils==0.41.2
+sqlalchemy-utils==0.42.1
     # via sqlalchemy-searchable
 svg-stack==0.1.0
     # via mycelium-appserver
